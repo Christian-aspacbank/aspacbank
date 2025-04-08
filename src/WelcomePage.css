@@ -1,0 +1,44 @@
+/* WelcomePage.css */
+
+.welcome-page {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .slide {
+    width: 100%;
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+  }
+  
+  .slide h1,
+  .slide p {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  .slide button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #008000; /* green for ASPAC */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .slide button:hover {
+    background-color: #e9e500;
+  }
+  
+  

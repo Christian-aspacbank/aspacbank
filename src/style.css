@@ -1,0 +1,47 @@
+/* Style for Apply Now button */
+.apply-button {
+  background: linear-gradient(to right, #28a745, #218838);
+  color: white;
+  font-family: "Avenir", sans-serif;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.apply-button:hover {
+  background: linear-gradient(to right, #218838, #1e7e34);
+}
+
+/* Form Container */
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.card h2 {
+  color: #28a745;
+}
+
+/* Style for Submit button */
+.custom-submit-button {
+  background-color: #50C878; /* Emerald Green */
+  color: white;
+  font-weight: bold; /* Make text bold */
+  font-size: 20px; /* Increase text size */
+  padding: 15px 40px; /* Make the button longer */
+  width: 35%; /* Make it full width */
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  text-align: center; /* Center the text */
+}
+
+.custom-submit-button:hover {
+  background-color: #FFCC00; /* Yellow */
+}

@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Swiper Navigation Buttons - White with Opacity */
+.swiper-button-next, 
+.swiper-button-prev {
+  color: #eab308 !important;  /* Make the buttons white */
+  opacity: 0.2 !important;  /* Set initial opacity */
+  transition: opacity 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Hover Effect */
+.swiper-button-next:hover, 
+.swiper-button-prev:hover {
+  opacity: 1 !important;  /* Full visibility on hover */
+}
+
+/* Change inactive dots to yellow */
+.swiper-pagination-bullet {
+  background-color: rgb(255, 255, 255) !important;
+}
+
+/* Change active dot to a darker yellow */
+.swiper-pagination-bullet-active {
+  background-color: #eab308 !important; /* Tailwind 'yellow-500' */
+}
+
