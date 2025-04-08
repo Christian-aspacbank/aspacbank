@@ -33,17 +33,6 @@ const OurServices: React.FC = () => {
         <div
           className="absolute bottom-[5px] left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl p-6 px-10 w-[80%] max-w-4xl flex justify-center gap-10 items-center z-20"
         >
-          {[{ icon: <FaHome className="text-green-500 text-3xl transition-transform duration-300 hover:scale-110" />, text: "Foreclosed Properties" },
-          { icon: <FaCar className="text-green-500 text-3xl transition-transform duration-300 hover:scale-110" />, text: "Pre-owned Vehicles for Sale" },
-          { icon: <FaCalculator className="text-green-500 text-3xl transition-transform duration-300 hover:scale-110" />, text: "Calculator" },
-          { icon: <FaUsers className="text-green-500 text-3xl transition-transform duration-300 hover:scale-110" />, text: "Consumer Loans Centers" }].map((item, index) => (
-            <div key={index} className="flex flex-col items-center text-center w-40">
-              <div className="transform transition-transform duration-300 hover:scale-110">
-                {item.icon}
-              </div>
-              <p className="text-black font-medium text-sm">{item.text}</p>
-            </div>
-          ))}
         </div>
 
         
