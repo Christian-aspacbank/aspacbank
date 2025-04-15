@@ -7,6 +7,9 @@ import Features from "./Pages/Features";
 import Advisories from "./Pages/Advisories"; // Import the Advisories component
 import Careers from "./Pages/Careers";  // Import Careers page
 import Branches from "./Pages/Branches"; // Import Branches page
+import DepositAccount from "./Pages/DepositAccount"; // Import DepositAccount page
+import APDSLoanPage from './Pages/APDSLoanPage';  // Correct import path
+
 import "./index.css";
 
 const App: React.FC = () => {
@@ -21,7 +24,9 @@ const App: React.FC = () => {
           <Route path="/features" element={<Features />} />
           <Route path="/advisories" element={<Advisories />} />
           <Route path="/careers" element={<Careers />} />
-          <Route path="/branches" element={<Branches />} /> {/* Add the Branches route */}
+          <Route path="/branches" element={<Branches />} />
+          <Route path="/deposit-account" element={<DepositAccount />} /> {/* Add the DepositAccount route */}
+          <Route path="/apds-loan" element={<APDSLoanPage />} />
         </Routes>
       </div>
     </Router>
