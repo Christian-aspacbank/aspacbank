@@ -4,9 +4,13 @@ import React from "react";
 const DepositAccount = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="relative bg-green-600 text-white py-12">
+      <div
+  className="relative text-white py-12 bg-cover bg-center"
+  style={{ backgroundImage: 'url(/DepositAccount.jpg)' }}
+>
+
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Deposit Account</h1>
+          <h1 className="text-4xl text-green-600  font-bold mb-4">Deposit Account</h1>
           <p className="text-lg max-w-2xl mx-auto">
             Secure, flexible, and tailored for your financial needs. Start saving today with ASPAC Bank's Deposit Account.
           </p>
@@ -15,8 +19,8 @@ const DepositAccount = () => {
 
       <div className="container mx-auto px-6 py-16">
         {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="bg-white shadow-lg rounded-lg p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12" >
+          <div className="bg-white shadow-lg rounded-lg p-8" >
             <h2 className="text-3xl font-semibold text-green-600 mb-6">Why Choose Our Deposit Account?</h2>
             <p className="text-lg text-gray-700 mb-4">
               At ASPAC Bank, we provide a range of benefits with our Deposit Account to help you achieve your financial goals:
@@ -24,7 +28,6 @@ const DepositAccount = () => {
             <ul className="list-disc pl-6 text-gray-700">
               <li className="mb-2">Earn competitive interest rates on your balance.</li>
               <li className="mb-2">Free monthly account maintenance.</li>
-              <li className="mb-2">24/7 access to your account through online banking.</li>
               <li className="mb-2">Convenient mobile app for easy access and management.</li>
               <li className="mb-2">No minimum balance requirements.</li>
             </ul>

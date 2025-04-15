@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import './WelcomePage.css';
 import { motion } from "framer-motion";
 
 const WelcomePage: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate function
+
+  const handleExploreClick = () => {
+    navigate('/apds-loan'); // Navigate to the APDS loan page
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,74 +43,46 @@ const WelcomePage: React.FC = () => {
           className="w-full h-full"
         >
           <SwiperSlide>
-          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(APDS2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-
-              <h1 className="text-yellow-400 text-4xl font-bold">Fuel your passion for teaching with the APDS Loan</h1>
-              <p className="text-white text-lg">Empowering educators to create brighter futures.</p>
-              <button className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300" onClick={() => window.location.href = '/services'}>
-                Explore Our Services
-              </button>
+            <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(APDS2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
+                <h1 className="text-yellow-400 text-4xl font-bold">Fuel your passion for teaching with the APDS Loan</h1>
+                <p className="text-white text-lg">Empowering educators to create brighter futures.</p>
+                <button
+  className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300"
+  onClick={() => window.location.href = '/apds-loan'} // Ensure this path is correct
+>
+  Explore Our Services
+</button>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
 
-        <SwiperSlide>
-          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Growyoursavings.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-              <h1 className="text-yellow-400 text-4xl font-bold">Grow Your Savings with Us</h1>
-              <p className="text-white text-lg">Secure your future with our high-interest savings accounts and investment options.</p>
-              <button className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300" onClick={() => window.location.href = '/services'}>
-              Open an Account
-              </button>
+          {/* Other Swiper slides */}
+          <SwiperSlide>
+            <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Growyoursavings.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
+                <h1 className="text-yellow-400 text-4xl font-bold">Grow Your Savings with Us</h1>
+                <p className="text-white text-lg">Secure your future with our high-interest savings accounts and investment options.</p>
+                <button className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300" onClick={() => window.location.href = '/services'}>
+                  Open an Account
+                </button>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
 
-        <SwiperSlide>
-          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Simplysafe_2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-              <h1 className="text-yellow-400 text-4xl font-bold"> Simply Safe Banking.</h1>
-              <p className="text-white text-lg">Your security is our priority. Bank with confidence and peace of mind.</p>
-              <button className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300" onClick={() => window.location.href = '/services'}>
-              Explore More
-              </button>
+          <SwiperSlide>
+            <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Simplysafe_2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
+                <h1 className="text-yellow-400 text-4xl font-bold">Simply Safe Banking.</h1>
+                <p className="text-white text-lg">Your security is our priority. Bank with confidence and peace of mind.</p>
+                <button className="mt-4 p-2 rounded-md bg-green-600 text-white hover:scale-105 transition-all duration-300" onClick={() => window.location.href = '/services'}>
+                  Explore More
+                </button>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
         </Swiper>
       </div>
-
-
-
-
-      {/* Modal for Loan Application */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-[90%] md:w-[50%] relative">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
-            >
-              ✖
-            </button>
-            <h2 className="text-xl font-bold mb-4">APDS Loan Application</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">Full Name</label>
-                <input type="text" className="w-full border rounded-md p-2" />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">School Name</label>
-                <input type="text" className="w-full border rounded-md p-2" />
-              </div>
-              <button type="submit" className="w-full bg-green-500 text-white p-2 rounded-md">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </motion.div>
   );
 };

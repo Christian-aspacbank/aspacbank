@@ -112,7 +112,14 @@ const Branches: React.FC = () => {
 
 
 </motion.div>
-<h2 className="text-2xl font-semibold text-green-600">Carcar Branch</h2>
+
+<motion.div
+          className="border p-6 rounded-lg shadow-md"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+        >
+          <h2 className="text-2xl font-semibold text-green-600">Carcar Branch</h2>
   <p className="text-lg text-gray-700">Poblacion II 6019 City of Carcar  Cebu Philippines </p>
   <p className="text-lg text-gray-700">Contact: (0917-125-0313)</p>
   <p className="text-lg text-gray-700">Open Hours: 9:00 AM - 5:00 PM (Mon-Fri)</p>
@@ -123,6 +130,10 @@ const Branches: React.FC = () => {
   >
     View on Google Maps
   </a>
+
+
+</motion.div>
+
 
 <motion.div
           className="border p-6 rounded-lg shadow-md"
@@ -163,16 +174,6 @@ const Branches: React.FC = () => {
   >
     View on Google Maps
   </a>
-</motion.div>
-
-<motion.div
-          className="border p-6 rounded-lg shadow-md"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-        >
-
-
 </motion.div>
 
 <motion.div
