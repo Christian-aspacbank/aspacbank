@@ -1,14 +1,17 @@
 import React from "react";
+import Footer from './components/Footer';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import WelcomePage from "./WelcomePage";
 import OurServices from "./Pages/OurServices";
 import Features from "./Pages/Features";
-import Advisories from "./Pages/Advisories"; // Import the Advisories component
-import Careers from "./Pages/Careers";  // Import Careers page
-import Branches from "./Pages/Branches"; // Import Branches page
-import DepositAccount from "./Pages/DepositAccount"; // Import DepositAccount page
-import APDSLoanPage from './Pages/APDSLoanPage';  // Correct import path
+import Advisories from "./Pages/Advisories";
+import Careers from "./Pages/Careers";
+import Branches from "./Pages/Branches";
+import DepositAccount from "./Pages/DepositAccount";
+import APDSLoanPage from './Pages/APDSLoanPage';
+import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
+import ExplorePage from "./Pages/ExplorePage";  // ✅ Correct import for the explore page
 
 import "./index.css";
 
@@ -25,9 +28,13 @@ const App: React.FC = () => {
           <Route path="/advisories" element={<Advisories />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/branches" element={<Branches />} />
-          <Route path="/deposit-account" element={<DepositAccount />} /> {/* Add the DepositAccount route */}
+          <Route path="/deposit-account" element={<DepositAccount />} />
           <Route path="/apds-loan" element={<APDSLoanPage />} />
+          <Route path="/tuition-fee-collection" element={<TuitionFeeCollection />} />
+          <Route path="/explore" element={<ExplorePage />} />
+
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

@@ -43,14 +43,14 @@ const OurServices: React.FC = () => {
       <div
         className="relative h-[60vh] w-full flex flex-col justify-center bg-cover bg-center pb-16 px-12 overflow-visible"
         style={{
-          backgroundImage: `linear-gradient(to left, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 1) 60%), url('/servicesbanner.jpg')`,
+          backgroundImage: `url('/Services5.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "45% center",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <motion.div className="text-left max-w-lg text-white">
-          <h1 className="text-3xl font-bold text-green-600 mb-4">Our Services</h1>
+        <motion.div className="bg-black bg-opacity-15 p-4 rounded-md text-left max-w-lg text-white">
+          <h1 className="text-3xl font-bold text-yellow-400 mb-4">Our Services</h1>
           <p className="text-lg">
             Explore the diverse range of services we offer to help you manage your finances effortlessly.
           </p>
@@ -98,6 +98,7 @@ const OurServices: React.FC = () => {
             </div>
           </div>
         </div>
+        
       </div>
     </motion.div>
   );
