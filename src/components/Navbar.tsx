@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-white py-4 px-6 flex justify-between items-center relative">
       {/* Logo - Wrapped in Link */}
-      <Link to="/" className="text-green-600 text-xl font-bold flex items-center space-x-2 flex-nowrap">
+      <Link to="/" className="text-green-600 text-xl font-normal flex items-center space-x-2 flex-nowrap">
         <img src="/Aspac_logo-03.png" alt="ASPAC Bank Logo" className="w-10 h-8" />
         <span className="text-lg hidden sm:block min-w-max">ASPAC Bank</span>
       </Link>
@@ -45,8 +45,6 @@ const Navbar: React.FC = () => {
       {/* Buttons */}
       <div className="hidden md:flex space-x-4">
       <button className="px-4 py-2 bg-[#27ae60] text-white rounded-md hover:bg-green-600 whitespace-nowrap">
-
-
           Get Started
         </button>
       </div>
