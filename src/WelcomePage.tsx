@@ -185,7 +185,7 @@ const WelcomePage: React.FC = () => {
   )}
 </AnimatePresence>
 
-     {/* Trusted Partner Section */}
+ {/* Trusted Partner Section */}
 <div className="w-full px-6 py-16 bg-gradient-to-br from-green-50 to-white">
   <div className="max-w-6xl mx-auto text-center">
     <h2 className="text-3xl md:text-4xl font-bold text-green-700 mb-6">
@@ -205,15 +205,17 @@ const WelcomePage: React.FC = () => {
           We use industry-standard encryption to keep your information safe and your transactions secure.
         </p>
       </div>
+
       <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
         <div className="text-green-600 text-4xl mb-4">
-          <i className="fas fa-mobile-alt"></i>
+          <i className="fas fa-users"></i>
         </div>
-        <h4 className="text-xl font-semibold mb-2">Bank Anytime</h4>
+        <h4 className="text-xl font-semibold mb-2">Personalized Service</h4>
         <p className="text-gray-600 text-sm">
-          With ASPAC Bank’s digital tools, manage your accounts and loans wherever you are, 24/7.
+          Our dedicated staff is ready to help you—whether you’re applying for a loan or opening an account, we make the process personal and easy.
         </p>
       </div>
+
       <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
         <div className="text-green-600 text-4xl mb-4">
           <i className="fas fa-hand-holding-heart"></i>
