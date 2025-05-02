@@ -13,7 +13,7 @@ const Careers: React.FC = () => {
       <div
   className="w-full text-white py-24 text-center flex items-center justify-start px-16" // Increased padding
   style={{
-    backgroundImage: "url('MAIN_1.jpg')", // Replace with your image path
+    backgroundImage: "url('Careers.jpg')", // Replace with your image path
     backgroundSize: "cover",
     backgroundPosition: "center",
   }}
