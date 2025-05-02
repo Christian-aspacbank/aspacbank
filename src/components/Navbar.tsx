@@ -6,11 +6,17 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-white py-4 px-6 flex justify-between items-center relative">
-      {/* Logo - Wrapped in Link */}
-      <Link to="/" className="text-green-600 text-xl font-medium flex items-center space-x-2 flex-nowrap"
+      {/* Logo - Always Visible on All Devices */}
+      <Link
+        to="/"
+        className="text-green-600 text-xl font-medium flex items-center space-x-2 flex-nowrap"
       >
-        <img src="/Aspac_logo-03.png" alt="ASPAC Bank Logo" className="w-10 h-8" />
-        <span className="text-lg hidden sm:block min-w-max">ASPAC Bank</span>
+        <img
+          src="/Aspac_logo-03.png"
+          alt="ASPAC Bank Logo"
+          className="w-10 h-8 object-contain"
+        />
+        <span className="text-lg min-w-max">ASPAC Bank</span>
       </Link>
 
       {/* Menu Items */}
@@ -21,37 +27,43 @@ const Navbar: React.FC = () => {
       >
         <ul className="flex flex-col md:flex-row items-center justify-center w-full space-y-4 md:space-y-0 md:space-x-6 text-center">
           <li className="hover:text-green-600 cursor-pointer">
-            <Link to="/our-services">Services</Link>
+            <Link to="/our-services" onClick={() => setIsOpen(false)}>Services</Link>
           </li>
           <li className="hover:text-green-600 cursor-pointer">
-            <Link to="/features">Features</Link>
+            <Link to="/features" onClick={() => setIsOpen(false)}>Features</Link>
           </li>
           <li className="hover:text-green-600 cursor-pointer">
-            <Link to="/advisories">Advisories</Link>
+            <Link to="/advisories" onClick={() => setIsOpen(false)}>Advisories</Link>
           </li>
           <li className="hover:text-green-600 cursor-pointer">
-            <Link to="/careers">Careers</Link>
+            <Link to="/careers" onClick={() => setIsOpen(false)}>Careers</Link>
           </li>
           <li className="hover:text-green-600 cursor-pointer">
-            <Link to="/branches">Branches</Link>
+            <Link to="/branches" onClick={() => setIsOpen(false)}>Branches</Link>
           </li>
           <li className="md:hidden w-full flex justify-center">
-            <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 w-auto whitespace-nowrap">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 w-auto whitespace-nowrap"
+            >
               Get Started
             </button>
           </li>
         </ul>
       </div>
 
-      {/* Buttons */}
+      {/* Desktop Button */}
       <div className="hidden md:flex space-x-4">
-      <button className="px-4 py-2 bg-[#27ae60] text-white rounded-md hover:bg-green-600 whitespace-nowrap">
+        <button className="px-4 py-2 bg-[#27ae60] text-white rounded-md hover:bg-green-600 whitespace-nowrap">
           Get Started
         </button>
       </div>
 
       {/* Mobile Menu Button */}
-      <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-700 text-2xl z-50">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden text-gray-700 text-2xl z-50"
+      >
         {isOpen ? "✖" : "☰"}
       </button>
     </nav>
