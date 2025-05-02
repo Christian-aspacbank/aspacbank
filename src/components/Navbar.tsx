@@ -7,7 +7,8 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-white py-4 px-6 flex justify-between items-center relative">
       {/* Logo - Wrapped in Link */}
-      <Link to="/" className="text-green-600 text-xl font-normal flex items-center space-x-2 flex-nowrap">
+      <Link to="/" className="text-green-600 text-xl font-medium flex items-center space-x-2 flex-nowrap"
+      >
         <img src="/Aspac_logo-03.png" alt="ASPAC Bank Logo" className="w-10 h-8" />
         <span className="text-lg hidden sm:block min-w-max">ASPAC Bank</span>
       </Link>

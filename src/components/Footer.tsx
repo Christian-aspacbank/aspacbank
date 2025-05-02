@@ -3,7 +3,16 @@ import React from 'react';
 const Footer: React.FC = () => {
   return (
     <div className="bg-gray-100 py-10 px-6">
+    
+        
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
+  <p className="text-lg font-medium">
+    Deposits are insured by PDIC up to P1,000,000 per depositor
+  </p>          
+</div>
+
       <hr />
+  
       <br />
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-700">
         

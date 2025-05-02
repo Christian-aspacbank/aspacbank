@@ -12,6 +12,7 @@ import DepositAccount from "./Pages/DepositAccount";
 import APDSLoanPage from './Pages/APDSLoanPage';
 import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
 import ExplorePage from "./Pages/ExplorePage";  // ✅ Correct import for the explore page
+import BillsPayment from "./Pages/BillsPayment";
 
 import "./index.css";
 
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/apds-loan" element={<APDSLoanPage />} />
           <Route path="/tuition-fee-collection" element={<TuitionFeeCollection />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/bills-payment" element={<BillsPayment />} />
 
         </Routes>
         <Footer />

@@ -128,7 +128,7 @@ const WelcomePage: React.FC = () => {
         </button>
         <h2 className="text-3xl font-bold text-green-700 mb-4 text-center">Start Your Account Today</h2>
         <p className="text-gray-700 mb-4 text-center">
-          Ready to take control of your finances? Our Power Savings and Checking Accounts offer flexibility, security, and high interest rates.
+          Ready to take control of your finances? 
         </p>
         <p className="text-gray-600 mb-6 text-center">
           Visit your nearest ASPAC Bank branch or apply online to begin your journey with us. It's fast, easy, and secure.

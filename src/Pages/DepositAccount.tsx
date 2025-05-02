@@ -1,5 +1,5 @@
-// src/Pages/DepositAccount.tsx
 import React from "react";
+import { motion } from "framer-motion";
 
 const DepositAccount = () => {
   return (
@@ -7,26 +7,31 @@ const DepositAccount = () => {
       {/* Hero Section */}
       <div
         className="relative text-white py-20 bg-cover bg-center"
-        style={{ backgroundImage: 'url(/DepositAccount.jpg)' }}
+        style={{
+          backgroundImage: 'url(/DepositAccount.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+        }}
       >
-        <div className="container mx-auto text-center px-6">
-          <h1 className="text-5xl text-green-600 font-extrabold mb-4">Deposit Account</h1>
-          <p className="text-xl max-w-3xl mx-auto text-white/90">
+        <div className="absolute inset-0 bg-black opacity-30"></div> {/* Overlay */}
+        <div className="container mx-auto text-center px-6 relative z-10">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl text-green-600 font-semibold mb-4">Deposit Account</h1>
+          <p className="text-xl sm:text-2xl text-white/90 mx-auto">
             Secure, flexible, and tailored for your financial needs. Start saving today with ASPAC Bank's Deposit Account.
           </p>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="container mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="container mx-auto px-6 py-20 space-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-12">
           {/* Why Choose Section */}
           <div className="bg-white shadow-lg rounded-2xl p-10 border border-green-100">
-            <h2 className="text-3xl font-bold text-green-600 mb-6">Why Choose Our Deposit Account?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-green-600 mb-6">Why Choose Our Deposit Account?</h2>
             <p className="text-base text-gray-700 mb-4">
               At ASPAC Bank, we provide a range of benefits with our Deposit Account to help you achieve your financial goals:
             </p>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700 text-base">
+            <ul className="list-disc pl-6 space-y-4 text-gray-700 text-base">
               <li>Earn competitive interest rates on your balance.</li>
               <li>Free monthly account maintenance.</li>
               <li>Convenient mobile app for easy access and management.</li>
@@ -36,12 +41,12 @@ const DepositAccount = () => {
 
           {/* How to Open Section */}
           <div className="bg-white shadow-lg rounded-2xl p-10 border border-green-100">
-            <h2 className="text-3xl font-bold text-green-600 mb-6">How to Open a Deposit Account</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-green-600 mb-6">How to Open a Deposit Account</h2>
             <p className="text-base text-gray-700 mb-4">
               Opening a Deposit Account with us is easy and hassle-free. Here's how you can get started:
             </p>
-            <ol className="list-decimal pl-6 space-y-2 text-gray-700 text-base">
-              <li>Visit your nearest ASPAC Bank branch or apply online.</li>
+            <ol className="list-decimal pl-6 space-y-4 text-gray-700 text-base">
+              <li>Visit your nearest ASPAC Bank branch.</li>
               <li>Provide necessary identification documents and proof of address.</li>
               <li>Deposit the initial amount and start enjoying the benefits of your new account.</li>
             </ol>
@@ -58,30 +63,44 @@ const DepositAccount = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Power Savings Account",
-                description: "Maximize your savings potential with our Power Savings Account. Enjoy higher interest rates and benefits tailored to your needs."
-              },
-              {
-                title: "Power Checking Account",
-                description: "Keep your money accessible and secure with our Power Checking Account. Ideal for daily transactions with minimal fees."
-              },
-              {
-                title: "Time Deposit",
-                description: "Secure your funds for a fixed term and enjoy attractive interest rates with our Time Deposit."
-              },
-              {
-                title: "Special Savings",
-                description: "Achieve your financial goals with our Special Savings account, offering flexible terms and attractive interest rates."
-              }
-            ].map((feature, index) => (
-              <div key={index} className="bg-green-50 p-6 rounded-xl shadow border border-green-200">
-                <h3 className="text-xl font-semibold text-green-700 mb-2">{feature.title}</h3>
-                <p className="text-gray-700 text-sm">{feature.description}</p>
-              </div>
-            ))}
-          </div>
+  {[
+    {
+      title: "Power Savings Account",
+      description: "Maximize your savings potential with our Power Savings Account.",
+      image: "/Powersavings.jpg",
+    },
+    {
+      title: "Power Checking Account",
+      description: "Keep your money accessible and secure.",
+      image: "/Power Checking Account.jpg", // Add the image path here later
+    },
+    {
+      title: "Time Deposit",
+      description: "Secure your funds for a fixed term.",
+      image: "/Time Deposit.jpg", // Add the image path here later
+    },
+    {
+      title: "Special Savings",
+      description: "Achieve your financial goals.",
+      image: "/Special Savings.jpg", // Add the image path here later
+    },
+  ].map((feature, index) => (
+    <div key={index} className="bg-green-50 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-green-200">
+      {feature.image && (
+        <div className="mb-4">
+          <img
+            src={feature.image}
+            alt={feature.title}
+            className="w-full h-40 object-cover rounded-lg mb-4"
+          />
+        </div>
+      )}
+      <h3 className="text-xl font-semibold text-green-700 mb-2">{feature.title}</h3>
+      <p className="text-gray-700 text-sm">{feature.description}</p>
+    </div>
+  ))}
+</div>
+
         </div>
       </div>
 
@@ -93,7 +112,7 @@ const DepositAccount = () => {
         </p>
         <a
           href="/contact-us"
-          className="inline-block bg-white text-green-600 font-semibold py-3 px-8 rounded-full shadow-md hover:bg-green-100 transition-all duration-300"
+          className="inline-block bg-white text-green-600 font-semibold py-4 px-10 rounded-full shadow-md hover:bg-green-100 hover:scale-105 transition-all duration-300 ease-in-out"
         >
           Contact Us to Get Started
         </a>
