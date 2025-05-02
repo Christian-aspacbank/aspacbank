@@ -11,14 +11,15 @@ const Careers: React.FC = () => {
     >
       {/* Banner Section with Image */}
       <div
-  className="w-full text-white py-24 text-center flex items-center justify-start px-16" // Increased padding
+ className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px]"
+ // Increased padding
   style={{
     backgroundImage: "url('Careers.jpg')", // Replace with your image path
     backgroundSize: "cover",
     backgroundPosition: "center",
   }}
 >
-  <h2 className="text-3xl font-semibold leading-tight">
+  <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
     Build Your Career with Us
   </h2>
 </div>
