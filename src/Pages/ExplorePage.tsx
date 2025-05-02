@@ -34,7 +34,7 @@ const ExplorePage: React.FC = () => {
           <section>
             <h2 className="text-2xl font-semibold text-green-600">Banking Hours</h2>
             <p>
-              Visit any of our branches during operating hours: <strong>Monday to Friday, 9:00 AM to 4:00 PM</strong>. We are always ready to serve you with a smile.
+              Visit any of our branches during operating hours: <strong>Monday to Friday, 9:00 AM to 3:00 PM</strong>. We are always ready to serve you with a smile.
             </p>
           </section>
 
