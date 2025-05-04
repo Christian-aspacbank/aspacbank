@@ -85,7 +85,7 @@ const WelcomePage: React.FC = () => {
           <SwiperSlide>
           <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Simplysafe.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-              <h1 className="text-yellow-400 text-4xl font-bold">Simply Safe Banking.</h1>
+              <h1 className="text-yellow-400 text-4xl font-bold">Simply Safe Banking</h1>
               <p className="text-white text-lg">Your security is our priority. Bank with confidence and peace of mind.</p>
               <button
   className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
