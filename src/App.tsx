@@ -13,6 +13,10 @@ import APDSLoanPage from './Pages/APDSLoanPage';
 import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
 import ExplorePage from "./Pages/ExplorePage";  // ✅ Correct import for the explore page
 import BillsPayment from "./Pages/BillsPayment";
+import CebuanaServices from "./Pages/CebuanaServices";
+import PeraPadala from "./Pages/PeraPadala"; // adjust path as needed
+import InternationalRemittance from "./Pages/InternationalRemittance"; // adjust path as needed
+import Cashincashout from "./Pages/Cashincashout"; // Correct import for the Cashincashout component
 
 import "./index.css";
 
@@ -34,7 +38,10 @@ const App: React.FC = () => {
           <Route path="/tuition-fee-collection" element={<TuitionFeeCollection />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/bills-payment" element={<BillsPayment />} />
-
+          <Route path="/cebuana-services" element={<CebuanaServices />} />
+          <Route path="/pera-padala" element={<PeraPadala />} />
+          <Route path="international-remittance" element={<InternationalRemittance />} />
+          <Route path="/cash-in-cash-out" element={<Cashincashout />} /> {/* Corrected component name */}
         </Routes>
         <Footer />
       </div>

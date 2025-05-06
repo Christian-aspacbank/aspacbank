@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import { FaPiggyBank, FaUniversity, FaMoneyCheckAlt, FaHandHoldingUsd } from "react-icons/fa";
+import { FaPiggyBank, FaUniversity, FaMoneyCheckAlt, FaHandHoldingUsd, } from "react-icons/fa"; // Added FaExchangeAlt
 
 // Define the type for services, adding the `link` property
 interface Service {
@@ -31,7 +31,9 @@ const services: Service[] = [
     Icon: FaHandHoldingUsd as React.ComponentType<React.SVGProps<SVGSVGElement>>, // Cast explicitly
     link: "/loans", // Example link for Loans
   },
+  
 ];
+
 
 const OurServices: React.FC = () => {
   return (
@@ -57,11 +59,14 @@ const OurServices: React.FC = () => {
         </motion.div>
 
         {/* Services Cards */}
-        <div className="absolute bottom-[-50px] left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl p-8 w-[80%] max-w-4xl flex justify-center gap-16 items-center z-20 h-[180px]">
+        <div className="absolute bottom-[-60px] left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl p-6 md:p-8 w-[80%] max-w-3xl flex flex-wrap justify-center gap-8 items-center z-20">
+
+
           {services.map(({ title, Icon, link }, index) => (
             <Link key={index} to={link} className="flex flex-col items-center text-center">
-              <Icon className="text-green-600 text-6xl mb-3 transition-transform transform hover:scale-110 duration-300" />
-              <p className="text-xl font-medium text-gray-700">{title}</p>
+              <Icon className="text-green-600 text-6xl mb-3  transition-transform transform hover:scale-110 duration-300" />
+              <p className="text-base font-medium text-gray-700">{title}</p>
+
             </Link>
           ))}
         </div>

@@ -15,7 +15,7 @@ const WelcomePage: React.FC = () => {
 
 
   const handleExploreClick = () => {
-    navigate('/explore'); // ✅ Fix the destination here
+    navigate('/cebuana-services'); // ✅ Fix the destination here
   };
   
 
@@ -65,6 +65,25 @@ const WelcomePage: React.FC = () => {
           </SwiperSlide>
 
           <SwiperSlide>
+          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Cebuana.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
+              <h1 className="text-yellow-400 text-4xl font-bold">  Cebuana Lhuillier Authorized Agent</h1>
+              <p className="text-white text-lg"> Convenient financial services available through our Cebuana Lhuillier partnership.</p>
+              <button
+  className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
+  style={{ backgroundColor: "#27ae60" }}
+  onClick={handleExploreClick} // ✅ Use the function here
+  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1e8449")}
+  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#27ae60")}
+>
+  Explore More
+</button>
+
+              </div>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
             <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Growyoursavings.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
               <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
                 <h1 className="text-yellow-400 text-4xl font-bold">Grow Your Savings with Us</h1>
@@ -100,6 +119,8 @@ const WelcomePage: React.FC = () => {
               </div>
             </div>
           </SwiperSlide>
+
+     
         </Swiper>
       </div>
 
