@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 import { Link } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   FaPiggyBank as PiggyBankIcon,
   FaClipboardCheck as ClipboardIcon,
@@ -18,60 +19,57 @@ const FaClipboardCheck = ClipboardIcon as React.ComponentType<React.SVGProps<SVG
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
-// Modal Component for Contact Number
+// ✅ Updated Modal with AnimatePresence & motion.div
 const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-      onClick={onClose}
-    >
-     <div
-  className="bg-white p-12 rounded-lg w-96 shadow-2xl transform transition-all duration-300 ease-in-out scale-95 hover:scale-100"
-  onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the modal
->
-  <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
-    Contact ASPAC Bank
-  </h2>
-  <p className="text-center text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed font-light tracking-wide">
-    For inquiries or assistance, reach out to us via the following numbers:
-  </p>
-  <div className="text-center mb-6 space-y-2">
-    <p className="text-xl text-green-700 font-semibold tracking-tight">
-      <span className="font-medium">Landline:</span> 345-0929, 345-0930
-    </p>
-    <p className="text-xl text-green-700 font-semibold tracking-tight">
-      <span className="font-medium">Mobile:</span> 0917-127-7796
-    </p>
-  </div>
-  <div className="flex justify-center">
-    <button
-      className="bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-red-600 hover:scale-105 focus:ring-4 focus:ring-red-300"
-      onClick={onClose}
-    >
-      Close
-    </button>
-  </div>
-</div>
-
-
-
-
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div
+            className="bg-white p-12 rounded-lg w-96 max-w-sm shadow-2xl"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
+              Contact ASPAC Bank
+            </h2>
+            <p className="text-center text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed font-light tracking-wide">
+              For inquiries or assistance, reach out to us via the following numbers:
+            </p>
+            <div className="text-center mb-6 space-y-2">
+              <p className="text-xl text-green-700 font-semibold tracking-tight">
+                <span className="font-medium">Landline:</span> 345-0929, 345-0930
+              </p>
+              <p className="text-xl text-green-700 font-semibold tracking-tight">
+                <span className="font-medium">Mobile:</span> 0917-127-7796
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                className="bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-red-600 hover:scale-105 focus:ring-4 focus:ring-red-300"
+                onClick={onClose}
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
 const APDSLoanPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <div className="w-full bg-white shadow-2xl overflow-hidden">
@@ -101,7 +99,7 @@ const APDSLoanPage: React.FC = () => {
         </p>
         <button
           className="bg-yellow-500 text-green-900 font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-400"
-          onClick={openModal}
+          onClick={() => setIsModalOpen(true)}
         >
           Call Now
         </button>
@@ -193,18 +191,10 @@ const APDSLoanPage: React.FC = () => {
         </Swiper>
       </div>
 
-      {/* Floating CTA (Mobile Only) */}
-      <div className="fixed bottom-5 right-5 z-50 sm:hidden">
-        <Link
-          to="/apply-apds-loan"
-          className="bg-yellow-500 text-green-900 font-semibold py-3 px-5 rounded-full shadow-lg hover:bg-yellow-600 transition"
-        >
-          Apply Now
-        </Link>
-      </div>
+      
 
       {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

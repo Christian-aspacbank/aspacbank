@@ -152,6 +152,7 @@ const WelcomePage: React.FC = () => {
       </div>
 
 {/* Modal */}
+{/* Modal */}
 <AnimatePresence>
   {showModal && (
     <motion.div
@@ -162,72 +163,30 @@ const WelcomePage: React.FC = () => {
       onClick={() => setShowModal(false)}
     >
       <motion.div
-        className="bg-white rounded-xl p-8 max-w-xl w-full relative"
+        className="bg-white rounded-xl p-8 max-w-md w-full relative"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="absolute top-2 right-3 text-2xl text-gray-500 hover:text-red-500"
-          onClick={() => setShowModal(false)}
-        >
-          &times;
-        </button>
-        <h2 className="text-3xl font-bold text-green-700 mb-4 text-center">Start Your Account Today</h2>
+        <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Contact Us</h2>
+
         <p className="text-gray-700 mb-4 text-center">
-          Ready to take control of your finances? 
+          For inquiries or assistance, reach out to us via the following numbers:
         </p>
-        <p className="text-gray-600 mb-6 text-center">
-          Visit your nearest ASPAC Bank branch or apply online to begin your journey with us. It's fast, easy, and secure.
+        <p className="text-gray-800 text-center font-medium">
+          Landline: 345-0929, 345-0930<br />
+          Mobile: 0917-127-7796
         </p>
 
-        {/* Contact Options */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+        <div className="mt-8 text-center">
           <button
-            onClick={() => setShowEmailOptions(true)}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300 text-center"
+            onClick={() => setShowModal(false)}
+            className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300"
           >
-            Email Us
+            Close
           </button>
-
-          <a
-            href="tel:03450929"
-            className="bg-white text-green-600 border border-green-600 px-6 py-3 rounded-lg font-medium hover:bg-green-100 transition duration-300 text-center"
-          >
-            Call Us
-          </a>
         </div>
-
-        {/* Email Form */}
-        {showEmailOptions && (
-          <div className="mt-8 border-t pt-6">
-            <h3 className="text-xl font-semibold mb-4 text-center text-green-700">Send Us a Message</h3>
-            <form className="space-y-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full border border-gray-300 p-2 rounded-lg"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full border border-gray-300 p-2 rounded-lg"
-              />
-              <textarea
-                placeholder="Your Message"
-                rows={4}
-                className="w-full border border-gray-300 p-2 rounded-lg"
-              ></textarea>
-              <button
-                type="submit"
-                className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition duration-300 w-full"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-        )}
       </motion.div>
     </motion.div>
   )}
