@@ -9,6 +9,23 @@ const Careers: React.FC = () => {
       transition={{ duration: 1 }}
       className="w-full min-h-screen bg-gray-100 py-16"
     >
+      {/* Banner Section with Image */}
+      <div
+ className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px]"
+ // Increased padding
+  style={{
+    backgroundImage: "url('Careers.jpg')", // Replace with your image path
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
+    Build Your Career with Us
+  </h2>
+</div>
+
+
+<br />
       {/* Page Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-green-600 mb-4">Join Our Team</h1>
