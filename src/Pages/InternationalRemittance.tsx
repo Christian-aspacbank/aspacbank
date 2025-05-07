@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaMoneyBillWave } from "react-icons/fa";
+import { FaGlobe } from "react-icons/fa";
 
 // Correctly cast the icon for TypeScript
-const Icon = FaMoneyBillWave as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const Icon = FaGlobe as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 const InternationalRemittance: React.FC = () => {
   return (

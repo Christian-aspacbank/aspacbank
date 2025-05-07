@@ -63,3 +63,106 @@
 .swiper-pagination-bullet-active {
   background-color: #facc15; /* yellow-400 */
 }
+
+/* WelcomePage.module.css */
+@media (max-width: 768px) {
+  .swiper-slide .slide {
+    background-position: center top; /* Ensure images adjust for mobile */
+  }
+
+  .swiper-slide .slide .bg-black {
+    padding: 20px;
+    bottom: 15%; /* Lower the position for better visibility */
+  }
+
+  .swiper-slide .slide h1 {
+    font-size: 1.5rem; /* Make the heading smaller */
+    line-height: 1.2;
+  }
+
+  .swiper-slide .slide p {
+    font-size: 1rem;
+  }
+
+  .swiper-slide .slide button {
+    padding: 10px 20px; /* Adjust button size for mobile */
+    font-size: 1rem;
+  }
+}
+
+/* Modal Form */
+@media (max-width: 768px) {
+  .motion.div { /* Modal content */
+    padding: 20px;
+    max-width: 90%; /* Use 90% of the screen width */
+  }
+
+  .motion.div h2 {
+    font-size: 1.5rem;
+  }
+
+  .motion.div input,
+  .motion.div textarea {
+    width: 100%; /* Ensure input fields fill the width */
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .motion.div button {
+    width: 100%; /* Button fills the container */
+    padding: 15px;
+  }
+}
+
+
+
+/* Partner Grid */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr; /* Stack grid items on mobile */
+    gap: 20px; /* Increase space between items */
+  }
+
+  .grid .bg-white {
+    padding: 15px; /* Adjust padding for smaller screens */
+    text-align: center;
+  }
+
+  .grid .text-xl {
+    font-size: 1.25rem; /* Make text smaller */
+  }
+
+  .grid .text-sm {
+    font-size: 0.9rem;
+  }
+
+  .mt-12 {
+    margin-top: 20px; /* Adjust spacing */
+  }
+}
+
+
+
+/* Buttons */
+@media (max-width: 768px) {
+  .btn {
+    font-size: 1rem; /* Smaller button text */
+    padding: 12px 20px;
+  }
+
+  .btn a {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+
+/* General Text Adjustments */
+@media (max-width: 768px) {
+  h1, h2, h3 {
+    font-size: 1.5rem; /* Smaller headings on mobile */
+  }
+
+  p {
+    font-size: 1rem; /* Adjust text size for mobile */
+  }
+}

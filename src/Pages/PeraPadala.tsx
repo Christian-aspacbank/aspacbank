@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaExchangeAlt } from "react-icons/fa";
+import { FaArrowCircleRight  } from "react-icons/fa";
 
 // Correctly cast the icon for TypeScript
-const Icon = FaExchangeAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const Icon = FaArrowCircleRight as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 const PeraPadala: React.FC = () => {
   return (

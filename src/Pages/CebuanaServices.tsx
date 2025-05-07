@@ -2,11 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import {
-  FaExchangeAlt,
-  FaMoneyBillWave,
+  FaArrowCircleRight,
+  FaGlobe,
   FaUniversity,
   FaMobileAlt,
   FaShieldAlt,
+  FaFileInvoiceDollar,
 } from "react-icons/fa";
 
 // Define the type for services
@@ -21,12 +22,12 @@ interface CebuanaService {
 const services: CebuanaService[] = [
   {
     title: "Pera Padala",
-    Icon: FaExchangeAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>,
+    Icon: FaArrowCircleRight as React.ComponentType<React.SVGProps<SVGSVGElement>>,
     link: "/pera-padala", // Add the link property for Deposit Account
   },
   {
     title: "International Remittance",
-    Icon: FaMoneyBillWave as React.ComponentType<React.SVGProps<SVGSVGElement>>,
+    Icon: FaGlobe as React.ComponentType<React.SVGProps<SVGSVGElement>>,
     link: "/international-remittance",
 
   },
@@ -37,7 +38,7 @@ const services: CebuanaService[] = [
   },
   {
     title: "Bills Payment",
-    Icon: FaMoneyBillWave as React.ComponentType<React.SVGProps<SVGSVGElement>>,
+    Icon: FaFileInvoiceDollar as React.ComponentType<React.SVGProps<SVGSVGElement>>,
     link: "/cebuana-bills-payment",
   },
   {

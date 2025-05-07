@@ -17,6 +17,7 @@ import CebuanaServices from "./Pages/CebuanaServices";
 import PeraPadala from "./Pages/PeraPadala"; // adjust path as needed
 import InternationalRemittance from "./Pages/InternationalRemittance"; // adjust path as needed
 import Cashincashout from "./Pages/Cashincashout"; // Correct import for the Cashincashout component
+import CebuanaBillsPayment from "./Pages/CebuanaBillsPayment";
 
 import "./index.css";
 
@@ -42,6 +43,8 @@ const App: React.FC = () => {
           <Route path="/pera-padala" element={<PeraPadala />} />
           <Route path="international-remittance" element={<InternationalRemittance />} />
           <Route path="/cash-in-cash-out" element={<Cashincashout />} /> {/* Corrected component name */}
+          <Route path="/cebuana-bills-payment" element={<CebuanaBillsPayment />} />
+
         </Routes>
         <Footer />
       </div>

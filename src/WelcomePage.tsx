@@ -47,78 +47,105 @@ const WelcomePage: React.FC = () => {
           className="w-full h-full"
         >
           <SwiperSlide>
-            <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(APDS3.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-                <h1 className="text-yellow-400 text-4xl font-bold">Fuel your passion for teaching with the APDS Loan</h1>
-                <p className="text-white text-lg">Empowering educators to create brighter futures.</p>
-                <button
-                  className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
-                  style={{ backgroundColor: "#27ae60" }}
-                  onClick={() => window.location.href = '/apds-loan'}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1e8449")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#27ae60")}
-                >
-                  Explore Our Services
-                </button>
-              </div>
-            </div>
-          </SwiperSlide>
+  <div
+    className="slide h-screen w-full relative bg-cover bg-center"
+    style={{ backgroundImage: 'url(APDS3.jpg)' }}
+  >
+    <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-4 top-[60%] transform -translate-y-1/2 w-full sm:left-16 sm:top-[70%] sm:w-auto">
+      <h1 className="text-yellow-400 text-2xl sm:text-4xl font-bold leading-tight sm:leading-normal">
+        Fuel your passion for teaching with the APDS Loan
+      </h1>
+      <p className="text-white text-base sm:text-lg mt-2">
+        Empowering educators to create brighter futures.
+      </p>
+      <button
+        className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
+        style={{ backgroundColor: '#27ae60' }}
+        onClick={() => (window.location.href = '/apds-loan')}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1e8449')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#27ae60')}
+      >
+        Explore Our Services
+      </button>
+    </div>
+  </div>
+</SwiperSlide>
 
-          <SwiperSlide>
-          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Cebuana.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-              <h1 className="text-yellow-400 text-4xl font-bold">  Cebuana Lhuillier Authorized Agent</h1>
-              <p className="text-white text-lg"> Convenient financial services available through our Cebuana Lhuillier partnership.</p>
-              <button
-  className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
-  style={{ backgroundColor: "#27ae60" }}
-  onClick={handleExploreClick} // ✅ Use the function here
-  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1e8449")}
-  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#27ae60")}
->
-  Explore More
-</button>
 
-              </div>
-            </div>
-          </SwiperSlide>
+<SwiperSlide>
+  <div
+    className="slide h-screen w-full relative bg-cover bg-center"
+    style={{ backgroundImage: 'url(Cebuana.jpg)' }}
+  >
+    <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-4 top-[60%] transform -translate-y-1/2 w-full sm:left-16 sm:top-[70%] sm:w-auto">
+      <h1 className="text-yellow-400 text-2xl sm:text-4xl font-bold leading-tight sm:leading-normal">
+        Cebuana Lhuillier Authorized Agent
+      </h1>
+      <p className="text-white text-base sm:text-lg mt-2">
+        Convenient financial services available through our Cebuana Lhuillier partnership.
+      </p>
+      <button
+        className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
+        style={{ backgroundColor: '#27ae60' }}
+        onClick={handleExploreClick} // ✅ Use the function here
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1e8449')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#27ae60')}
+      >
+        Explore More
+      </button>
+    </div>
+  </div>
+</SwiperSlide>
 
-          <SwiperSlide>
-            <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Growyoursavings.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-                <h1 className="text-yellow-400 text-4xl font-bold">Grow Your Savings with Us</h1>
-                <p className="text-white text-lg">Secure your future with our high-interest savings accounts and investment options.</p>
-                <button
-                  className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
-                  style={{ backgroundColor: "#27ae60" }}
-                  onClick={() => setShowModal(true)}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1e8449")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#27ae60")}
-                >
-                  Open an Account
-                </button>
-              </div>
-            </div>
-          </SwiperSlide>
+<SwiperSlide>
+  <div
+    className="slide h-screen w-full relative bg-cover bg-center"
+    style={{ backgroundImage: 'url(Growyoursavings.jpg)' }}
+  >
+    <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-4 top-[60%] transform -translate-y-1/2 w-full sm:left-16 sm:top-[70%] sm:w-auto">
+      <h1 className="text-yellow-400 text-2xl sm:text-4xl font-bold leading-tight sm:leading-normal">
+        Grow Your Savings with Us
+      </h1>
+      <p className="text-white text-base sm:text-lg mt-2">
+        Secure your future with our high-interest savings accounts and investment options.
+      </p>
+      <button
+        className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
+        style={{ backgroundColor: '#27ae60' }}
+        onClick={() => setShowModal(true)}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1e8449')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#27ae60')}
+      >
+        Open an Account
+      </button>
+    </div>
+  </div>
+</SwiperSlide>
 
-          <SwiperSlide>
-          <div className="slide h-screen w-full relative" style={{ backgroundImage: 'url(Simplysafe.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-16 top-[70%] transform -translate-y-1/2">
-              <h1 className="text-yellow-400 text-4xl font-bold">Simply Safe Banking</h1>
-              <p className="text-white text-lg">Your security is our priority. Bank with confidence and peace of mind.</p>
-              <button
-  className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
-  style={{ backgroundColor: "#27ae60" }}
-  onClick={handleExploreClick} // ✅ Use the function here
-  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1e8449")}
-  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#27ae60")}
->
-  Explore More
-</button>
-
-              </div>
-            </div>
-          </SwiperSlide>
+<SwiperSlide>
+  <div
+    className="slide h-screen w-full relative bg-cover bg-center"
+    style={{ backgroundImage: 'url(Simplysafe.jpg)' }}
+  >
+    <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-4 top-[60%] transform -translate-y-1/2 w-full sm:left-16 sm:top-[70%] sm:w-auto">
+      <h1 className="text-yellow-400 text-2xl sm:text-4xl font-bold leading-tight sm:leading-normal">
+        Simply Safe Banking
+      </h1>
+      <p className="text-white text-base sm:text-lg mt-2">
+        Your security is our priority. Bank with confidence and peace of mind.
+      </p>
+      <button
+        className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
+        style={{ backgroundColor: '#27ae60' }}
+        onClick={handleExploreClick} // ✅ Use the function here
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1e8449')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#27ae60')}
+      >
+        Explore More
+      </button>
+    </div>
+  </div>
+</SwiperSlide>
 
      
         </Swiper>
