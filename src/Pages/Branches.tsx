@@ -15,7 +15,7 @@ const branches = [
   {
     name: "Banilad Branch",
     address:
-      "ASPAC BANK Bldg. Cor. N. Bacalso St. & P. Del Rosario Ext., Sambag 1 (Pob.) 6000 Cebu City (Capital) Cebu Philippines",
+      "UC Building 6000 Cebu City (Capital) Cebu Philippines",
     contact: "(0917-129-7936)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
@@ -49,7 +49,7 @@ const branches = [
   {
     name: "Carbon Branch",
     address:
-      "ASPAC BANK Bldg. Cor. N. Bacalso St. & P. Del Rosario Ext., Sambag 1 (Pob.) 6000 Cebu City (Capital) Cebu Philippines",
+      "Escaño St. Ermita (Pob) 6000 Cebu City (Capital) Cebu Philippines",
     contact: "('0917-130-6492)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
