@@ -9,7 +9,7 @@ const branches = [
     contact: "(032) 345-0929/345-0930",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B020'05.6%22N+123%C2%B056'23.4%22E/@10.334875,123.939833,18z/data=!4m4!3m3!8m2!3d10.3348754!4d123.9398333?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/10%C2%B020'05.6%22N+123%C2%B056'https://www.google.com/maps/search/?api=1&query=ASPAC+Bank+Mandaue23.4%22E/@10.334875,123.939833,18z/data=!4m4!3m3!8m2!3d10.3348754!4d123.9398333?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
     image: "/Mandaue.jpg",
   },
   {
