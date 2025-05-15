@@ -6,10 +6,10 @@ const branches = [
     name: "Main Branch",
     address:
       "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo 6014 Mandaue City Cebu Philippines",
-    contact: "(032) 345-0929/345-0930",
+    contact: "0917-127-7796",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B020'05.6%22N+123%C2%B056'23.4%22E/@10.334875,123.939833,18z/data=!4m4!3m3!8m2!3d10.3348754!4d123.9398333?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/https://www.google.com/maps/@10.3349537,123.9397283,3a,75y,187.2h,93.24t/data=!3m7!1e1!3m5!1sC6JyWB6uLlsBgUy1T_KK5g!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-3.2379567003453076%26panoid%3DC6JyWB6uLlsBgUy1T_KK5g%26yaw%3D187.19753825386937!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Mandaue.jpg",
   },
   {
@@ -19,7 +19,7 @@ const branches = [
     contact: "(0917-102-5671)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B020'18.7%22N+123%C2%B054'42.0%22E/@10.3385492,123.911637,3a,75y,140.89h,90t/data=!3m7!1e1!3m5!1sXmNZr6TyAw_ZeLc-zYzrCA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DXmNZr6TyAw_ZeLc-zYzrCA%26yaw%3D140.89452!7i16384!8i8192!4m4!3m3!8m2!3d10.3385262!4d123.9116589?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDQyNy4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/Aspac+Rural+Bank,+Inc./@10.3383863,123.9115553,3a,75y,96.6h,87.09t/data=!3m7!1e1!3m5!1sd6gwKAuppd2MvT9ndsMi-Q!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D2.908681241094172%26panoid%3Dd6gwKAuppd2MvT9ndsMi-Q%26yaw%3D96.59663475794113!7i16384!8i8192!4m13!1m6!3m5!2zMTDCsDIwJzE4LjciTiAxMjPCsDU0JzQyLjAiRQ!8m2!3d10.3385278!4d123.9116667!10e5!3m5!1s0x33a998e133cfdfe9:0x74f9f8997ace0ae5!8m2!3d10.3383962!4d123.9116638!16s%2Fg%2F1tx12xjj?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Banilad.jpg",
   },
 
@@ -29,7 +29,7 @@ const branches = [
     contact: "(0917-128-4422)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/11%C2%B010'10.0%22N+123%C2%B043'26.7%22E/@11.169456,123.72407,18z",
+      "https://www.google.com/maps/place/ASPAC+Rural+Bank/@11.1691381,123.7240766,3a,75y,351.99h,94.34t/data=!3m7!1e1!3m5!1skshd2xj683RBJ94kCpELEQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-4.339778975775275%26panoid%3Dkshd2xj683RBJ94kCpELEQ%26yaw%3D351.98621747831186!7i16384!8i8192!4m12!1m5!3m4!2zMTHCsDEwJzEwLjAiTiAxMjPCsDQzJzI2LjciRQ!8m2!3d11.1694444!4d123.7240833!3m5!1s0x33a888a1350be1ef:0x380b347fe120b0d6!8m2!3d11.1692667!4d123.7240491!16s%2Fg%2F1pp2v9x18?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Bantayan.jpg",
   },
 
@@ -41,7 +41,7 @@ const branches = [
     contact: "(0917-129-4966)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps?ll=11.046723,124.002811&z=18&t=m&hl=en-US&gl=US&mapclient=embed&q=11%C2%B002%2748.2%22N+124%C2%B000%2710.1%22E+11.046723,+124.002811@11.0467229,124.0028106",
+      "https://www.google.com/maps/place/Aspac+Bank/@11.0467605,124.0029316,3a,75y,252.71h,92.16t/data=!3m7!1e1!3m5!1s3TKWel1urJHAUh2XTHKrZQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-2.1621531679270305%26panoid%3D3TKWel1urJHAUh2XTHKrZQ%26yaw%3D252.71449963898652!7i16384!8i8192!4m12!1m5!3m4!2zMTHCsDAyJzQ4LjIiTiAxMjTCsDAwJzEwLjEiRQ!8m2!3d11.0467229!4d124.0028106!3m5!1s0x33a868c682ea9ee7:0x19e5b62b1cbe93df!8m2!3d11.0467206!4d124.0027871!16s%2Fg%2F11csqvfnts?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Bogo.jpg",
   },
   
@@ -63,7 +63,7 @@ const branches = [
     contact: "(0917-125-0313)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps?ll=10.104102,123.641838&z=18",
+      "https://www.google.com/maps/@10.1040785,123.6417657,3a,75y,76.49h,77.37t/data=!3m7!1e1!3m5!1sE_slTxZKHp6LKsmHl_oA-w!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D12.630778398288811%26panoid%3DE_slTxZKHp6LKsmHl_oA-w%26yaw%3D76.4850263550181!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Carcar.jpg",
   },
 
@@ -126,7 +126,7 @@ const branches = [
     contact: "(0917-129-7896)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B023'10.8%22N+123%C2%B039'07.7%22E/@10.38633,123.65215,18z",
+      "https://www.google.com/maps/place/10.386171813507547, 123.65211032853112",
     image: "/Toledo.jpg",
   },
  
