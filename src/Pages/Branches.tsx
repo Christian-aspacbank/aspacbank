@@ -84,7 +84,7 @@ const branches = [
     contact: "(0917-108-6575)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B031'11.8%22N+124%C2%B001'36.0%22E/@10.519946,124.026669,18z",
+      "https://www.google.com/maps/place/ASPAC+RURAL+BANK+INC./@10.5198275,124.0266347,3a,75y,7.81h,93.84t/data=!3m7!1e1!3m5!1sfN4CysVq51MX0KqoOu8hfw!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-3.837951206556184%26panoid%3DfN4CysVq51MX0KqoOu8hfw%26yaw%3D7.81100999969323!7i16384!8i8192!4m12!1m5!3m4!2zMTDCsDMxJzExLjgiTiAxMjTCsDAxJzM2LjAiRQ!8m2!3d10.5199444!4d124.0266667!3m5!1s0x33a9b08428fc900b:0x2f8957a1b60b689c!8m2!3d10.5200079!4d124.0267235!16s%2Fg%2F11c1qb9xnr?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Danao.jpg",
   },
 
@@ -94,7 +94,7 @@ const branches = [
     contact: "(0917-116-5655)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B019'28.0%22N+123%C2%B058'27.3%22E/@10.324448,123.974253,18z/data=!4m4!3m3!8m2!3d10.3244481!4d123.9742525?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/Pusok,+Lapu-Lapu+City,+Cebu/@10.3245227,123.974147,3a,75y,146.99h,96.77t/data=!3m7!1e1!3m5!1sXLA2gPNz0B8biRraGs_VGA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-6.7684270158130175%26panoid%3DXLA2gPNz0B8biRraGs_VGA%26yaw%3D146.9864791596221!7i16384!8i8192!4m6!3m5!1s0x33a999d680997be1:0x888ed11028d84b4d!8m2!3d10.3197437!4d123.9722147!16s%2Fg%2F1tczsgj3?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Lapu2.jpg",
   },
    
@@ -105,7 +105,7 @@ const branches = [
     contact: "(0917-102-5671)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B017'00.3%22N+123%C2%B053'05.0%22E/@10.283409,123.884722,18z",
+      "https://www.google.com/maps/place/ASPAC+Bank/@10.2987528,123.8949856,3a,75y,312.09h,94.53t/data=!3m7!1e1!3m5!1sEmFO--YBIXUcY5aLeOsMjQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-4.533873856133425%26panoid%3DEmFO--YBIXUcY5aLeOsMjQ%26yaw%3D312.0934680136831!7i16384!8i8192!4m14!1m7!3m6!1s0x33a99957b9cb423b:0xcfe4abdcc58cd3b1!2sASPAC+Bank!8m2!3d10.2989215!4d123.8949195!16s%2Fg%2F11bwncm7rk!3m5!1s0x33a99957b9cb423b:0xcfe4abdcc58cd3b1!8m2!3d10.2989215!4d123.8949195!16s%2Fg%2F11bwncm7rk?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Nbacalso.jpg",
   },
   
@@ -115,7 +115,7 @@ const branches = [
     contact: "(0917-129-7008)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B016'11.3%22N+123%C2%B050'41.5%22E/@10.269796,123.844864,18z",
+      "https://www.google.com/maps/place/ASPAC+Bank/@10.2695943,123.8450157,3a,75y,308.28h,92.55t/data=!3m7!1e1!3m5!1snFJIKOtc6OFi7zziDAmhCw!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-2.5465616071729187%26panoid%3DnFJIKOtc6OFi7zziDAmhCw%26yaw%3D308.2766443392345!7i16384!8i8192!4m6!3m5!1s0x33a99c5389bfd793:0xbfff387de691348d!8m2!3d10.2697852!4d123.8448788!16s%2Fg%2F11wtw5q884?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Talisay.jpg",
   },
    
@@ -126,7 +126,7 @@ const branches = [
     contact: "(0917-129-7896)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10.386171813507547, 123.65211032853112",
+      "https://www.google.com/maps/place/ASPAC+Bank/@10.3862749,123.6521426,3a,75y,207.03h,90t/data=!3m7!1e1!3m5!1sHENaw1oyvhvad_g2llrRcQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DHENaw1oyvhvad_g2llrRcQ%26yaw%3D207.03105!7i16384!8i8192!4m14!1m7!3m6!1s0x33a972dd24f1c92b:0x750e13319c85b23a!2sASPAC+Bank!8m2!3d10.3861401!4d123.6520745!16s%2Fg%2F11wx4vn5tm!3m5!1s0x33a972dd24f1c92b:0x750e13319c85b23a!8m2!3d10.3861401!4d123.6520745!16s%2Fg%2F11wx4vn5tm?entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D",
     image: "/Toledo.jpg",
   },
  
