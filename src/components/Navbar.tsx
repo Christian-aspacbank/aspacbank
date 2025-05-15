@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
         className="text-green-600 text-xl font-medium flex items-center space-x-2 flex-nowrap"
       >
         <img
-          src="/Aspac_logo-03.png"
+          src="/Aspac_logo-03A.png"
           alt="ASPAC Bank Logo"
           className="w-10 h-8 object-contain"
         />
