@@ -9,14 +9,14 @@ const branches = [
     contact: "(032) 345-0929/345-0930",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B020'05.6%22N+123%C2%B056'https://www.google.com/maps/search/?api=1&query=ASPAC+Bank+Mandaue23.4%22E/@10.334875,123.939833,18z/data=!4m4!3m3!8m2!3d10.3348754!4d123.9398333?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/10%C2%B020'05.6%22N+123%C2%B056'23.4%22E/@10.334875,123.939833,18z/data=!4m4!3m3!8m2!3d10.3348754!4d123.9398333?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D",
     image: "/Mandaue.jpg",
   },
   {
     name: "Banilad Branch",
     address:
-      "UC Building 6000 Cebu City (Capital) Cebu Philippines",
-    contact: "(0917-129-7936)",
+      "ASPAC BANK Bldg. Cor. N. Bacalso St. & P. Del Rosario Ext., Sambag 1 (Pob.) 6000 Cebu City (Capital) Cebu Philippines",
+    contact: "(0917-102-5671)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
       "https://www.google.com/maps/place/10%C2%B020'18.7%22N+123%C2%B054'42.0%22E/@10.3385492,123.911637,3a,75y,140.89h,90t/data=!3m7!1e1!3m5!1sXmNZr6TyAw_ZeLc-zYzrCA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DXmNZr6TyAw_ZeLc-zYzrCA%26yaw%3D140.89452!7i16384!8i8192!4m4!3m3!8m2!3d10.3385262!4d123.9116589?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDQyNy4xIKXMDSoASAFQAw%3D%3D",
@@ -49,8 +49,8 @@ const branches = [
   {
     name: "Carbon Branch",
     address:
-      "Escaño St. Ermita (Pob) 6000 Cebu City (Capital) Cebu Philippines",
-    contact: "('0917-130-6492)",
+      "ASPAC BANK Bldg. Cor. N. Bacalso St. & P. Del Rosario Ext., Sambag 1 (Pob.) 6000 Cebu City (Capital) Cebu Philippines",
+    contact: "(0917-102-5671)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
       "https://www.google.com/maps/place/10%C2%B017'34.3%22N+123%C2%B053'49.9%22E/@10.29285,123.897206,18z/data=!4m4!3m3!8m2!3d10.2928495!4d123.8972062?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDQyNy4xIKXMDSoASAFQAw%3D%3D",
@@ -168,7 +168,8 @@ const Branches: React.FC = () => {
             <img
               src={branch.image}
               alt={`${branch.name} image`}
-              className="w-full h-48 object-cover rounded-lg mb-4 transition-transform duration-300 transform hover:scale-105"
+             className="w-full h-48 object-contain rounded-lg mb-4 transition-transform duration-300 transform hover:scale-105 "
+
             />
             <h2 className="text-2xl font-semibold text-green-600">{branch.name}</h2>
             <p className="text-lg text-gray-700 mt-2">{branch.address}</p>
