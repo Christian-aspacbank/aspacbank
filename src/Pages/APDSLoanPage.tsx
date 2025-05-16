@@ -43,7 +43,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onC
               Contact ASPAC Bank
             </h2>
             <p className="text-center text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed font-light tracking-wide">
-              For inquiries or assistance, reach out to us via the following numbers:
+              For inquiries or assistance, reach out to us via the following:
             </p>
             <div className="text-center mb-6 space-y-2">
               <p className="text-xl text-green-700 font-semibold tracking-tight">
@@ -51,6 +51,12 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onC
               </p>
               <p className="text-xl text-green-700 font-semibold tracking-tight">
                 <span className="font-medium">Mobile:</span> 0917-127-7796
+              </p>
+              <p className="text-xl text-green-700 font-semibold tracking-tight">
+                <span className="font-medium">Email:</span>{' '}
+                <a href="mailto:aspacbank@aspacbank.com" className="underline hover:text-green-800">
+                  aspacbank@aspacbank.com
+                </a>
               </p>
             </div>
             <div className="flex justify-center">

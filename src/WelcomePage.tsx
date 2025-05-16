@@ -177,6 +177,7 @@ const WelcomePage: React.FC = () => {
         <p className="text-gray-800 text-center font-medium">
           Landline: 345-0929, 345-0930<br />
           Mobile: 0917-127-7796
+          Email: <a href="mailto:aspacbank@aspacbank.com" className="text-green-700 hover:underline">aspacbank@aspacbank.com</a>
         </p>
 
         <div className="mt-8 text-center">
