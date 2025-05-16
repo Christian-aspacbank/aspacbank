@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-white py-4 px-6 flex justify-between items-center relative">
+    <nav className="bg-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-md">
       {/* Logo - Always Visible on All Devices */}
       <Link
         to="/"
