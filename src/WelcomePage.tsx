@@ -237,7 +237,7 @@ const WelcomePage: React.FC = () => {
       {/* Community First */}
       <div className="bg-white rounded-3xl p-6 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
         <img
-          src="/images/community-first.jpg"
+          src="/homecommunityfirst.jpg"
           alt="Community First"
           className="w-full h-60 object-cover rounded-2xl mb-6"
         />
