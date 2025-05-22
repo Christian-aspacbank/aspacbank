@@ -16,7 +16,9 @@ const Navbar: React.FC = () => {
           alt="ASPAC Bank Logo"
           className="w-10 h-8 object-contain"
         />
-        <span className="text-lg min-w-max">ASPAC Bank</span>
+        <span className="text-xl font-semibold min-w-max">ASPAC Bank</span>
+
+
       </Link>
 
       {/* Menu Items */}

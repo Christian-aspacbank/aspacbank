@@ -53,7 +53,7 @@ const branches = [
     contact: "('0917-130-6492)",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
-      "https://www.google.com/maps/place/10%C2%B017'34.3%22N+123%C2%B053'49.9%22E/@10.29285,123.897206,18z/data=!4m4!3m3!8m2!3d10.2928495!4d123.8972062?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDQyNy4xIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/ASPAC+Bank/@10.2927732,123.8973104,3a,75y,281.38h,94.17t/data=!3m7!1e1!3m5!1sNt-fihLNBwLzDwTf7CvzPA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-4.167477870351817%26panoid%3DNt-fihLNBwLzDwTf7CvzPA%26yaw%3D281.37609069651853!7i16384!8i8192!4m15!1m8!3m7!1s0x33a99be4af69c07d:0x4f979047483fe095!2sEsca%C3%B1o+St,+Cebu+City,+6000+Cebu!3b1!8m2!3d10.2921404!4d123.897386!16s%2Fg%2F1thy_67y!3m5!1s0x33a99be35383e5e5:0x1ce69914b6a71a2a!8m2!3d10.2928009!4d123.897125!16s%2Fg%2F11bwnxwdzr?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D",
     image: "/.jpg",
   },
 
