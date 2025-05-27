@@ -76,30 +76,7 @@ const WelcomePage: React.FC = () => {
 </SwiperSlide>
 
 
-<SwiperSlide>
-  <div
-    className="slide h-screen w-full relative bg-cover bg-center"
-    style={{ backgroundImage: 'url(Cebuana.jpg)' }}
-  >
-    <div className="bg-black bg-opacity-15 p-4 rounded-md absolute left-4 top-[60%] transform -translate-y-1/2 w-full sm:left-16 sm:top-[70%] sm:w-auto">
-      <h1 className="text-yellow-400 text-2xl sm:text-4xl font-bold leading-tight sm:leading-normal">
-        Cebuana Lhuillier Authorized Agent
-      </h1>
-      <p className="text-white text-base sm:text-lg mt-2">
-        Convenient financial services available through our Cebuana Lhuillier partnership.
-      </p>
-      <button
-        className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
-        style={{ backgroundColor: '#27ae60' }}
-        onClick={handleExploreClick} // ✅ Use the function here
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1e8449')}
-        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#27ae60')}
-      >
-        Explore More
-      </button>
-    </div>
-  </div>
-</SwiperSlide>
+
 
 <SwiperSlide>
   <div
@@ -197,7 +174,7 @@ const WelcomePage: React.FC = () => {
   )}
 </AnimatePresence>
 
- <div className="w-full px-6 py-10 bg-gradient-to-br from-yellow-50 to-white">
+ <div className="w-full px-6 py-10 bg-gray-100">
   <div className="max-w-6xl mx-auto text-center">
     <h2 className="text-4xl font-extrabold text-green-800 mb-6 tracking-tight">
       Your Trusted Financial Partner
