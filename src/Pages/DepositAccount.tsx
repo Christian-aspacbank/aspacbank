@@ -1,7 +1,9 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DepositAccount = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
@@ -63,44 +65,43 @@ const DepositAccount = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-  {[
-    {
-      title: "Power Savings Account",
-      description: "Maximize your savings potential with our Power Savings Account.",
-      image: "/Powersavings.jpg",
-    },
-    {
-      title: "Power Checking Account",
-      description: "Keep your money accessible and secure.",
-      image: "/Power Checking Account.jpg", // Add the image path here later
-    },
-    {
-      title: "Time Deposit",
-      description: "Secure your funds for a fixed term.",
-      image: "/Time Deposit.jpg", // Add the image path here later
-    },
-    {
-      title: "Special Savings",
-      description: "Achieve your financial goals.",
-      image: "/Special Savings.jpg", // Add the image path here later
-    },
-  ].map((feature, index) => (
-    <div key={index} className="bg-green-50 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-green-200">
-      {feature.image && (
-        <div className="mb-4">
-          <img
-            src={feature.image}
-            alt={feature.title}
-            className="w-full h-40 object-cover rounded-lg mb-4"
-          />
-        </div>
-      )}
-      <h3 className="text-xl font-semibold text-green-700 mb-2">{feature.title}</h3>
-      <p className="text-gray-700 text-sm">{feature.description}</p>
-    </div>
-  ))}
-</div>
-
+            {[
+              {
+                title: "Power Savings Account",
+                description: "Maximize your savings potential with our Power Savings Account.",
+                image: "/Powersavings.jpg",
+              },
+              {
+                title: "Power Checking Account",
+                description: "Keep your money accessible and secure.",
+                image: "/Power Checking Account.jpg",
+              },
+              {
+                title: "Time Deposit",
+                description: "Secure your funds for a fixed term.",
+                image: "/Time Deposit.jpg",
+              },
+              {
+                title: "Special Savings",
+                description: "Achieve your financial goals.",
+                image: "/Special Savings.jpg",
+              },
+            ].map((feature, index) => (
+              <div key={index} className="bg-green-50 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-green-200">
+                {feature.image && (
+                  <div className="mb-4">
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      className="w-full h-40 object-cover rounded-lg mb-4"
+                    />
+                  </div>
+                )}
+                <h3 className="text-xl font-semibold text-green-700 mb-2">{feature.title}</h3>
+                <p className="text-gray-700 text-sm">{feature.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -110,13 +111,53 @@ const DepositAccount = () => {
         <p className="text-lg max-w-xl mx-auto mb-8">
           Start saving today with ASPAC Bank. Enjoy hassle-free banking with the best services.
         </p>
-        <a
-          href="/contact-us"
+        <button
+          onClick={() => setShowModal(true)}
           className="inline-block bg-white text-green-600 font-semibold py-4 px-10 rounded-full shadow-md hover:bg-green-100 hover:scale-105 transition-all duration-300 ease-in-out"
         >
           Contact Us to Get Started
-        </a>
+        </button>
       </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              className="bg-white rounded-xl p-8 max-w-md w-full relative"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Contact Us</h2>
+
+              <p className="text-gray-700 mb-4 text-center">
+                For inquiries or assistance, reach out to us via the following numbers:
+              </p>
+              <p className="text-gray-800 text-center font-medium">
+                Landline: 345-0929, 345-0930<br />
+                Mobile: 0917-127-7796
+              </p>
+
+              <div className="mt-8 text-center">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
