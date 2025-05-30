@@ -158,7 +158,7 @@ const WelcomePage: React.FC = () => {
         <p className="text-gray-800 text-center font-medium">
           Landline: 345-0929, 345-0930<br />
           Mobile: 0917-127-7796
-          Email: <a href="mailto:aspacbank@aspacbank.com" className="text-green-700 hover:underline">aspacbank@aspacbank.com</a>
+          
         </p>
 
         <div className="mt-8 text-center">
@@ -186,7 +186,7 @@ const WelcomePage: React.FC = () => {
     {/* Core Features Section */}
     <div className="grid lg:grid-cols-3 gap-10">
       {/* Secure Banking */}
-      <div className="bg-white rounded-3xl p-6 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+      <div className="bg-white rounded-3xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
         <img
           src="/homesecure.jpg"
           alt="Secure Banking"
@@ -199,7 +199,7 @@ const WelcomePage: React.FC = () => {
       </div>
 
       {/* Personalized Service */}
-      <div className="bg-white rounded-3xl p-6 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+      <div className="bg-white rounded-3xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
         <img
           src="/homepersonalized.jpg"
           alt="Personalized Service"
@@ -212,7 +212,7 @@ const WelcomePage: React.FC = () => {
       </div>
 
       {/* Community First */}
-      <div className="bg-white rounded-3xl p-6 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+      <div className="bg-white rounded-3xl p-3 shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
         <img
           src="/homecommunityfirst.jpg"
           alt="Community First"

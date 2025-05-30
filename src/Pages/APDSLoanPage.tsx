@@ -52,12 +52,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onC
               <p className="text-xl text-green-700 font-semibold tracking-tight">
                 <span className="font-medium">Mobile:</span> 0917-127-7796
               </p>
-              <p className="text-xl text-green-700 font-semibold tracking-tight">
-                <span className="font-medium">Email:</span>{' '}
-                <a href="mailto:aspacbank@aspacbank.com" className="underline hover:text-green-800">
-                  aspacbank@aspacbank.com
-                </a>
-              </p>
+          
             </div>
             <div className="flex justify-center">
               <button

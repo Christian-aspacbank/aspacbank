@@ -1,15 +1,65 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import { Pagination, Autoplay, Navigation, EffectFade } from "swiper/modules";
 import Testimonials from "../components/Testimonials";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+
+interface FeatureItem {
+  title: string;
+  image: string;
+  description: string;
+}
+
+const firstSwiperData: FeatureItem[] = [
+  {
+    title: "Fast Loan Processing",
+    image: "/Fastloanprocessing.jpg",
+    description:
+      "Get your loan approved within 24 hours with our streamlined and customer-friendly process.",
+  },
+  {
+    title: "Secure Transactions",
+    image: "/secure-transactions.jpg",
+    description:
+      "With our in-branch systems and rigorous verification steps, your transactions are safe and reliable.",
+  },
+  {
+    title: "Customer Support",
+    image: "/customer-support.jpg",
+    description:
+      "Our dedicated team is ready to assist you through call, text, or branch visits from Monday to Friday.",
+  },
+];
+
+const secondSwiperData: FeatureItem[] = [
+  {
+    title: "Personalized Banking Experience",
+    image: "", // to be provided
+    description:
+      "We understand your needs. Our staff provides tailored financial solutions to meet your goals.",
+  },
+  {
+    title: "Community-Focused Services",
+    image: "", // to be provided
+    description:
+      "We prioritize local development, supporting small businesses and educational initiatives through specialized loans.",
+  },
+  {
+    title: "Accessible Branch Network",
+    image: "", // to be provided
+    description:
+      "Strategically located branches across the region to bring banking closer to you.",
+  },
+];
 
 const Features: React.FC = () => {
   const swiperOptions = {
-    modules: [Navigation, Pagination, Autoplay],
+    modules: [Navigation, Pagination, Autoplay, EffectFade],
+    effect: "fade",
     navigation: {
       nextEl: ".custom-swiper-next",
       prevEl: ".custom-swiper-prev",
@@ -19,42 +69,6 @@ const Features: React.FC = () => {
     spaceBetween: 30,
     slidesPerView: 1,
   };
-
-  const firstSwiperData = [
-    {
-      title: "Fast Loan Processing",
-      image: "/Fastloanprocessing.jpg",
-      description: "Get your loan approved within 24 hours with our streamlined and customer-friendly process.",
-    },
-    {
-      title: "Secure Transactions",
-      image: "/secure-transactions.jpg",
-      description: "With our in-branch systems and rigorous verification steps, your transactions are safe and reliable.",
-    },
-    {
-      title: "Customer Support",
-      image: "/customer-support.jpg",
-      description: "Our dedicated team is ready to assist you through call, text, or branch visits from Monday to Friday.",
-    },
-  ];
-
-  const secondSwiperData = [
-    {
-      title: "Personalized Banking Experience",
-      image: "", // to be provided
-      description: "We understand your needs. Our staff provides tailored financial solutions to meet your goals.",
-    },
-    {
-      title: "Community-Focused Services",
-      image: "", // to be provided
-      description: "We prioritize local development, supporting small businesses and educational initiatives through specialized loans.",
-    },
-    {
-      title: "Accessible Branch Network",
-      image: "", // to be provided
-      description: "Strategically located branches across the region to bring banking closer to you.",
-    },
-  ];
 
   return (
     <motion.div
@@ -83,7 +97,7 @@ const Features: React.FC = () => {
       <div className="w-full px-6 py-16 flex justify-end">
         <div className="w-full md:w-[75%] relative">
           <Swiper {...swiperOptions}>
-            {firstSwiperData.map((feature, index) => (
+            {firstSwiperData.map((feature: FeatureItem, index: number) => (
               <SwiperSlide key={index}>
                 <motion.div className="relative rounded-2xl overflow-hidden h-[550px] shadow-lg border border-green-100">
                   <img
@@ -93,7 +107,9 @@ const Features: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-black/40 z-10" />
                   <div className="relative z-20 p-10 h-full flex flex-col justify-end text-white">
-                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">{feature.title}</h2>
+                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">
+                      {feature.title}
+                    </h2>
                     <p className="text-lg drop-shadow-sm">{feature.description}</p>
                   </div>
                 </motion.div>
@@ -109,7 +125,7 @@ const Features: React.FC = () => {
       <div className="w-full px-6 pb-16 flex justify-start">
         <div className="w-full md:w-[75%] relative">
           <Swiper {...swiperOptions}>
-            {secondSwiperData.map((feature, index) => (
+            {secondSwiperData.map((feature: FeatureItem, index: number) => (
               <SwiperSlide key={index}>
                 <motion.div className="relative rounded-2xl overflow-hidden h-[550px] shadow-lg border border-green-100">
                   <img
@@ -119,7 +135,9 @@ const Features: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-black/40 z-10" />
                   <div className="relative z-20 p-10 h-full flex flex-col justify-end text-white">
-                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">{feature.title}</h2>
+                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">
+                      {feature.title}
+                    </h2>
                     <p className="text-lg drop-shadow-sm">{feature.description}</p>
                   </div>
                 </motion.div>
@@ -135,6 +153,7 @@ const Features: React.FC = () => {
       <div className="mt-12">
         <Testimonials />
       </div>
+      <br></br>
     </motion.div>
   );
 };
