@@ -1,12 +1,6 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Navigation, EffectFade } from "swiper/modules";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Testimonials from "../components/Testimonials";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
 
 interface FeatureItem {
   title: string;
@@ -14,7 +8,7 @@ interface FeatureItem {
   description: string;
 }
 
-const firstSwiperData: FeatureItem[] = [
+const features: FeatureItem[] = [
   {
     title: "Fast Loan Processing",
     image: "/Fastloanprocessing.jpg",
@@ -33,127 +27,129 @@ const firstSwiperData: FeatureItem[] = [
     description:
       "Our dedicated team is ready to assist you through call, text, or branch visits from Monday to Friday.",
   },
-];
-
-const secondSwiperData: FeatureItem[] = [
   {
     title: "Personalized Banking Experience",
-    image: "", // to be provided
+    image: "/personalized.jpg",
     description:
       "We understand your needs. Our staff provides tailored financial solutions to meet your goals.",
   },
   {
     title: "Community-Focused Services",
-    image: "", // to be provided
+    image: "/community.jpg",
     description:
-      "We prioritize local development, supporting small businesses and educational initiatives through specialized loans.",
+      "We prioritize local development, supporting small businesses and education through loans.",
   },
   {
     title: "Accessible Branch Network",
-    image: "", // to be provided
+    image: "/branch-network.jpg",
     description:
-      "Strategically located branches across the region to bring banking closer to you.",
+      "Strategically located branches across the region bring banking closer to you.",
   },
 ];
 
+const FeatureCard: React.FC<FeatureItem> = ({ title, image, description }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    viewport={{ once: true }}
+    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col"
+  >
+    <img src={image} alt={title} className="w-full h-64 object-cover" />
+    <div className="p-6 flex flex-col justify-between flex-1">
+      <div>
+        <h3 className="text-xl font-semibold text-green-700 mb-2">{title}</h3>
+        <p className="text-gray-600 text-base">{description}</p>
+      </div>
+    </div>
+  </motion.div>
+);
+
 const Features: React.FC = () => {
-  const swiperOptions = {
-    modules: [Navigation, Pagination, Autoplay, EffectFade],
-    effect: "fade",
-    navigation: {
-      nextEl: ".custom-swiper-next",
-      prevEl: ".custom-swiper-prev",
-    },
-    pagination: { clickable: true },
-    autoplay: { delay: 5000 },
-    spaceBetween: 30,
-    slidesPerView: 1,
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="min-h-screen bg-gray-100 overflow-x-hidden pt-0"
+      className="min-h-screen bg-gray-50 pt-0"
     >
-      {/* Header Section */}
-      <div className="relative min-h-[400px] flex items-center justify-center px-12">
+      {/* Header */}
+      <div className="relative h-[400px] flex items-center justify-center">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/features3.jpg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+          style={{ backgroundImage: "url('/features3.jpg')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/50" />
-        <h1 className="relative text-4xl md:text-5xl font-bold text-white drop-shadow-xl">
+        <div className="absolute inset-0 bg-black/50" />
+        <h1 className="relative text-4xl md:text-5xl font-bold text-white drop-shadow-xl text-center">
           Our Features
         </h1>
       </div>
 
-      {/* First Swiper */}
-      <div className="w-full px-6 py-16 flex justify-end">
-        <div className="w-full md:w-[75%] relative">
-          <Swiper {...swiperOptions}>
-            {firstSwiperData.map((feature: FeatureItem, index: number) => (
-              <SwiperSlide key={index}>
-                <motion.div className="relative rounded-2xl overflow-hidden h-[550px] shadow-lg border border-green-100">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 z-10" />
-                  <div className="relative z-20 p-10 h-full flex flex-col justify-end text-white">
-                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">
-                      {feature.title}
-                    </h2>
-                    <p className="text-lg drop-shadow-sm">{feature.description}</p>
-                  </div>
-                </motion.div>
-              </SwiperSlide>
-            ))}
-            <div className="custom-swiper-next text-green-600 hover:text-yellow-500 text-3xl cursor-pointer absolute top-1/2 right-0 z-30 px-4" />
-            <div className="custom-swiper-prev text-green-600 hover:text-yellow-500 text-3xl cursor-pointer absolute top-1/2 left-0 z-30 px-4" />
-          </Swiper>
+      {/* Features Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <FeatureCard key={index} {...feature} />
+          ))}
+        </div>
+
+        {/* Single CTA Button */}
+        <div className="mt-12 flex justify-center">
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-yellow-400 text-green-900 font-semibold px-8 py-4 rounded-xl shadow-md hover:bg-yellow-500 transition duration-300 text-lg"
+          >
+            Apply Now
+          </button>
         </div>
       </div>
 
-      {/* Second Swiper */}
-      <div className="w-full px-6 pb-16 flex justify-start">
-        <div className="w-full md:w-[75%] relative">
-          <Swiper {...swiperOptions}>
-            {secondSwiperData.map((feature: FeatureItem, index: number) => (
-              <SwiperSlide key={index}>
-                <motion.div className="relative rounded-2xl overflow-hidden h-[550px] shadow-lg border border-green-100">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 z-10" />
-                  <div className="relative z-20 p-10 h-full flex flex-col justify-end text-white">
-                    <h2 className="text-3xl font-bold mb-2 text-yellow-400 drop-shadow-md">
-                      {feature.title}
-                    </h2>
-                    <p className="text-lg drop-shadow-sm">{feature.description}</p>
-                  </div>
-                </motion.div>
-              </SwiperSlide>
-            ))}
-            <div className="custom-swiper-next text-green-600 hover:text-yellow-500 text-3xl cursor-pointer absolute top-1/2 right-0 z-30 px-4" />
-            <div className="custom-swiper-prev text-green-600 hover:text-yellow-500 text-3xl cursor-pointer absolute top-1/2 left-0 z-30 px-4" />
-          </Swiper>
-        </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="mt-12">
+      {/* Testimonials */}
+      <div className="bg-white py-10">
         <Testimonials />
       </div>
-      <br></br>
+
+      {/* Contact Us Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              className="bg-white rounded-xl p-8 max-w-md w-full relative"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">
+                Contact Us
+              </h2>
+              <p className="text-gray-700 mb-4 text-center">
+                For inquiries or assistance, reach out to us via the following numbers:
+              </p>
+              <p className="text-gray-800 text-center font-medium">
+                Landline: 345-0929, 345-0930<br />
+                Mobile: 0917-127-7796
+              </p>
+              <div className="mt-8 text-center">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

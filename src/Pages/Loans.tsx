@@ -60,19 +60,19 @@ const Loans: React.FC = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Image Banner */}
-      <div
-        className="w-full h-64 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=1950&q=80')",
-        }}
-      >
-        <div className="bg-black bg-opacity-50 h-full flex items-center justify-center">
-          <h1 className="text-white text-4xl sm:text-5xl font-bold drop-shadow-lg">
-            ASPAC Loan Services
-          </h1>
-        </div>
-      </div>
+     <div
+  className="w-full h-64 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/loans.jpg')", // Make sure the path is correct
+  }}
+>
+  <div className="bg-black bg-opacity-50 h-full flex items-center justify-center">
+    <h1 className="text-white text-4xl sm:text-5xl font-bold drop-shadow-lg">
+      ASPAC Loan Services
+    </h1>
+  </div>
+</div>
+
 
       {/* Content Section */}
       <div className="px-6 py-16 max-w-6xl mx-auto text-center">
