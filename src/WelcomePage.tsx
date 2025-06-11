@@ -12,9 +12,7 @@ const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-  const handleExploreClick = () => {
-    navigate('/cebuana-services'); 
-  };
+
 
     const handleKnowClick = () => {
     navigate('/explore'); 
