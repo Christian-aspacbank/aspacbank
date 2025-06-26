@@ -96,7 +96,7 @@ const branches = [
 {
     name: "ASPAC Bank Consolacion",
     address:
-      "ADM Commercial Bldg. Cansaga 6001 Consolacion Cebu Philippines",
+      "ASPAC Bldg. Sta Lucia Town Center, Poblacion Oriental Consolacion, Cebu",
     contact: "0917-113-8143",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
     mapUrl:
