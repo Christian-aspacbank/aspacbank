@@ -99,8 +99,7 @@ const branches = [
       "ASPAC Bldg. Sta Lucia Town Center, Poblacion Oriental Consolacion, Cebu",
     contact: "0917-113-8143",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
-    mapUrl:
-      "9XF5+GF Consolacion, Cebu",
+    mapUrl:"https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.3737972,123.9584701,54m/data=!3m1!1e3!4m10!1m2!2m1!1saspac+consolacion!3m6!1s0x33a9a2a4cd99fce3:0xa5a2571b2b7d38ae!8m2!3d10.3738098!4d123.9587104!15sChFhc3BhYyBjb25zb2xhY2lvbpIBBGJhbmuqATkQATIeEAEiGjEOMPgLsdqQV96Rjn3kYD3CIgctEicEuk0tMhUQAiIRYXNwYWMgY29uc29sYWNpb27gAQA!16s%2Fg%2F1hc5bgxgw?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D",
        images: [
   "/assets/branchesimages/cns/cns1.jpg",
    "/assets/branchesimages/cns/cns2.jpg",
