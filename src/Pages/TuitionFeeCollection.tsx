@@ -83,7 +83,7 @@ const TuitionFeeCollection: React.FC = () => {
     <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">Partner</span>
     <div className="mb-4 overflow-hidden rounded-lg">
       <img
-        src="UC.jpg"
+        src="assets/tuitionpaymentphotos/UC.jpg"
         alt="University of Cebu"
         className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
       />
@@ -102,7 +102,7 @@ const TuitionFeeCollection: React.FC = () => {
     <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">Partner</span>
     <div className="mb-4 overflow-hidden rounded-lg">
       <img
-        src="USC.jpg"
+        src="assets/tuitionpaymentphotos/USC.jpg"
         alt="University of San Carlos"
         className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
       />
@@ -119,7 +119,7 @@ const TuitionFeeCollection: React.FC = () => {
     <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">Partner</span>
     <div className="mb-4 overflow-hidden rounded-lg">
       <img
-        src="CTSC.jpg"
+        src="assets/tuitionpaymentphotos/CTSC.jpg"
         alt="College of Technological Sciences"
         className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
       />
@@ -133,7 +133,7 @@ const TuitionFeeCollection: React.FC = () => {
     <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">Partner</span>
     <div className="mb-4 overflow-hidden rounded-lg">
       <img
-        src="USJR.jpg"
+        src="assets/tuitionpaymentphotos/USJR.jpg"
         alt="University of San Jose Recoletos"
         className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
       />
@@ -147,7 +147,7 @@ const TuitionFeeCollection: React.FC = () => {
     <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">Partner</span>
     <div className="mb-4 overflow-hidden rounded-lg">
       <img
-        src="CDU.jpg"
+        src="assets/tuitionpaymentphotos/CDU.jpg" 
         alt="Cebu Doctors University"
         className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
       />
