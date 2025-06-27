@@ -27,17 +27,16 @@ const WelcomePage: React.FC = () => {
   iconColor: string;
   to?: string;
 };
-  const news: NewsItem[] = [
+ const news: NewsItem[] = [
   {
-    title: "New Branch Opening in Consolacion",
+    title: "ASPAC Bank Consolacion Moves to a New Building",
     content:
-      "We are excited to announce the opening of our newest branch in Consolacion, Cebu. Visit us and enjoy exclusive promotions at our new location.",
+      "We are pleased to announce that ASPAC Bank Consolacion is now operating in its new building at Sta. Lucia Town Center, Poblacion Oriental. Visit our upgraded location for better accessibility and improved customer experience.",
     label: "Branch Update",
     Icon: FaMapMarkerAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>,
     iconColor: "text-green-600",
     to: "/advisories", // will render as Link
   },
- 
 ];
 
   useEffect(() => {
