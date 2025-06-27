@@ -308,7 +308,8 @@ const WelcomePage: React.FC = () => {
     ease: "easeOut",
   }}
   viewport={{ once: true, amount: 0.3 }}
-  className="relative bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group flex flex-col md:flex-row gap-6 h-96"
+  className="relative bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group flex flex-col md:flex-row gap-6 min-h-[24rem]"
+
 >
   {/* Left: Text Content */}
   <div className="w-full md:w-1/2 flex flex-col justify-center">
@@ -331,16 +332,17 @@ const WelcomePage: React.FC = () => {
   </div>
 
   {/* Right: Image */}
- <div className="w-full md:w-1/2 h-full">
+<div className="w-full md:w-1/2 h-64 md:h-full">
   <video
-    src="/assets/vid/cnsvid3.webm" // Replace this with your actual path
-    className="h-full w-full object-cover rounded-xl"
+    src="/assets/vid/cnsvid3.webm"
+    className="w-full h-full object-cover rounded-xl"
     autoPlay
     muted
     loop
     playsInline
   />
 </div>
+
 
 </motion.article>
 
