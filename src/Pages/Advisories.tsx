@@ -1,75 +1,83 @@
 import React from "react";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+import { motion } from "framer-motion";
+import { FaMapMarkerAlt } from "react-icons/fa";
+
+type Advisory = {
+  title: string;
+  date: string;
+  content: string[];
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  iconColor: string;
+  googleMapsUrl?: string;
+};
+
+const advisory: Advisory = {
+  title: "New Branch Location – ASPAC Bank Consolacion",
+  date: "Effective Immediately",
+  content: [
+    "We are pleased to inform you that ASPAC Bank Consolacion is now operating at its new location:",
+    "📍 Address: ASPAC Bldg., Sta. Lucia Town Center, Poblacion Oriental, Consolacion, Cebu.",
+    "📌 Landmark: Located across the parking area of CityMall Consolacion.",
+    "🧭 Coordinates: 10.3739017, 123.9588289",
+    "We look forward to serving you better at our new location.",
+  ],
+  Icon: FaMapMarkerAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>,
+  iconColor: "text-red-600",
+  googleMapsUrl: "https://maps.google.com/?q=10.373901718957983,123.95882888273896",
+};
 
 const Advisories: React.FC = () => {
+  const { title, date, content, Icon, iconColor, googleMapsUrl } = advisory;
+
   return (
     <motion.div
-      initial={{ opacity: 0 }} // Start with 0 opacity
-      animate={{ opacity: 1 }} // Animate to full opacity
-      transition={{ duration: 1 }} // 1 second duration for fade-in effect
-      className="container mx-auto px-4 py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="container mx-auto px-4 py-16"
     >
-      <motion.h1
-        initial={{ y: -50, opacity: 0 }} // Title starts off-screen (above)
-        animate={{ y: 0, opacity: 1 }} // Animate the title to its final position
-        transition={{ duration: 0.8 }}
-        className="text-3xl font-bold text-green-600 mb-4"
-      >
-        Advisories
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5 }} // Fade in after a slight delay
-        className="text-black mb-4"
-      >
-        Welcome to the Advisories page! Here, you will find important updates,
-        notifications, and advisories from ASPAC Bank.
-      </motion.p>
-
-      {/* Section for Latest Updates with animation */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }} // Delay the appearance of this section
-        className="bg-white p-6 rounded-lg shadow-lg mb-8"
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-10"
       >
-        <h2 className="text-xl font-semibold mb-2">Latest Update</h2>
-        <p>
-          Please be advised that the bank will be closed on the following dates
-          for the holidays. Check back here for any further updates.
+        <h1 className="text-4xl font-bold text-green-700 mb-4">Important Advisory</h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Get the latest announcement from ASPAC Bank regarding our branch operations.
         </p>
       </motion.div>
 
-      {/* Additional advisory content */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }} // Staggered appearance
-        className="bg-white p-6 rounded-lg shadow-lg mb-8"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="bg-white p-8 rounded-2xl shadow-xl max-w-3xl mx-auto border"
       >
-        <h2 className="text-xl font-semibold mb-2">Scheduled Maintenance</h2>
-        <p>
-          Our online banking system will undergo scheduled maintenance from
-          12:00 AM to 4:00 AM. During this time, online banking services may be
-          temporarily unavailable. We apologize for any inconvenience caused.
-        </p>
-      </motion.div>
+        <div className="flex items-center mb-4">
+          <Icon className={`text-2xl mr-3 ${iconColor}`} />
+          <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
+        </div>
+        <p className="text-sm text-gray-500 mb-4">{date}</p>
 
-      {/* Another advisory section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
-        className="bg-white p-6 rounded-lg shadow-lg mb-8"
-      >
-        <h2 className="text-xl font-semibold mb-2">Security Update</h2>
-        <p>
-          Please ensure that you update your login credentials regularly for
-          enhanced security. Our team is always working to safeguard your
-          accounts and personal information.
-        </p>
+        <div className="text-gray-700 text-base leading-relaxed space-y-3">
+          {content.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
+
+        {googleMapsUrl && (
+          <div className="mt-6">
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow transition"
+            >
+              View on Google Maps
+            </a>
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );
