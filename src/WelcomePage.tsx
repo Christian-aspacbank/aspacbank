@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { FaMapMarkerAlt} from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,9 +12,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState(false);
-
-
 
     const handleKnowClick = () => {
     navigate('/explore'); 
@@ -298,19 +297,20 @@ const WelcomePage: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
       {news.map(({ title, content, label, Icon, iconColor, to }, index) => (
         
-      <motion.article
+     <motion.article
   key={index}
-  initial={{ opacity: 0, x: -30 }}
+  initial={{ opacity: 0, x: -20 }}
   whileInView={{ opacity: 1, x: 0 }}
   transition={{
-    duration: 1.2,
+    duration: 1.4,
     delay: index * 0.2,
-    ease: "easeOut",
+    ease: [0.25, 0.1, 0.25, 1], // smooth and natural easing
   }}
   viewport={{ once: true, amount: 0.3 }}
   className="relative bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group flex flex-col md:flex-row gap-6 min-h-[24rem]"
-
 >
+
+
   {/* Left: Text Content */}
   <div className="w-full md:w-1/2 flex flex-col justify-center">
     <div className="flex items-center gap-3 mb-4">
@@ -322,12 +322,15 @@ const WelcomePage: React.FC = () => {
     </h3>
     <p className="text-gray-600 text-sm mb-6 leading-relaxed">{content}</p>
     {to && (
-      <Link
-        to={to}
-        className="inline-block text-sm text-green-700 hover:text-green-900 font-semibold"
-      >
-        View Full Advisory →
-      </Link>
+
+     <button
+  onClick={() => navigate(to)}
+  className="text-sm bg-green-600 hover:bg-green-700 text-white font-medium px-3 py-1.5 rounded-md shadow transition w-auto"
+>
+  View Full Advisory 
+</button>
+
+
     )}
   </div>
 
