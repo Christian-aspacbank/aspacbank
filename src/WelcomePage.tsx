@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom"; 
+import { FaMapMarkerAlt} from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -18,7 +20,26 @@ const WelcomePage: React.FC = () => {
     navigate('/explore'); 
   };
   
-  
+  type NewsItem = {
+  title: string;
+  content: string;
+  label: string;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  iconColor: string;
+  to?: string;
+};
+  const news: NewsItem[] = [
+  {
+    title: "New Branch Opening in Consolacion",
+    content:
+      "We are excited to announce the opening of our newest branch in Consolacion, Cebu. Visit us and enjoy exclusive promotions at our new location.",
+    label: "Branch Update",
+    Icon: FaMapMarkerAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>,
+    iconColor: "text-green-600",
+    to: "/advisories", // will render as Link
+  },
+ 
+];
 
   useEffect(() => {
     setTimeout(() => {
@@ -262,22 +283,71 @@ const WelcomePage: React.FC = () => {
 </section>
 
 {/* Latest News Section */}
-<section className="bg-green-50 py-16">
-  <div className="max-w-5xl mx-auto px-6">
-    <h2 className="text-3xl font-bold text-green-800 mb-10 text-center">Latest News & Updates</h2>
-    <div className="space-y-8">
-      <article className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300">
-        <h3 className="text-xl font-semibold text-green-800 mb-2">New Branch Opening in Consolacion</h3>
-        <p className="text-gray-600 text-sm">
-          We are excited to announce the opening of our newest branch in Consolacion. Visit us for exclusive promotions.
-        </p>
-      </article>
-      <article className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300">
-        <h3 className="text-xl font-semibold text-green-800 mb-2">Upgrade Your Savings Account Today</h3>
-        <p className="text-gray-600 text-sm">
-          Take advantage of our improved interest rates and benefits by upgrading your savings account this May.
-        </p>
-      </article>
+<section
+  className="py-20 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/latestupdates.webp')", // replace with your actual image path
+  }}
+>
+  <div className="bg-transparent max-w-6xl mx-auto px-6 py-12 rounded-xl">
+
+    <h2 className="text-4xl font-bold text-green-800 mb-12 text-center">
+      Latest News & Updates
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+      {news.map(({ title, content, label, Icon, iconColor, to }, index) => (
+        
+      <motion.article
+  key={index}
+  initial={{ opacity: 0, x: -30 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  transition={{
+    duration: 1.2,
+    delay: index * 0.2,
+    ease: "easeOut",
+  }}
+  viewport={{ once: true, amount: 0.3 }}
+  className="relative bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group flex flex-col md:flex-row gap-6 h-96"
+>
+  {/* Left: Text Content */}
+  <div className="w-full md:w-1/2 flex flex-col justify-center">
+    <div className="flex items-center gap-3 mb-4">
+      <Icon className={`text-xl ${iconColor}`} />
+      <span className="text-sm font-medium text-gray-500">{label}</span>
+    </div>
+    <h3 className="text-2xl font-semibold text-green-900 mb-3 group-hover:underline">
+      {title}
+    </h3>
+    <p className="text-gray-600 text-sm mb-6 leading-relaxed">{content}</p>
+    {to && (
+      <Link
+        to={to}
+        className="inline-block text-sm text-green-700 hover:text-green-900 font-semibold"
+      >
+        View Full Advisory →
+      </Link>
+    )}
+  </div>
+
+  {/* Right: Image */}
+ <div className="w-full md:w-1/2 h-full">
+  <video
+    src="/assets/vid/cnsvid3.webm" // Replace this with your actual path
+    className="h-full w-full object-cover rounded-xl"
+    autoPlay
+    muted
+    loop
+    playsInline
+  />
+</div>
+
+</motion.article>
+
+
+
+
+      ))}
     </div>
   </div>
 </section>
