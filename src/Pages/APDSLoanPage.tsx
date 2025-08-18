@@ -100,30 +100,32 @@ const APDSLoanPage: React.FC = () => {
 
       {/* Hero Section */}
       <div
-        className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16"
+        className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16"
         style={{ background: "linear-gradient(135deg, #27ae60, #1e8449)" }}
       >
-        <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-5 sm:mb-8 text-sm sm:text-base md:text-lg">
+        <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-6 sm:mb-8 text-base sm:text-lg md:text-xl">
           The Automatic Payroll Deduction Scheme (APDS) Loan is designed
           specifically for hardworking teachers and school personnel. Fuel your
           educational mission with our flexible loan options.
         </p>
 
         {/* Actions */}
-        <div className="mx-auto flex w-full max-w-md flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4">
-          {/* Download Button */}
+        <div className="mx-auto flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+          {/* Download Button (uses native download) */}
           <a
             href="/files/ASPAC_Salary_loan_form.pdf"
             download="ASPAC_Salary_loan_form.pdf"
-            className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-full shadow-md transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300 text-sm sm:text-base"
+            className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+            aria-label="Download Salary Loan Form (PDF)"
           >
             Download Form
           </a>
 
           {/* Call Now Button */}
           <button
-            className="w-full sm:w-auto bg-yellow-500 text-green-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-full shadow-md transition duration-300 hover:scale-105 hover:bg-yellow-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400 text-sm sm:text-base"
+            className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
             onClick={() => setIsModalOpen(true)}
+            aria-label="Call ASPAC now"
           >
             Call Now
           </button>

@@ -83,7 +83,9 @@ const WelcomePage: React.FC = () => {
                 <button
                   className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
                   style={{ backgroundColor: "#27ae60" }}
-                  onClick={() => (window.location.href = "/apds-loan")}
+                  onClick={() =>
+                    (window.location.href = "/teachersalary-loanform")
+                  }
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor = "#1e8449")
                   }

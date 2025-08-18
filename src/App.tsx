@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from './components/Footer';
+import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import WelcomePage from "./WelcomePage";
@@ -9,12 +9,12 @@ import Advisories from "./Pages/Advisories";
 import Careers from "./Pages/Careers";
 import Branches from "./Pages/Branches";
 import DepositAccount from "./Pages/DepositAccount";
-import APDSLoanPage from './Pages/APDSLoanPage';
+import APDSLoanPage from "./Pages/APDSLoanPage";
 import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
-import ExplorePage from "./Pages/ExplorePage";  // ✅ Correct import for the explore page
+import ExplorePage from "./Pages/ExplorePage"; // ✅ Correct import for the explore page
 import BillsPayment from "./Pages/BillsPayment";
 import Loans from "./Pages/Loans";
-import AnnualReport from "./Pages/AnnualReport";
+
 import "./index.css";
 
 const App: React.FC = () => {
@@ -31,17 +31,15 @@ const App: React.FC = () => {
           <Route path="/careers" element={<Careers />} />
           <Route path="/branches" element={<Branches />} />
           <Route path="/deposit-account" element={<DepositAccount />} />
-          <Route path="/apds-loan" element={<APDSLoanPage />} />
-          <Route path="/tuition-fee-collection" element={<TuitionFeeCollection />} />
+          <Route path="/teachersalary-loanform" element={<APDSLoanPage />} />
+          <Route
+            path="/tuition-fee-collection"
+            element={<TuitionFeeCollection />}
+          />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/bills-payment" element={<BillsPayment />} />
-           <Route path="/annual-report" element={<AnnualReport />} />
-            
-         
-          
-          
-          <Route path="/loans" element={<Loans />} />
 
+          <Route path="/loans" element={<Loans />} />
         </Routes>
         <Footer />
       </div>
