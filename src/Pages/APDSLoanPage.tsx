@@ -148,7 +148,7 @@ const APDSLoanPage: React.FC = () => {
           {
             Icon: FaClock,
             title: "Flexible Terms",
-            description: "Up to 36 months payment",
+            description: "Up to 60 months payment",
           },
           {
             Icon: FaMoneyCheckAlt,
@@ -176,7 +176,7 @@ const APDSLoanPage: React.FC = () => {
         </h3>
         <ul className="space-y-4 text-lg text-gray-700 sm:text-xl max-w-3xl mx-auto list-disc list-inside">
           <li>Low interest rates exclusive to educators</li>
-          <li>Flexible payment terms up to 36 months</li>
+          <li>Flexible payment terms up to 60 months</li>
           <li>Quick and hassle-free loan approval process</li>
           <li>Automatic salary deduction for easy payments</li>
         </ul>
