@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
-import { Link } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   FaPiggyBank as PiggyBankIcon,
   FaClipboardCheck as ClipboardIcon,
   FaClock as ClockIcon,
-  FaMoneyCheckAlt as MoneyIcon
-} from 'react-icons/fa';
+  FaMoneyCheckAlt as MoneyIcon,
+} from "react-icons/fa";
 
-const FaPiggyBank = PiggyBankIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-const FaClipboardCheck = ClipboardIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const FaPiggyBank = PiggyBankIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
+const FaClipboardCheck = ClipboardIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
 
 // ✅ Updated Modal with AnimatePresence & motion.div
-const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -47,12 +56,12 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onC
             </p>
             <div className="text-center mb-6 space-y-2">
               <p className="text-xl text-green-700 font-semibold tracking-tight">
-                <span className="font-medium">Landline:</span> 345-0929, 345-0930
+                <span className="font-medium">Landline:</span> 345-0929,
+                345-0930
               </p>
               <p className="text-xl text-green-700 font-semibold tracking-tight">
                 <span className="font-medium">Mobile:</span> 0917-127-7796
               </p>
-          
             </div>
             <div className="flex justify-center">
               <button
@@ -74,11 +83,10 @@ const APDSLoanPage: React.FC = () => {
 
   return (
     <div className="w-full bg-white shadow-2xl overflow-hidden">
-
       {/* Banner */}
       <div className="relative w-full">
-        <img 
-          src="./features1.jpg" 
+        <img
+          src="./features1.jpg"
           alt="Educators Banner"
           className="w-full h-64 sm:h-80 object-cover"
         />
@@ -92,40 +100,64 @@ const APDSLoanPage: React.FC = () => {
 
       {/* Hero Section */}
       <div
-        className="w-full text-white text-center py-12 px-6"
+        className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16"
         style={{ background: "linear-gradient(135deg, #27ae60, #1e8449)" }}
       >
-        <p className="text-lg sm:text-xl opacity-90 mb-8 leading-relaxed max-w-3xl mx-auto">
-          The Automatic Payroll Deduction Scheme (APDS) Loan is designed specifically for hardworking teachers and school personnel. Fuel your educational mission with our flexible loan options.
+        <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-5 sm:mb-8 text-sm sm:text-base md:text-lg">
+          The Automatic Payroll Deduction Scheme (APDS) Loan is designed
+          specifically for hardworking teachers and school personnel. Fuel your
+          educational mission with our flexible loan options.
         </p>
-        <button
-          className="bg-yellow-500 text-green-900 font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-400"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Call Now
-        </button>
+
+        {/* Actions */}
+        <div className="mx-auto flex w-full max-w-md flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-4">
+          {/* Download Button */}
+          <a
+            href="/files/ASPAC_Salary_loan_form.pdf"
+            download="ASPAC_Salary_loan_form.pdf"
+            className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-full shadow-md transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300 text-sm sm:text-base"
+          >
+            Download Form
+          </a>
+
+          {/* Call Now Button */}
+          <button
+            className="w-full sm:w-auto bg-yellow-500 text-green-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-full shadow-md transition duration-300 hover:scale-105 hover:bg-yellow-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400 text-sm sm:text-base"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Call Now
+          </button>
+        </div>
       </div>
 
       {/* Features Section */}
       <div className="py-12 px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 bg-white">
-        {[{
-          Icon: FaPiggyBank,
-          title: "Low Interest",
-          description: "Exclusive rates for educators"
-        }, {
-          Icon: FaClipboardCheck,
-          title: "Easy Approval",
-          description: "Hassle-free application"
-        }, {
-          Icon: FaClock,
-          title: "Flexible Terms",
-          description: "Up to 36 months payment"
-        }, {
-          Icon: FaMoneyCheckAlt,
-          title: "Salary Deduction",
-          description: "Automatic monthly payments"
-        }].map(({ Icon, title, description }, index) => (
-          <div key={index} className="text-center bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+        {[
+          {
+            Icon: FaPiggyBank,
+            title: "Low Interest",
+            description: "Exclusive rates for educators",
+          },
+          {
+            Icon: FaClipboardCheck,
+            title: "Easy Approval",
+            description: "Hassle-free application",
+          },
+          {
+            Icon: FaClock,
+            title: "Flexible Terms",
+            description: "Up to 36 months payment",
+          },
+          {
+            Icon: FaMoneyCheckAlt,
+            title: "Salary Deduction",
+            description: "Automatic monthly payments",
+          },
+        ].map(({ Icon, title, description }, index) => (
+          <div
+            key={index}
+            className="text-center bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+          >
             <div className="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
               <Icon className="text-2xl text-green-700" />
             </div>
@@ -163,19 +195,26 @@ const APDSLoanPage: React.FC = () => {
           loop={true}
           className="max-w-3xl mx-auto"
         >
-          {[{
-            quote: "ASPAC Bank made the loan process smooth and stress-free. Highly recommended!",
-            author: "Maria L., Public School Teacher",
-            avatar: "woman1.png"
-          }, {
-            quote: "Flexible payment terms helped me manage my budget easily.",
-            author: "Jose R., High School Principal",
-            avatar: "man1.png"
-          }, {
-            quote: "Quick approval and great customer service from ASPAC Bank!",
-            author: "Anna D., Elementary Teacher",
-            avatar: "woman2.png"
-          }].map((testimonial, index) => (
+          {[
+            {
+              quote:
+                "ASPAC Bank made the loan process smooth and stress-free. Highly recommended!",
+              author: "Maria L., Public School Teacher",
+              avatar: "woman1.png",
+            },
+            {
+              quote:
+                "Flexible payment terms helped me manage my budget easily.",
+              author: "Jose R., High School Principal",
+              avatar: "man1.png",
+            },
+            {
+              quote:
+                "Quick approval and great customer service from ASPAC Bank!",
+              author: "Anna D., Elementary Teacher",
+              avatar: "woman2.png",
+            },
+          ].map((testimonial, index) => (
             <SwiperSlide key={index}>
               <div className="bg-gray-100 p-8 rounded-2xl shadow-md hover:shadow-lg transition text-center">
                 <img
@@ -184,15 +223,17 @@ const APDSLoanPage: React.FC = () => {
                   className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-green-500 object-cover"
                 />
                 <p className="text-green-700 text-4xl mb-2 leading-none">“</p>
-                <p className="text-lg italic mb-4 text-gray-700">"{testimonial.quote}"</p>
-                <h4 className="font-bold text-green-800">{testimonial.author}</h4>
+                <p className="text-lg italic mb-4 text-gray-700">
+                  "{testimonial.quote}"
+                </p>
+                <h4 className="font-bold text-green-800">
+                  {testimonial.author}
+                </h4>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-
-      
 
       {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

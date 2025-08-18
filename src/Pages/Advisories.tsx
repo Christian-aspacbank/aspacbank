@@ -23,7 +23,8 @@ const advisory: Advisory = {
   ],
   Icon: FaMapMarkerAlt as React.ComponentType<React.SVGProps<SVGSVGElement>>,
   iconColor: "text-red-600",
-  googleMapsUrl: "https://maps.google.com/?q=10.373901718957983,123.95882888273896",
+  googleMapsUrl:
+    "https://maps.google.com/?q=10.373901718957983,123.95882888273896",
 };
 
 const Advisories: React.FC = () => {
@@ -42,9 +43,12 @@ const Advisories: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-10"
       >
-        <h1 className="text-4xl font-bold text-green-700 mb-4">Important Advisory</h1>
+        <h1 className="text-4xl font-bold text-green-700 mb-4">
+          Important Advisory
+        </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Get the latest announcement from ASPAC Bank regarding our branch operations.
+          Get the latest announcement from ASPAC Bank regarding our branch
+          operations.
         </p>
       </motion.div>
 
