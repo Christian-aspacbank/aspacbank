@@ -10,9 +10,7 @@ const Footer: React.FC = () => {
 
   // Show PDIC image only on Homepage and Deposit Account page
   const showPDICImage =
-    currentPath === "/" ||
-    currentPath.includes("deposit-account") ||
-    currentPath.includes("loans");
+    currentPath === "/" || currentPath.includes("deposit-account");
 
   return (
     <div className="bg-gray-300 py-10 px-6">
