@@ -313,21 +313,28 @@ export default function AspacChatbot() {
         className="fixed z-40 bottom-4 right-4 transform transition-transform duration-300 ease-in-out hover:scale-110"
       >
         {open ? (
-          // Close icon
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-6 h-6 text-gray-700"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 11-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-              clipRule="evenodd"
-            />
-          </svg>
+          // Close icon with background for visibility
+          <div className="bg-white rounded-full p-3 shadow-xl border border-gray-200">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-8 h-8 text-gray-700"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 11-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
         ) : (
-          <img src="/chatbot.png" alt="Chat with us" className="w-48 h-20" />
+          // Much bigger chatbot image
+          <img
+            src="/chatbot.png"
+            alt="Chat with us"
+            className="w-32 h-32 object-contain drop-shadow-2xl cursor-pointer"
+          />
         )}
       </button>
 
