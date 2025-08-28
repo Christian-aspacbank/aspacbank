@@ -1,3 +1,4 @@
+// src/WelcomePage.tsx
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
@@ -8,6 +9,7 @@ import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import "./WelcomePage.css";
+import AspacChatbot from "./components/AspacChatbot";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WelcomePage: React.FC = () => {
@@ -37,7 +39,7 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-green-600",
-      to: "/advisories", // will render as Link
+      to: "/advisories",
     },
   ];
 
@@ -145,7 +147,7 @@ const WelcomePage: React.FC = () => {
                 <button
                   className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
                   style={{ backgroundColor: "#27ae60" }}
-                  onClick={handleKnowClick} // ✅ Use the function here
+                  onClick={handleKnowClick}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor = "#1e8449")
                   }
@@ -317,7 +319,7 @@ const WelcomePage: React.FC = () => {
       <section
         className="py-20 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/latestupdates.webp')", // replace with your actual image path
+          backgroundImage: "url('/latestupdates.webp')",
         }}
       >
         <div className="bg-transparent max-w-6xl mx-auto px-6 py-12 rounded-xl">
@@ -335,7 +337,7 @@ const WelcomePage: React.FC = () => {
                   transition={{
                     duration: 1.4,
                     delay: index * 0.2,
-                    ease: [0.25, 0.1, 0.25, 1], // smooth and natural easing
+                    ease: [0.25, 0.1, 0.25, 1],
                   }}
                   viewport={{ once: true, amount: 0.3 }}
                   className="relative bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group flex flex-col md:flex-row gap-6 min-h-[24rem]"
@@ -416,6 +418,9 @@ const WelcomePage: React.FC = () => {
           ))}
         </div>
       </section>
+
+      {/* 👇 Mount the chatbot only on WelcomePage */}
+      <AspacChatbot />
     </motion.div>
   );
 };
