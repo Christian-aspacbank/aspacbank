@@ -14,9 +14,6 @@ import {
   FaMoneyCheckAlt as MoneyIcon,
 } from "react-icons/fa";
 
-// Import the LoanApplicationModal
-import LoanApplicationModal from "../components/LoanApplicationModal";
-
 const FaPiggyBank = PiggyBankIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
@@ -247,12 +244,6 @@ const APDSLoanPage: React.FC = () => {
       <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-      />
-
-      {/* Loan Application Modal */}
-      <LoanApplicationModal
-        isOpen={isLoanModalOpen}
-        onClose={() => setIsLoanModalOpen(false)}
       />
     </div>
   );
