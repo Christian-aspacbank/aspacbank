@@ -333,7 +333,7 @@ export default function AspacChatbot() {
           <img
             src="/chatbot.png"
             alt="Chat with us"
-            className="w-36 h-36 object-contain drop-shadow-2xl cursor-pointer"
+            className="w-40 h-40 object-contain drop-shadow-2xl cursor-pointer"
             onError={(e) => {
               console.log("Image failed to load, using fallback");
               // Fallback to SVG if image fails
