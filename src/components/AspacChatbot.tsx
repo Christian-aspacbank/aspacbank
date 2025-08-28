@@ -333,7 +333,7 @@ export default function AspacChatbot() {
           <img
             src="/chatbot.png"
             alt="Chat with us"
-            className="w-24 h-24 object-contain drop-shadow-2xl cursor-pointer"
+            className="w-20 h-20 object-contain drop-shadow-2xl cursor-pointer"
             onError={(e) => {
               console.log("Image failed to load, using fallback");
               // Fallback to SVG if image fails
@@ -442,3 +442,5 @@ export default function AspacChatbot() {
     </>
   );
 }
+/ /   F o r c e   r e b u i l d  
+ 
