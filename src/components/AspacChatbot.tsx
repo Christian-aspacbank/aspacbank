@@ -313,7 +313,7 @@ export default function AspacChatbot() {
         className="fixed z-40 bottom-4 right-4 transform transition-transform duration-300 ease-in-out hover:scale-110"
       >
         {open ? (
-          // Close icon with background for visibility
+          // Close icon with background (needs background for visibility)
           <div className="bg-white rounded-full p-3 shadow-xl border border-gray-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -329,11 +329,20 @@ export default function AspacChatbot() {
             </svg>
           </div>
         ) : (
-          // Much bigger chatbot image
+          // Your chatbot image without background - just drop shadow
           <img
             src="/chatbot.png"
             alt="Chat with us"
-            className="w-32 h-32 object-contain drop-shadow-2xl cursor-pointer"
+            className="w-24 h-24 object-contain drop-shadow-2xl cursor-pointer"
+            onError={(e) => {
+              console.log("Image failed to load, using fallback");
+              // Fallback to SVG if image fails
+              e.currentTarget.outerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 text-blue-600 drop-shadow-2xl cursor-pointer">
+            <path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223z" clip-rule="evenodd" />
+          </svg>
+        `;
+            }}
           />
         )}
       </button>
