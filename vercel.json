@@ -25,5 +25,12 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|json|css|js|txt|map|woff|woff2|ttf|eot)).*)",
+      "destination": "/"
+    }
   ]
 }
+
