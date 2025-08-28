@@ -327,11 +327,7 @@ export default function AspacChatbot() {
             />
           </svg>
         ) : (
-          <img
-            src="https://raw.githubusercontent.com/username/repo/main/public/chatbot.png"
-            alt="Chat with us"
-            className="w-24 h-20"
-          />
+          <img src="/chatbot.png" alt="Chat with us" className="w-48 h-20" />
         )}
       </button>
 
