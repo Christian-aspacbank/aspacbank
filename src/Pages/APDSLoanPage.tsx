@@ -14,19 +14,24 @@ import {
   FaMoneyCheckAlt as MoneyIcon,
 } from "react-icons/fa";
 
+// Import the LoanApplicationModal
+import LoanApplicationModal from "../components/LoanApplicationModal";
+
 const FaPiggyBank = PiggyBankIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
+
 const FaClipboardCheck = ClipboardIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
+
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
 
 // ✅ Updated Modal with AnimatePresence & motion.div
-const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
@@ -79,7 +84,8 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 };
 
 const APDSLoanPage: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
 
   return (
     <div className="w-full bg-white shadow-2xl overflow-hidden">
@@ -124,10 +130,19 @@ const APDSLoanPage: React.FC = () => {
           {/* Call Now Button */}
           <button
             className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsContactModalOpen(true)}
             aria-label="Call ASPAC now"
           >
             Call Now
+          </button>
+
+          {/* Apply Now Button - Opens Loan Application Modal */}
+          <button
+            className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+            onClick={() => setIsLoanModalOpen(true)}
+            aria-label="Apply for APDS Loan"
+          >
+            Apply Now Here
           </button>
         </div>
       </div>
@@ -224,7 +239,7 @@ const APDSLoanPage: React.FC = () => {
                   alt={testimonial.author}
                   className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-green-500 object-cover"
                 />
-                <p className="text-green-700 text-4xl mb-2 leading-none">“</p>
+                <p className="text-green-700 text-4xl mb-2 leading-none">"</p>
                 <p className="text-lg italic mb-4 text-gray-700">
                   "{testimonial.quote}"
                 </p>
@@ -237,8 +252,17 @@ const APDSLoanPage: React.FC = () => {
         </Swiper>
       </div>
 
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
+
+      {/* Loan Application Modal */}
+      <LoanApplicationModal
+        isOpen={isLoanModalOpen}
+        onClose={() => setIsLoanModalOpen(false)}
+      />
     </div>
   );
 };
