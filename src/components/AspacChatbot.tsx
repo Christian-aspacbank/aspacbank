@@ -327,11 +327,7 @@ export default function AspacChatbot() {
             />
           </svg>
         ) : (
-          <img
-            src="/Chatbot Bubbles aspac.png"
-            alt="Chat with us"
-            className="w-25 h-20"
-          />
+          <img src="/chatbot.png" alt="Chat with us" className="w-25 h-20" />
         )}
       </button>
 
