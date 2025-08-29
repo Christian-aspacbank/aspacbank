@@ -85,34 +85,6 @@ For complete details on available loan options and requirements, you may:
   </a>. All required documentation and eligibility requirements are detailed on the second page of the form.`,
     tags: ["APDS", "inquire", "teachers", "teacher's"],
   },
-  {
-    q: "Hi",
-    a: `Hello! How can I help you today?`,
-    tags: ["hi"],
-  },
-
-  {
-    q: " Hello",
-    a: `Hi there! How may I help you?`,
-    tags: ["hello"],
-  },
-  {
-    q: "Good Evening ",
-    a: `Good evening! What can I help you with?`,
-    tags: ["gabie", "gavie", "evening"],
-  },
-
-  {
-    q: "Good Afternoon",
-    a: `Good afternoon! How may I assist you?`,
-    tags: ["afternoon", "udto"],
-  },
-
-  {
-    q: "Good Morning",
-    a: `Good morning! How can I help you today?`,
-    tags: ["morning", "buntag"],
-  },
 
   {
     q: "How to apply Teacher's Loan?",
