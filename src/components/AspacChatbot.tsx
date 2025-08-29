@@ -100,6 +100,34 @@ For complete details on available loan options and requirements, you may:
     tags: ["apply", "teacher", "loan", "requirements"],
   },
   {
+    q: "Hi",
+    a: `Hello! How can I help you today?`,
+    tags: ["hi"],
+  },
+
+  {
+    q: " Hello",
+    a: `Hi there! How may I help you?`,
+    tags: ["hello"],
+  },
+  {
+    q: "Good Evening ",
+    a: `Good evening! What can I help you with?`,
+    tags: ["gabie", "gavie", "evening"],
+  },
+
+  {
+    q: "Good Afternoon",
+    a: `Good afternoon! How may I assist you?`,
+    tags: ["afternoon", "udto"],
+  },
+
+  {
+    q: "Good Morning",
+    a: `Good morning! How can I help you today?`,
+    tags: ["morning", "buntag"],
+  },
+  {
     q: "Thank you",
     a: `My pleasure! Feel free to contact us anytime if you need further support.`,
     tags: ["salamat", "Thank you", "Thanks", "Daghang Salamat"],
