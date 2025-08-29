@@ -104,7 +104,7 @@ For complete details on available loan options and requirements, you may:
 
   {
     q: "Good Afternoon",
-    a: `Good afternoon! How may I assist you?Good morning! How can I help you today?`,
+    a: `Good afternoon! How may I assist you?`,
     tags: ["afternoon", "udto"],
   },
 
