@@ -25,7 +25,7 @@ const CONTACTS = {
 const FAQ_DATA: Array<{ q: string; a: string; tags?: string[] }> = [
   {
     q: "What are your branch hours?",
-    a: `We are generally open Mondays through Fridays at 9:00AM to 3:00PM except for Carcar Branches that operate on Saturdays where we operate on Saturdays at 9:00 to 3:00PM excluding national and local holidays.`,
+    a: `We are generally open Mondays through Fridays from 9:00 a.m. to 3:00 p.m., excluding national and local holidays. Our Carcar and N. Bacalso Branches are open on Saturdays from 9:00 a.m. to 2:00 p.m..`,
     tags: ["hours", "schedule", "branches"],
   },
   {
