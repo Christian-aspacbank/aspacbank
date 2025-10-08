@@ -95,7 +95,7 @@ const Advisories: React.FC = () => {
                   <p className="font-semibold text-gray-800">
                     ASPAC BANK - Danao Branch
                   </p>
-                  <p>Address: Pio Dei Pilar St., Danao City, Cebu</p>
+                  <p>Address: Pio Del Pilar St., Danao City, Cebu</p>
                   <p>Contact: 0917-108-6575</p>
                   <p>Hours: 9:00 AM - 3:00 PM (Mon–Fri)</p>
                 </div>
@@ -103,7 +103,7 @@ const Advisories: React.FC = () => {
                   <p className="font-semibold text-gray-800">
                     ASPAC BANK - Bantayan Branch
                   </p>
-                  <p>Address: TigaO, Poblacion Bantayan, Cebu</p>
+                  <p>Address: Ticad, Poblacion Bantayan, Cebu</p>
                   <p>Contact: 0917-128-4422</p>
                   <p>Hours: 9:00 AM - 3:00 PM (Mon–Fri)</p>
                 </div>
@@ -130,7 +130,7 @@ const Advisories: React.FC = () => {
             <p className="font-semibold">
               Sincerely,
               <br />
-              ASPAC BANK Management
+              ASPAC Bank Management
             </p>
           </div>
         </motion.div>
