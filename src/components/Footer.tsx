@@ -72,23 +72,6 @@ const Footer: React.FC = () => {
             <img src="/appstore.png" alt="App Store" className="h-10" />
             <img src="/googleplay.png" alt="Google Play" className="h-10" />
           </div>
-          <div className="flex justify-center md:justify-end gap-4 mt-4 text-gray-600 text-xl">
-            <a href="#">
-              <i className="fab fa-facebook-square hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-twitter hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-instagram hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-linkedin hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-youtube hover:text-green-700"></i>
-            </a>
-          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 /**
  * ASPAC Assistant — React floating chatbot (no API)
@@ -250,7 +250,7 @@ export default function AspacChatbot() {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, open]);
+  }, [open, messages.length]);
 
   // Initial greeting
   useEffect(() => {
@@ -264,7 +264,7 @@ export default function AspacChatbot() {
       };
       setMessages([hello]);
     }
-  }, [open]);
+  }, [open, messages.length]);
 
   function handleAsk(raw: string) {
     const text = raw.trim();
