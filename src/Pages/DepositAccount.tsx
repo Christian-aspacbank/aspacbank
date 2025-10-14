@@ -1,100 +1,163 @@
-// src/Pages/DepositAccount.tsx
-import React from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DepositAccount = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="relative bg-green-600 text-white py-12">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Deposit Account</h1>
-          <p className="text-lg max-w-2xl mx-auto">
+      {/* Hero Section */}
+      <div
+        className="relative text-white py-20 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(/DepositAccount.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-30"></div> {/* Overlay */}
+        <div className="container mx-auto text-center px-6 relative z-10">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl text-green-600 font-semibold mb-4">Deposit Account</h1>
+          <p className="text-xl sm:text-2xl text-white/90 mx-auto">
             Secure, flexible, and tailored for your financial needs. Start saving today with ASPAC Bank's Deposit Account.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-16">
-        {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="bg-white shadow-lg rounded-lg p-8">
-            <h2 className="text-3xl font-semibold text-green-600 mb-6">Why Choose Our Deposit Account?</h2>
-            <p className="text-lg text-gray-700 mb-4">
+      {/* Content Section */}
+      <div className="container mx-auto px-6 py-20 space-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-12">
+          {/* Why Choose Section */}
+          <div className="bg-white shadow-lg rounded-2xl p-10 border border-green-100">
+            <h2 className="text-2xl sm:text-3xl font-bold text-green-600 mb-6">Why Choose Our Deposit Account?</h2>
+            <p className="text-base text-gray-700 mb-4">
               At ASPAC Bank, we provide a range of benefits with our Deposit Account to help you achieve your financial goals:
             </p>
-            <ul className="list-disc pl-6 text-gray-700">
-              <li className="mb-2">Earn competitive interest rates on your balance.</li>
-              <li className="mb-2">Free monthly account maintenance.</li>
-              <li className="mb-2">24/7 access to your account through online banking.</li>
-              <li className="mb-2">Convenient mobile app for easy access and management.</li>
-              <li className="mb-2">No minimum balance requirements.</li>
+            <ul className="list-disc pl-6 space-y-4 text-gray-700 text-base">
+              <li>Earn competitive interest rates on your balance.</li>
+              <li>Free monthly account maintenance.</li>
+              <li>Convenient mobile app for easy access and management.</li>
+              <li>No minimum balance requirements.</li>
             </ul>
           </div>
 
-          <div className="bg-white shadow-lg rounded-lg p-8">
-            <h2 className="text-3xl font-semibold text-green-600 mb-6">How to Open a Deposit Account</h2>
-            <p className="text-lg text-gray-700 mb-4">
+          {/* How to Open Section */}
+          <div className="bg-white shadow-lg rounded-2xl p-10 border border-green-100">
+            <h2 className="text-2xl sm:text-3xl font-bold text-green-600 mb-6">How to Open a Deposit Account</h2>
+            <p className="text-base text-gray-700 mb-4">
               Opening a Deposit Account with us is easy and hassle-free. Here's how you can get started:
             </p>
-            <ol className="list-decimal pl-6 text-gray-700">
-              <li className="mb-2">Visit your nearest ASPAC Bank branch or apply online.</li>
-              <li className="mb-2">Provide necessary identification documents and proof of address.</li>
-              <li className="mb-2">Deposit the initial amount and start enjoying the benefits of your new account.</li>
+            <ol className="list-decimal pl-6 space-y-4 text-gray-700 text-base">
+              <li>Visit your nearest ASPAC Bank branch.</li>
+              <li>Provide necessary identification documents and proof of address.</li>
+              <li>Deposit the initial amount and start enjoying the benefits of your new account.</li>
             </ol>
           </div>
         </div>
 
-        {/* Additional Features Section */}
-        <div className="py-16 bg-white">
-          <div className="text-center">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">Exclusive Features</h2>
-            <p className="text-lg text-gray-600 mb-10">
+        {/* Features Section */}
+        <div className="pt-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-green-700 mb-4">Exclusive Features</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Our Deposit Account comes with these exclusive features designed to give you more value:
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-            <div className="bg-green-100 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-green-600 mb-4">Power Savings Account</h3>
-              <p className="text-gray-700">
-                Maximize your savings potential with our Power Savings Account. Enjoy higher interest rates and benefits tailored to your needs.
-              </p>
-            </div>
-
-            <div className="bg-green-100 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-green-600 mb-4">Power Checking Account</h3>
-              <p className="text-gray-700">
-                Keep your money accessible and secure with our Power Checking Account. Ideal for daily transactions with minimal fees.
-              </p>
-            </div>
-
-            <div className="bg-green-100 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-green-600 mb-4">Time Deposit</h3>
-              <p className="text-gray-700">
-                Secure your funds for a fixed term and enjoy attractive interest rates with our Time Deposit.
-              </p>
-            </div>
-
-            <div className="bg-green-100 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-green-600 mb-4">Special Savings</h3>
-              <p className="text-gray-700">
-                Achieve your financial goals with our Special Savings account, offering flexible terms and attractive interest rates.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {[
+              {
+                title: "Power Savings Account",
+                description: "Maximize your savings potential with our Power Savings Account.",
+                image: "/Powersavings.jpg",
+              },
+              {
+                title: "Power Checking Account",
+                description: "Keep your money accessible and secure.",
+                image: "/Power Checking Account.jpg",
+              },
+              {
+                title: "Time Deposit",
+                description: "Secure your funds for a fixed term.",
+                image: "/Time Deposit.jpg",
+              },
+              {
+                title: "Special Savings",
+                description: "Achieve your financial goals.",
+                image: "/Special Savings.jpg",
+              },
+            ].map((feature, index) => (
+              <div key={index} className="bg-green-50 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-green-200">
+                {feature.image && (
+                  <div className="mb-4">
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      className="w-full h-40 object-cover rounded-lg mb-4"
+                    />
+                  </div>
+                )}
+                <h3 className="text-xl font-semibold text-green-700 mb-2">{feature.title}</h3>
+                <p className="text-gray-700 text-sm">{feature.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Call-to-Action Section */}
-      <div className="bg-green-600 py-12 text-center text-white">
-        <h2 className="text-3xl font-semibold mb-4">Ready to Open Your Deposit Account?</h2>
-        <p className="text-lg mb-6">Start saving today with ASPAC Bank. Enjoy hassle-free banking with the best services.</p>
-        <a
-          href="/contact-us"
-          className="inline-block bg-white text-green-600 font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-green-100 transition-all duration-300"
+      {/* CTA Section */}
+      <div className="bg-green-600 py-16 text-center text-white px-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Open Your Deposit Account?</h2>
+        <p className="text-lg max-w-xl mx-auto mb-8">
+          Start saving today with ASPAC Bank. Enjoy hassle-free banking with the best services.
+        </p>
+        <button
+          onClick={() => setShowModal(true)}
+          className="inline-block bg-white text-green-600 font-semibold py-4 px-10 rounded-full shadow-md hover:bg-green-100 hover:scale-105 transition-all duration-300 ease-in-out"
         >
           Contact Us to Get Started
-        </a>
+        </button>
       </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              className="bg-white rounded-xl p-8 max-w-md w-full relative"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Contact Us</h2>
+
+              <p className="text-gray-700 mb-4 text-center">
+                For inquiries or assistance, reach out to us via the following numbers:
+              </p>
+              <p className="text-gray-800 text-center font-medium">
+                Landline: 345-0929, 345-0930<br />
+                Mobile: 0917-127-7796
+              </p>
+
+              <div className="mt-8 text-center">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

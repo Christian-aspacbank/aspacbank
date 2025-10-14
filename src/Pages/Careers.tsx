@@ -1,108 +1,143 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
+const jobOpenings = [
+  {
+    title: "Branch Marketing Associate (BMA)",
+    location: "Lapu-Lapu Branch",
+    category: "Marketing",
+    qualifications: [
+      "Sales talent",
+      "Graduate of any 4-year college course",
+      "License to drive a motorcycle is an advantage"
+    ],
+    responsibilities: [
+      "Acquire loan and deposit accounts",
+      "Organize and participate in sales events",
+      "Field work, client visits, and conduct presentations"
+    ]
+  },
+  {
+    title: "Audit Staff",
+    location: "Head Office",
+    category: "Audit",
+    qualifications: [
+      "Bachelor's Degree in Accounting, BS Accountancy or its equivalent",
+      "Strong analytical and problem-solving skills",
+      "Willing to travel"
+    ],
+    responsibilities: [
+      "Conduct regular audit and spot audit of all branches and auditable units",
+      "Prepare comprehensive audit findings report",
+      "Analyze financial data to identify discrepancies"
+    ]
+  },
+  {
+    title: "Reserve Pool Officer",
+    location: "Various Branch Assignments",
+    category: "Operations",
+    qualifications: [
+      "Graduate of any 4-year course",
+      "At least 3 years of banking experience, preferably in a supervisory role",
+      "Willing to be assigned within the area of assignment"
+    ],
+    responsibilities: [
+      "Oversee the daily operations of the bank",
+      "Ensure compliance with banking regulations",
+      "Perform a wide range of customer service tasks"
+    ]
+  },
+  {
+    title: "North Cluster Bank Marketing Officer",
+    location: "Northern Cebu Cluster",
+    category: "Marketing",
+    qualifications: [
+      "Bachelor's Degree in Business Admin major in Marketing, or related course",
+      "Knowledgeable in marketing techniques and principles",
+      "Team player with a customer-oriented approach"
+    ],
+    responsibilities: [
+      "Support the Branch Head in promoting bank products and services",
+      "Engage with potential customers via in-branch promotions",
+      "Maintain a strong brand image of the branch"
+    ]
+  }
+];
+
+const uniqueCategories = ["All"].concat(Array.from(new Set(jobOpenings.map(job => job.category))));
+
 const Careers: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredJobs =
+    selectedCategory === "All"
+      ? jobOpenings
+      : jobOpenings.filter(job => job.category === selectedCategory);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="w-full min-h-screen bg-gray-100 py-16"
+      transition={{ duration: 0.8 }}
+      className="min-h-screen bg-gray-100"
     >
-      {/* Page Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-green-600 mb-4">Join Our Team</h1>
-        <p className="text-xl text-gray-700">
-          At ASPAC Bank, we're always looking for talented individuals who are passionate about providing excellent customer service and creating innovative financial solutions. Take the next step in your career with us.
-        </p>
+      {/* Banner Section */}
+      <div
+        className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px] relative"
+        style={{
+          backgroundImage: "url('Careers.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
+          Build Your Career with Us
+        </h2>
       </div>
 
-      {/* Available Positions Section */}
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-6">Current Openings</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Job 1 */}
-          <motion.div
-            className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-start"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h3 className="text-2xl font-semibold text-green-600">Customer Service Representative</h3>
-            <p className="text-gray-700 mt-2">
-              We are looking for a friendly and professional individual to join our team as a Customer Service Representative. You will assist customers with their banking needs, answer inquiries, and provide exceptional service.
-            </p>
-            <div className="mt-4">
-              <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
-                Apply Now
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Job 2 */}
-          <motion.div
-            className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-start"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h3 className="text-2xl font-semibold text-green-600">Banking Specialist</h3>
-            <p className="text-gray-700 mt-2">
-              We're seeking a Banking Specialist with a deep understanding of banking products and services. You will be responsible for assisting clients with loan applications, financial planning, and other banking services.
-            </p>
-            <div className="mt-4">
-              <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
-                Apply Now
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Job 3 */}
-          <motion.div
-            className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-start"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h3 className="text-2xl font-semibold text-green-600">IT Specialist</h3>
-            <p className="text-gray-700 mt-2">
-              As an IT Specialist at ASPAC Bank, you will ensure the smooth operation of our banking systems and services. You will provide technical support and work on system improvements to enhance our technology infrastructure.
-            </p>
-            <div className="mt-4">
-              <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
-                Apply Now
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Job 4 */}
-          <motion.div
-            className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-start"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h3 className="text-2xl font-semibold text-green-600">Marketing Coordinator</h3>
-            <p className="text-gray-700 mt-2">
-              We're looking for a creative Marketing Coordinator to help us with campaigns and promotional efforts. You will support the marketing team with strategy development, content creation, and public relations.
-            </p>
-            <div className="mt-4">
-              <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
-                Apply Now
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Additional Information Section */}
+      {/* Job Category Filter */}
       <div className="container mx-auto text-center mt-12 px-4">
-        <p className="text-xl text-gray-700 mb-6">
-          If you're interested in joining a team of dedicated professionals, we'd love to hear from you! Our team is driven, passionate, and focused on delivering the best financial solutions to our clients.
-        </p>
-        <p className="text-lg text-gray-700">
-          Apply today and take the next step in your career at ASPAC Bank.
-        </p>
+        <h1 className="text-2xl font-bold text-green-800 mb-6">Job Openings</h1>
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {uniqueCategories.map((category, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-full border transition ${
+                selectedCategory === category
+                  ? "bg-green-700 text-white"
+                  : "bg-white text-green-700 border-green-700"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        {/* Job Listings */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto pb-16">
+          {filteredJobs.map((job, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-md p-6 text-left hover:shadow-lg transition"
+            >
+              <h2 className="text-xl font-semibold text-green-700 mb-1">{job.title}</h2>
+              <p className="text-sm text-gray-500 mb-2">Location: {job.location}</p>
+              <h3 className="font-medium text-gray-700 mt-3">Qualifications:</h3>
+              <ul className="list-disc list-inside text-sm text-gray-600 mb-3">
+                {job.qualifications.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+              <h3 className="font-medium text-gray-700">Responsibilities:</h3>
+              <ul className="list-disc list-inside text-sm text-gray-600">
+                {job.responsibilities.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
