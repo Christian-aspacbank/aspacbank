@@ -121,7 +121,7 @@ const APDSLoanPage: React.FC = () => {
         title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
         description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
         canonical="https://www.aspacbank.com/teachersalary-loanform"
-        ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
+        ogImage="https://www.aspacbank.com/features1.jpg"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Product",
