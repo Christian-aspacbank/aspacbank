@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.aspacbank.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url><loc>https://www.aspacbank.com/welcome</loc></url>
+  <url><loc>https://www.aspacbank.com/our-services</loc></url>
+  <url><loc>https://www.aspacbank.com/features</loc></url>
+  <url><loc>https://www.aspacbank.com/advisories</loc></url>
+  <url><loc>https://www.aspacbank.com/careers</loc></url>
+  <url><loc>https://www.aspacbank.com/branches</loc></url>
+  <url><loc>https://www.aspacbank.com/deposit-account</loc></url>
+  <url><loc>https://www.aspacbank.com/teachersalary-loanform</loc></url>
+  <url><loc>https://www.aspacbank.com/tuition-fee-collection</loc></url>
+  <url><loc>https://www.aspacbank.com/explore</loc></url>
+  <url><loc>https://www.aspacbank.com/bills-payment</loc></url>
+  <url><loc>https://www.aspacbank.com/loans</loc></url>
+
+</urlset>
