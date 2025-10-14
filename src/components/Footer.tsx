@@ -46,9 +46,9 @@ const Footer: React.FC = () => {
         <div className="space-y-4">
           <p>
             For concerns, call ASPAC Bank’s Customer Service Hotline at
-            <span className="font-semibold"> (032) 345-0929 / 345-0930</span>
+            <span className="font-semibold"> (032) 272-2724</span> or Mobile
+            number <span className="font-semibold">08982722724</span>
           </p>
-
           <p>
             Email:{" "}
             <a
