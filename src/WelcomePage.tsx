@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Seo from "./components/Seo";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -58,6 +59,42 @@ const WelcomePage: React.FC = () => {
       transition={{ duration: 0.8 }}
       className="w-full bg-white"
     >
+      <Seo
+        title="ASPAC Bank – Teacher Salary Loan & Reliable Banking Services"
+        description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
+        canonical="https://www.aspacbank.com/"
+        ogImage="https://www.aspacbank.com/favicon.ico" // Replace with a real banner image later
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "ASPAC Bank",
+          url: "https://www.aspacbank.com",
+          logo: "https://www.aspacbank.com/favicon.ico",
+          sameAs: [
+            "https://www.facebook.com/AspacBank", // optional, add if you have social pages
+          ],
+          department: {
+            "@type": "FinancialService",
+            name: "Teacher Salary Loan (APDS)",
+            url: "https://www.aspacbank.com/teachersalary-loanform",
+            serviceType: "Salary Loan for Teachers",
+            areaServed: "PH",
+            provider: {
+              "@type": "BankOrCreditUnion",
+              name: "ASPAC Bank",
+            },
+          },
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              telephone: "+63-32-345-0929",
+              contactType: "customer service",
+              areaServed: "PH",
+            },
+          ],
+        }}
+      />
+
       {/* Swiper Container */}
       <div className="w-full h-[70vh] overflow-hidden">
         <Swiper
