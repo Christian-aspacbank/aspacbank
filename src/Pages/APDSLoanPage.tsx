@@ -50,6 +50,37 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
+            <Seo
+              title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
+              description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
+              canonical="https://www.aspacbank.com/teachersalary-loanform"
+              ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
+              jsonLd={{
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: "Teacher Salary Loan (APDS)",
+                description:
+                  "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
+                brand: {
+                  "@type": "Organization",
+                  name: "ASPAC Bank",
+                  url: "https://www.aspacbank.com",
+                },
+                offers: {
+                  "@type": "Offer",
+                  url: "https://www.aspacbank.com/teachersalary-loanform",
+                  priceCurrency: "PHP",
+                  availability: "https://schema.org/InStock",
+                },
+                provider: {
+                  "@type": "BankOrCreditUnion",
+                  name: "ASPAC Bank",
+                  Hotline: "(032) 272-2724",
+                  MobileNumber: "08982722724",
+                  areaServed: "PH",
+                },
+              }}
+            />
             <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
               Contact ASPAC Bank
             </h2>
