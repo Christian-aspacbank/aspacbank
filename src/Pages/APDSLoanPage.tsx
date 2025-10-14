@@ -50,37 +50,6 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <Seo
-              title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
-              description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
-              canonical="https://www.aspacbank.com/teachersalary-loanform"
-              ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
-              jsonLd={{
-                "@context": "https://schema.org",
-                "@type": "Product",
-                name: "Teacher Salary Loan (APDS)",
-                description:
-                  "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
-                brand: {
-                  "@type": "Organization",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-                offers: {
-                  "@type": "Offer",
-                  url: "https://www.aspacbank.com/teachersalary-loanform",
-                  priceCurrency: "PHP",
-                  availability: "https://schema.org/InStock",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  Hotline: "(032) 272-2724",
-                  MobileNumber: "08982722724",
-                  areaServed: "PH",
-                },
-              }}
-            />
             <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
               Contact ASPAC Bank
             </h2>
@@ -115,167 +84,201 @@ const APDSLoanPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
-    <div className="w-full bg-white shadow-2xl overflow-hidden">
-      {/* Banner */}
-      <div className="relative w-full">
-        <img
-          src="./features1.jpg"
-          alt="Educators Banner"
-          className="w-full h-64 sm:h-80 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h2 className="text-3xl sm:text-5xl font-medium text-white tracking-wide text-center px-2">
-            APDS Loan for Educators
-          </h2>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <div
-        className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16"
-        style={{ background: "linear-gradient(135deg, #27ae60, #1e8449)" }}
-      >
-        <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-6 sm:mb-8 text-base sm:text-lg md:text-xl">
-          The Automatic Payroll Deduction Scheme (APDS) Loan is designed
-          specifically for hardworking teachers and school personnel. Fuel your
-          educational mission with our flexible loan options.
-        </p>
-
-        {/* Actions */}
-        <div className="mx-auto flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
-          {/* Download Button (uses native download) */}
-          <a
-            href="/files/ASPAC_Salary_loan_form.pdf"
-            download="ASPAC_Salary_loan_form.pdf"
-            className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
-            aria-label="Download Salary Loan Form (PDF)"
-          >
-            Download Form
-          </a>
-
-          {/* Call Now Button */}
-          <button
-            className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
-            onClick={() => setIsContactModalOpen(true)}
-            aria-label="Call ASPAC now"
-          >
-            Call Now
-          </button>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="py-12 px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 bg-white">
-        {[
-          {
-            Icon: FaPiggyBank,
-            title: "Low Interest",
-            description: "Exclusive rates for educators",
+    <>
+      {/* ✅ Page SEO */}
+      <Seo
+        title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
+        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
+        canonical="https://www.aspacbank.com/teachersalary-loanform"
+        ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "Teacher Salary Loan (APDS)",
+          description:
+            "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
+          brand: {
+            "@type": "Organization",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
           },
-          {
-            Icon: FaClipboardCheck,
-            title: "Easy Approval",
-            description: "Hassle-free application",
+          offers: {
+            "@type": "Offer",
+            url: "https://www.aspacbank.com/teachersalary-loanform",
+            priceCurrency: "PHP",
+            availability: "https://schema.org/InStock",
           },
-          {
-            Icon: FaClock,
-            title: "Flexible Terms",
-            description: "Up to 60 months payment",
+          provider: {
+            "@type": "BankOrCreditUnion",
+            name: "ASPAC Bank",
+            Hotline: "(032) 272-2724",
+            MobileNumber: "08982722724",
+            areaServed: "PH",
           },
-          {
-            Icon: FaMoneyCheckAlt,
-            title: "Salary Deduction",
-            description: "Automatic monthly payments",
-          },
-        ].map(({ Icon, title, description }, index) => (
-          <div
-            key={index}
-            className="text-center bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
-          >
-            <div className="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-              <Icon className="text-2xl text-green-700" />
-            </div>
-            <h4 className="text-lg font-semibold">{title}</h4>
-            <p className="text-gray-600 text-sm">{description}</p>
+        }}
+      />
+
+      {/* ✅ Page Content */}
+      <div className="w-full bg-white shadow-2xl overflow-hidden">
+        {/* Banner */}
+        <div className="relative w-full">
+          <img
+            src="./features1.jpg"
+            alt="Educators Banner"
+            className="w-full h-64 sm:h-80 object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h2 className="text-3xl sm:text-5xl font-medium text-white tracking-wide text-center px-2">
+              APDS Loan for Educators
+            </h2>
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* Why Choose Section */}
-      <div className="px-6 py-12 bg-gray-50">
-        <h3 className="text-2xl sm:text-3xl font-semibold text-gray-800 text-center mb-8">
-          Why Choose APDS Loan?
-        </h3>
-        <ul className="space-y-4 text-lg text-gray-700 sm:text-xl max-w-3xl mx-auto list-disc list-inside">
-          <li>Low interest rates exclusive to educators</li>
-          <li>Flexible payment terms up to 60 months</li>
-          <li>Quick and hassle-free loan approval process</li>
-          <li>Automatic salary deduction for easy payments</li>
-        </ul>
-      </div>
-
-      {/* Testimonials */}
-      <div className="bg-white py-12 px-6 sm:px-12">
-        <h3 className="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-10">
-          What Our Clients Say
-        </h3>
-        <Swiper
-          modules={[Pagination, Autoplay, Navigation]}
-          spaceBetween={30}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          navigation
-          autoplay={{ delay: 4000 }}
-          loop={true}
-          className="max-w-3xl mx-auto"
+        {/* Hero Section */}
+        <div
+          className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16"
+          style={{ background: "linear-gradient(135deg, #27ae60, #1e8449)" }}
         >
+          <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-6 sm:mb-8 text-base sm:text-lg md:text-xl">
+            The Automatic Payroll Deduction Scheme (APDS) Loan is designed
+            specifically for hardworking teachers and school personnel. Fuel
+            your educational mission with our flexible loan options.
+          </p>
+
+          {/* Actions */}
+          <div className="mx-auto flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+            <a
+              href="/files/ASPAC_Salary_loan_form.pdf"
+              download="ASPAC_Salary_loan_form.pdf"
+              className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              aria-label="Download Salary Loan Form (PDF)"
+            >
+              Download Form
+            </a>
+
+            <button
+              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              onClick={() => setIsContactModalOpen(true)}
+              aria-label="Call ASPAC now"
+            >
+              Call Now
+            </button>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="py-12 px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 bg-white">
           {[
             {
-              quote:
-                "ASPAC Bank made the loan process smooth and stress-free. Highly recommended!",
-              author: "Maria L., Public School Teacher",
-              avatar: "woman1.png",
+              Icon: FaPiggyBank,
+              title: "Low Interest",
+              description: "Exclusive rates for educators",
             },
             {
-              quote:
-                "Flexible payment terms helped me manage my budget easily.",
-              author: "Jose R., High School Principal",
-              avatar: "man1.png",
+              Icon: FaClipboardCheck,
+              title: "Easy Approval",
+              description: "Hassle-free application",
             },
             {
-              quote:
-                "Quick approval and great customer service from ASPAC Bank!",
-              author: "Anna D., Elementary Teacher",
-              avatar: "woman2.png",
+              Icon: FaClock,
+              title: "Flexible Terms",
+              description: "Up to 60 months payment",
             },
-          ].map((testimonial, index) => (
-            <SwiperSlide key={index}>
-              <div className="bg-gray-100 p-8 rounded-2xl shadow-md hover:shadow-lg transition text-center">
-                <img
-                  src={`/avatars/${testimonial.avatar}`}
-                  alt={testimonial.author}
-                  className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-green-500 object-cover"
-                />
-                <p className="text-green-700 text-4xl mb-2 leading-none">"</p>
-                <p className="text-lg italic mb-4 text-gray-700">
-                  "{testimonial.quote}"
-                </p>
-                <h4 className="font-bold text-green-800">
-                  {testimonial.author}
-                </h4>
+            {
+              Icon: FaMoneyCheckAlt,
+              title: "Salary Deduction",
+              description: "Automatic monthly payments",
+            },
+          ].map(({ Icon, title, description }, index) => (
+            <div
+              key={index}
+              className="text-center bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+            >
+              <div className="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <Icon className="text-2xl text-green-700" />
               </div>
-            </SwiperSlide>
+              <h4 className="text-lg font-semibold">{title}</h4>
+              <p className="text-gray-600 text-sm">{description}</p>
+            </div>
           ))}
-        </Swiper>
-      </div>
+        </div>
 
-      {/* Contact Modal */}
-      <ContactModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
-    </div>
+        {/* Why Choose */}
+        <div className="px-6 py-12 bg-gray-50">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-gray-800 text-center mb-8">
+            Why Choose APDS Loan?
+          </h3>
+          <ul className="space-y-4 text-lg text-gray-700 sm:text-xl max-w-3xl mx-auto list-disc list-inside">
+            <li>Low interest rates exclusive to educators</li>
+            <li>Flexible payment terms up to 60 months</li>
+            <li>Quick and hassle-free loan approval process</li>
+            <li>Automatic salary deduction for easy payments</li>
+          </ul>
+        </div>
+
+        {/* Testimonials */}
+        <div className="bg-white py-12 px-6 sm:px-12">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-10">
+            What Our Clients Say
+          </h3>
+          <Swiper
+            modules={[Pagination, Autoplay, Navigation]}
+            spaceBetween={30}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            navigation
+            autoplay={{ delay: 4000 }}
+            loop={true}
+            className="max-w-3xl mx-auto"
+          >
+            {[
+              {
+                quote:
+                  "ASPAC Bank made the loan process smooth and stress-free. Highly recommended!",
+                author: "Maria L., Public School Teacher",
+                avatar: "woman1.png",
+              },
+              {
+                quote:
+                  "Flexible payment terms helped me manage my budget easily.",
+                author: "Jose R., High School Principal",
+                avatar: "man1.png",
+              },
+              {
+                quote:
+                  "Quick approval and great customer service from ASPAC Bank!",
+                author: "Anna D., Elementary Teacher",
+                avatar: "woman2.png",
+              },
+            ].map((testimonial, index) => (
+              <SwiperSlide key={index}>
+                <div className="bg-gray-100 p-8 rounded-2xl shadow-md hover:shadow-lg transition text-center">
+                  <img
+                    src={`/avatars/${testimonial.avatar}`}
+                    alt={testimonial.author}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-green-500 object-cover"
+                  />
+                  <p className="text-green-700 text-4xl mb-2 leading-none">"</p>
+                  <p className="text-lg italic mb-4 text-gray-700">
+                    "{testimonial.quote}"
+                  </p>
+                  <h4 className="font-bold text-green-800">
+                    {testimonial.author}
+                  </h4>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Contact Modal */}
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+        />
+      </div>
+    </>
   );
 };
 
