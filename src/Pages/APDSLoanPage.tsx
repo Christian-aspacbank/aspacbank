@@ -5,7 +5,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
-import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   FaPiggyBank as PiggyBankIcon,
@@ -82,7 +81,6 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
 const APDSLoanPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
 
   return (
     <div className="w-full bg-white shadow-2xl overflow-hidden">

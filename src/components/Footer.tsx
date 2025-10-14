@@ -46,9 +46,9 @@ const Footer: React.FC = () => {
         <div className="space-y-4">
           <p>
             For concerns, call ASPAC Bank’s Customer Service Hotline at
-            <span className="font-semibold"> (032) 345-0929 / 345-0930</span>
+            <span className="font-semibold"> (032) 272-2724</span> or Mobile
+            number <span className="font-semibold">08982722724</span>
           </p>
-
           <p>
             Email:{" "}
             <a
@@ -71,23 +71,6 @@ const Footer: React.FC = () => {
           <div className="flex justify-center md:justify-end gap-4 mt-4">
             <img src="/appstore.png" alt="App Store" className="h-10" />
             <img src="/googleplay.png" alt="Google Play" className="h-10" />
-          </div>
-          <div className="flex justify-center md:justify-end gap-4 mt-4 text-gray-600 text-xl">
-            <a href="#">
-              <i className="fab fa-facebook-square hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-twitter hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-instagram hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-linkedin hover:text-green-700"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-youtube hover:text-green-700"></i>
-            </a>
           </div>
         </div>
       </div>

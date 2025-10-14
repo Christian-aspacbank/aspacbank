@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdvisoryOpen, setIsAdvisoryOpen] = useState(false);
+  const [, setIsAdvisoryOpen] = useState(false);
   const advisoryRef = useRef<HTMLLIElement>(null);
 
   // Close dropdown when clicking outside

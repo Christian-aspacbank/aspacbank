@@ -1,7 +1,6 @@
 // src/WelcomePage.tsx
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
