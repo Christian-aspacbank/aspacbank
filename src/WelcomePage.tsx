@@ -63,7 +63,7 @@ const WelcomePage: React.FC = () => {
         title="ASPAC Bank – Teacher Salary Loan & Reliable Banking Services"
         description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
         canonical="https://www.aspacbank.com/"
-        ogImage="https://www.aspacbank.com/favicon.ico" // Replace with a real banner image later
+        ogImage="https://www.aspacbank.com/APDS3.jpg" // Replace with a real banner image later
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Organization",
@@ -71,7 +71,7 @@ const WelcomePage: React.FC = () => {
           url: "https://www.aspacbank.com",
           logo: "https://www.aspacbank.com/favicon.ico",
           sameAs: [
-            "https://www.facebook.com/AspacBank", // optional, add if you have social pages
+            "https://www.facebook.com/aspacbank0620/", // optional, add if you have social pages
           ],
           department: {
             "@type": "FinancialService",
@@ -87,7 +87,8 @@ const WelcomePage: React.FC = () => {
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+63-32-345-0929",
+              Hotline: "(032) 272-2724",
+              MobileNumber: "08982722724",
               contactType: "customer service",
               areaServed: "PH",
             },
