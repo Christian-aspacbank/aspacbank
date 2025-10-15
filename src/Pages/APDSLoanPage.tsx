@@ -50,37 +50,6 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <Seo
-              title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
-              description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
-              canonical="https://www.aspacbank.com/teachersalary-loanform"
-              ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
-              jsonLd={{
-                "@context": "https://schema.org",
-                "@type": "Product",
-                name: "Teacher Salary Loan (APDS)",
-                description:
-                  "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
-                brand: {
-                  "@type": "Organization",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-                offers: {
-                  "@type": "Offer",
-                  url: "https://www.aspacbank.com/teachersalary-loanform",
-                  priceCurrency: "PHP",
-                  availability: "https://schema.org/InStock",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  Hotline: "(032) 272-2724",
-                  MobileNumber: "08982722724",
-                  areaServed: "PH",
-                },
-              }}
-            />
             <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
               Contact ASPAC Bank
             </h2>
@@ -118,33 +87,28 @@ const APDSLoanPage: React.FC = () => {
     <>
       {/* ✅ Page SEO */}
       <Seo
-        title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
-        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
-        canonical="https://www.aspacbank.com/teachersalary-loanform"
+        title="Teacher's Loan| ASPAC Bank"
+        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS): low interest, quick approval, flexible terms, and convenient payroll deduction for educators in the Philippines."
+        canonical="https://www.aspacbank.com/teachers-loan" // ✅ updated
         ogImage="https://www.aspacbank.com/features1.jpg"
+        ogType="product"
+        ogSiteName="ASPAC Bank"
+        ogLocale="en_PH"
+        includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "Product",
+          "@type": "LoanOrCredit",
           name: "Teacher Salary Loan (APDS)",
           description:
-            "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
-          brand: {
-            "@type": "Organization",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com",
-          },
-          offers: {
-            "@type": "Offer",
-            url: "https://www.aspacbank.com/teachersalary-loanform",
-            priceCurrency: "PHP",
-            availability: "https://schema.org/InStock",
-          },
+            "Low-interest, flexible-term salary loans for educators under the Automatic Payroll Deduction Scheme (APDS).",
+          url: "https://www.aspacbank.com/teachers-loan", // ✅ updated
           provider: {
             "@type": "BankOrCreditUnion",
             name: "ASPAC Bank",
-            Hotline: "(032) 272-2724",
-            MobileNumber: "08982722724",
+            url: "https://www.aspacbank.com",
+            telephone: "+63-32-272-2724",
             areaServed: "PH",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
         }}
       />

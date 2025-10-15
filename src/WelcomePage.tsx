@@ -60,7 +60,7 @@ const WelcomePage: React.FC = () => {
       className="w-full bg-white"
     >
       <Seo
-        title="ASPAC Bank – Teacher Salary Loan & Reliable Banking Services"
+        title="ASPAC Bank"
         description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
         canonical="https://www.aspacbank.com/"
         ogImage="https://www.aspacbank.com/APDS3.jpg" // Replace with a real banner image later
@@ -76,7 +76,7 @@ const WelcomePage: React.FC = () => {
           department: {
             "@type": "FinancialService",
             name: "Teacher Salary Loan (APDS)",
-            url: "https://www.aspacbank.com/teachersalary-loanform",
+            url: "https://www.aspacbank.com/teachers-loan",
             serviceType: "Salary Loan for Teachers",
             areaServed: "PH",
             provider: {
@@ -122,9 +122,7 @@ const WelcomePage: React.FC = () => {
                 <button
                   className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
                   style={{ backgroundColor: "#27ae60" }}
-                  onClick={() =>
-                    (window.location.href = "/teachersalary-loanform")
-                  }
+                  onClick={() => (window.location.href = "/teachers-loan")}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor = "#1e8449")
                   }
