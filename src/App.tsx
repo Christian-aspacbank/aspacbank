@@ -31,7 +31,10 @@ const App: React.FC = () => {
           <Route path="/careers" element={<Careers />} />
           <Route path="/branches" element={<Branches />} />
           <Route path="/deposit-account" element={<DepositAccount />} />
-          <Route path="/teachersalary-loanform" element={<APDSLoanPage />} />
+
+          {/* ✅ New path for APDS page */}
+          <Route path="/teachers-loan" element={<APDSLoanPage />} />
+
           <Route
             path="/tuition-fee-collection"
             element={<TuitionFeeCollection />}
