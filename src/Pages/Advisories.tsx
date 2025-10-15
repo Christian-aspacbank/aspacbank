@@ -5,7 +5,6 @@ import {
   FaExclamationTriangle,
   FaPhone,
   FaClock,
-  FaMapPin,
   FaInfoCircle,
   FaShieldAlt,
   FaMobileAlt,
@@ -144,7 +143,7 @@ const Advisories: React.FC = () => {
                       href="tel:+638982722724"
                       className="text-sm font-medium text-gray-900 hover:text-emerald-700"
                     >
-                      0898 272 2724
+                      898 272 2724
                     </a>
                   </div>
 
@@ -205,9 +204,8 @@ const Advisories: React.FC = () => {
               </div>
             </div>
           </div>
-        </motion.div>
 
-          {/* Content */}
+          {/* Content (✅ now inside the same motion.div) */}
           <div className="p-8">
             <div className="text-gray-700 space-y-4 leading-relaxed">
               <p className="text-xl font-semibold text-gray-900">
@@ -230,7 +228,7 @@ const Advisories: React.FC = () => {
               {/* Alternative Branches */}
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-green-600 rounded-xl p-6 mt-6">
                 <p className="font-bold text-green-800 text-lg mb-6 flex items-center gap-2">
-                  <FaMapPin className="text-green-600" />
+                  <FaMapMarkerAlt className="text-green-600" />
                   Visit Our Nearby Branches
                 </p>
 
