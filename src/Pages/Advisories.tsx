@@ -205,6 +205,7 @@ const Advisories: React.FC = () => {
               </div>
             </div>
           </div>
+        </motion.div>
 
           {/* Content */}
           <div className="p-8">
