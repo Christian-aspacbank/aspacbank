@@ -34,7 +34,7 @@ const advisory: Advisory = {
 };
 
 const Advisories: React.FC = () => {
-  const { title, date, content, Icon, iconColor, googleMapsUrl } = advisory;
+  const { title, date, content, Icon, googleMapsUrl } = advisory;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
