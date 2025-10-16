@@ -7,11 +7,13 @@ type SeoProps = {
   description?: string;
   canonical?: string; // absolute URL preferred
   ogImage?: string; // absolute URL preferred
+  ogImageAlt?: string;
+
   jsonLd?: JsonLd; // single JSON-LD block
   jsonLdList?: JsonLd[]; // multiple JSON-LD blocks
 
   // Open Graph options
-  ogType?: string; // e.g., "website" | "article" | "product"
+  ogType?: string; // "website" | "article" | "product" ...
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
@@ -24,25 +26,63 @@ type SeoProps = {
   // Robots controls
   noindex?: boolean;
   nofollow?: boolean;
+
+  // Icons / PWA / theme
+  themeColor?: string; // e.g., "#0a3d62"
+  iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
+  appleTouchIconHref?: string; // e.g., "https://www.aspacbank.com/apple-touch-icon.png"
+  manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
 };
 
-function upsertMeta(selector: string, attrs: Record<string, string>) {
-  let el = document.head.querySelector<HTMLMetaElement>(selector);
+const DATA_ATTR = "data-seo-managed";
+
+function ensureHead() {
+  if (typeof document === "undefined") return null as never;
+  return document.head;
+}
+
+function upsertMetaBy(
+  keyAttr: "name" | "property",
+  keyValue: string,
+  content: string
+) {
+  const head = ensureHead();
+  let el = head.querySelector<HTMLMetaElement>(
+    `meta[${keyAttr}="${keyValue}"]`
+  );
   if (!el) {
     el = document.createElement("meta");
-    document.head.appendChild(el);
+    el.setAttribute(keyAttr, keyValue);
+    el.setAttribute(DATA_ATTR, "1");
+    head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+  return el;
+}
+
+function upsertMeta(selector: string, attrs: Record<string, string>) {
+  const head = ensureHead();
+  let el = head.querySelector<HTMLMetaElement>(selector);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(DATA_ATTR, "1");
+    head.appendChild(el);
   }
   Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
+  return el;
 }
 
 function upsertLinkRel(rel: string, href: string) {
-  let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+  const head = ensureHead();
+  let el = head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
   if (!el) {
     el = document.createElement("link");
     el.setAttribute("rel", rel);
-    document.head.appendChild(el);
+    el.setAttribute(DATA_ATTR, "1");
+    head.appendChild(el);
   }
   el.setAttribute("href", href);
+  return el;
 }
 
 export default function Seo({
@@ -50,6 +90,7 @@ export default function Seo({
   description,
   canonical,
   ogImage,
+  ogImageAlt,
   jsonLd,
   jsonLdList,
 
@@ -64,22 +105,62 @@ export default function Seo({
 
   noindex,
   nofollow,
+
+  themeColor,
+  iconHref,
+  appleTouchIconHref,
+  manifestHref,
 }: SeoProps) {
   useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const createdNodes: HTMLElement[] = [];
+    const mark = <T extends HTMLElement>(el: T) => {
+      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
+      return el;
+    };
+
     // Title
     document.title = title;
 
     // Description
     if (description) {
-      upsertMeta('meta[name="description"]', {
-        name: "description",
-        content: description,
-      });
+      mark(
+        upsertMeta('meta[name="description"]', {
+          name: "description",
+          content: description,
+        })
+      );
     }
 
-    // Canonical
-    if (canonical) {
-      upsertLinkRel("canonical", canonical);
+    // Canonical (fallback to current URL if not provided)
+    const effectiveCanonical =
+      canonical ||
+      (typeof window !== "undefined" ? window.location.href : undefined);
+
+    if (effectiveCanonical) {
+      mark(upsertLinkRel("canonical", String(effectiveCanonical)));
+    }
+
+    // Theme color
+    if (themeColor) {
+      mark(
+        upsertMeta('meta[name="theme-color"]', {
+          name: "theme-color",
+          content: themeColor,
+        })
+      );
+    }
+
+    // Icons & manifest
+    if (iconHref) {
+      mark(upsertLinkRel("icon", iconHref));
+    }
+    if (appleTouchIconHref) {
+      mark(upsertLinkRel("apple-touch-icon", appleTouchIconHref));
+    }
+    if (manifestHref) {
+      mark(upsertLinkRel("manifest", manifestHref));
     }
 
     // Robots
@@ -87,95 +168,68 @@ export default function Seo({
       const robots = `${noindex ? "noindex" : "index"}, ${
         nofollow ? "nofollow" : "follow"
       }`;
-      upsertMeta('meta[name="robots"]', { name: "robots", content: robots });
-      upsertMeta('meta[name="googlebot"]', {
-        name: "googlebot",
-        content: robots,
-      });
+      mark(
+        upsertMeta('meta[name="robots"]', { name: "robots", content: robots })
+      );
+      mark(
+        upsertMeta('meta[name="googlebot"]', {
+          name: "googlebot",
+          content: robots,
+        })
+      );
     }
 
     // Open Graph
-    upsertMeta('meta[property="og:type"]', {
-      property: "og:type",
-      content: ogType,
-    });
-    upsertMeta('meta[property="og:title"]', {
-      property: "og:title",
-      content: title,
-    });
+    mark(upsertMetaBy("property", "og:type", ogType));
+    mark(upsertMetaBy("property", "og:title", title));
+
     if (description) {
-      upsertMeta('meta[property="og:description"]', {
-        property: "og:description",
-        content: description,
-      });
+      mark(upsertMetaBy("property", "og:description", description));
     }
-    if (canonical) {
-      upsertMeta('meta[property="og:url"]', {
-        property: "og:url",
-        content: canonical,
-      });
+    if (effectiveCanonical) {
+      mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
     }
     if (ogImage) {
-      upsertMeta('meta[property="og:image"]', {
-        property: "og:image",
-        content: ogImage,
-      });
+      mark(upsertMetaBy("property", "og:image", ogImage));
+      if (ogImageAlt) {
+        mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
+      }
     }
     if (ogSiteName) {
-      upsertMeta('meta[property="og:site_name"]', {
-        property: "og:site_name",
-        content: ogSiteName,
-      });
+      mark(upsertMetaBy("property", "og:site_name", ogSiteName));
     }
     if (ogLocale) {
-      upsertMeta('meta[property="og:locale"]', {
-        property: "og:locale",
-        content: ogLocale,
-      });
+      mark(upsertMetaBy("property", "og:locale", ogLocale));
     }
 
     // Twitter (optional)
     if (includeTwitter) {
-      upsertMeta('meta[name="twitter:card"]', {
-        name: "twitter:card",
-        content: twitterCard,
-      });
-      upsertMeta('meta[name="twitter:title"]', {
-        name: "twitter:title",
-        content: title,
-      });
+      mark(upsertMetaBy("name", "twitter:card", twitterCard));
+      mark(upsertMetaBy("name", "twitter:title", title));
+
       if (description) {
-        upsertMeta('meta[name="twitter:description"]', {
-          name: "twitter:description",
-          content: description,
-        });
+        mark(upsertMetaBy("name", "twitter:description", description));
       }
       if (ogImage) {
-        upsertMeta('meta[name="twitter:image"]', {
-          name: "twitter:image",
-          content: ogImage,
-        });
+        mark(upsertMetaBy("name", "twitter:image", ogImage));
+        if (ogImageAlt) {
+          mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
+        }
       }
       if (twitterSite) {
-        upsertMeta('meta[name="twitter:site"]', {
-          name: "twitter:site",
-          content: twitterSite,
-        });
+        mark(upsertMetaBy("name", "twitter:site", twitterSite));
       }
       if (twitterCreator) {
-        upsertMeta('meta[name="twitter:creator"]', {
-          name: "twitter:creator",
-          content: twitterCreator,
-        });
+        mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
       }
     }
 
     // JSON-LD (support single or multiple blocks)
-    const createdScripts: HTMLScriptElement[] = [];
     const blocks: JsonLd[] = [
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
+    const createdScripts: HTMLScriptElement[] = [];
 
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
@@ -183,20 +237,23 @@ export default function Seo({
         el.type = "application/ld+json";
         el.text = JSON.stringify(block);
         el.setAttribute("data-seo-jsonld", `block-${i}`);
+        el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
       });
     }
 
-    // Cleanup only the JSON-LD scripts we created on this render
+    // Cleanup only nodes we created this render
     return () => {
       createdScripts.forEach((s) => s.parentNode?.removeChild(s));
+      createdNodes.forEach((n) => n.parentNode?.removeChild(n));
     };
   }, [
     title,
     description,
     canonical,
     ogImage,
+    ogImageAlt,
     jsonLd,
     jsonLdList,
     ogType,
@@ -208,6 +265,10 @@ export default function Seo({
     twitterCreator,
     noindex,
     nofollow,
+    themeColor,
+    iconHref,
+    appleTouchIconHref,
+    manifestHref,
   ]);
 
   return null; // nothing to render in the page body
