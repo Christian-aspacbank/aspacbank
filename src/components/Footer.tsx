@@ -13,7 +13,10 @@ const Footer: React.FC = () => {
     currentPath === "/" || currentPath.includes("deposit-account");
 
   return (
-    <div className="bg-gray-300 py-10 px-6">
+    <div
+      className="bg-gray-300 py-10 px-6 border-t-4"
+      style={{ borderTopColor: "#459243" }}
+    >
       {showPDICImage && (
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center mb-6 space-y-2">
           <img
@@ -22,7 +25,9 @@ const Footer: React.FC = () => {
             className="h-40 object-contain"
           />
           <p className="text-sm text-gray-700 font-medium">
-            Deposits are insured by the PDIC up to P 1 Million per depositor.
+            Deposits are insured by the PDIC up to{" "}
+            <span className="font-semibold text-[#459243]">P 1 Million</span>{" "}
+            per depositor.
           </p>
           <p className="text-sm text-gray-700">
             ASPAC Bank is regulated by the <b>Bangko Sentral ng Pilipinas</b>{" "}
@@ -30,7 +35,8 @@ const Footer: React.FC = () => {
               href="https://www.bsp.gov.ph/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-blue-700 hover:text-blue-900"
+              className="underline text-[#459243] hover:opacity-90 focus:outline-none focus:ring-2 rounded"
+              style={{ boxShadow: "0 0 0 0 #0000" }}
             >
               https://www.bsp.gov.ph/
             </a>
@@ -38,7 +44,10 @@ const Footer: React.FC = () => {
         </div>
       )}
 
-      <hr />
+      <hr
+        className="border-t mt-4"
+        style={{ borderColor: "#ebd839", opacity: 0.5 }}
+      />
 
       <br />
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-700">
@@ -53,7 +62,7 @@ const Footer: React.FC = () => {
             Email:{" "}
             <a
               href="mailto:aspacbank@aspacbank.com"
-              className="text-green-700 hover:underline"
+              className="text-[#459243] hover:opacity-90 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-[#ebd839] rounded"
             >
               aspacbank@aspacbank.com
             </a>

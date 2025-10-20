@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
       {/* Logo */}
       <Link
         to="/"
-        className="text-green-600 text-xl font-medium flex items-center space-x-2 flex-nowrap"
+        className="text-[#459243] text-xl font-medium flex items-center space-x-2 flex-nowrap"
       >
         <img
           src="/Aspac_logo-03A.png"
@@ -43,30 +43,30 @@ const Navbar: React.FC = () => {
         } md:flex flex-col md:flex-row md:static absolute top-full left-0 w-full bg-white md:bg-transparent shadow-md md:shadow-none z-50 md:z-auto p-4 md:p-0 md:space-x-6 text-gray-700 font-medium items-center md:items-start justify-center md:justify-start`}
       >
         <ul className="flex flex-col md:flex-row items-center justify-center w-full space-y-4 md:space-y-0 md:space-x-6 text-center">
-          <li className="hover:text-green-600 cursor-pointer">
+          <li className="hover:text-[#459243] cursor-pointer">
             <Link to="/our-services" onClick={() => setIsOpen(false)}>
               Services
             </Link>
           </li>
-          <li className="hover:text-green-600 cursor-pointer">
+          <li className="hover:text-[#459243] cursor-pointer">
             <Link to="/features" onClick={() => setIsOpen(false)}>
               Features
             </Link>
           </li>
 
           {/* Advisory Dropdown */}
-          <li className="hover:text-green-600 cursor-pointer">
+          <li className="hover:text-[#459243] cursor-pointer">
             <Link to="/advisories" onClick={() => setIsOpen(false)}>
               Advisories
             </Link>
           </li>
 
-          <li className="hover:text-green-600 cursor-pointer">
+          <li className="hover:text-[#459243] cursor-pointer">
             <Link to="/careers" onClick={() => setIsOpen(false)}>
               Careers
             </Link>
           </li>
-          <li className="hover:text-green-600 cursor-pointer">
+          <li className="hover:text-[#459243] cursor-pointer">
             <Link to="/branches" onClick={() => setIsOpen(false)}>
               Branches
             </Link>
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
           <li className="md:hidden w-full flex justify-center">
             <button
               onClick={() => setIsOpen(false)}
-              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 w-auto whitespace-nowrap"
+              className="px-4 py-2 bg-[#459243] text-white rounded-md hover:bg-[#367636] w-auto whitespace-nowrap transition-colors duration-200"
             >
               Get Started
             </button>
@@ -84,7 +84,7 @@ const Navbar: React.FC = () => {
 
       {/* Desktop Get Started Button */}
       <div className="hidden md:flex space-x-4">
-        <button className="px-4 py-2 bg-[#27ae60] text-white rounded-md hover:bg-green-600 whitespace-nowrap">
+        <button className="px-4 py-2 bg-[#459243] text-white rounded-md hover:bg-[#367636] whitespace-nowrap transition-colors duration-200">
           Get Started
         </button>
       </div>

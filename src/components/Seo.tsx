@@ -28,7 +28,7 @@ type SeoProps = {
   nofollow?: boolean;
 
   // Icons / PWA / theme
-  themeColor?: string; // e.g., "#0a3d62"
+  themeColor?: string; // e.g., "#459243"
   iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
   appleTouchIconHref?: string; // e.g., "https://www.aspacbank.com/apple-touch-icon.png"
   manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
