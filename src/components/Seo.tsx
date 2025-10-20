@@ -288,6 +288,7 @@ export default function Seo({
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
+    const createdScripts: HTMLScriptElement[] = [];
 
     // Organization / BankOrCreditUnion (with required address)
     if (organization) {

@@ -112,6 +112,20 @@ const APDSLoanPage: React.FC = () => {
             postalCode: "6014",
             addressCountry: "PH",
           },
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              contactType: "customer service",
+              telephone: "(032) 272-2724",
+              areaServed: "PH",
+            },
+            {
+              "@type": "ContactPoint",
+              contactType: "customer service",
+              telephone: "0898 272 2724",
+              areaServed: "PH",
+            },
+          ],
         }}
         services={[
           {
