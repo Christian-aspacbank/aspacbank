@@ -79,14 +79,12 @@ function ensureHead() {
 function abs(url?: string) {
   if (!url) return url;
   try {
-    // already absolute
     return new URL(url).toString();
   } catch {
-    // make absolute relative to site origin
     if (typeof window !== "undefined" && url.startsWith("/")) {
       return `${window.location.origin}${url}`;
     }
-    return url; // fallback
+    return url;
   }
 }
 
@@ -173,7 +171,6 @@ export default function Seo({
     const mark = <T extends HTMLElement>(el: T) => {
       if (el.getAttribute(DATA_ATTR) === "1") {
         createdNodes.push(el);
-        // strip the tracking attribute from the live DOM
         el.removeAttribute(DATA_ATTR);
       }
       return el;
@@ -192,7 +189,7 @@ export default function Seo({
       );
     }
 
-    // Canonical (fallback to current URL if not provided)
+    // Canonical
     const effectiveCanonical =
       abs(canonical) ||
       (typeof window !== "undefined" ? window.location.href : undefined);
@@ -241,46 +238,32 @@ export default function Seo({
     // Open Graph
     mark(upsertMetaBy("property", "og:type", ogType));
     mark(upsertMetaBy("property", "og:title", title));
-
-    if (description) {
+    if (description)
       mark(upsertMetaBy("property", "og:description", description));
-    }
-    if (effectiveCanonical) {
+    if (effectiveCanonical)
       mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
-    }
     if (ogImage) {
       mark(upsertMetaBy("property", "og:image", abs(ogImage)!));
-      if (ogImageAlt) {
+      if (ogImageAlt)
         mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
-      }
     }
-    if (ogSiteName) {
-      mark(upsertMetaBy("property", "og:site_name", ogSiteName));
-    }
-    if (ogLocale) {
-      mark(upsertMetaBy("property", "og:locale", ogLocale));
-    }
+    if (ogSiteName) mark(upsertMetaBy("property", "og:site_name", ogSiteName));
+    if (ogLocale) mark(upsertMetaBy("property", "og:locale", ogLocale));
 
-    // Twitter (optional)
+    // Twitter
     if (includeTwitter) {
       mark(upsertMetaBy("name", "twitter:card", twitterCard));
       mark(upsertMetaBy("name", "twitter:title", title));
-
-      if (description) {
+      if (description)
         mark(upsertMetaBy("name", "twitter:description", description));
-      }
       if (ogImage) {
         mark(upsertMetaBy("name", "twitter:image", abs(ogImage)!));
-        if (ogImageAlt) {
+        if (ogImageAlt)
           mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
-        }
       }
-      if (twitterSite) {
-        mark(upsertMetaBy("name", "twitter:site", twitterSite));
-      }
-      if (twitterCreator) {
+      if (twitterSite) mark(upsertMetaBy("name", "twitter:site", twitterSite));
+      if (twitterCreator)
         mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
-      }
     }
 
     // ---------- JSON-LD ----------
@@ -288,9 +271,9 @@ export default function Seo({
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
-    const createdScripts: HTMLScriptElement[] = [];
+    const createdScripts: HTMLScriptElement[] = []; // <-- keep this one
 
-    // Organization / BankOrCreditUnion (with required address)
+    // Organization / BankOrCreditUnion
     if (organization) {
       const orgType = organization.type ?? "BankOrCreditUnion";
       blocks.push({
@@ -308,7 +291,7 @@ export default function Seo({
       });
     }
 
-    // FinancialService entries (uses org as provider)
+    // FinancialService entries
     if (services?.length) {
       services.forEach((svc) => {
         blocks.push({
@@ -333,7 +316,7 @@ export default function Seo({
       });
     }
 
-    // WebSite schema (with a simple SearchAction)
+    // WebSite schema
     if (includeWebsiteSchema) {
       const origin =
         typeof window !== "undefined" ? window.location.origin : undefined;
@@ -367,7 +350,7 @@ export default function Seo({
     }
 
     // Emit scripts
-    const createdScripts: HTMLScriptElement[] = [];
+    // ❌ removed: `const createdScripts: HTMLScriptElement[] = [];`
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
         const el = document.createElement("script");
@@ -377,7 +360,6 @@ export default function Seo({
         el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
-        // strip tracking attribute from the live DOM
         el.removeAttribute(DATA_ATTR);
       });
     }
@@ -408,12 +390,11 @@ export default function Seo({
     iconHref,
     appleTouchIconHref,
     manifestHref,
-    // NEW deps:
     organization,
     services,
     includeWebsiteSchema,
     breadcrumbs,
   ]);
 
-  return null; // nothing to render in the page body
+  return null;
 }
