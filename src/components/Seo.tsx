@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
@@ -13,16 +13,16 @@ type PostalAddress = {
 type OrganizationSchemaInput = {
   type?: "Organization" | "BankOrCreditUnion";
   name: string;
-  url?: string;
-  logo?: string;
+  url?: string; // absolute preferred
+  logo?: string; // absolute preferred
   telephone?: string;
   sameAs?: string[];
-  address: PostalAddress;
+  address: PostalAddress; // REQUIRED to satisfy Rich Results warning
 };
 
 type FinancialServiceInput = {
   name: string;
-  url: string;
+  url: string; // absolute preferred
   serviceType?: string;
   areaServed?: string | string[];
   providerName?: string; // defaults to organization.name
@@ -30,11 +30,11 @@ type FinancialServiceInput = {
 
 type BreadcrumbItem = { name: string; url: string };
 
-export type SeoProps = {
+type SeoProps = {
   title: string;
   description?: string;
-  canonical?: string; // absolute preferred
-  ogImage?: string; // absolute preferred
+  canonical?: string; // absolute URL preferred
+  ogImage?: string; // absolute URL preferred
   ogImageAlt?: string;
 
   // JSON-LD (raw)
@@ -42,21 +42,31 @@ export type SeoProps = {
   jsonLdList?: JsonLd[];
 
   // Open Graph
-  ogType?: string; // default: "website"
+  ogType?: string; // "website" | "article" | "product" ...
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
-  // Twitter
+  // Twitter (optional)
   includeTwitter?: boolean;
   twitterCard?: "summary" | "summary_large_image";
   twitterSite?: string; // e.g., "@aspacbank"
   twitterCreator?: string;
 
-  // Structured data helpers
-  organization?: OrganizationSchemaInput;
-  services?: FinancialServiceInput[];
+  // Robots
+  noindex?: boolean;
+  nofollow?: boolean;
+
+  // Icons / PWA / theme
+  themeColor?: string; // e.g., "#0a3d62"
+  iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
+  appleTouchIconHref?: string;
+  manifestHref?: string;
+
+  // ---- NEW: Structured data helpers ----
+  organization?: OrganizationSchemaInput; // adds BankOrCreditUnion/Organization with address
+  services?: FinancialServiceInput[]; // adds FinancialService list (uses org as provider)
   includeWebsiteSchema?: boolean; // emits WebSite with SearchAction
-  breadcrumbs?: BreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[]; // emits BreadcrumbList
 };
 
 const DATA_ATTR = "data-seo-managed";
@@ -69,12 +79,14 @@ function ensureHead() {
 function abs(url?: string) {
   if (!url) return url;
   try {
+    // already absolute
     return new URL(url).toString();
   } catch {
+    // make absolute relative to site origin
     if (typeof window !== "undefined" && url.startsWith("/")) {
       return `${window.location.origin}${url}`;
     }
-    return url;
+    return url; // fallback
   }
 }
 
@@ -122,7 +134,7 @@ function upsertLinkRel(rel: string, href: string) {
   return el;
 }
 
-const Seo: React.FC<SeoProps> = ({
+export default function Seo({
   title,
   description,
   canonical,
@@ -140,11 +152,20 @@ const Seo: React.FC<SeoProps> = ({
   twitterSite,
   twitterCreator,
 
+  noindex,
+  nofollow,
+
+  themeColor,
+  iconHref,
+  appleTouchIconHref,
+  manifestHref,
+
+  // NEW
   organization,
   services,
   includeWebsiteSchema,
   breadcrumbs,
-}) => {
+}: SeoProps) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
@@ -152,13 +173,42 @@ const Seo: React.FC<SeoProps> = ({
     const mark = <T extends HTMLElement>(el: T) => {
       if (el.getAttribute(DATA_ATTR) === "1") {
         createdNodes.push(el);
+        // strip the tracking attribute from the live DOM
         el.removeAttribute(DATA_ATTR);
       }
       return el;
     };
 
-    // Title
-    document.title = title;
+    // Title — place it right after <meta charset="utf-8">
+    const head = document.head;
+    let titleTag = head.querySelector("title");
+
+    if (!titleTag) {
+      titleTag = document.createElement("title");
+    }
+
+    // Always set/update the text
+    titleTag.textContent = title;
+
+    // Find the <meta charset> tag
+    const metaCharset = head.querySelector("meta[charset]");
+
+    // If <meta charset> exists, insert the <title> right after it
+    if (metaCharset) {
+      if (metaCharset.nextSibling) {
+        head.insertBefore(titleTag, metaCharset.nextSibling);
+      } else {
+        head.appendChild(titleTag);
+      }
+    } else {
+      // fallback — just put it at the top if no meta charset
+      head.prepend(titleTag);
+    }
+
+    // Optional: ensure only one title exists
+    Array.from(head.querySelectorAll("title")).forEach((el) => {
+      if (el !== titleTag) el.remove();
+    });
 
     // Description
     if (description) {
@@ -170,7 +220,7 @@ const Seo: React.FC<SeoProps> = ({
       );
     }
 
-    // Canonical (fall back to current URL)
+    // Canonical (fallback to current URL if not provided)
     const effectiveCanonical =
       abs(canonical) ||
       (typeof window !== "undefined" ? window.location.href : undefined);
@@ -179,35 +229,86 @@ const Seo: React.FC<SeoProps> = ({
       mark(upsertLinkRel("canonical", String(effectiveCanonical)));
     }
 
+    // Theme color
+    if (themeColor) {
+      mark(
+        upsertMeta('meta[name="theme-color"]', {
+          name: "theme-color",
+          content: themeColor,
+        })
+      );
+    }
+
+    // Icons & manifest
+    if (iconHref) {
+      mark(upsertLinkRel("icon", abs(iconHref)!));
+    }
+    if (appleTouchIconHref) {
+      mark(upsertLinkRel("apple-touch-icon", abs(appleTouchIconHref)!));
+    }
+    if (manifestHref) {
+      mark(upsertLinkRel("manifest", abs(manifestHref)!));
+    }
+
+    // Robots
+    if (noindex || nofollow) {
+      const robots = `${noindex ? "noindex" : "index"}, ${
+        nofollow ? "nofollow" : "follow"
+      }`;
+      mark(
+        upsertMeta('meta[name="robots"]', { name: "robots", content: robots })
+      );
+      mark(
+        upsertMeta('meta[name="googlebot"]', {
+          name: "googlebot",
+          content: robots,
+        })
+      );
+    }
+
     // Open Graph
     mark(upsertMetaBy("property", "og:type", ogType));
     mark(upsertMetaBy("property", "og:title", title));
-    if (description)
+
+    if (description) {
       mark(upsertMetaBy("property", "og:description", description));
-    if (effectiveCanonical)
+    }
+    if (effectiveCanonical) {
       mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
+    }
     if (ogImage) {
       mark(upsertMetaBy("property", "og:image", abs(ogImage)!));
-      if (ogImageAlt)
+      if (ogImageAlt) {
         mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
+      }
     }
-    if (ogSiteName) mark(upsertMetaBy("property", "og:site_name", ogSiteName));
-    if (ogLocale) mark(upsertMetaBy("property", "og:locale", ogLocale));
+    if (ogSiteName) {
+      mark(upsertMetaBy("property", "og:site_name", ogSiteName));
+    }
+    if (ogLocale) {
+      mark(upsertMetaBy("property", "og:locale", ogLocale));
+    }
 
-    // Twitter
+    // Twitter (optional)
     if (includeTwitter) {
       mark(upsertMetaBy("name", "twitter:card", twitterCard));
       mark(upsertMetaBy("name", "twitter:title", title));
-      if (description)
+
+      if (description) {
         mark(upsertMetaBy("name", "twitter:description", description));
+      }
       if (ogImage) {
         mark(upsertMetaBy("name", "twitter:image", abs(ogImage)!));
-        if (ogImageAlt)
+        if (ogImageAlt) {
           mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
+        }
       }
-      if (twitterSite) mark(upsertMetaBy("name", "twitter:site", twitterSite));
-      if (twitterCreator)
+      if (twitterSite) {
+        mark(upsertMetaBy("name", "twitter:site", twitterSite));
+      }
+      if (twitterCreator) {
         mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
+      }
     }
 
     // ---------- JSON-LD ----------
@@ -215,9 +316,8 @@ const Seo: React.FC<SeoProps> = ({
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
-    const createdScripts: HTMLScriptElement[] = [];
 
-    // Organization / BankOrCreditUnion
+    // Organization / BankOrCreditUnion (with required address)
     if (organization) {
       const orgType = organization.type ?? "BankOrCreditUnion";
       blocks.push({
@@ -228,11 +328,14 @@ const Seo: React.FC<SeoProps> = ({
         logo: abs(organization.logo),
         telephone: organization.telephone,
         sameAs: organization.sameAs,
-        address: { "@type": "PostalAddress", ...organization.address },
+        address: {
+          "@type": "PostalAddress",
+          ...organization.address,
+        },
       });
     }
 
-    // FinancialService entries
+    // FinancialService entries (uses org as provider)
     if (services?.length) {
       services.forEach((svc) => {
         blocks.push({
@@ -247,14 +350,17 @@ const Seo: React.FC<SeoProps> = ({
                 "@type": organization.type ?? "BankOrCreditUnion",
                 name: svc.providerName ?? organization.name,
                 url: abs(organization.url),
-                address: { "@type": "PostalAddress", ...organization.address },
+                address: {
+                  "@type": "PostalAddress",
+                  ...organization.address,
+                },
               }
             : undefined,
         });
       });
     }
 
-    // WebSite schema with SearchAction
+    // WebSite schema (with a simple SearchAction)
     if (includeWebsiteSchema) {
       const origin =
         typeof window !== "undefined" ? window.location.origin : undefined;
@@ -287,7 +393,8 @@ const Seo: React.FC<SeoProps> = ({
       });
     }
 
-    // Emit scripts (declare createdScripts only once)
+    // Emit scripts
+    const createdScripts: HTMLScriptElement[] = [];
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
         const el = document.createElement("script");
@@ -297,11 +404,12 @@ const Seo: React.FC<SeoProps> = ({
         el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
+        // strip tracking attribute from the live DOM
         el.removeAttribute(DATA_ATTR);
       });
     }
 
-    // Cleanup only what we created
+    // Cleanup only nodes we created this render
     return () => {
       createdScripts.forEach((s) => s.parentNode?.removeChild(s));
       createdNodes.forEach((n) => n.parentNode?.removeChild(n));
@@ -321,13 +429,18 @@ const Seo: React.FC<SeoProps> = ({
     twitterCard,
     twitterSite,
     twitterCreator,
+    noindex,
+    nofollow,
+    themeColor,
+    iconHref,
+    appleTouchIconHref,
+    manifestHref,
+    // NEW deps:
     organization,
     services,
     includeWebsiteSchema,
     breadcrumbs,
   ]);
 
-  return null;
-};
-
-export default Seo;
+  return null; // nothing to render in the page body
+}

@@ -17,17 +17,15 @@ import {
 const FaPiggyBank = PiggyBankIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
-
 const FaClipboardCheck = ClipboardIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
-
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
 
-// ✅ Updated Modal with AnimatePresence & motion.div
+// Contact Modal
 const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
@@ -36,38 +34,41 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <motion.div
-            className="bg-white p-12 rounded-lg w-96 max-w-sm shadow-2xl"
-            initial={{ y: 100, opacity: 0 }}
+            className="bg-white p-8 sm:p-10 rounded-2xl w-[92%] max-w-md shadow-2xl"
+            initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Contact ASPAC Bank"
           >
-            <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-primary mb-4">
               Contact ASPAC Bank
             </h2>
-            <p className="text-center text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed font-light tracking-wide">
+            <p className="text-center text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
               For inquiries or assistance, reach out to us via the following:
             </p>
             <div className="text-center mb-6 space-y-2">
-              <p className="text-xl text-green-700 font-semibold tracking-tight">
+              <p className="text-lg text-primary font-semibold">
                 <span className="font-medium">Landline:</span> 345-0929,
                 345-0930
               </p>
-              <p className="text-xl text-green-700 font-semibold tracking-tight">
+              <p className="text-lg text-primary font-semibold">
                 <span className="font-medium">Mobile:</span> 0917-127-7796
               </p>
             </div>
             <div className="flex justify-center">
               <button
-                className="bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-red-600 hover:scale-105 focus:ring-4 focus:ring-red-300"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-2.5 px-6 rounded-full shadow-sm focus:outline-none focus:ring-4 focus:ring-primary/30"
                 onClick={onClose}
               >
                 Close
@@ -85,51 +86,63 @@ const APDSLoanPage: React.FC = () => {
 
   return (
     <>
-      {/* ✅ Page SEO */}
+      {/* Page SEO */}
       <Seo
-        title="Teacher Salary Loan (APDS) | ASPAC Bank – Low Interest & Fast Approval"
-        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) – exclusive for educators. Enjoy low-interest rates, easy approval, flexible payment terms, and automatic payroll deduction. Empower your teaching journey with ASPAC Bank."
-        canonical="https://www.aspacbank.com/teachersalary-loanform"
-        ogImage="https://www.aspacbank.com/assets/teachers-loan-banner.jpg"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Product",
-          name: "Teacher Salary Loan (APDS)",
-          description:
-            "Low-interest, flexible-term salary loans designed for educators under the Automatic Payroll Deduction Scheme (APDS).",
-          brand: {
-            "@type": "Organization",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com",
-          },
-          offers: {
-            "@type": "Offer",
-            url: "https://www.aspacbank.com/teachersalary-loanform",
-            priceCurrency: "PHP",
-            availability: "https://schema.org/InStock",
-          },
-          provider: {
-            "@type": "BankOrCreditUnion",
-            name: "ASPAC Bank",
-            Hotline: "(032) 272-2724",
-            MobileNumber: "08982722724",
-            areaServed: "PH",
+        title="Teacher Salary Loan (APDS) | ASPAC Bank"
+        description="Apply for a Teacher Salary Loan (APDS) with ASPAC Bank—fast approval, flexible terms, and dedicated support for teachers in Cebu."
+        canonical="https://www.aspacbank.com/teachers-loan"
+        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogSiteName="ASPAC Bank"
+        ogLocale="en_PH"
+        includeTwitter
+        twitterCard="summary_large_image"
+        twitterSite="@aspacbank"
+        organization={{
+          type: "BankOrCreditUnion",
+          name: "ASPAC Bank",
+          url: "https://www.aspacbank.com/",
+          logo: "https://www.aspacbank.com/favicon.ico",
+          telephone: "+63-32-272-2724",
+          sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          address: {
+            streetAddress: "V. Rama Avenue, Guadalupe",
+            addressLocality: "Cebu City",
+            addressRegion: "Cebu",
+            postalCode: "6000",
+            addressCountry: "PH",
           },
         }}
+        services={[
+          {
+            name: "Teacher Salary Loan (APDS)",
+            url: "https://www.aspacbank.com/teachers-loan",
+            serviceType: "Salary Loan for Teachers",
+            areaServed: "PH",
+          },
+        ]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.aspacbank.com/" },
+          { name: "Loans", url: "https://www.aspacbank.com/loans" },
+          {
+            name: "Teacher Salary Loan (APDS)",
+            url: "https://www.aspacbank.com/teachers-loan",
+          },
+        ]}
       />
 
-      {/* ✅ Page Content */}
+      {/* Page Content */}
       <div className="w-full bg-white shadow-2xl overflow-hidden">
         {/* Banner */}
         <div className="relative w-full">
           <img
-            src="./features1.jpg"
+            src="/features1.jpg"
             alt="Educators Banner"
             className="w-full h-64 sm:h-80 object-cover"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-3xl sm:text-5xl font-medium text-white tracking-wide text-center px-2">
+            <h2 className="text-3xl sm:text-5xl font-semibold text-white tracking-wide text-center px-2 drop-shadow">
               APDS Loan for Educators
             </h2>
           </div>
@@ -138,9 +151,9 @@ const APDSLoanPage: React.FC = () => {
         {/* Hero Section */}
         <div
           className="w-full text-white text-center px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16"
-          style={{ background: "linear-gradient(135deg, #27ae60, #1e8449)" }}
+          style={{ background: "linear-gradient(135deg, #459243, #2e6f33)" }} // from primary to darker green
         >
-          <p className="mx-auto max-w-[44rem] leading-relaxed opacity-90 mb-6 sm:mb-8 text-base sm:text-lg md:text-xl">
+          <p className="mx-auto max-w-[44rem] leading-relaxed/loose opacity-95 mb-6 sm:mb-8 text-base sm:text-lg md:text-xl">
             The Automatic Payroll Deduction Scheme (APDS) Loan is designed
             specifically for hardworking teachers and school personnel. Fuel
             your educational mission with our flexible loan options.
@@ -151,14 +164,14 @@ const APDSLoanPage: React.FC = () => {
             <a
               href="/files/ASPAC_Salary_loan_form.pdf"
               download="ASPAC_Salary_loan_form.pdf"
-              className="w-full sm:w-auto inline-flex justify-center bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              className="w-full sm:w-auto inline-flex justify-center bg-white text-gray-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30"
               aria-label="Download Salary Loan Form (PDF)"
             >
               Download Form
             </a>
 
             <button
-              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              className="w-full sm:w-auto bg-aspac-yellow text-black font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aspac-yellow/40"
               onClick={() => setIsContactModalOpen(true)}
               aria-label="Call ASPAC now"
             >
@@ -190,13 +203,13 @@ const APDSLoanPage: React.FC = () => {
               title: "Salary Deduction",
               description: "Automatic monthly payments",
             },
-          ].map(({ Icon, title, description }, index) => (
+          ].map(({ Icon, title, description }) => (
             <div
-              key={index}
+              key={title}
               className="text-center bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
             >
-              <div className="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <Icon className="text-2xl text-green-700" />
+              <div className="bg-primary/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <Icon className="text-2xl text-primary" />
               </div>
               <h4 className="text-lg font-semibold">{title}</h4>
               <p className="text-gray-600 text-sm">{description}</p>
@@ -229,7 +242,7 @@ const APDSLoanPage: React.FC = () => {
             pagination={{ clickable: true }}
             navigation
             autoplay={{ delay: 4000 }}
-            loop={true}
+            loop
             className="max-w-3xl mx-auto"
           >
             {[
@@ -251,21 +264,20 @@ const APDSLoanPage: React.FC = () => {
                 author: "Anna D., Elementary Teacher",
                 avatar: "woman2.png",
               },
-            ].map((testimonial, index) => (
-              <SwiperSlide key={index}>
+            ].map((t) => (
+              <SwiperSlide key={t.author}>
                 <div className="bg-gray-100 p-8 rounded-2xl shadow-md hover:shadow-lg transition text-center">
                   <img
-                    src={`/avatars/${testimonial.avatar}`}
-                    alt={testimonial.author}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-green-500 object-cover"
+                    src={`/avatars/${t.avatar}`}
+                    alt={t.author}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-primary object-cover"
+                    loading="lazy"
                   />
-                  <p className="text-green-700 text-4xl mb-2 leading-none">"</p>
+                  <p className="text-primary text-4xl mb-2 leading-none">"</p>
                   <p className="text-lg italic mb-4 text-gray-700">
-                    "{testimonial.quote}"
+                    "{t.quote}"
                   </p>
-                  <h4 className="font-bold text-green-800">
-                    {testimonial.author}
-                  </h4>
+                  <h4 className="font-bold text-primary">{t.author}</h4>
                 </div>
               </SwiperSlide>
             ))}
