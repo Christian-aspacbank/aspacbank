@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
@@ -43,6 +43,16 @@ type SeoProps = {
 
   // Open Graph
   ogType?: string; // "website" | "article" | "product" ...
+  canonical?: string; // absolute preferred
+  ogImage?: string; // absolute preferred
+  ogImageAlt?: string;
+
+  // JSON-LD (raw)
+  jsonLd?: JsonLd;
+  jsonLdList?: JsonLd[];
+
+  // Open Graph
+  ogType?: string; // default: "website"
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
@@ -132,7 +142,7 @@ function upsertLinkRel(rel: string, href: string) {
   return el;
 }
 
-export default function Seo({
+const Seo: React.FC<SeoProps> = ({
   title,
   description,
   canonical,
@@ -164,6 +174,11 @@ export default function Seo({
   includeWebsiteSchema,
   breadcrumbs,
 }: SeoProps) {
+  organization,
+  services,
+  includeWebsiteSchema,
+  breadcrumbs,
+}) => {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
@@ -233,6 +248,15 @@ export default function Seo({
           content: robots,
         })
       );
+    }
+
+    // Canonical (fall back to current URL)
+    const effectiveCanonical =
+      abs(canonical) ||
+      (typeof window !== "undefined" ? window.location.href : undefined);
+
+    if (effectiveCanonical) {
+      mark(upsertLinkRel("canonical", String(effectiveCanonical)));
     }
 
     // Open Graph
@@ -365,6 +389,7 @@ export default function Seo({
     }
 
     // Cleanup only nodes we created this render
+    // Cleanup only what we created
     return () => {
       createdScripts.forEach((s) => s.parentNode?.removeChild(s));
       createdNodes.forEach((n) => n.parentNode?.removeChild(n));

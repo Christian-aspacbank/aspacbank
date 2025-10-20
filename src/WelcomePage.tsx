@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation, EffectFade } from "swiper/modules";
 import { FaMapMarkerAlt, FaPhoneAlt, FaFacebookF } from "react-icons/fa";
@@ -26,6 +27,18 @@ const WelcomePage: React.FC = () => {
   const SHOW_LOCAL_HEADER = false;
 
   // --- Advisory data (keep short, factual) --- //
+  const SHOW_LOCAL_HEADER = false;
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const navButtons = document.querySelectorAll(
+        ".swiper-button-next, .swiper-button-prev"
+      );
+      navButtons.forEach((btn) => btn.classList.remove("hidden"));
+    }, 500);
+    return () => clearTimeout(t);
+  }, []);
+
   type NewsItem = {
     title: string;
     content: string;
@@ -45,6 +58,7 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-primary",
+      iconColor: "text-[#459243]", // was text-green-600
       to: "/advisories",
     },
   ];
@@ -69,6 +83,9 @@ const WelcomePage: React.FC = () => {
         twitterSite="@aspacbank"
         organization={{
           type: "BankOrCreditUnion",
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
           name: "ASPAC Bank",
           url: "https://www.aspacbank.com/",
           logo: "https://www.aspacbank.com/favicon.ico",
@@ -85,10 +102,14 @@ const WelcomePage: React.FC = () => {
         }}
         services={[
           {
+          sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          department: {
+            "@type": "FinancialService",
             name: "Teacher Salary Loan (APDS)",
             url: "https://www.aspacbank.com/teachers-loan",
             serviceType: "Salary Loan for Teachers",
             areaServed: "PH",
+            provider: { "@type": "BankOrCreditUnion", name: "ASPAC Bank" },
           },
           {
             name: "Deposit Account",
@@ -104,6 +125,7 @@ const WelcomePage: React.FC = () => {
       {/* Top announcement bar */}
       <div
         className="w-full bg-primary text-white text-sm md:text-[15px] py-2 px-4"
+        className="w-full bg-[#459243] text-white text-sm md:text-[15px] py-2 px-4" // was bg-green-700
         role="status"
         aria-live="polite"
       >
@@ -145,6 +167,7 @@ const WelcomePage: React.FC = () => {
       </div>
 
       {/* Simple header (hidden when SHOW_LOCAL_HEADER is false to avoid duplication with global header) */}
+      {/* Optional header */}
       {SHOW_LOCAL_HEADER && (
         <header className="sticky top-0 z-40 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-gray-100">
           <div className="max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
@@ -156,6 +179,7 @@ const WelcomePage: React.FC = () => {
                 loading="eager"
               />
               <span className="font-semibold tracking-wide group-hover:text-primary">
+              <span className="font-semibold tracking-wide group-hover:text-[#459243]">
                 ASPAC Bank
               </span>
             </Link>
@@ -163,26 +187,31 @@ const WelcomePage: React.FC = () => {
               <ul className="hidden md:flex items-center gap-6 text-sm">
                 <li>
                   <Link className="hover:text-primary" to="/teachers-loan">
+                  <Link className="hover:text-[#459243]}" to="/teachers-loan">
                     APDS
                   </Link>
                 </li>
                 <li>
                   <Link className="hover:text-primary" to="/savings">
+                  <Link className="hover:text-[#459243]}" to="/savings">
                     Savings
                   </Link>
                 </li>
                 <li>
                   <Link className="hover:text-primary" to="/msme-loans">
+                  <Link className="hover:text-[#459243]}" to="/msme-loans">
                     MSME Loans
                   </Link>
                 </li>
                 <li>
                   <Link className="hover:text-primary" to="/branches">
+                  <Link className="hover:text-[#459243]}" to="/branches">
                     Branches
                   </Link>
                 </li>
                 <li>
                   <Link className="hover:text-primary" to="/advisories">
+                  <Link className="hover:text-[#459243]}" to="/advisories">
                     Advisories
                   </Link>
                 </li>
@@ -193,6 +222,7 @@ const WelcomePage: React.FC = () => {
       )}
 
       {/* HERO Swiper (FADE) */}
+      {/* HERO Swiper */}
       <section className="w-full h-[72vh] min-h-[520px] relative overflow-hidden pb-20 md:pb-0">
         <Swiper
           modules={[Pagination, Autoplay, Navigation, EffectFade]}
@@ -229,12 +259,14 @@ const WelcomePage: React.FC = () => {
                   <Link
                     to="/teachers-loan"
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                    className="px-5 py-3 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     Apply for APDS
                   </Link>
                   <button
                     onClick={() => navigate("/branches")}
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
+                    className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     Find a Branch
                   </button>
@@ -266,12 +298,14 @@ const WelcomePage: React.FC = () => {
                   <button
                     onClick={() => setShowModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                    className="px-5 py-3 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     Talk to Us
                   </button>
                   <Link
                     to="/savings"
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
+                    className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     View Savings
                   </Link>
@@ -302,12 +336,14 @@ const WelcomePage: React.FC = () => {
                   <button
                     onClick={() => navigate("/explore")}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                    className="px-5 py-3 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     Know More
                   </button>
                   <Link
                     to="/advisories"
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
+                    className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
                   >
                     View Advisories
                   </Link>
@@ -343,6 +379,29 @@ const WelcomePage: React.FC = () => {
       <section className="border-y border-gray-100 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
           <span className="text-xs font-semibold text-primary px-3 py-1 rounded-full bg-primary/10">
+
+      {/* Page-level keyframes for caption fade */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .swiper-button-next, .swiper-button-prev {
+          color: white;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .swiper-button-next:after, .swiper-button-prev:after {
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .swiper-pagination-bullet { width: 10px; height: 10px; opacity: 1; background: rgba(255,255,255,0.7); }
+        .swiper-pagination-bullet-active { background: #459243; } /* was #15803d */
+      `}</style>
+
+      {/* Advisory ticker */}
+      <section className="border-y border-gray-100 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+          <span className="text-xs font-semibold text-[#459243] px-3 py-1 rounded-full bg-[#459243]/10">
             Advisory
           </span>
           <div
@@ -353,6 +412,9 @@ const WelcomePage: React.FC = () => {
               {news.map((n) => (
                 <button
                   key={n.title}
+              {news.map((n, i) => (
+                <button
+                  key={i}
                   onClick={() => n.to && navigate(n.to)}
                   className="text-sm md:text-[15px] hover:underline mx-6"
                 >
@@ -368,6 +430,7 @@ const WelcomePage: React.FC = () => {
       <section className="relative">
         <div
           className="absolute inset-0 bg-gradient-to-b from-white via-aspac-green/10 to-white pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-b from-white via-[#459243]/10 to-white pointer-events-none"
           aria-hidden
         />
         <div className="relative max-w-6xl mx-auto px-6 py-16">
@@ -376,6 +439,10 @@ const WelcomePage: React.FC = () => {
               Products & Services
             </p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-primary">
+            <p className="uppercase tracking-widest text-[11px] md:text-xs text-[#459243] font-semibold/">
+              Products & Services
+            </p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#459243]">
               Your trusted financial partner
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
@@ -396,11 +463,13 @@ const WelcomePage: React.FC = () => {
                   loading="lazy"
                 />
                 <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-primary text-white text-[11px] px-2.5 py-1 shadow">
+                <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-[#459243] text-white text-[11px] px-2.5 py-1 shadow">
                   For Teachers
                 </span>
               </div>
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-primary">
+                <h3 className="text-2xl font-semibold text-[#459243]">
                   Teacher Salary Loan (APDS)
                 </h3>
                 <ul className="mt-3 text-sm text-gray-600 space-y-1">
@@ -421,6 +490,10 @@ const WelcomePage: React.FC = () => {
                   >
                     Learn more →
                   </Link>
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-medium shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
+                  >
+                    Apply in-branch
+                  </Link>
                 </div>
               </div>
             </article>
@@ -435,11 +508,13 @@ const WelcomePage: React.FC = () => {
                   loading="lazy"
                 />
                 <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-primary text-white text-[11px] px-2.5 py-1 shadow">
+                <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-[#459243] text-white text-[11px] px-2.5 py-1 shadow">
                   Deposits
                 </span>
               </div>
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-primary">
+                <h3 className="text-2xl font-semibold text-[#459243]">
                   Savings & Time Deposit
                 </h3>
                 <ul className="mt-3 text-sm text-gray-600 space-y-1">
@@ -460,6 +535,10 @@ const WelcomePage: React.FC = () => {
                   >
                     View accounts →
                   </Link>
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-medium shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
+                  >
+                    Open at a branch
+                  </Link>
                 </div>
               </div>
             </article>
@@ -474,11 +553,13 @@ const WelcomePage: React.FC = () => {
                   loading="lazy"
                 />
                 <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-primary text-white text-[11px] px-2.5 py-1 shadow">
+                <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-[#459243] text-white text-[11px] px-2.5 py-1 shadow">
                   Business
                 </span>
               </div>
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-primary">
+                <h3 className="text-2xl font-semibold text-[#459243]">
                   MSME Loans
                 </h3>
                 <ul className="mt-3 text-sm text-gray-600 space-y-1">
@@ -499,6 +580,10 @@ const WelcomePage: React.FC = () => {
                   >
                     See programs →
                   </Link>
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-medium shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
+                  >
+                    Discuss with a loan officer
+                  </Link>
                 </div>
               </div>
             </article>
@@ -509,12 +594,14 @@ const WelcomePage: React.FC = () => {
             <button
               onClick={() => navigate("/branches")}
               className="px-6 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+              className="px-6 py-3 rounded-full bg-[#459243] hover:bg-[#459243] text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
             >
               Locate a branch
             </button>
             <button
               onClick={() => setShowModal(true)}
               className="px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-gray-300 font-semibold shadow-sm focus:outline-none focus:ring-4 focus:ring-primary/30"
+              className="px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-gray-300 font-semibold shadow-sm focus:outline-none focus:ring-4 focus:ring-[#459243]"
             >
               Contact us
             </button>
@@ -523,6 +610,7 @@ const WelcomePage: React.FC = () => {
       </section>
 
       {/* Latest News & video feature card */}
+      {/* Latest News */}
       <section
         className="relative py-16 bg-cover bg-center"
         style={{ backgroundImage: "url('/latestupdates.webp')" }}
@@ -588,6 +676,66 @@ const WelcomePage: React.FC = () => {
                     >
                       See all advisories →
                     </button>
+        <div className="relative max-w-6xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <p className="uppercase tracking-widest text-[11px] md:text-xs text-[#459243] font-semibold">
+              News & Advisories
+            </p>
+            <h2 className="text-3xl font-bold text-[#459243]">
+              Latest news & updates
+            </h2>
+            <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
+              Branch movements, service advisories, and community updates.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8">
+            {news.map(
+              ({ title, content, label, Icon, iconColor, to }, index) => (
+                <motion.article
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition grid md:grid-cols-[1fr_360px] gap-6 overflow-hidden"
+                >
+                  {/* text */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="inline-flex items-center gap-2 text-xs font-medium text-gray-600">
+                        <Icon
+                          className={`text-base ${iconColor}`}
+                          aria-hidden
+                        />
+                        <span className="uppercase tracking-wide">{label}</span>
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-[#459243] leading-snug">
+                      {title}
+                    </h3>
+
+                    <p className="text-gray-700 text-sm leading-relaxed mt-3">
+                      {content}
+                    </p>
+
+                    <div className="mt-5 flex items-center gap-3">
+                      {to && (
+                        <button
+                          onClick={() => navigate(to)}
+                          className="inline-flex items-center px-4 py-2 rounded-full bg-[#459243] hover:bg-[#459243] text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-[#459243]"
+                        >
+                          View full advisory
+                        </button>
+                      )}
+                      <button
+                        onClick={() => navigate("/advisories")}
+                        className="text-sm font-semibold text-[#459243] hover:underline"
+                      >
+                        See all advisories →
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -605,6 +753,21 @@ const WelcomePage: React.FC = () => {
                 </div>
               </motion.article>
             ))}
+                  {/* media */}
+                  <div className="relative h-56 md:h-auto">
+                    <video
+                      src="/assets/vid/cnsvid3.webm"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      aria-label="Branch feature montage"
+                    />
+                  </div>
+                </motion.article>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -615,6 +778,10 @@ const WelcomePage: React.FC = () => {
             Customer Stories
           </p>
           <h2 className="text-3xl font-bold text-primary">
+          <p className="uppercase tracking-widest text-[11px] md:text-xs text-[#459243] font-semibold">
+            Customer Stories
+          </p>
+          <h2 className="text-3xl font-bold text-[#459243]">
             What our clients say
           </h2>
         </div>
@@ -646,6 +813,13 @@ const WelcomePage: React.FC = () => {
               <div className="flex items-start gap-4">
                 {/* minimalist avatar */}
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
+          ].map(({ quote, name, role }, idx) => (
+            <figure
+              key={idx}
+              className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition"
+            >
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-full bg-[#459243]/10 flex items-center justify-center text-[#459243] font-semibold">
                   {name
                     .split(" ")
                     .map((n) => n[0])
@@ -659,6 +833,7 @@ const WelcomePage: React.FC = () => {
               </div>
               <figcaption className="mt-4 pl-14">
                 <div className="font-semibold text-primary">{name}</div>
+                <div className="font-semibold text-[#459243]">{name}</div>
                 <div className="text-sm text-gray-500">{role}</div>
               </figcaption>
             </figure>
@@ -687,6 +862,7 @@ const WelcomePage: React.FC = () => {
               aria-label="Contact ASPAC Bank"
             >
               <h2 className="text-2xl font-bold text-primary mb-4 text-center">
+              <h2 className="text-2xl font-bold text-[#459243] mb-4 text-center">
                 Contact us
               </h2>
               <p className="text-gray-700 text-center">
@@ -704,6 +880,7 @@ const WelcomePage: React.FC = () => {
                 <a
                   href="tel:+63343450929"
                   className="px-4 py-2 rounded-lg bg-primary hover:bg-aspac-green/90 text-white font-medium"
+                  className="px-4 py-2 rounded-lg bg-[#459243] hover:bg-[#459243] text-white font-medium"
                 >
                   Call now
                 </a>
@@ -720,12 +897,14 @@ const WelcomePage: React.FC = () => {
       </AnimatePresence>
 
       {/* Footer with trust badges */}
+      {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-100 mt-10">
         <div className="max-w-6xl mx-auto px-6 py-10 grid md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
               <img src="/favicon.ico" alt="ASPAC Bank" className="h-8 w-8" />
               <span className="text-primary font-semibold">
+              <span className="text-[#459243] font-semibold">
                 ASPAC Bank, Inc.
               </span>
             </div>
@@ -806,6 +985,11 @@ const WelcomePage: React.FC = () => {
   .swiper-pagination-bullet-active {
     background: #459243; /* brand green */
   }
+  @keyframes scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+  .swiper-button-next, .swiper-button-prev { color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+  .swiper-button-next:after, .swiper-button-prev:after { font-size: 18px; font-weight: 700; }
+  .swiper-pagination-bullet { width: 10px; height: 10px; background: rgba(255,255,255,0.7); opacity: 1; }
+  .swiper-pagination-bullet-active { background: #459243; }
 `}
       </style>
     </motion.div>
