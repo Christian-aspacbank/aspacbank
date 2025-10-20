@@ -193,38 +193,32 @@ const Branches = () => {
     <>
       {/* ✅ SEO for /branches */}
       <Seo
-        title="Branches | ASPAC Bank"
-        description="Find ASPAC Bank branch locations across the Philippines. Get contact details, operating hours, and maps for your nearest branch."
+        title="Contact ASPAC Bank"
+        description="Get in touch with ASPAC Bank. Call our Customer Service Hotline or send us an email for account and loan assistance."
         canonical="https://www.aspacbank.com/branches"
-        ogType="website"
-        ogImage="https://www.aspacbank.com/branches-banner.jpg" // replace with your real banner
-        ogImageAlt="ASPAC Bank Branches"
+        ogImage="https://www.aspacbank.com/APDS3.jpg"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
-        iconHref="https://www.aspacbank.com/favicon.ico"
-        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
-        manifestHref="https://www.aspacbank.com/manifest.json"
-        includeTwitter={false}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: "Branches",
-          description:
-            "List of branch locations, contact details, operating hours, and maps for ASPAC Bank in the Philippines.",
-          url: "https://www.aspacbank.com/branches",
-          publisher: {
-            "@type": "Organization",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com",
-            logo: "https://www.aspacbank.com/favicon.ico",
-            sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          },
-          mainEntity: {
-            "@type": "CollectionPage",
-            name: "ASPAC Bank Branches",
+        organization={{
+          type: "BankOrCreditUnion",
+          name: "ASPAC Bank",
+          url: "https://www.aspacbank.com/",
+          logo: "https://www.aspacbank.com/favicon.ico",
+          telephone: "+63-32-272-2724",
+          sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          address: {
+            streetAddress:
+              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
+            addressLocality: "Mandaue City",
+            addressRegion: "Cebu",
+            postalCode: "6014",
+            addressCountry: "PH",
           },
         }}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.aspacbank.com/" },
+          { name: "Contact", url: "https://www.aspacbank.com/contact" },
+        ]}
       />
 
       {/* ✅ Main Page Content */}

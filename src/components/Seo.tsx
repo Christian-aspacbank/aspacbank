@@ -2,6 +2,34 @@ import { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
+type PostalAddress = {
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion?: string;
+  postalCode?: string;
+  addressCountry: string; // e.g. "PH"
+};
+
+type OrganizationSchemaInput = {
+  type?: "Organization" | "BankOrCreditUnion";
+  name: string;
+  url?: string; // absolute preferred
+  logo?: string; // absolute preferred
+  telephone?: string;
+  sameAs?: string[];
+  address: PostalAddress; // REQUIRED to satisfy Rich Results warning
+};
+
+type FinancialServiceInput = {
+  name: string;
+  url: string; // absolute preferred
+  serviceType?: string;
+  areaServed?: string | string[];
+  providerName?: string; // defaults to organization.name
+};
+
+type BreadcrumbItem = { name: string; url: string };
+
 type SeoProps = {
   title: string;
   description?: string;
@@ -9,29 +37,36 @@ type SeoProps = {
   ogImage?: string; // absolute URL preferred
   ogImageAlt?: string;
 
-  jsonLd?: JsonLd; // single JSON-LD block
-  jsonLdList?: JsonLd[]; // multiple JSON-LD blocks
+  // JSON-LD (raw)
+  jsonLd?: JsonLd;
+  jsonLdList?: JsonLd[];
 
-  // Open Graph options
+  // Open Graph
   ogType?: string; // "website" | "article" | "product" ...
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
-  // Twitter options (off by default)
-  includeTwitter?: boolean; // set true only if you want Twitter tags
+  // Twitter (optional)
+  includeTwitter?: boolean;
   twitterCard?: "summary" | "summary_large_image";
   twitterSite?: string; // e.g., "@aspacbank"
   twitterCreator?: string;
 
-  // Robots controls
+  // Robots
   noindex?: boolean;
   nofollow?: boolean;
 
   // Icons / PWA / theme
   themeColor?: string; // e.g., "#0a3d62"
   iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
-  appleTouchIconHref?: string; // e.g., "https://www.aspacbank.com/apple-touch-icon.png"
-  manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
+  appleTouchIconHref?: string;
+  manifestHref?: string;
+
+  // ---- NEW: Structured data helpers ----
+  organization?: OrganizationSchemaInput; // adds BankOrCreditUnion/Organization with address
+  services?: FinancialServiceInput[]; // adds FinancialService list (uses org as provider)
+  includeWebsiteSchema?: boolean; // emits WebSite with SearchAction
+  breadcrumbs?: BreadcrumbItem[]; // emits BreadcrumbList
 };
 
 const DATA_ATTR = "data-seo-managed";
@@ -39,6 +74,20 @@ const DATA_ATTR = "data-seo-managed";
 function ensureHead() {
   if (typeof document === "undefined") return null as never;
   return document.head;
+}
+
+function abs(url?: string) {
+  if (!url) return url;
+  try {
+    // already absolute
+    return new URL(url).toString();
+  } catch {
+    // make absolute relative to site origin
+    if (typeof window !== "undefined" && url.startsWith("/")) {
+      return `${window.location.origin}${url}`;
+    }
+    return url; // fallback
+  }
 }
 
 function upsertMetaBy(
@@ -110,13 +159,23 @@ export default function Seo({
   iconHref,
   appleTouchIconHref,
   manifestHref,
+
+  // NEW
+  organization,
+  services,
+  includeWebsiteSchema,
+  breadcrumbs,
 }: SeoProps) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
     const mark = <T extends HTMLElement>(el: T) => {
-      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
+      if (el.getAttribute(DATA_ATTR) === "1") {
+        createdNodes.push(el);
+        // strip the tracking attribute from the live DOM
+        el.removeAttribute(DATA_ATTR);
+      }
       return el;
     };
 
@@ -135,7 +194,7 @@ export default function Seo({
 
     // Canonical (fallback to current URL if not provided)
     const effectiveCanonical =
-      canonical ||
+      abs(canonical) ||
       (typeof window !== "undefined" ? window.location.href : undefined);
 
     if (effectiveCanonical) {
@@ -154,13 +213,13 @@ export default function Seo({
 
     // Icons & manifest
     if (iconHref) {
-      mark(upsertLinkRel("icon", iconHref));
+      mark(upsertLinkRel("icon", abs(iconHref)!));
     }
     if (appleTouchIconHref) {
-      mark(upsertLinkRel("apple-touch-icon", appleTouchIconHref));
+      mark(upsertLinkRel("apple-touch-icon", abs(appleTouchIconHref)!));
     }
     if (manifestHref) {
-      mark(upsertLinkRel("manifest", manifestHref));
+      mark(upsertLinkRel("manifest", abs(manifestHref)!));
     }
 
     // Robots
@@ -190,7 +249,7 @@ export default function Seo({
       mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
     }
     if (ogImage) {
-      mark(upsertMetaBy("property", "og:image", ogImage));
+      mark(upsertMetaBy("property", "og:image", abs(ogImage)!));
       if (ogImageAlt) {
         mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
       }
@@ -211,7 +270,7 @@ export default function Seo({
         mark(upsertMetaBy("name", "twitter:description", description));
       }
       if (ogImage) {
-        mark(upsertMetaBy("name", "twitter:image", ogImage));
+        mark(upsertMetaBy("name", "twitter:image", abs(ogImage)!));
         if (ogImageAlt) {
           mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
         }
@@ -224,13 +283,90 @@ export default function Seo({
       }
     }
 
-    // JSON-LD (support single or multiple blocks)
+    // ---------- JSON-LD ----------
     const blocks: JsonLd[] = [
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
-    const createdScripts: HTMLScriptElement[] = [];
 
+    // Organization / BankOrCreditUnion (with required address)
+    if (organization) {
+      const orgType = organization.type ?? "BankOrCreditUnion";
+      blocks.push({
+        "@context": "https://schema.org",
+        "@type": orgType,
+        name: organization.name,
+        url: abs(organization.url),
+        logo: abs(organization.logo),
+        telephone: organization.telephone,
+        sameAs: organization.sameAs,
+        address: {
+          "@type": "PostalAddress",
+          ...organization.address,
+        },
+      });
+    }
+
+    // FinancialService entries (uses org as provider)
+    if (services?.length) {
+      services.forEach((svc) => {
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "FinancialService",
+          name: svc.name,
+          url: abs(svc.url),
+          serviceType: svc.serviceType,
+          areaServed: svc.areaServed,
+          provider: organization
+            ? {
+                "@type": organization.type ?? "BankOrCreditUnion",
+                name: svc.providerName ?? organization.name,
+                url: abs(organization.url),
+                address: {
+                  "@type": "PostalAddress",
+                  ...organization.address,
+                },
+              }
+            : undefined,
+        });
+      });
+    }
+
+    // WebSite schema (with a simple SearchAction)
+    if (includeWebsiteSchema) {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : undefined;
+      if (origin) {
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          url: origin,
+          name: title,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${origin}/search?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        });
+      }
+    }
+
+    // Breadcrumbs
+    if (breadcrumbs?.length) {
+      blocks.push({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.name,
+          item: abs(b.url),
+        })),
+      });
+    }
+
+    // Emit scripts
+    const createdScripts: HTMLScriptElement[] = [];
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
         const el = document.createElement("script");
@@ -240,6 +376,8 @@ export default function Seo({
         el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
+        // strip tracking attribute from the live DOM
+        el.removeAttribute(DATA_ATTR);
       });
     }
 
@@ -269,6 +407,11 @@ export default function Seo({
     iconHref,
     appleTouchIconHref,
     manifestHref,
+    // NEW deps:
+    organization,
+    services,
+    includeWebsiteSchema,
+    breadcrumbs,
   ]);
 
   return null; // nothing to render in the page body
