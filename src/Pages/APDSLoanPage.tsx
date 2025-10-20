@@ -17,17 +17,14 @@ import {
 const FaPiggyBank = PiggyBankIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
-
 const FaClipboardCheck = ClipboardIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
-
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
 const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
 
-// ✅ Updated Modal with AnimatePresence & motion.div
 const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
@@ -95,12 +92,10 @@ const APDSLoanPage: React.FC = () => {
         ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS)"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        /* Added to match homepage SEO head */
         themeColor="#0a3d62"
         iconHref="https://www.aspacbank.com/favicon.ico"
-        appleTouchIconHref="https://www.aspacbank.com/favicon.ico" // or apple-touch-icon.png if available
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
-        /* Optional Twitter tags — keep off if not needed */
         includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
@@ -140,7 +135,7 @@ const APDSLoanPage: React.FC = () => {
         {/* Banner */}
         <div className="relative w-full">
           <img
-            src="./features1.jpg"
+            src="/features1.jpg"
             alt="Educators Banner"
             className="w-full h-64 sm:h-80 object-cover"
           />
