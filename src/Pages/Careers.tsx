@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo"; // ← adjust path if needed
 
 const jobOpenings = [
   {
@@ -9,13 +10,13 @@ const jobOpenings = [
     qualifications: [
       "Sales talent",
       "Graduate of any 4-year college course",
-      "License to drive a motorcycle is an advantage"
+      "License to drive a motorcycle is an advantage",
     ],
     responsibilities: [
       "Acquire loan and deposit accounts",
       "Organize and participate in sales events",
-      "Field work, client visits, and conduct presentations"
-    ]
+      "Field work, client visits, and conduct presentations",
+    ],
   },
   {
     title: "Audit Staff",
@@ -24,13 +25,13 @@ const jobOpenings = [
     qualifications: [
       "Bachelor's Degree in Accounting, BS Accountancy or its equivalent",
       "Strong analytical and problem-solving skills",
-      "Willing to travel"
+      "Willing to travel",
     ],
     responsibilities: [
       "Conduct regular audit and spot audit of all branches and auditable units",
       "Prepare comprehensive audit findings report",
-      "Analyze financial data to identify discrepancies"
-    ]
+      "Analyze financial data to identify discrepancies",
+    ],
   },
   {
     title: "Reserve Pool Officer",
@@ -39,13 +40,13 @@ const jobOpenings = [
     qualifications: [
       "Graduate of any 4-year course",
       "At least 3 years of banking experience, preferably in a supervisory role",
-      "Willing to be assigned within the area of assignment"
+      "Willing to be assigned within the area of assignment",
     ],
     responsibilities: [
       "Oversee the daily operations of the bank",
       "Ensure compliance with banking regulations",
-      "Perform a wide range of customer service tasks"
-    ]
+      "Perform a wide range of customer service tasks",
+    ],
   },
   {
     title: "North Cluster Bank Marketing Officer",
@@ -54,17 +55,19 @@ const jobOpenings = [
     qualifications: [
       "Bachelor's Degree in Business Admin major in Marketing, or related course",
       "Knowledgeable in marketing techniques and principles",
-      "Team player with a customer-oriented approach"
+      "Team player with a customer-oriented approach",
     ],
     responsibilities: [
       "Support the Branch Head in promoting bank products and services",
       "Engage with potential customers via in-branch promotions",
-      "Maintain a strong brand image of the branch"
-    ]
-  }
+      "Maintain a strong brand image of the branch",
+    ],
+  },
 ];
 
-const uniqueCategories = ["All"].concat(Array.from(new Set(jobOpenings.map(job => job.category))));
+const uniqueCategories = ["All"].concat(
+  Array.from(new Set(jobOpenings.map((job) => job.category)))
+);
 
 const Careers: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -72,74 +75,150 @@ const Careers: React.FC = () => {
   const filteredJobs =
     selectedCategory === "All"
       ? jobOpenings
-      : jobOpenings.filter(job => job.category === selectedCategory);
+      : jobOpenings.filter((job) => job.category === selectedCategory);
+
+  // Build JSON-LD JobPosting list from your data
+  const jobPostingsLd = jobOpenings.map((job, idx) => ({
+    "@type": "JobPosting",
+    title: job.title,
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "ASPAC Bank",
+      sameAs: "https://www.aspacbank.com",
+      logo: "https://www.aspacbank.com/favicon.ico",
+    },
+    jobLocation: {
+      "@type": "Place",
+      name: job.location,
+    },
+    description: [
+      "Qualifications: " + job.qualifications.join("; "),
+      "Responsibilities: " + job.responsibilities.join("; "),
+    ].join(" | "),
+    identifier: {
+      "@type": "PropertyValue",
+      name: "ASPAC Bank",
+      value: `job-${idx + 1}`,
+    },
+    employmentType: "FULL_TIME",
+  }));
+
+  const jobsCount = jobOpenings.length;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      className="min-h-screen bg-gray-100"
-    >
-      {/* Banner Section */}
-      <div
-        className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px] relative"
-        style={{
-          backgroundImage: "url('Careers.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+    <>
+      {/* ✅ SEO for /careers */}
+      <Seo
+        title={`Careers (${jobsCount}) | ASPAC Bank`}
+        description="Join the ASPAC Bank team — explore job opportunities, benefits, and a rewarding career path in banking."
+        canonical="https://www.aspacbank.com/careers"
+        ogType="website"
+        ogImage="https://www.aspacbank.com/Careers.jpg" // use your hosted hero image URL
+        ogImageAlt="ASPAC Bank Careers"
+        ogSiteName="ASPAC Bank"
+        ogLocale="en_PH"
+        themeColor="#0a3d62"
+        iconHref="https://www.aspacbank.com/favicon.ico"
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
+        manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Careers",
+          description:
+            "Explore career opportunities at ASPAC Bank. Check current job openings, benefits, and how to apply.",
+          url: "https://www.aspacbank.com/careers",
+          publisher: {
+            "@type": "Organization",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          },
+          mainEntity: {
+            "@type": "ItemList",
+            name: "ASPAC Bank Job Openings",
+            numberOfItems: jobsCount,
+            itemListElement: jobPostingsLd,
+          },
         }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="min-h-screen bg-gray-100"
       >
-        <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
-          Build Your Career with Us
-        </h2>
-      </div>
-
-      {/* Job Category Filter */}
-      <div className="container mx-auto text-center mt-12 px-4">
-        <h1 className="text-2xl font-bold text-green-800 mb-6">Job Openings</h1>
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {uniqueCategories.map((category, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full border transition ${
-                selectedCategory === category
-                  ? "bg-green-700 text-white"
-                  : "bg-white text-green-700 border-green-700"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        {/* Banner Section */}
+        <div
+          className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px] relative"
+          style={{
+            backgroundImage: "url('Careers.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
+            Build Your Career with Us
+          </h2>
         </div>
 
-        {/* Job Listings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto pb-16">
-          {filteredJobs.map((job, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-md p-6 text-left hover:shadow-lg transition"
-            >
-              <h2 className="text-xl font-semibold text-green-700 mb-1">{job.title}</h2>
-              <p className="text-sm text-gray-500 mb-2">Location: {job.location}</p>
-              <h3 className="font-medium text-gray-700 mt-3">Qualifications:</h3>
-              <ul className="list-disc list-inside text-sm text-gray-600 mb-3">
-                {job.qualifications.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-              <h3 className="font-medium text-gray-700">Responsibilities:</h3>
-              <ul className="list-disc list-inside text-sm text-gray-600">
-                {job.responsibilities.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* Job Category Filter */}
+        <div className="container mx-auto text-center mt-12 px-4">
+          <h1 className="text-2xl font-bold text-green-800 mb-6">
+            Job Openings
+          </h1>
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {uniqueCategories.map((category, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full border transition ${
+                  selectedCategory === category
+                    ? "bg-green-700 text-white"
+                    : "bg-white text-green-700 border-green-700"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Job Listings */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto pb-16">
+            {filteredJobs.map((job, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-md p-6 text-left hover:shadow-lg transition"
+              >
+                <h2 className="text-xl font-semibold text-green-700 mb-1">
+                  {job.title}
+                </h2>
+                <p className="text-sm text-gray-500 mb-2">
+                  Location: {job.location}
+                </p>
+                <h3 className="font-medium text-gray-700 mt-3">
+                  Qualifications:
+                </h3>
+                <ul className="list-disc list-inside text-sm text-gray-600 mb-3">
+                  {job.qualifications.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+                <h3 className="font-medium text-gray-700">Responsibilities:</h3>
+                <ul className="list-disc list-inside text-sm text-gray-600">
+                  {job.responsibilities.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 

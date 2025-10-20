@@ -10,6 +10,7 @@ import {
   FaMobileAlt,
   FaEnvelope,
 } from "react-icons/fa";
+import Seo from "../components/Seo"; // ← adjust path if needed
 
 type Advisory = {
   title: string;
@@ -66,14 +67,12 @@ const Advisories: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Advisory / Announcement Card */}
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-8"
-          role="region"
-          aria-labelledby="advisory-title"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="container mx-auto px-4 py-12 max-w-5xl"
         >
           <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] overflow-hidden border border-gray-100">
             {/* Header */}
@@ -93,6 +92,14 @@ const Advisories: React.FC = () => {
                 </h2>
               </div>
             </div>
+            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+              Bank <span className="text-green-600">Advisories</span>
+            </h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Stay informed with the latest announcements and updates from ASPAC
+              Bank
+            </p>
+          </motion.div>
 
             {/* Content */}
             <div className="px-6 sm:px-8 py-8">
@@ -132,6 +139,14 @@ const Advisories: React.FC = () => {
                       customerservice@aspacbank.com
                     </a>
                   </div>
+                  <h2
+                    id="advisory-title"
+                    className="text-white text-xl sm:text-2xl font-semibold tracking-tight"
+                  >
+                    Important Advisory for Customers
+                  </h2>
+                </div>
+              </div>
 
                   {/* Mobile */}
                   <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
@@ -161,7 +176,6 @@ const Advisories: React.FC = () => {
                     </a>
                   </div>
                 </div>
-              </div>
 
               {/* PDIC Notice */}
               <div className="mt-8 flex items-start gap-3 rounded-2xl bg-[#ebd839]/20 border border-[#ebd839]/70 p-4">
@@ -180,8 +194,7 @@ const Advisories: React.FC = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
         {/* Bogo City Closure Advisory */}
         <motion.div
@@ -203,7 +216,6 @@ const Advisories: React.FC = () => {
                 </p>
               </div>
             </div>
-          </div>
 
           {/* Content */}
           <div className="p-8">
@@ -219,11 +231,12 @@ const Advisories: React.FC = () => {
                 issue a public announcement once the branch reopens.
               </p>
 
-              <p className="text-base">
-                During this period, all transactions and account service needs
-                including deposits, withdrawals, and over-the-counter payments
-                can be accommodated at any of our other ASPAC Bank branches.
-              </p>
+                <p className="text-base">
+                  Please be advised that our <strong>Bogo City Branch</strong>{" "}
+                  is temporarily closed for much-needed renovations. The closure
+                  is effective immediately and is indefinite as of this time. We
+                  will issue a public announcement once the branch reopens.
+                </p>
 
               {/* Alternative Branches */}
               <div className="bg-gradient-to-br from-[#459243]/10 to-[#459243]/10 border-l-4 border-[#459243] rounded-xl p-6 mt-6">
@@ -256,7 +269,6 @@ const Advisories: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                  </div>
 
                   {/* Bantayan Branch */}
                   <div className="bg-white rounded-xl p-5 shadow-sm border border-[#459243]/20">
@@ -283,7 +295,6 @@ const Advisories: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
 
               {/* Contact Info */}
               <div className="bg-gray-50 rounded-xl p-5 mt-6">
@@ -309,7 +320,6 @@ const Advisories: React.FC = () => {
                     Visit Website
                   </a>
                 </div>
-              </div>
 
               <div className="border-t border-gray-200 pt-4 mt-6">
                 <p className="font-semibold text-gray-900">
@@ -322,8 +332,7 @@ const Advisories: React.FC = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
         {/* Consolacion New Location Advisory */}
         <motion.div
@@ -343,7 +352,6 @@ const Advisories: React.FC = () => {
                 <p className="text-white/80 text-sm mt-1">{date}</p>
               </div>
             </div>
-          </div>
 
           {/* Content */}
           <div className="p-8">
@@ -367,11 +375,25 @@ const Advisories: React.FC = () => {
                   View on Google Maps
                 </a>
               </div>
-            )}
-          </div>
+
+              {googleMapsUrl && (
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <a
+                    href={googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition transform hover:scale-105"
+                  >
+                    <FaMapMarkerAlt />
+                    View on Google Maps
+                  </a>
+                </div>
+              )}
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </div>
+      </div>
+    </>
   );
 };
 

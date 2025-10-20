@@ -1,8 +1,36 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
-type SeoProps = {
+type PostalAddress = {
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion?: string;
+  postalCode?: string;
+  addressCountry: string; // e.g. "PH"
+};
+
+type OrganizationSchemaInput = {
+  type?: "Organization" | "BankOrCreditUnion";
+  name: string;
+  url?: string;
+  logo?: string;
+  telephone?: string;
+  sameAs?: string[];
+  address: PostalAddress;
+};
+
+type FinancialServiceInput = {
+  name: string;
+  url: string;
+  serviceType?: string;
+  areaServed?: string | string[];
+  providerName?: string; // defaults to organization.name
+};
+
+type BreadcrumbItem = { name: string; url: string };
+
+export type SeoProps = {
   title: string;
   description?: string;
   canonical?: string; // absolute URL preferred
@@ -17,8 +45,8 @@ type SeoProps = {
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
-  // Twitter options (off by default)
-  includeTwitter?: boolean; // set true only if you want Twitter tags
+  // Twitter
+  includeTwitter?: boolean;
   twitterCard?: "summary" | "summary_large_image";
   twitterSite?: string; // e.g., "@aspacbank"
   twitterCreator?: string;
@@ -85,7 +113,7 @@ function upsertLinkRel(rel: string, href: string) {
   return el;
 }
 
-export default function Seo({
+const Seo: React.FC<SeoProps> = ({
   title,
   description,
   canonical,
@@ -201,8 +229,10 @@ export default function Seo({
     if (ogLocale) {
       mark(upsertMetaBy("property", "og:locale", ogLocale));
     }
+    if (ogSiteName) mark(upsertMetaBy("property", "og:site_name", ogSiteName));
+    if (ogLocale) mark(upsertMetaBy("property", "og:locale", ogLocale));
 
-    // Twitter (optional)
+    // Twitter
     if (includeTwitter) {
       mark(upsertMetaBy("name", "twitter:card", twitterCard));
       mark(upsertMetaBy("name", "twitter:title", title));
@@ -222,6 +252,9 @@ export default function Seo({
       if (twitterCreator) {
         mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
       }
+      if (twitterSite) mark(upsertMetaBy("name", "twitter:site", twitterSite));
+      if (twitterCreator)
+        mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
     }
 
     // JSON-LD (support single or multiple blocks)
@@ -231,6 +264,77 @@ export default function Seo({
     ];
     const createdScripts: HTMLScriptElement[] = [];
 
+    // Organization / BankOrCreditUnion
+    if (organization) {
+      const orgType = organization.type ?? "BankOrCreditUnion";
+      blocks.push({
+        "@context": "https://schema.org",
+        "@type": orgType,
+        name: organization.name,
+        url: abs(organization.url),
+        logo: abs(organization.logo),
+        telephone: organization.telephone,
+        sameAs: organization.sameAs,
+        address: { "@type": "PostalAddress", ...organization.address },
+      });
+    }
+
+    // FinancialService entries
+    if (services?.length) {
+      services.forEach((svc) => {
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "FinancialService",
+          name: svc.name,
+          url: abs(svc.url),
+          serviceType: svc.serviceType,
+          areaServed: svc.areaServed,
+          provider: organization
+            ? {
+                "@type": organization.type ?? "BankOrCreditUnion",
+                name: svc.providerName ?? organization.name,
+                url: abs(organization.url),
+                address: { "@type": "PostalAddress", ...organization.address },
+              }
+            : undefined,
+        });
+      });
+    }
+
+    // WebSite schema with SearchAction
+    if (includeWebsiteSchema) {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : undefined;
+      if (origin) {
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          url: origin,
+          name: title,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${origin}/search?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        });
+      }
+    }
+
+    // Breadcrumbs
+    if (breadcrumbs?.length) {
+      blocks.push({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.name,
+          item: abs(b.url),
+        })),
+      });
+    }
+
+    // Emit scripts (declare createdScripts only once)
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
         const el = document.createElement("script");
@@ -240,6 +344,7 @@ export default function Seo({
         el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
+        el.removeAttribute(DATA_ATTR);
       });
     }
 
@@ -271,5 +376,7 @@ export default function Seo({
     manifestHref,
   ]);
 
-  return null; // nothing to render in the page body
-}
+  return null;
+};
+
+export default Seo;
