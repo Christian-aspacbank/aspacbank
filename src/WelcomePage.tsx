@@ -60,10 +60,10 @@ const WelcomePage: React.FC = () => {
       className="w-full bg-white"
     >
       <Seo
-        title="ASPAC Bank – Teacher Salary Loan & Reliable Banking Services"
+        title="ASPAC Bank"
         description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
         canonical="https://www.aspacbank.com/"
-        ogImage="https://www.aspacbank.com/favicon.ico" // Replace with a real banner image later
+        ogImage="https://www.aspacbank.com/APDS3.jpg" // Replace with a real banner image later
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Organization",
@@ -71,12 +71,12 @@ const WelcomePage: React.FC = () => {
           url: "https://www.aspacbank.com",
           logo: "https://www.aspacbank.com/favicon.ico",
           sameAs: [
-            "https://www.facebook.com/AspacBank", // optional, add if you have social pages
+            "https://www.facebook.com/aspacbank0620/", // optional, add if you have social pages
           ],
           department: {
             "@type": "FinancialService",
             name: "Teacher Salary Loan (APDS)",
-            url: "https://www.aspacbank.com/teachersalary-loanform",
+            url: "https://www.aspacbank.com/teachers-loan",
             serviceType: "Salary Loan for Teachers",
             areaServed: "PH",
             provider: {
@@ -87,7 +87,8 @@ const WelcomePage: React.FC = () => {
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+63-32-345-0929",
+              Hotline: "(032) 272-2724",
+              MobileNumber: "08982722724",
               contactType: "customer service",
               areaServed: "PH",
             },
@@ -121,9 +122,7 @@ const WelcomePage: React.FC = () => {
                 <button
                   className="mt-4 p-2 rounded-md text-white hover:scale-105 transition-all duration-300"
                   style={{ backgroundColor: "#27ae60" }}
-                  onClick={() =>
-                    (window.location.href = "/teachersalary-loanform")
-                  }
+                  onClick={() => (window.location.href = "/teachers-loan")}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor = "#1e8449")
                   }
