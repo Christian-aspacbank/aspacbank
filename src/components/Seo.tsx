@@ -33,6 +33,15 @@ type BreadcrumbItem = { name: string; url: string };
 export type SeoProps = {
   title: string;
   description?: string;
+  canonical?: string; // absolute URL preferred
+  ogImage?: string; // absolute URL preferred
+  ogImageAlt?: string;
+
+  jsonLd?: JsonLd; // single JSON-LD block
+  jsonLdList?: JsonLd[]; // multiple JSON-LD blocks
+
+  // Open Graph options
+  ogType?: string; // "website" | "article" | "product" ...
   canonical?: string; // absolute preferred
   ogImage?: string; // absolute preferred
   ogImageAlt?: string;
@@ -52,6 +61,15 @@ export type SeoProps = {
   twitterSite?: string; // e.g., "@aspacbank"
   twitterCreator?: string;
 
+  // Robots controls
+  noindex?: boolean;
+  nofollow?: boolean;
+
+  // Icons / PWA / theme
+  themeColor?: string; // e.g., "#0a3d62"
+  iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
+  appleTouchIconHref?: string; // e.g., "https://www.aspacbank.com/apple-touch-icon.png"
+  manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
   // Structured data helpers
   organization?: OrganizationSchemaInput;
   services?: FinancialServiceInput[];
@@ -140,6 +158,14 @@ const Seo: React.FC<SeoProps> = ({
   twitterSite,
   twitterCreator,
 
+  noindex,
+  nofollow,
+
+  themeColor,
+  iconHref,
+  appleTouchIconHref,
+  manifestHref,
+}: SeoProps) {
   organization,
   services,
   includeWebsiteSchema,
@@ -150,6 +176,7 @@ const Seo: React.FC<SeoProps> = ({
 
     const createdNodes: HTMLElement[] = [];
     const mark = <T extends HTMLElement>(el: T) => {
+      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
       if (el.getAttribute(DATA_ATTR) === "1") {
         createdNodes.push(el);
         el.removeAttribute(DATA_ATTR);
@@ -170,6 +197,52 @@ const Seo: React.FC<SeoProps> = ({
       );
     }
 
+    // Canonical (fallback to current URL if not provided)
+    const effectiveCanonical =
+      canonical ||
+      (typeof window !== "undefined" ? window.location.href : undefined);
+
+    if (effectiveCanonical) {
+      mark(upsertLinkRel("canonical", String(effectiveCanonical)));
+    }
+
+    // Theme color
+    if (themeColor) {
+      mark(
+        upsertMeta('meta[name="theme-color"]', {
+          name: "theme-color",
+          content: themeColor,
+        })
+      );
+    }
+
+    // Icons & manifest
+    if (iconHref) {
+      mark(upsertLinkRel("icon", iconHref));
+    }
+    if (appleTouchIconHref) {
+      mark(upsertLinkRel("apple-touch-icon", appleTouchIconHref));
+    }
+    if (manifestHref) {
+      mark(upsertLinkRel("manifest", manifestHref));
+    }
+
+    // Robots
+    if (noindex || nofollow) {
+      const robots = `${noindex ? "noindex" : "index"}, ${
+        nofollow ? "nofollow" : "follow"
+      }`;
+      mark(
+        upsertMeta('meta[name="robots"]', { name: "robots", content: robots })
+      );
+      mark(
+        upsertMeta('meta[name="googlebot"]', {
+          name: "googlebot",
+          content: robots,
+        })
+      );
+    }
+
     // Canonical (fall back to current URL)
     const effectiveCanonical =
       abs(canonical) ||
@@ -182,6 +255,24 @@ const Seo: React.FC<SeoProps> = ({
     // Open Graph
     mark(upsertMetaBy("property", "og:type", ogType));
     mark(upsertMetaBy("property", "og:title", title));
+
+    if (description) {
+      mark(upsertMetaBy("property", "og:description", description));
+    }
+    if (effectiveCanonical) {
+      mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
+    }
+    if (ogImage) {
+      mark(upsertMetaBy("property", "og:image", ogImage));
+      if (ogImageAlt) {
+        mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
+      }
+    }
+    if (ogSiteName) {
+      mark(upsertMetaBy("property", "og:site_name", ogSiteName));
+    }
+    if (ogLocale) {
+      mark(upsertMetaBy("property", "og:locale", ogLocale));
     if (description)
       mark(upsertMetaBy("property", "og:description", description));
     if (effectiveCanonical)
@@ -198,6 +289,21 @@ const Seo: React.FC<SeoProps> = ({
     if (includeTwitter) {
       mark(upsertMetaBy("name", "twitter:card", twitterCard));
       mark(upsertMetaBy("name", "twitter:title", title));
+
+      if (description) {
+        mark(upsertMetaBy("name", "twitter:description", description));
+      }
+      if (ogImage) {
+        mark(upsertMetaBy("name", "twitter:image", ogImage));
+        if (ogImageAlt) {
+          mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
+        }
+      }
+      if (twitterSite) {
+        mark(upsertMetaBy("name", "twitter:site", twitterSite));
+      }
+      if (twitterCreator) {
+        mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
       if (description)
         mark(upsertMetaBy("name", "twitter:description", description));
       if (ogImage) {
@@ -210,6 +316,7 @@ const Seo: React.FC<SeoProps> = ({
         mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
     }
 
+    // JSON-LD (support single or multiple blocks)
     // ---------- JSON-LD ----------
     const blocks: JsonLd[] = [
       ...(jsonLd ? [jsonLd] : []),
@@ -301,6 +408,7 @@ const Seo: React.FC<SeoProps> = ({
       });
     }
 
+    // Cleanup only nodes we created this render
     // Cleanup only what we created
     return () => {
       createdScripts.forEach((s) => s.parentNode?.removeChild(s));
@@ -321,6 +429,12 @@ const Seo: React.FC<SeoProps> = ({
     twitterCard,
     twitterSite,
     twitterCreator,
+    noindex,
+    nofollow,
+    themeColor,
+    iconHref,
+    appleTouchIconHref,
+    manifestHref,
     organization,
     services,
     includeWebsiteSchema,
