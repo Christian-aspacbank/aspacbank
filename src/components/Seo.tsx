@@ -115,10 +115,10 @@ export default function Seo({
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
-    const mark = <T extends HTMLElement>(el: T) => {
+    function mark<T extends HTMLElement>(el: T): T {
       if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
       return el;
-    };
+    }
 
     // Title
     document.title = title;
