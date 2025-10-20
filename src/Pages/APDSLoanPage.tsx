@@ -118,6 +118,7 @@ const APDSLoanPage: React.FC = () => {
             url: "https://www.aspacbank.com/teachers-loan",
             serviceType: "Salary Loan for Teachers",
             areaServed: "PH",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
         ]}
         breadcrumbs={[

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
@@ -134,7 +134,7 @@ function upsertLinkRel(rel: string, href: string) {
   return el;
 }
 
-export default function Seo({
+const Seo: React.FC<SeoProps> = ({
   title,
   description,
   canonical,
@@ -442,5 +442,7 @@ export default function Seo({
     breadcrumbs,
   ]);
 
-  return null; // nothing to render in the page body
-}
+  return null;
+};
+
+export default Seo;
