@@ -34,6 +34,8 @@ type SeoProps = {
   manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
 };
 
+const DATA_ATTR = "data-seo-managed";
+
 function ensureHead() {
   if (typeof document === "undefined") return null as never;
   return document.head;
@@ -51,6 +53,7 @@ function upsertMetaBy(
   if (!el) {
     el = document.createElement("meta");
     el.setAttribute(keyAttr, keyValue);
+    el.setAttribute(DATA_ATTR, "1");
     head.appendChild(el);
   }
   el.setAttribute("content", content);
@@ -62,6 +65,7 @@ function upsertMeta(selector: string, attrs: Record<string, string>) {
   let el = head.querySelector<HTMLMetaElement>(selector);
   if (!el) {
     el = document.createElement("meta");
+    el.setAttribute(DATA_ATTR, "1");
     head.appendChild(el);
   }
   Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
@@ -74,6 +78,7 @@ function upsertLinkRel(rel: string, href: string) {
   if (!el) {
     el = document.createElement("link");
     el.setAttribute("rel", rel);
+    el.setAttribute(DATA_ATTR, "1");
     head.appendChild(el);
   }
   el.setAttribute("href", href);
@@ -110,10 +115,10 @@ export default function Seo({
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
-    function mark<T extends HTMLElement>(el: T) {
-      createdNodes.push(el);
+    const mark = <T extends HTMLElement>(el: T) => {
+      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
       return el;
-    }
+    };
 
     // Title
     document.title = title;
@@ -148,10 +153,15 @@ export default function Seo({
     }
 
     // Icons & manifest
-    if (iconHref) mark(upsertLinkRel("icon", iconHref));
-    if (appleTouchIconHref)
+    if (iconHref) {
+      mark(upsertLinkRel("icon", iconHref));
+    }
+    if (appleTouchIconHref) {
       mark(upsertLinkRel("apple-touch-icon", appleTouchIconHref));
-    if (manifestHref) mark(upsertLinkRel("manifest", manifestHref));
+    }
+    if (manifestHref) {
+      mark(upsertLinkRel("manifest", manifestHref));
+    }
 
     // Robots
     if (noindex || nofollow) {
@@ -226,7 +236,8 @@ export default function Seo({
         const el = document.createElement("script");
         el.type = "application/ld+json";
         el.text = JSON.stringify(block);
-        // No custom attributes added to keep HTML clean
+        el.setAttribute("data-seo-jsonld", `block-${i}`);
+        el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
       });

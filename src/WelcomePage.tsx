@@ -58,67 +58,35 @@ const WelcomePage: React.FC = () => {
     >
       {/* SEO */}
       <Seo
-        title="ASPAC Bank | Teacher Salary Loans, Deposit Accounts & MSME Financing"
-        description="ASPAC Bank helps educators and communities..."
-        canonical="https://www.aspacbank.com/"
-        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        title="Advisories | ASPAC Bank"
+        description="Stay informed with the latest advisories from ASPAC Bank — important notices, updates, and announcements for our clients and stakeholders."
+        canonical="https://www.aspacbank.com/advisories"
+        ogType="website"
+        ogImage="https://www.aspacbank.com/favicon.ico"
+        ogImageAlt="ASPAC Bank Advisories"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        includeTwitter
-        twitterCard="summary_large_image"
-        twitterSite="@aspacbank"
-        jsonLdList={[
-          {
-            "@context": "https://schema.org",
-            "@type": "BankOrCreditUnion", // or "Organization"
+        themeColor="#459243"
+        iconHref="https://www.aspacbank.com/favicon.ico"
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
+        manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "ASPAC Bank Advisories",
+          description:
+            "Important notices, updates, and announcements from ASPAC Bank.",
+          url: "https://www.aspacbank.com/advisories",
+          publisher: {
+            "@type": "Organization",
             name: "ASPAC Bank",
-            url: "https://www.aspacbank.com/",
+            url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
-            telephone: "+63-32-272-2724",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
-            address: {
-              "@type": "PostalAddress",
-              streetAddress:
-                "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
-              addressLocality: "Mandaue City",
-              addressRegion: "Cebu",
-              postalCode: "6014",
-              addressCountry: "PH",
-            },
           },
-          // Services (one block per service is fine)
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            name: "Teacher Salary Loan (APDS)",
-            url: "https://www.aspacbank.com/teachers-loan",
-            serviceType: "Salary Loan for Teachers",
-            areaServed: "PH",
-          },
-          // Breadcrumbs (if you have them)
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.aspacbank.com/",
-              },
-              // add more as needed
-            ],
-          },
-          // Optional WebSite schema
-          {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com/",
-          },
-        ]}
+        }}
       />
-
       {/* Top announcement bar */}
       <div
         className="w-full bg-primary text-white text-sm md:text-[15px] py-2 px-4"
