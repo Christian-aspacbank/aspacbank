@@ -58,8 +58,8 @@ const WelcomePage: React.FC = () => {
     >
       {/* SEO */}
       <Seo
-        title="ASPAC Bank – Teacher Salary Loans, Deposit Accounts & MSME Financing"
-        description="ASPAC Bank helps educators and communities in Cebu with Teacher Salary Loans (APDS), secure deposit accounts, and MSME financing."
+        title="ASPAC Bank | Teacher Salary Loans, Deposit Accounts & MSME Financing"
+        description="ASPAC Bank helps educators and communities..."
         canonical="https://www.aspacbank.com/"
         ogImage="https://www.aspacbank.com/APDS3.jpg"
         ogSiteName="ASPAC Bank"
@@ -67,38 +67,56 @@ const WelcomePage: React.FC = () => {
         includeTwitter
         twitterCard="summary_large_image"
         twitterSite="@aspacbank"
-        organization={{
-          type: "BankOrCreditUnion",
-          name: "ASPAC Bank",
-          url: "https://www.aspacbank.com/",
-          logo: "https://www.aspacbank.com/favicon.ico",
-          telephone: "+63-32-272-2724",
-          sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          address: {
-            streetAddress:
-              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
-            addressLocality: "Mandaue City",
-            addressRegion: "Cebu",
-            postalCode: "6014",
-            addressCountry: "PH",
-          },
-        }}
-        services={[
+        jsonLdList={[
           {
+            "@context": "https://schema.org",
+            "@type": "BankOrCreditUnion", // or "Organization"
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com/",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            telephone: "+63-32-272-2724",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
+            address: {
+              "@type": "PostalAddress",
+              streetAddress:
+                "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
+              addressLocality: "Mandaue City",
+              addressRegion: "Cebu",
+              postalCode: "6014",
+              addressCountry: "PH",
+            },
+          },
+          // Services (one block per service is fine)
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
             name: "Teacher Salary Loan (APDS)",
             url: "https://www.aspacbank.com/teachers-loan",
             serviceType: "Salary Loan for Teachers",
             areaServed: "PH",
           },
+          // Breadcrumbs (if you have them)
           {
-            name: "Deposit Account",
-            url: "https://www.aspacbank.com/deposit-account",
-            serviceType: "Savings and Time Deposit Services",
-            areaServed: "PH",
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.aspacbank.com/",
+              },
+              // add more as needed
+            ],
+          },
+          // Optional WebSite schema
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com/",
           },
         ]}
-        includeWebsiteSchema
-        breadcrumbs={[{ name: "Home", url: "https://www.aspacbank.com/" }]}
       />
 
       {/* Top announcement bar */}
