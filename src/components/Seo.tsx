@@ -2,34 +2,6 @@ import { useEffect } from "react";
 
 type JsonLd = Record<string, any>;
 
-type PostalAddress = {
-  streetAddress: string;
-  addressLocality: string;
-  addressRegion?: string;
-  postalCode?: string;
-  addressCountry: string; // e.g. "PH"
-};
-
-type OrganizationSchemaInput = {
-  type?: "Organization" | "BankOrCreditUnion";
-  name: string;
-  url?: string; // absolute preferred
-  logo?: string; // absolute preferred
-  telephone?: string;
-  sameAs?: string[];
-  address: PostalAddress; // REQUIRED to satisfy Rich Results warning
-};
-
-type FinancialServiceInput = {
-  name: string;
-  url: string; // absolute preferred
-  serviceType?: string;
-  areaServed?: string | string[];
-  providerName?: string; // defaults to organization.name
-};
-
-type BreadcrumbItem = { name: string; url: string };
-
 type SeoProps = {
   title: string;
   description?: string;
@@ -37,36 +9,29 @@ type SeoProps = {
   ogImage?: string; // absolute URL preferred
   ogImageAlt?: string;
 
-  // JSON-LD (raw)
-  jsonLd?: JsonLd;
-  jsonLdList?: JsonLd[];
+  jsonLd?: JsonLd; // single JSON-LD block
+  jsonLdList?: JsonLd[]; // multiple JSON-LD blocks
 
-  // Open Graph
+  // Open Graph options
   ogType?: string; // "website" | "article" | "product" ...
   ogSiteName?: string; // e.g., "ASPAC Bank"
   ogLocale?: string; // e.g., "en_PH"
 
-  // Twitter (optional)
-  includeTwitter?: boolean;
+  // Twitter options (off by default)
+  includeTwitter?: boolean; // set true only if you want Twitter tags
   twitterCard?: "summary" | "summary_large_image";
   twitterSite?: string; // e.g., "@aspacbank"
   twitterCreator?: string;
 
-  // Robots
+  // Robots controls
   noindex?: boolean;
   nofollow?: boolean;
 
   // Icons / PWA / theme
   themeColor?: string; // e.g., "#0a3d62"
   iconHref?: string; // e.g., "https://www.aspacbank.com/favicon.ico"
-  appleTouchIconHref?: string;
-  manifestHref?: string;
-
-  // ---- NEW: Structured data helpers ----
-  organization?: OrganizationSchemaInput; // adds BankOrCreditUnion/Organization with address
-  services?: FinancialServiceInput[]; // adds FinancialService list (uses org as provider)
-  includeWebsiteSchema?: boolean; // emits WebSite with SearchAction
-  breadcrumbs?: BreadcrumbItem[]; // emits BreadcrumbList
+  appleTouchIconHref?: string; // e.g., "https://www.aspacbank.com/apple-touch-icon.png"
+  manifestHref?: string; // e.g., "https://www.aspacbank.com/manifest.json"
 };
 
 const DATA_ATTR = "data-seo-managed";
@@ -74,18 +39,6 @@ const DATA_ATTR = "data-seo-managed";
 function ensureHead() {
   if (typeof document === "undefined") return null as never;
   return document.head;
-}
-
-function abs(url?: string) {
-  if (!url) return url;
-  try {
-    return new URL(url).toString();
-  } catch {
-    if (typeof window !== "undefined" && url.startsWith("/")) {
-      return `${window.location.origin}${url}`;
-    }
-    return url;
-  }
 }
 
 function upsertMetaBy(
@@ -157,22 +110,13 @@ export default function Seo({
   iconHref,
   appleTouchIconHref,
   manifestHref,
-
-  // NEW
-  organization,
-  services,
-  includeWebsiteSchema,
-  breadcrumbs,
 }: SeoProps) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
     const mark = <T extends HTMLElement>(el: T) => {
-      if (el.getAttribute(DATA_ATTR) === "1") {
-        createdNodes.push(el);
-        el.removeAttribute(DATA_ATTR);
-      }
+      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
       return el;
     };
 
@@ -189,9 +133,9 @@ export default function Seo({
       );
     }
 
-    // Canonical
+    // Canonical (fallback to current URL if not provided)
     const effectiveCanonical =
-      abs(canonical) ||
+      canonical ||
       (typeof window !== "undefined" ? window.location.href : undefined);
 
     if (effectiveCanonical) {
@@ -210,13 +154,13 @@ export default function Seo({
 
     // Icons & manifest
     if (iconHref) {
-      mark(upsertLinkRel("icon", abs(iconHref)!));
+      mark(upsertLinkRel("icon", iconHref));
     }
     if (appleTouchIconHref) {
-      mark(upsertLinkRel("apple-touch-icon", abs(appleTouchIconHref)!));
+      mark(upsertLinkRel("apple-touch-icon", appleTouchIconHref));
     }
     if (manifestHref) {
-      mark(upsertLinkRel("manifest", abs(manifestHref)!));
+      mark(upsertLinkRel("manifest", manifestHref));
     }
 
     // Robots
@@ -238,119 +182,55 @@ export default function Seo({
     // Open Graph
     mark(upsertMetaBy("property", "og:type", ogType));
     mark(upsertMetaBy("property", "og:title", title));
-    if (description)
-      mark(upsertMetaBy("property", "og:description", description));
-    if (effectiveCanonical)
-      mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
-    if (ogImage) {
-      mark(upsertMetaBy("property", "og:image", abs(ogImage)!));
-      if (ogImageAlt)
-        mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
-    }
-    if (ogSiteName) mark(upsertMetaBy("property", "og:site_name", ogSiteName));
-    if (ogLocale) mark(upsertMetaBy("property", "og:locale", ogLocale));
 
-    // Twitter
+    if (description) {
+      mark(upsertMetaBy("property", "og:description", description));
+    }
+    if (effectiveCanonical) {
+      mark(upsertMetaBy("property", "og:url", String(effectiveCanonical)));
+    }
+    if (ogImage) {
+      mark(upsertMetaBy("property", "og:image", ogImage));
+      if (ogImageAlt) {
+        mark(upsertMetaBy("property", "og:image:alt", ogImageAlt));
+      }
+    }
+    if (ogSiteName) {
+      mark(upsertMetaBy("property", "og:site_name", ogSiteName));
+    }
+    if (ogLocale) {
+      mark(upsertMetaBy("property", "og:locale", ogLocale));
+    }
+
+    // Twitter (optional)
     if (includeTwitter) {
       mark(upsertMetaBy("name", "twitter:card", twitterCard));
       mark(upsertMetaBy("name", "twitter:title", title));
-      if (description)
+
+      if (description) {
         mark(upsertMetaBy("name", "twitter:description", description));
-      if (ogImage) {
-        mark(upsertMetaBy("name", "twitter:image", abs(ogImage)!));
-        if (ogImageAlt)
-          mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
       }
-      if (twitterSite) mark(upsertMetaBy("name", "twitter:site", twitterSite));
-      if (twitterCreator)
+      if (ogImage) {
+        mark(upsertMetaBy("name", "twitter:image", ogImage));
+        if (ogImageAlt) {
+          mark(upsertMetaBy("name", "twitter:image:alt", ogImageAlt));
+        }
+      }
+      if (twitterSite) {
+        mark(upsertMetaBy("name", "twitter:site", twitterSite));
+      }
+      if (twitterCreator) {
         mark(upsertMetaBy("name", "twitter:creator", twitterCreator));
+      }
     }
 
-    // ---------- JSON-LD ----------
+    // JSON-LD (support single or multiple blocks)
     const blocks: JsonLd[] = [
       ...(jsonLd ? [jsonLd] : []),
       ...(jsonLdList ?? []),
     ];
-    const createdScripts: HTMLScriptElement[] = []; // <-- keep this one
+    const createdScripts: HTMLScriptElement[] = [];
 
-    // Organization / BankOrCreditUnion
-    if (organization) {
-      const orgType = organization.type ?? "BankOrCreditUnion";
-      blocks.push({
-        "@context": "https://schema.org",
-        "@type": orgType,
-        name: organization.name,
-        url: abs(organization.url),
-        logo: abs(organization.logo),
-        telephone: organization.telephone,
-        sameAs: organization.sameAs,
-        address: {
-          "@type": "PostalAddress",
-          ...organization.address,
-        },
-      });
-    }
-
-    // FinancialService entries
-    if (services?.length) {
-      services.forEach((svc) => {
-        blocks.push({
-          "@context": "https://schema.org",
-          "@type": "FinancialService",
-          name: svc.name,
-          url: abs(svc.url),
-          serviceType: svc.serviceType,
-          areaServed: svc.areaServed,
-          provider: organization
-            ? {
-                "@type": organization.type ?? "BankOrCreditUnion",
-                name: svc.providerName ?? organization.name,
-                url: abs(organization.url),
-                address: {
-                  "@type": "PostalAddress",
-                  ...organization.address,
-                },
-              }
-            : undefined,
-        });
-      });
-    }
-
-    // WebSite schema
-    if (includeWebsiteSchema) {
-      const origin =
-        typeof window !== "undefined" ? window.location.origin : undefined;
-      if (origin) {
-        blocks.push({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          url: origin,
-          name: title,
-          potentialAction: {
-            "@type": "SearchAction",
-            target: `${origin}/search?q={search_term_string}`,
-            "query-input": "required name=search_term_string",
-          },
-        });
-      }
-    }
-
-    // Breadcrumbs
-    if (breadcrumbs?.length) {
-      blocks.push({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: breadcrumbs.map((b, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          name: b.name,
-          item: abs(b.url),
-        })),
-      });
-    }
-
-    // Emit scripts
-    // ❌ removed: `const createdScripts: HTMLScriptElement[] = [];`
     if (blocks.length > 0) {
       blocks.forEach((block, i) => {
         const el = document.createElement("script");
@@ -360,7 +240,6 @@ export default function Seo({
         el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
-        el.removeAttribute(DATA_ATTR);
       });
     }
 
@@ -390,11 +269,7 @@ export default function Seo({
     iconHref,
     appleTouchIconHref,
     manifestHref,
-    organization,
-    services,
-    includeWebsiteSchema,
-    breadcrumbs,
   ]);
 
-  return null;
+  return null; // nothing to render in the page body
 }
