@@ -49,21 +49,26 @@ const features: FeatureItem[] = [
 ];
 
 const FeatureCard: React.FC<FeatureItem> = ({ title, image, description }) => (
-  <motion.div
+  <motion.article
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
+    viewport={{ once: true, amount: 0.2 }}
     className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col"
   >
-    <img src={image} alt={title} className="w-full h-64 object-cover" />
+    <img
+      src={image}
+      alt={title}
+      className="w-full h-64 object-cover"
+      loading="lazy"
+    />
     <div className="p-6 flex flex-col justify-between flex-1">
       <div>
-        <h3 className="text-xl font-semibold text-green-700 mb-2">{title}</h3>
+        <h3 className="text-xl font-semibold text-primary mb-2">{title}</h3>
         <p className="text-gray-600 text-base">{description}</p>
       </div>
     </div>
-  </motion.div>
+  </motion.article>
 );
 
 const Features: React.FC = () => {
@@ -81,7 +86,7 @@ const Features: React.FC = () => {
         ogImageAlt="ASPAC Bank Features"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -116,26 +121,28 @@ const Features: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.6 }}
         className="min-h-screen bg-gray-50 pt-0"
       >
-        {/* Header */}
-        <div className="relative h-[400px] flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/features3.jpg')" }}
+        {/* Header (use <img> for a11y + SEO) */}
+        <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
+          <img
+            src="/features3.jpg"
+            alt="Highlights of ASPAC Bank services and community"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="eager"
           />
           <div className="absolute inset-0 bg-black/50" />
           <h1 className="relative text-4xl md:text-5xl font-bold text-white drop-shadow-xl text-center">
             Our Features
           </h1>
-        </div>
+        </section>
 
         {/* Features Grid */}
-        <div className="max-w-7xl mx-auto px-6 py-16">
+        <section className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} />
+            {features.map((f) => (
+              <FeatureCard key={f.title} {...f} />
             ))}
           </div>
 
@@ -143,43 +150,46 @@ const Features: React.FC = () => {
           <div className="mt-12 flex justify-center">
             <button
               onClick={() => setShowModal(true)}
-              className="bg-yellow-400 text-green-900 font-semibold px-8 py-4 rounded-xl shadow-md hover:bg-yellow-500 transition duration-300 text-lg"
+              className="bg-aspac-yellow text-black font-semibold px-8 py-4 rounded-xl shadow-md hover:bg-yellow-300 transition duration-300 text-lg focus:outline-none focus:ring-4 focus:ring-aspac-yellow/50"
             >
               Apply Now
             </button>
           </div>
-        </div>
+        </section>
 
         {/* Testimonials */}
-        <div className="bg-white py-10">
+        <section className="bg-white py-10">
           <Testimonials />
-        </div>
+        </section>
 
         {/* Contact Us Modal */}
         <AnimatePresence>
           {showModal && (
             <motion.div
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowModal(false)}
             >
               <motion.div
-                className="bg-white rounded-xl p-8 max-w-md w-full relative"
+                className="bg-white rounded-2xl p-8 max-w-md w-[92%] relative"
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 100, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Contact ASPAC Bank"
               >
-                <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">
+                <h2 className="text-2xl font-bold text-primary mb-6 text-center">
                   Contact Us
                 </h2>
                 <p className="text-gray-700 mb-4 text-center">
                   For inquiries or assistance, reach out to us via the following
                   numbers:
                 </p>
-                <p className="text-gray-800 text-center font-medium">
+                <p className="text-gray-900 text-center font-medium">
                   Landline: 345-0929, 345-0930
                   <br />
                   Mobile: 0917-127-7796
@@ -187,7 +197,7 @@ const Features: React.FC = () => {
                 <div className="mt-8 text-center">
                   <button
                     onClick={() => setShowModal(false)}
-                    className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-900 px-6 py-3 rounded-full font-medium transition duration-300 focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
                     Close
                   </button>

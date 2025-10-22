@@ -1,20 +1,20 @@
 import React from "react";
-import Seo from "../components/Seo"; // ← update path to your Seo.tsx
+import Seo from "../components/Seo"; // ← update path if you use aliases
 
 const ExplorePage: React.FC = () => {
   return (
     <>
-      {/* ✅ SEO for /explore */}
+      {/* SEO for /explore */}
       <Seo
         title="Explore | Simply Safe Banking | ASPAC Bank"
         description="Discover ASPAC Bank’s Simply Safe Banking — our commitment to secure, reliable, and caring in-branch service. Learn safety practices, hours, and support."
         canonical="https://www.aspacbank.com/explore"
         ogType="website"
-        ogImage="https://www.aspacbank.com/Safebanking.jpg" // use your hosted hero image URL
+        ogImage="https://www.aspacbank.com/Safebanking.jpg"
         ogImageAlt="ASPAC Bank — Simply Safe Banking"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -46,9 +46,9 @@ const ExplorePage: React.FC = () => {
         }}
       />
 
-      <div className="p-8 lg:p-16 text-gray-800 bg-white min-h-screen">
+      <main className="p-8 lg:p-16 text-gray-800 bg-white min-h-screen">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-green-700 mb-6">
+          <h1 className="text-4xl lg:text-5xl font-bold text-primary mb-6">
             Simply Safe Banking
           </h1>
           <p className="text-lg lg:text-xl mb-8 text-gray-700">
@@ -56,17 +56,23 @@ const ExplorePage: React.FC = () => {
             isn’t just a tagline — it's our promise to protect your finances
             with integrity, trust, and care.
           </p>
-          <img
-            src="/Safebanking.jpg"
-            alt="Simply Safe Banking"
-            className="mx-auto mb-8 rounded-lg shadow-lg w-full max-w-3xl"
-          />
-          <div className="text-left space-y-6">
-            <section>
-              <h2 className="text-2xl font-semibold text-green-600">
+
+          {/* Hero image with proper alt and constrained width */}
+          <figure className="mx-auto mb-8 max-w-3xl">
+            <img
+              src="/Safebanking.jpg"
+              alt="Teller assisting a client—Simply Safe in-branch service"
+              className="w-full rounded-lg shadow-lg"
+              loading="eager"
+            />
+          </figure>
+
+          <div className="text-left space-y-8">
+            <section aria-labelledby="why-safe">
+              <h2 id="why-safe" className="text-2xl font-semibold text-primary">
                 Why Simply Safe?
               </h2>
-              <p>
+              <p className="mt-2 leading-relaxed">
                 We focus on keeping your money and information secure at every
                 step. With reliable in-branch transactions, trusted staff, and a
                 commitment to your peace of mind, we make banking safe and
@@ -74,11 +80,14 @@ const ExplorePage: React.FC = () => {
               </p>
             </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-green-600">
+            <section aria-labelledby="safety-practices">
+              <h2
+                id="safety-practices"
+                className="text-2xl font-semibold text-primary"
+              >
                 Safety Practices
               </h2>
-              <ul className="list-disc list-inside ml-4">
+              <ul className="list-disc list-inside ml-4 mt-2 space-y-1 text-gray-700">
                 <li>Strict internal controls</li>
                 <li>Secure handling of all financial transactions</li>
                 <li>Carefully monitored account activities</li>
@@ -86,30 +95,40 @@ const ExplorePage: React.FC = () => {
               </ul>
             </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-green-600">
+            <section aria-labelledby="banking-hours">
+              <h2
+                id="banking-hours"
+                className="text-2xl font-semibold text-primary"
+              >
                 Banking Hours
               </h2>
-              <p>
+              <p className="mt-2">
                 Visit any of our branches during operating hours:{" "}
                 <strong>Monday to Friday, 9:00 AM to 3:00 PM</strong>. We are
                 always ready to serve you with a smile.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-green-600">
+            <section aria-labelledby="customer-support">
+              <h2
+                id="customer-support"
+                className="text-2xl font-semibold text-primary"
+              >
                 Customer Support
               </h2>
-              <p>
+              <p className="mt-2">
                 Our team is dedicated to helping you with your banking needs.
                 Reach out to us through phone or in person at your nearest
                 branch — we're here for you.
               </p>
+              {/* Optional accent badge for visual branding */}
+              <div className="inline-flex mt-4 rounded-full bg-aspac-yellow px-3 py-1 text-sm font-semibold text-black">
+                Simply Safe • ASPAC Bank
+              </div>
             </section>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 };

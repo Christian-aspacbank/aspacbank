@@ -9,100 +9,46 @@ const DepositAccount = () => {
     <>
       {/* ✅ SEO for /deposit-account */}
       <Seo
-        title="Deposit Accounts | ASPAC Bank"
-        description="Open a savings or time deposit account with ASPAC Bank. Enjoy secure banking, competitive rates, and reliable customer service across our branches."
+        title="Deposit Account – Savings & Time Deposits | ASPAC Bank"
+        description="Open a savings or time deposit account with ASPAC Bank. Enjoy secure banking, competitive rates, and community-first service across Cebu."
         canonical="https://www.aspacbank.com/deposit-account"
-        ogType="website"
-        ogImage="https://www.aspacbank.com/DepositAccount.jpg" // use your hosted hero image
-        ogImageAlt="ASPAC Bank Deposit Accounts"
+        ogImage="https://www.aspacbank.com/APDS3.jpg"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
-        iconHref="https://www.aspacbank.com/favicon.ico"
-        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
-        manifestHref="https://www.aspacbank.com/manifest.json"
-        includeTwitter={false}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: "Deposit Accounts",
-          description:
-            "Savings and time deposit accounts from ASPAC Bank with secure banking and competitive interest rates.",
-          url: "https://www.aspacbank.com/deposit-account",
-          publisher: {
-            "@type": "Organization",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com",
-            logo: "https://www.aspacbank.com/favicon.ico",
-            sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          },
-          mainEntity: {
-            "@type": "ItemList",
-            name: "ASPAC Bank Deposit Products",
-            itemListElement: [
-              {
-                "@type": "DepositAccount",
-                name: "Power Savings Account",
-                offers: {
-                  "@type": "Offer",
-                  availability: "https://schema.org/InStoreOnly",
-                  url: "https://www.aspacbank.com/deposit-account",
-                  areaServed: "PH",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-              },
-              {
-                "@type": "DepositAccount",
-                name: "Power Checking Account",
-                offers: {
-                  "@type": "Offer",
-                  availability: "https://schema.org/InStoreOnly",
-                  url: "https://www.aspacbank.com/deposit-account",
-                  areaServed: "PH",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-              },
-              {
-                "@type": "DepositAccount",
-                name: "Time Deposit",
-                offers: {
-                  "@type": "Offer",
-                  availability: "https://schema.org/InStoreOnly",
-                  url: "https://www.aspacbank.com/deposit-account",
-                  areaServed: "PH",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-              },
-              {
-                "@type": "DepositAccount",
-                name: "Special Savings",
-                offers: {
-                  "@type": "Offer",
-                  availability: "https://schema.org/InStoreOnly",
-                  url: "https://www.aspacbank.com/deposit-account",
-                  areaServed: "PH",
-                },
-                provider: {
-                  "@type": "BankOrCreditUnion",
-                  name: "ASPAC Bank",
-                  url: "https://www.aspacbank.com",
-                },
-              },
-            ],
+        includeTwitter
+        twitterCard="summary_large_image"
+        twitterSite="@aspacbank"
+        organization={{
+          type: "BankOrCreditUnion",
+          name: "ASPAC Bank",
+          url: "https://www.aspacbank.com/",
+          logo: "https://www.aspacbank.com/favicon.ico",
+          telephone: "+63-32-272-2724",
+          sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          address: {
+            streetAddress:
+              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
+            addressLocality: "Mandaue City",
+            addressRegion: "Cebu",
+            postalCode: "6014",
+            addressCountry: "PH",
           },
         }}
+        services={[
+          {
+            name: "Deposit Account",
+            url: "https://www.aspacbank.com/deposit-account",
+            serviceType: "Savings and Time Deposit Services",
+            areaServed: "PH",
+          },
+        ]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.aspacbank.com/" },
+          {
+            name: "Deposit Account",
+            url: "https://www.aspacbank.com/deposit-account",
+          },
+        ]}
       />
 
       <div className="bg-gray-50 min-h-screen">

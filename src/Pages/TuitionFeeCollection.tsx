@@ -19,7 +19,7 @@ const TuitionFeeCollection: React.FC = () => {
         ogImageAlt="ASPAC Bank Tuition Fee Collection"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -90,82 +90,79 @@ const TuitionFeeCollection: React.FC = () => {
         }}
       />
 
-      <div className="bg-gradient-to-b from-white to-green-50 min-h-screen py-20 px-6">
+      <div className="bg-gradient-to-b from-white to-primary/5 min-h-screen py-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          {/* Section with Image Swiper under Intro */}
-          <div className="relative w-full mb-12">
+          {/* Swiper hero */}
+          <div
+            className="relative w-full mb-12"
+            aria-roledescription="carousel"
+          >
             <Swiper
               spaceBetween={50}
               slidesPerView={1}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               pagination={{ clickable: true }}
-              navigation={true}
-              loop={true}
+              navigation
+              loop
               modules={[Pagination, Autoplay, Navigation]}
-              className="rounded-xl"
+              className="rounded-xl overflow-hidden"
             >
-              <SwiperSlide>
-                <div
-                  className="relative w-full h-[60vh] bg-cover bg-center bg-no-repeat rounded-xl"
-                  style={{ backgroundImage: "url('/PAYTUTION.jpg')" }}
-                >
-                  <div className="absolute inset-0 bg-black opacity-30 rounded-xl"></div>
-                  <div className="absolute inset-0 flex justify-center items-center">
-                    <h2 className="text-2xl text-white font-semibold">
-                      Pay Tuition Fees Effortlessly
-                    </h2>
-                  </div>
-                </div>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <div
-                  className="relative w-full h-[60vh] bg-cover bg-center bg-no-repeat rounded-xl"
-                  style={{ backgroundImage: "url('/PAYTUTION1.jpg')" }}
-                >
-                  <div className="absolute inset-0 bg-black opacity-30 rounded-xl"></div>
-                  <div className="absolute inset-0 flex justify-center items-center">
-                    <h2 className="text-2xl text-white font-semibold">
-                      Fast and Secure Payments
-                    </h2>
-                  </div>
-                </div>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <div
-                  className="relative w-full h-[60vh] bg-cover bg-center bg-no-repeat rounded-xl"
-                  style={{ backgroundImage: "url('/PAYTUTION2.jpg')" }}
-                >
-                  <div className="absolute inset-0 bg-black opacity-30 rounded-xl"></div>
-                  <div className="absolute inset-0 flex justify-center items-center">
-                    <h2 className="text-2xl text-white font-semibold">
-                      Convenient for All Students
-                    </h2>
-                  </div>
-                </div>
-              </SwiperSlide>
+              {[
+                {
+                  src: "/PAYTUTION.jpg",
+                  alt: "Parent paying tuition at ASPAC partner school counter",
+                  caption: "Pay Tuition Fees Effortlessly",
+                },
+                {
+                  src: "/PAYTUTION1.jpg",
+                  alt: "Teller processing tuition payment securely",
+                  caption: "Fast and Secure Payments",
+                },
+                {
+                  src: "/PAYTUTION2.jpg",
+                  alt: "Students and parents at a convenient payment area",
+                  caption: "Convenient for All Students",
+                },
+              ].map(({ src, alt, caption }) => (
+                <SwiperSlide key={src}>
+                  <figure className="relative w-full h-[60vh]">
+                    <img
+                      src={src}
+                      alt={alt}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="eager"
+                    />
+                    <div className="absolute inset-0 bg-black/30" />
+                    <figcaption className="relative z-10 h-full flex items-center justify-center">
+                      <h2 className="text-2xl text-white font-semibold drop-shadow-md">
+                        {caption}
+                      </h2>
+                    </figcaption>
+                  </figure>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
 
-          {/* Section: Title and Description */}
-          <h1 className="text-4xl font-bold text-green-800 mb-4 tracking-wide">
+          {/* Title and Description */}
+          <h1 className="text-4xl font-bold text-primary mb-4 tracking-wide">
             Tuition Fee Collection Service
           </h1>
-          <p className="text-gray-600 text-lg mb-8 max-w-3xl mx-auto">
+          <p className="text-gray-700 text-lg mb-8 max-w-3xl mx-auto">
             ASPAC Bank makes it easy for students and parents to settle tuition
             payments with our trusted partner schools. Enjoy secure, fast, and
             convenient transactions that give you peace of mind.
           </p>
 
-          {/* School Cards Section */}
-          <h3 className="text-3xl font-extrabold text-green-800 mb-12 text-center tracking-tight">
+          {/* Partner Schools */}
+          <h3 className="text-3xl font-extrabold text-primary mb-12 tracking-tight">
             Our Partner Schools
           </h3>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-            {/* University of Cebu Card */}
-            <div className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out">
-              <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">
+            {/* University of Cebu */}
+            <article className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out ring-1 ring-gray-100">
+              <span className="absolute top-4 right-4 text-xs font-semibold text-black bg-aspac-yellow px-3 py-1 rounded-full shadow-md z-10">
                 Partner
               </span>
               <div className="mb-4 overflow-hidden rounded-lg">
@@ -173,34 +170,30 @@ const TuitionFeeCollection: React.FC = () => {
                   src="assets/tuitionpaymentphotos/UC.jpg"
                   alt="University of Cebu"
                   className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <h2 className="text-xl font-bold text-green-700 mb-4 tracking-wide">
+              <h2 className="text-xl font-bold text-primary mb-4 tracking-wide">
                 University of Cebu
               </h2>
               <ul className="space-y-2 text-gray-700 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>Main Campus</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>Banilad Campus</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>METC Campus</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>UCLM Campus</span>
-                </li>
+                {[
+                  "Main Campus",
+                  "Banilad Campus",
+                  "METC Campus",
+                  "UCLM Campus",
+                ].map((campus) => (
+                  <li key={`uc-${campus}`} className="flex items-start gap-2">
+                    <span className="mt-1 w-2 h-2 rounded-full bg-primary" />
+                    <span>{campus}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
 
-            {/* University of San Carlos Card */}
-            <div className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out">
-              <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">
+            {/* University of San Carlos */}
+            <article className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out ring-1 ring-gray-100">
+              <span className="absolute top-4 right-4 text-xs font-semibold text-black bg-aspac-yellow px-3 py-1 rounded-full shadow-md z-10">
                 Partner
               </span>
               <div className="mb-4 overflow-hidden rounded-lg">
@@ -208,62 +201,63 @@ const TuitionFeeCollection: React.FC = () => {
                   src="assets/tuitionpaymentphotos/USC.jpg"
                   alt="University of San Carlos"
                   className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <h2 className="text-xl font-bold text-green-700 mb-4 tracking-wide">
+              <h2 className="text-xl font-bold text-primary mb-4 tracking-wide">
                 University of San Carlos
               </h2>
               <ul className="space-y-2 text-gray-700 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>Main Campus</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 w-2 h-2 rounded-full bg-green-600"></span>
-                  <span>Talamban Campus</span>
-                </li>
+                {["Main Campus", "Talamban Campus"].map((campus) => (
+                  <li key={`usc-${campus}`} className="flex items-start gap-2">
+                    <span className="mt-1 w-2 h-2 rounded-full bg-primary" />
+                    <span>{campus}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
 
-            {/* College of Technological Sciences Card */}
-            <div className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out">
-              <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">
+            {/* CTS Cebu */}
+            <article className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out ring-1 ring-gray-100">
+              <span className="absolute top-4 right-4 text-xs font-semibold text-black bg-aspac-yellow px-3 py-1 rounded-full shadow-md z-10">
                 Partner
               </span>
               <div className="mb-4 overflow-hidden rounded-lg">
                 <img
                   src="assets/tuitionpaymentphotos/CTSC.jpg"
-                  alt="College of Technological Sciences"
+                  alt="College of Technological Sciences - Cebu"
                   className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <h2 className="text-xl font-bold text-green-700 mb-4 tracking-wide">
+              <h2 className="text-xl font-bold text-primary mb-4 tracking-wide">
                 College of Technological Sciences
               </h2>
               <p className="text-gray-700 text-sm">CTS - Cebu</p>
-            </div>
+            </article>
 
-            {/* University of San Jose Recoletos Card */}
-            <div className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out">
-              <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">
+            {/* USJR */}
+            <article className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out ring-1 ring-gray-100">
+              <span className="absolute top-4 right-4 text-xs font-semibold text-black bg-aspac-yellow px-3 py-1 rounded-full shadow-md z-10">
                 Partner
               </span>
               <div className="mb-4 overflow-hidden rounded-lg">
                 <img
                   src="assets/tuitionpaymentphotos/USJR.jpg"
-                  alt="University of San Jose Recoletos"
+                  alt="University of San Jose–Recoletos"
                   className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <h2 className="text-xl font-bold text-green-700 mb-4 tracking-wide">
-                University of San Jose Recoletos
+              <h2 className="text-xl font-bold text-primary mb-4 tracking-wide">
+                University of San Jose–Recoletos
               </h2>
               <p className="text-gray-700 text-sm">USJR</p>
-            </div>
+            </article>
 
-            {/* Cebu Doctors University Card */}
-            <div className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out">
-              <span className="absolute top-4 right-4 text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full shadow-md z-10">
+            {/* CDU */}
+            <article className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out ring-1 ring-gray-100">
+              <span className="absolute top-4 right-4 text-xs font-semibold text-black bg-aspac-yellow px-3 py-1 rounded-full shadow-md z-10">
                 Partner
               </span>
               <div className="mb-4 overflow-hidden rounded-lg">
@@ -271,16 +265,17 @@ const TuitionFeeCollection: React.FC = () => {
                   src="assets/tuitionpaymentphotos/CDU.jpg"
                   alt="Cebu Doctors University"
                   className="w-full h-48 object-cover transform transition-all duration-500 hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <h2 className="text-xl font-bold text-green-700 mb-4 tracking-wide">
+              <h2 className="text-xl font-bold text-primary mb-4 tracking-wide">
                 Cebu Doctors University
               </h2>
               <p className="text-gray-700 text-sm">CDU</p>
-            </div>
+            </article>
           </div>
 
-          {/* Footer Section with Information */}
+          {/* Footer note */}
           <div className="mt-16">
             <p className="text-sm text-gray-500 italic">
               For more information, please visit your nearest ASPAC Bank branch

@@ -2,23 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 
 /**
  * ASPAC Assistant — React floating chatbot (no API)
+ * - Brand colors via Tailwind tokens: primary (#459243), aspac-yellow (#ebd839)
+ * - Restores history from localStorage
+ * - A11y: dialog roles, focus rings, Escape to close
  */
 
-// -------------------------
-// 🔧 Configuration
-// -------------------------
 const BRAND = {
   name: "ARBI",
   bankName: "ASPAC Bank",
-  primary: "#229b15",
-  accent: "#38cb2c",
+  // Tailwind tokens should be defined in tailwind.config.js
+  // colors: { primary: "#459243", "aspac-yellow": "#ebd839" }
+  primaryClass: "bg-primary",
+  accentClass: "from-primary to-aspac-yellow",
 };
 
 const CONTACTS = {
   email: "customerservice@aspacbank.com",
-  phone: "+63-000-000-0000",
+  phone: "+63-917-127-7796",
   branchLocatorUrl: "/branches",
-  loansUrl: "/WelcomePage",
+  loansUrl: "/teachers-loan",
 };
 
 // FAQ items
@@ -44,8 +46,6 @@ const FAQ_DATA: Array<{ q: string; a: string; tags?: string[] }> = [
   {
     q: "Do you offer anticipated loans?",
     a: `ASPAC Bank provides a wide range of loan facilities designed to suit your financial needs.
-
-For complete details on available loan options and requirements, you may:
 <ul class="list-disc list-inside mt-2 space-y-1">
   <li>Visit the nearest ASPAC Bank branch</li>
   <li>Email us at customerservice@aspacbank.com</li>
@@ -57,12 +57,11 @@ For complete details on available loan options and requirements, you may:
     q: "What loan products do you offer?",
     a: `We offer Commercial Loan, Real Estate Loan, APDS Teachers Loan, Pension Loan, and other financing options. 
   Learn more on our 
-  <a href="https://www.aspacbank.com/loans" target="_blank" rel="noopener noreferrer" class="underline text-green-700">
+  <a href="https://www.aspacbank.com/loans" target="_blank" rel="noopener noreferrer" class="underline text-primary">
     Loans & Products
   </a>.`,
     tags: ["loans", "products", "msme", "salary", "anticipated"],
   },
-
   {
     q: "What are the requirements in Teacher's loan?",
     a: `Hi, requirements for APDS Teachers Loan are listed below:
@@ -80,17 +79,16 @@ For complete details on available loan options and requirements, you may:
     q: "Do you offer Teacher's Loan?",
     a: `Thank you for your inquiry. We are pleased to confirm that we offer teacher salary loans.<br/>
   To begin your application, please download the loan application form here: 
-  <a href="https://www.aspacbank.com/teachersalary-loanform" target="_blank" class="underline text-green-700">
+  <a href="https://www.aspacbank.com/teachersalary-loanform" target="_blank" class="underline text-primary">
     Teacher Salary Form
   </a>. All required documentation and eligibility requirements are detailed on the second page of the form.`,
     tags: ["APDS", "inquire", "teachers", "teacher's"],
   },
-
   {
     q: "How to apply Teacher's Loan?",
     a: `
     <ul class="list-none space-y-3 text-left">
-      <li><span class="font-semibold">Step 1:</span> Download the Salary Loan Application Form here:  <a href="https://www.aspacbank.com/teachersalary-loanform" target="_blank" class="underline text-green-700">
+      <li><span class="font-semibold">Step 1:</span> Download the Salary Loan Application Form here:  <a href="https://www.aspacbank.com/teachersalary-loanform" target="_blank" class="underline text-primary">
    Teacher Salary Form
   </a>. Prepare the requirements — Application Form, Payslip, Appointment Letter, 2x2 Picture, and Valid IDs.</li>
       <li><span class="font-semibold">Step 2:</span> Submit the requirements to the nearest ASPAC Bank Branch.</li>
@@ -99,29 +97,18 @@ For complete details on available loan options and requirements, you may:
   `,
     tags: ["apply", "teacher", "loan", "requirements"],
   },
-  {
-    q: "Hi",
-    a: `Hello! How can I help you today?`,
-    tags: ["hi"],
-  },
-
-  {
-    q: " Hello",
-    a: `Hi there! How may I help you?`,
-    tags: ["hello"],
-  },
+  { q: "Hi", a: `Hello! How can I help you today?`, tags: ["hi"] },
+  { q: " Hello", a: `Hi there! How may I help you?`, tags: ["hello"] },
   {
     q: "Good Evening ",
     a: `Good evening! What can I help you with?`,
     tags: ["gabie", "gavie", "evening"],
   },
-
   {
     q: "Good Afternoon",
     a: `Good afternoon! How may I assist you?`,
     tags: ["afternoon", "udto"],
   },
-
   {
     q: "Good Morning",
     a: `Good morning! How can I help you today?`,
@@ -242,12 +229,25 @@ export default function AspacChatbot() {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
 
+  // restore history
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("aspac_chat_history");
+      if (raw) {
+        const parsed = JSON.parse(raw) as Msg[];
+        if (Array.isArray(parsed)) setMessages(parsed);
+      }
+    } catch {}
+  }, []);
+
+  // persist history
   useEffect(() => {
     try {
       localStorage.setItem("aspac_chat_history", JSON.stringify(messages));
     } catch {}
   }, [messages]);
 
+  // autoscroll
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [open, messages.length]);
@@ -257,7 +257,7 @@ export default function AspacChatbot() {
     if (!open) return;
     if (messages.length === 0) {
       const hello: Msg = {
-        id: crypto.randomUUID(),
+        id: crypto?.randomUUID?.() ?? `${Date.now()}-seed`,
         role: "bot",
         html: `<p>Hi! this is <b>ARBI</b>, how may I assist you today?</p>`,
         ts: Date.now(),
@@ -266,40 +266,47 @@ export default function AspacChatbot() {
     }
   }, [open, messages.length]);
 
+  // close on ESC
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   function handleAsk(raw: string) {
     const text = raw.trim();
     if (!text) return;
 
     const user: Msg = {
-      id: crypto.randomUUID(),
+      id: crypto?.randomUUID?.() ?? `${Date.now()}-u`,
       role: "user",
       text,
       ts: Date.now(),
     };
 
-    // Build the final HTML for the bot reply (exact match first, else best fuzzy)
+    // exact or fuzzy
     const exact = FAQ_DATA.find(
       (item) => item.q.toLowerCase() === text.toLowerCase()
     );
 
     let botHtml = "";
     if (exact) {
-      // ⬇️ Only show the answer
       botHtml = `<div class="opacity-90">${exact.a}</div>`;
     } else {
       const [best] = matchFAQ(text);
       if (best) {
-        // ⬇️ Only show the answer
         botHtml = `<div class="opacity-90">${best.a}</div>`;
       } else {
         botHtml = `I'm not sure yet. You can email <a class="underline" href="mailto:${CONTACTS.email}">${CONTACTS.email}</a> and we'll help right away.`;
       }
     }
 
-    // Add user message immediately
     setMessages((prev) => [...prev, user]);
 
-    // Add typing indicator bubble (Messenger-style 3 dots)
+    // typing indicator
     const typing: Msg = {
       id: "typing",
       role: "bot",
@@ -312,42 +319,36 @@ export default function AspacChatbot() {
     };
     setMessages((prev) => [...prev, typing]);
 
-    // After 2s, replace typing indicator with the real reply
     setTimeout(() => {
       setMessages((prev) =>
         prev
           .filter((m) => m.id !== "typing")
           .concat({
-            id: crypto.randomUUID(),
+            id: crypto?.randomUUID?.() ?? `${Date.now()}-b`,
             role: "bot",
             html: botHtml,
             ts: Date.now(),
           })
       );
-    }, 2000);
+    }, 1200);
 
     setInput("");
   }
-
-  const headerStyle: React.CSSProperties = {
-    background: `linear-gradient(135deg, ${BRAND.primary}, ${BRAND.accent})`,
-  };
 
   return (
     <>
       {/* Floating Button */}
       <button
-        aria-label="Open ASPAC Assistant"
+        aria-label={open ? "Close ASPAC Assistant" : "Open ASPAC Assistant"}
         onClick={() => setOpen((v) => !v)}
-        className="fixed z-40 bottom-4 right-4 transform transition-transform duration-300 ease-in-out hover:scale-110"
+        className="fixed z-40 bottom-4 right-4 transform transition-transform duration-300 ease-in-out hover:scale-110 focus:outline-none focus:ring-4 focus:ring-primary/30 rounded-full"
       >
         {open ? (
-          // Close icon with background (needs background for visibility)
           <div className="bg-white rounded-full p-3 shadow-xl border border-gray-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill="currentColor"
+              aria-hidden="true"
               className="w-8 h-8 text-gray-700"
             >
               <path
@@ -358,19 +359,16 @@ export default function AspacChatbot() {
             </svg>
           </div>
         ) : (
-          // Your chatbot image without background - just drop shadow
           <img
             src="/chatbot.png"
-            alt="Chat with us"
+            alt="Chat with ASPAC Assistant"
             className="w-40 h-40 object-contain drop-shadow-2xl cursor-pointer"
             onError={(e) => {
-              console.log("Image failed to load, using fallback");
               // Fallback to SVG if image fails
               e.currentTarget.outerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 text-blue-600 drop-shadow-2xl cursor-pointer">
-            <path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223z" clip-rule="evenodd" />
-          </svg>
-        `;
+          <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Open chat" viewBox="0 0 24 24" class="w-20 h-20 text-primary drop-shadow-2xl cursor-pointer">
+            <path fill="currentColor" d="M4.8 21.6c.4.1.8.1 1.2.1 5.3 0 9.7-4 9.7-9s-4.4-9-9.7-9S.1 7.7.1 12.7c0 2.4 1 4.6 2.7 6.2.2.2.3.4.3.5-.1.6-.4 1.2-.8 1.7a.75.75 0 00.5 1.2z"/>
+          </svg>`;
             }}
           />
         )}
@@ -378,9 +376,16 @@ export default function AspacChatbot() {
 
       {/* Panel */}
       {open && (
-        <div className="fixed z-40 bottom-20 right-4 w-[380px] max-w-[92vw] h-[530px] rounded-2xl shadow-2xl bg-white flex flex-col border border-gray-200 overflow-hidden">
+        <div
+          className="fixed z-40 bottom-20 right-4 w-[380px] max-w-[92vw] h-[530px] rounded-2xl shadow-2xl bg-white flex flex-col border border-gray-200 overflow-hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="ASPAC Assistant"
+        >
           {/* Header */}
-          <div className="p-4 text-white" style={headerStyle}>
+          <div
+            className={`p-4 text-white bg-gradient-to-r ${BRAND.accentClass}`}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm opacity-90">{BRAND.bankName}</div>
@@ -405,7 +410,7 @@ export default function AspacChatbot() {
                   className={
                     "max-w-[85%] rounded-2xl px-3 py-2 text-sm shadow " +
                     (m.role === "user"
-                      ? "bg-green-600 text-white rounded-br-sm"
+                      ? "bg-primary text-white rounded-br-sm"
                       : "bg-white border border-gray-200 rounded-bl-sm")
                   }
                 >
@@ -420,7 +425,7 @@ export default function AspacChatbot() {
             <div ref={endRef} />
           </div>
 
-          {/* Quick Replies (short labels) */}
+          {/* Quick Replies */}
           {messages.length <= 1 && (
             <div className="px-3 pt-2 pb-1 bg-gray-50">
               <div className="text-xs mb-2 text-gray-600">Try asking:</div>
@@ -428,9 +433,8 @@ export default function AspacChatbot() {
                 {QUICK_REPLIES.map((label) => (
                   <button
                     key={label}
-                    // 🔗 Map short label → exact FAQ question
                     onClick={() => handleAsk(QUICK_REPLY_MAP[label] ?? label)}
-                    className="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-100"
+                    className="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   >
                     {label}
                   </button>
@@ -452,12 +456,12 @@ export default function AspacChatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your question…"
-                className="flex-1 text-sm px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="flex-1 text-sm px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Message input"
               />
               <button
                 type="submit"
-                className="px-3 py-2 rounded-xl text-white shadow"
-                style={{ backgroundColor: BRAND.primary }}
+                className={`px-3 py-2 rounded-xl text-white shadow focus:outline-none focus:ring-2 focus:ring-primary/40 ${BRAND.primaryClass}`}
               >
                 Send
               </button>

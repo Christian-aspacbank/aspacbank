@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Seo from "../components/Seo"; // ← adjust path if needed
+import Seo from "../components/Seo"; // switch to "@/components/Seo" if using baseUrl alias
 
 const jobOpenings = [
   {
@@ -65,9 +65,10 @@ const jobOpenings = [
   },
 ];
 
-const uniqueCategories = ["All"].concat(
-  Array.from(new Set(jobOpenings.map((job) => job.category)))
-);
+const uniqueCategories = [
+  "All",
+  ...Array.from(new Set(jobOpenings.map((j) => j.category))),
+];
 
 const Careers: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -77,7 +78,7 @@ const Careers: React.FC = () => {
       ? jobOpenings
       : jobOpenings.filter((job) => job.category === selectedCategory);
 
-  // Build JSON-LD JobPosting list from your data
+  // JSON-LD JobPosting list
   const jobPostingsLd = jobOpenings.map((job, idx) => ({
     "@type": "JobPosting",
     title: job.title,
@@ -107,17 +108,17 @@ const Careers: React.FC = () => {
 
   return (
     <>
-      {/* ✅ SEO for /careers */}
+      {/* SEO for /careers */}
       <Seo
         title={`Careers (${jobsCount}) | ASPAC Bank`}
         description="Join the ASPAC Bank team — explore job opportunities, benefits, and a rewarding career path in banking."
         canonical="https://www.aspacbank.com/careers"
         ogType="website"
-        ogImage="https://www.aspacbank.com/Careers.jpg" // use your hosted hero image URL
+        ogImage="https://www.aspacbank.com/Careers.jpg"
         ogImageAlt="ASPAC Bank Careers"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -148,75 +149,88 @@ const Careers: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="min-h-screen bg-gray-100"
+        transition={{ duration: 0.6 }}
+        className="min-h-screen bg-gray-50"
       >
-        {/* Banner Section */}
-        <div
-          className="w-full py-24 text-center flex items-center justify-start px-16 h-[400px] relative"
-          style={{
-            backgroundImage: "url('Careers.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <h2 className="text-3xl font-semibold bg-black bg-opacity-15 p-4 rounded-md absolute leading-tight text-yellow-400">
-            Build Your Career with Us
-          </h2>
-        </div>
+        {/* Banner */}
+        <section className="relative w-full h-[400px] overflow-hidden">
+          <img
+            src="/Careers.jpg"
+            alt="ASPAC Bank team working together"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+          <div className="relative z-10 h-full flex items-center px-6 md:px-12">
+            <h2 className="text-3xl md:text-4xl font-bold leading-tight text-aspac-yellow bg-black/20 px-4 py-2 rounded-md">
+              Build Your Career with Us
+            </h2>
+          </div>
+        </section>
 
         {/* Job Category Filter */}
-        <div className="container mx-auto text-center mt-12 px-4">
-          <h1 className="text-2xl font-bold text-green-800 mb-6">
+        <section className="container mx-auto mt-12 px-4">
+          <h1 className="text-2xl font-bold text-primary mb-6 text-center">
             Job Openings
           </h1>
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {uniqueCategories.map((category, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full border transition ${
-                  selectedCategory === category
-                    ? "bg-green-700 text-white"
-                    : "bg-white text-green-700 border-green-700"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+          <div
+            className="flex flex-wrap justify-center gap-3 mb-8"
+            role="tablist"
+            aria-label="Job categories"
+          >
+            {uniqueCategories.map((category) => {
+              const active = selectedCategory === category;
+              return (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  role="tab"
+                  aria-selected={active}
+                  className={`px-4 py-2 rounded-full border transition ${
+                    active
+                      ? "bg-primary text-white border-primary shadow"
+                      : "bg-white text-primary border-primary hover:bg-primary/5"
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
           </div>
 
           {/* Job Listings */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto pb-16">
-            {filteredJobs.map((job, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md p-6 text-left hover:shadow-lg transition"
+            {filteredJobs.map((job) => (
+              <article
+                key={job.title}
+                className="bg-white rounded-xl shadow-sm p-6 text-left ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition"
               >
-                <h2 className="text-xl font-semibold text-green-700 mb-1">
+                <h2 className="text-xl font-semibold text-primary mb-1">
                   {job.title}
                 </h2>
                 <p className="text-sm text-gray-500 mb-2">
                   Location: {job.location}
                 </p>
-                <h3 className="font-medium text-gray-700 mt-3">
+
+                <h3 className="font-medium text-gray-800 mt-3">
                   Qualifications:
                 </h3>
-                <ul className="list-disc list-inside text-sm text-gray-600 mb-3">
-                  {job.qualifications.map((item, i) => (
-                    <li key={i}>{item}</li>
+                <ul className="list-disc list-inside text-sm text-gray-700 mb-3">
+                  {job.qualifications.map((item) => (
+                    <li key={`${job.title}-q-${item}`}>{item}</li>
                   ))}
                 </ul>
-                <h3 className="font-medium text-gray-700">Responsibilities:</h3>
-                <ul className="list-disc list-inside text-sm text-gray-600">
-                  {job.responsibilities.map((item, i) => (
-                    <li key={i}>{item}</li>
+
+                <h3 className="font-medium text-gray-800">Responsibilities:</h3>
+                <ul className="list-disc list-inside text-sm text-gray-700">
+                  {job.responsibilities.map((item) => (
+                    <li key={`${job.title}-r-${item}`}>{item}</li>
                   ))}
                 </ul>
-              </div>
+              </article>
             ))}
           </div>
-        </div>
+        </section>
       </motion.div>
     </>
   );
