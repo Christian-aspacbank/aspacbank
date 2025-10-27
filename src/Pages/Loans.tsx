@@ -69,48 +69,33 @@ const Loans: React.FC = () => {
       {/* ✅ SEO for /loans */}
       <Seo
         title="Loans – Salary, Business & MSME Loans | ASPAC Bank"
-        description="Explore ASPAC Bank loans: teacher salary loans (APDS), MSME financing, and more. Fast approval, flexible terms, and personal assistance in Cebu."
+        description="Explore ASPAC Bank loans: teacher salary loans (APDS), MSME financing, and more. Fast approval, flexible terms, and personal assistance in Cebu"
         canonical="https://www.aspacbank.com/loans"
+        ogType="website"
         ogImage="https://www.aspacbank.com/Loans.jpg"
+        ogImageAlt="ASPAC Bank Loans"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        includeTwitter
-        twitterCard="summary_large_image"
-        twitterSite="@aspacbank"
-        organization={{
-          type: "BankOrCreditUnion",
-          name: "ASPAC Bank",
-          url: "https://www.aspacbank.com/",
-          logo: "https://www.aspacbank.com/favicon.ico",
-          telephone: "+63-32-272-2724",
-          sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          address: {
-            streetAddress:
-              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
-            addressLocality: "Mandaue City",
-            addressRegion: "Cebu",
-            postalCode: "6014",
-            addressCountry: "PH",
+        themeColor="#459243"
+        iconHref="https://www.aspacbank.com/favicon.ico"
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
+        manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "ASPAC Bank Loanas",
+          description:
+            "Teacher salary loans (APDS), MSME financing, and more. Fast approval, flexible terms, and personal assistance in Cebu",
+          url: "https://www.aspacbank.com/advisories",
+          publisher: {
+            "@type": "Organization",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
         }}
-        services={[
-          {
-            name: "Teacher Salary Loan (APDS)",
-            url: "https://www.aspacbank.com/teachers-loan",
-            serviceType: "Salary Loan for Teachers",
-            areaServed: "PH",
-          },
-          {
-            name: "MSME Loan",
-            url: "https://www.aspacbank.com/loans",
-            serviceType: "MSME Financing",
-            areaServed: "PH",
-          },
-        ]}
-        breadcrumbs={[
-          { name: "Home", url: "https://www.aspacbank.com/" },
-          { name: "Loans", url: "https://www.aspacbank.com/loans" },
-        ]}
       />
 
       <div className="bg-gray-50 min-h-screen">

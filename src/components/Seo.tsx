@@ -115,8 +115,13 @@ export default function Seo({
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
+
+    // Track nodes created this render, then remove the marker so it won't show in DevTools
     const mark = <T extends HTMLElement>(el: T) => {
-      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
+      if (el.getAttribute(DATA_ATTR) === "1") {
+        createdNodes.push(el);
+        el.removeAttribute(DATA_ATTR); // hide the marker
+      }
       return el;
     };
 
@@ -237,7 +242,7 @@ export default function Seo({
         el.type = "application/ld+json";
         el.text = JSON.stringify(block);
         el.setAttribute("data-seo-jsonld", `block-${i}`);
-        el.setAttribute(DATA_ATTR, "1");
+        // no DATA_ATTR here — we track JSON-LD via createdScripts
         document.head.appendChild(el);
         createdScripts.push(el);
       });

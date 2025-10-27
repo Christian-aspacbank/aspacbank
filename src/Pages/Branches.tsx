@@ -193,32 +193,34 @@ const Branches = () => {
     <>
       {/* ✅ SEO for /branches */}
       <Seo
-        title="Contact ASPAC Bank"
-        description="Get in touch with ASPAC Bank. Call our Customer Service Hotline or send us an email for account and loan assistance."
+        title="ASPAC Bank Branches"
+        description="Find ASPAC Bank branches near you. Explore convenient locations across the Philippines for banking services, deposits, withdrawals, and account assistance. Visit your nearest ASPAC Rural Bank branch today."
         canonical="https://www.aspacbank.com/branches"
-        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogType="website"
+        ogImage="https://www.aspacbank.com/favicon.ico"
+        ogImageAlt="ASPAC Bank Branch Locations"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        organization={{
-          type: "BankOrCreditUnion",
-          name: "ASPAC Bank",
-          url: "https://www.aspacbank.com/",
-          logo: "https://www.aspacbank.com/favicon.ico",
-          telephone: "+63-32-272-2724",
-          sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          address: {
-            streetAddress:
-              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
-            addressLocality: "Mandaue City",
-            addressRegion: "Cebu",
-            postalCode: "6014",
-            addressCountry: "PH",
+        themeColor="#459243"
+        iconHref="https://www.aspacbank.com/favicon.ico"
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
+        manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "ASPAC Bank Branches",
+          description:
+            "Locate ASPAC Bank branches across the Philippines. Get directions, branch hours, and contact details for your nearest ASPAC Rural Bank branch.",
+          url: "https://www.aspacbank.com/branches",
+          publisher: {
+            "@type": "Organization",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
         }}
-        breadcrumbs={[
-          { name: "Home", url: "https://www.aspacbank.com/" },
-          { name: "Contact", url: "https://www.aspacbank.com/contact" },
-        ]}
       />
 
       {/* ✅ Main Page Content */}

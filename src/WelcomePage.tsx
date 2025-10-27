@@ -58,12 +58,12 @@ const WelcomePage: React.FC = () => {
     >
       {/* SEO */}
       <Seo
-        title="Advisories | ASPAC Bank"
-        description="Stay informed with the latest advisories from ASPAC Bank — important notices, updates, and announcements for our clients and stakeholders."
+        title="ASPAC Bank"
+        description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
         canonical="https://www.aspacbank.com/advisories"
         ogType="website"
         ogImage="https://www.aspacbank.com/favicon.ico"
-        ogImageAlt="ASPAC Bank Advisories"
+        ogImageAlt="https://www.aspacbank.com/APDS3.jpg"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
         themeColor="#459243"
@@ -112,7 +112,7 @@ const WelcomePage: React.FC = () => {
               <FaPhoneAlt aria-hidden /> <span>(032) 272-2724</span>
             </a>
             <a
-              href="mailto:aspacbank@aspacbank.com"
+              href="mailto:customerservice@aspacbank.com"
               className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
             >
               Email Us
@@ -401,12 +401,6 @@ const WelcomePage: React.FC = () => {
                   >
                     Apply in-branch
                   </Link>
-                  <Link
-                    to="/teachers-loan"
-                    className="text-primary font-semibold hover:underline"
-                  >
-                    Learn more →
-                  </Link>
                 </div>
               </div>
             </article>
@@ -440,12 +434,6 @@ const WelcomePage: React.FC = () => {
                   >
                     Open at a branch
                   </Link>
-                  <Link
-                    to="/savings"
-                    className="text-primary font-semibold hover:underline"
-                  >
-                    View accounts →
-                  </Link>
                 </div>
               </div>
             </article>
@@ -478,12 +466,6 @@ const WelcomePage: React.FC = () => {
                     className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
                     Discuss with a loan officer
-                  </Link>
-                  <Link
-                    to="/msme-loans"
-                    className="text-primary font-semibold hover:underline"
-                  >
-                    See programs →
                   </Link>
                 </div>
               </div>
