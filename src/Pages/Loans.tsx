@@ -68,15 +68,15 @@ const Loans: React.FC = () => {
     <>
       {/* ✅ SEO for /loans */}
       <Seo
-        title="Loans | ASPAC Bank"
-        description="Explore ASPAC Bank’s range of loan services — from business and real estate to pension and salary loans. Fast approval, flexible terms, and personalized assistance."
+        title="Loans – Salary, Business & MSME Loans | ASPAC Bank"
+        description="Explore ASPAC Bank loans: teacher salary loans (APDS), MSME financing, and more. Fast approval, flexible terms, and personal assistance in Cebu"
         canonical="https://www.aspacbank.com/loans"
         ogType="website"
-        ogImage="https://www.aspacbank.com/loans.jpg"
-        ogImageAlt="ASPAC Bank Loan Services"
+        ogImage="https://www.aspacbank.com/Loans.jpg"
+        ogImageAlt="ASPAC Bank Loans"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -84,10 +84,10 @@ const Loans: React.FC = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Loans",
+          name: "ASPAC Bank Loanas",
           description:
-            "ASPAC Bank offers loan products for business, real estate, OFWs, and individuals — with fast processing and flexible terms.",
-          url: "https://www.aspacbank.com/loans",
+            "Teacher salary loans (APDS), MSME financing, and more. Fast approval, flexible terms, and personal assistance in Cebu",
+          url: "https://www.aspacbank.com/advisories",
           publisher: {
             "@type": "Organization",
             name: "ASPAC Bank",
@@ -95,34 +95,21 @@ const Loans: React.FC = () => {
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
-          mainEntity: {
-            "@type": "ItemList",
-            name: "ASPAC Bank Loan Services",
-            itemListElement: loanTypes.map((loan, index) => ({
-              "@type": "LoanOrCredit",
-              position: index + 1,
-              name: loan.title,
-              description: loan.description,
-              provider: {
-                "@type": "BankOrCreditUnion",
-                name: "ASPAC Bank",
-                url: "https://www.aspacbank.com",
-              },
-            })),
-          },
         }}
       />
 
       <div className="bg-gray-50 min-h-screen">
-        {/* Image Banner */}
-        <div
-          className="w-full h-64 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/loans.jpg')",
-          }}
-        >
-          <div className="bg-black bg-opacity-50 h-full flex items-center justify-center">
-            <h1 className="text-white text-4xl sm:text-5xl font-bold drop-shadow-lg">
+        {/* 🔄 Image Banner */}
+        <div className="w-full h-64 sm:h-80 md:h-[22rem] relative overflow-hidden">
+          <img
+            src="/Loans.jpg"
+            alt="Customer signing a loan agreement with a bank officer"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <h1 className="text-white text-4xl sm:text-5xl font-bold drop-shadow-lg text-center px-4">
               ASPAC Loan Services
             </h1>
           </div>

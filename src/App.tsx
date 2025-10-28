@@ -14,6 +14,7 @@ import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
 import ExplorePage from "./Pages/ExplorePage"; // ✅ Correct import for the explore page
 import BillsPayment from "./Pages/BillsPayment";
 import Loans from "./Pages/Loans";
+import AspacBankBalanceSheet from "./Pages/AspacBankBalanceSheet"; // ✅ Added import
 
 import "./index.css";
 
@@ -42,6 +43,12 @@ const App: React.FC = () => {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/bills-payment" element={<BillsPayment />} />
           <Route path="/loans" element={<Loans />} />
+
+          {/* ✅ Added route for ASPACBank Balance Sheet */}
+          <Route
+            path="/advisories/financial-overview/aspacbank-balance-sheet"
+            element={<AspacBankBalanceSheet />}
+          />
         </Routes>
         <Footer />
       </div>
