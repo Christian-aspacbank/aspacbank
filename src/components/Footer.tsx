@@ -2,79 +2,148 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 const Footer: React.FC = () => {
-  const location = useLocation();
-  console.log("Current Path:", location.pathname);
+  const { pathname } = useLocation();
 
   // Normalize path to lowercase for matching
-  const currentPath = location.pathname.toLowerCase();
+  const currentPath = pathname.toLowerCase();
 
   // Show PDIC image only on Homepage and Deposit Account page
   const showPDICImage =
     currentPath === "/" || currentPath.includes("deposit-account");
 
   return (
-    <div className="bg-gray-300 py-10 px-6">
+    <footer role="contentinfo" className="bg-gray-50 border-t border-gray-200">
+      {/* PDIC / BSP strip (conditional) */}
       {showPDICImage && (
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center mb-6 space-y-2">
+        <div className="max-w-6xl mx-auto px-6 pt-10 pb-6 text-center">
           <img
             src="/New Official PDIC Digital Decal.jpg"
-            alt="PDIC Decal"
-            className="h-40 object-contain"
+            alt="PDIC Digital Decal"
+            className="h-40 mx-auto object-contain"
+            loading="lazy"
+            width={320}
+            height={160}
           />
-          <p className="text-sm text-gray-700 font-medium">
-            Deposits are insured by the PDIC up to P 1 Million per depositor.
+          <p className="mt-2 text-sm text-gray-700 font-medium">
+            Deposits are insured by the{" "}
+            <span className="text-primary font-semibold">PDIC</span> up to{" "}
+            <span className="text-primary font-semibold">P 1 Million</span> per
+            depositor.
           </p>
           <p className="text-sm text-gray-700">
-            ASPAC Bank is regulated by the <b>Bangko Sentral ng Pilipinas</b>{" "}
+            ASPAC Bank is supervised by the{" "}
             <a
               href="https://www.bsp.gov.ph/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-blue-700 hover:text-blue-900"
+              className="underline text-primary hover:opacity-80"
             >
-              https://www.bsp.gov.ph/
+              Bangko Sentral ng Pilipinas (BSP)
             </a>
+            .
           </p>
         </div>
       )}
 
-      <hr />
-
-      <br />
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-700">
+      <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-700">
         {/* Contact and Regulatory Info */}
-        <div className="space-y-4">
+        <section aria-labelledby="footer-contact" className="space-y-3">
+          <h3
+            id="footer-contact"
+            className="text-base font-semibold text-gray-900"
+          >
+            Contact Us
+          </h3>
           <p>
-            For concerns, call ASPAC Bank’s Customer Service Hotline at
-            <span className="font-semibold"> (032) 272-2724</span> or Mobile
-            number <span className="font-semibold">08982722724</span>
+            For concerns, call our Customer Service Hotline at{" "}
+            <a
+              href="tel:+63322722724"
+              className="font-semibold text-primary hover:opacity-80"
+            >
+              (032) 272-2724
+            </a>{" "}
+            or Mobile number{" "}
+            <a
+              href="tel:+638982722724"
+              className="font-semibold text-primary hover:opacity-80"
+            >
+              0898-272-2724
+            </a>
+            .
           </p>
           <p>
-            Email:{" "}
+            Email:&nbsp;
             <a
               href="mailto:aspacbank@aspacbank.com"
-              className="text-green-700 hover:underline"
+              className="text-primary hover:opacity-80"
             >
               aspacbank@aspacbank.com
             </a>
           </p>
-        </div>
+        </section>
 
-        {/* Address + App Icons + Socials */}
-        <div className="text-center md:text-right space-y-4">
-          <div>
-            <h4 className="text-base font-semibold">Head Office Address</h4>
-            <p>
-              ASPAC Bank Building, Guizo Mandaue City, Cebu City, Philippines
-            </p>
-          </div>
+        {/* Address + Store badges */}
+        <section
+          aria-labelledby="footer-address"
+          className="text-center md:text-right space-y-3"
+        >
+          <h3
+            id="footer-address"
+            className="text-base font-semibold text-gray-900"
+          >
+            Head Office Address
+          </h3>
+          <address className="not-italic">
+            ASPAC Bank Building, Guizo, Mandaue City, Cebu, Philippines
+          </address>
+
           <div className="flex justify-center md:justify-end gap-4 mt-4">
-            <img src="/appstore.png" alt="App Store" className="h-10" />
-            <img src="/googleplay.png" alt="Google Play" className="h-10" />
+            {/* If you have real store URLs, wrap images with <a href="..."> */}
+            <img
+              src="/appstore.png"
+              alt="Download on the App Store"
+              className="h-10"
+              loading="lazy"
+            />
+            <img
+              src="/googleplay.png"
+              alt="Get it on Google Play"
+              className="h-10"
+              loading="lazy"
+            />
           </div>
+        </section>
+      </div>
+
+      <div className="border-t border-gray-200">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-gray-500">
+            © {new Date().getFullYear()}{" "}
+            <span className="font-medium">ASPAC Bank, Inc.</span> All rights
+            reserved.
+          </p>
+          <nav aria-label="Footer legal" className="text-xs text-gray-600">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2">
+              <li>
+                <a href="/privacy" className="hover:underline">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/terms" className="hover:underline">
+                  Terms & Conditions
+                </a>
+              </li>
+              <li>
+                <a href="/advisories" className="hover:underline">
+                  Advisories
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

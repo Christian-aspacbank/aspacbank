@@ -193,15 +193,15 @@ const Branches = () => {
     <>
       {/* ✅ SEO for /branches */}
       <Seo
-        title="Branches | ASPAC Bank"
-        description="Find ASPAC Bank branch locations across the Philippines. Get contact details, operating hours, and maps for your nearest branch."
+        title="ASPAC Bank Branches"
+        description="Find ASPAC Bank branches near you. Explore convenient locations across the Philippines for banking services, deposits, withdrawals, and account assistance. Visit your nearest ASPAC Rural Bank branch today."
         canonical="https://www.aspacbank.com/branches"
         ogType="website"
-        ogImage="https://www.aspacbank.com/branches-banner.jpg" // replace with your real banner
-        ogImageAlt="ASPAC Bank Branches"
+        ogImage="https://www.aspacbank.com/favicon.ico"
+        ogImageAlt="ASPAC Bank Branch Locations"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        themeColor="#0a3d62"
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
@@ -209,9 +209,9 @@ const Branches = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Branches",
+          name: "ASPAC Bank Branches",
           description:
-            "List of branch locations, contact details, operating hours, and maps for ASPAC Bank in the Philippines.",
+            "Locate ASPAC Bank branches across the Philippines. Get directions, branch hours, and contact details for your nearest ASPAC Rural Bank branch.",
           url: "https://www.aspacbank.com/branches",
           publisher: {
             "@type": "Organization",
@@ -219,10 +219,6 @@ const Branches = () => {
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          },
-          mainEntity: {
-            "@type": "CollectionPage",
-            name: "ASPAC Bank Branches",
           },
         }}
       />
