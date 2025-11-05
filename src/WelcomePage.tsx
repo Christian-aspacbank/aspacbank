@@ -45,7 +45,7 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-primary",
-      to: "/advisories",
+      to: "https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.373832,123.958717,18z", // ✅ open Google Maps
     },
   ];
 
@@ -538,7 +538,11 @@ const WelcomePage: React.FC = () => {
                   <div className="mt-5 flex items-center gap-3">
                     {to && (
                       <button
-                        onClick={() => navigate(to)}
+                        onClick={() =>
+                          /^https?:\/\//i.test(to)
+                            ? window.open(to, "_blank", "noopener,noreferrer") // ✅ opens Google Maps externally
+                            : navigate(to)
+                        }
                         className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                       >
                         View full advisory
