@@ -111,7 +111,6 @@ const WelcomePage: React.FC = () => {
           },
         }}
       />
-
       {/* Top announcement bar */}
       <div
         className="w-full bg-primary text-white text-sm md:text-[15px] py-2 px-4"
@@ -562,9 +561,9 @@ const WelcomePage: React.FC = () => {
                       {title}
                     </h3>
 
-                    <p className="text-gray-700 text-sm leading-relaxed mt-3">
-                      {content}
-                    </p>
+                  <p className="text-gray-700 text-sm leading-relaxed mt-3">
+                    {content}
+                  </p>
 
                     <div className="mt-5 flex items-center gap-3">
                       {to && (
@@ -581,6 +580,7 @@ const WelcomePage: React.FC = () => {
                       )}
                     </div>
                   </div>
+                </div>
 
                   {/* media only if videoSrc is defined */}
                   {videoSrc && (
