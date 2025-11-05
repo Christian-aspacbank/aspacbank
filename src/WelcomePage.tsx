@@ -45,7 +45,7 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-primary",
-      to: "/advisories",
+      to: "https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.373832,123.958717,18z", // ✅ open Google Maps
     },
   ];
 
@@ -100,8 +100,7 @@ const WelcomePage: React.FC = () => {
               aria-hidden
             />
             <span className="font-medium">
-              Your trusted rural bank — serving communities across Cebu and
-              beyond.
+              Your trusted bank — serving communities across Cebu and beyond.
             </span>
           </p>
           <div className="flex items-center gap-4">
@@ -111,12 +110,7 @@ const WelcomePage: React.FC = () => {
             >
               <FaPhoneAlt aria-hidden /> <span>(032) 272-2724</span>
             </a>
-            <a
-              href="mailto:customerservice@aspacbank.com"
-              className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
-            >
-              Email Us
-            </a>
+
             <a
               href="https://www.facebook.com/aspacbank0620/"
               target="_blank"
@@ -203,7 +197,7 @@ const WelcomePage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
                 <div className="animate-[fadeIn_500ms_ease-out]">
-                  <h1 className="text-white text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                  <h1 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
                     Fuel your passion for teaching
                   </h1>
                   <p className="text-white/90 text-base md:text-lg mt-3 max-w-prose">
@@ -240,7 +234,7 @@ const WelcomePage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
                 <div className="animate-[fadeIn_500ms_ease-out]">
-                  <h2 className="text-white text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                  <h2 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
                     Grow your savings with us
                   </h2>
                   <p className="text-white/90 text-base md:text-lg mt-3 max-w-prose">
@@ -277,7 +271,7 @@ const WelcomePage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
                 <div className="animate-[fadeIn_500ms_ease-out]">
-                  <h2 className="text-white text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                  <h2 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
                     Simply safe banking
                   </h2>
                   <p className="text-white/90 text-base md:text-lg mt-3 max-w-prose">
@@ -544,7 +538,11 @@ const WelcomePage: React.FC = () => {
                   <div className="mt-5 flex items-center gap-3">
                     {to && (
                       <button
-                        onClick={() => navigate(to)}
+                        onClick={() =>
+                          /^https?:\/\//i.test(to)
+                            ? window.open(to, "_blank", "noopener,noreferrer") // ✅ opens Google Maps externally
+                            : navigate(to)
+                        }
                         className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                       >
                         View full advisory
