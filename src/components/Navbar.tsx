@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
                 <li role="none" className="hover:bg-gray-100">
                   <Link
                     role="menuitem"
-                    to="/advisories"
+                    to="/general_advisories"
                     className="block px-4 py-2 text-gray-700 hover:text-[#459243] transition-colors"
                     onClick={closeAll}
                   >
@@ -241,7 +241,7 @@ const Navbar: React.FC = () => {
 
               <div className="mt-1 ml-2 rounded-lg border">
                 <Link
-                  to="/advisories"
+                  to="/general_advisories"
                   className="block px-3 py-3 hover:bg-gray-50"
                   onClick={closeAll}
                 >

@@ -32,7 +32,8 @@ const WelcomePage: React.FC = () => {
     label: string;
     Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     iconColor: string;
-    to?: string;
+    to: string;
+    videoSrc?: string; // 👈 optional video for some items only
   };
 
   const news: NewsItem[] = [
@@ -45,7 +46,20 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-primary",
-      to: "/advisories",
+      to: "https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.373832,123.958717,18z",
+      videoSrc: "/assets/vid/cnsvid3.webm", // 👈 Only this one gets the video
+    },
+    {
+      title: "Service Advisory – Operations Notice (Nov 5, 2025)",
+      content:
+        "Banilad, Carcar, Talisay, Lapu-Lapu branches and our Head Office in Mandaue will be open for operations from 10:00 AM to 3:00 PM",
+      label: "Operation Notice",
+      Icon: FaMapMarkerAlt as React.ComponentType<
+        React.SVGProps<SVGSVGElement>
+      >,
+      iconColor: "text-primary",
+      to: "/general_advisories",
+      // 👈 no videoSrc here
     },
   ];
 
@@ -58,35 +72,46 @@ const WelcomePage: React.FC = () => {
     >
       {/* SEO */}
       <Seo
-        title="ASPAC Bank"
-        description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
-        canonical="https://www.aspacbank.com/advisories"
+        title="ASPAC Bank | Empowering Educators & Communities"
+        description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, savings and deposit accounts with secure banking."
+        canonical="https://www.aspacbank.com/"
         ogType="website"
-        ogImage="https://www.aspacbank.com/favicon.ico"
-        ogImageAlt="https://www.aspacbank.com/APDS3.jpg"
+        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogImageAlt="ASPAC Bank – teaching professionals and community banking"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
-        includeTwitter={false}
+        includeTwitter={true}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: "ASPAC Bank Advisories",
+          "@type": "BankOrCreditUnion",
+          name: "ASPAC Rural Bank, Inc.",
           description:
-            "Important notices, updates, and announcements from ASPAC Bank.",
-          url: "https://www.aspacbank.com/advisories",
-          publisher: {
-            "@type": "Organization",
-            name: "ASPAC Bank",
-            url: "https://www.aspacbank.com",
-            logo: "https://www.aspacbank.com/favicon.ico",
-            sameAs: ["https://www.facebook.com/aspacbank0620/"],
+            "ASPAC Bank provides trusted banking services for teachers and rural communities — including APDS salary loans, savings, and deposit products.",
+          url: "https://www.aspacbank.com/",
+          logo: "https://www.aspacbank.com/favicon.ico",
+          sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+63-32-272-2724",
+            contactType: "Customer Service",
+            areaServed: "PH",
+            availableLanguage: "English",
+          },
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "ASPAC Building, Poblacion, Cebu City",
+            addressLocality: "Cebu City",
+            addressRegion: "Cebu",
+            postalCode: "6000",
+            addressCountry: "PH",
           },
         }}
       />
+
       {/* Top announcement bar */}
       <div
         className="w-full bg-primary text-white text-sm md:text-[15px] py-2 px-4"
@@ -104,6 +129,12 @@ const WelcomePage: React.FC = () => {
             </span>
           </p>
           <div className="flex items-center gap-4">
+            <a
+              href="mailto:customerservice@aspacbank.com"
+              className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
+            >
+              Email Us
+            </a>
             <a
               href="tel:+63322722724"
               className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
@@ -187,19 +218,20 @@ const WelcomePage: React.FC = () => {
           aria-roledescription="carousel"
         >
           {/* Slide 1 */}
+
           <SwiperSlide>
             <div
               className="h-full w-full relative bg-cover bg-center"
-              style={{ backgroundImage: "url(/APDS3.jpg)" }}
+              style={{ backgroundImage: "url(/APDS6.png)" }}
               role="img"
-              aria-label="Teacher in a classroom — APDS Teacher Salary Loan"
+              aria-label="Shield icon over banking imagery — safety"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
                 <div className="animate-[fadeIn_500ms_ease-out]">
-                  <h1 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                  <h2 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
                     Fuel your passion for teaching
-                  </h1>
+                  </h2>
                   <p className="text-white/90 text-base md:text-lg mt-3 max-w-prose">
                     Flexible APDS Teacher Salary Loans with straightforward
                     processing.
@@ -208,28 +240,23 @@ const WelcomePage: React.FC = () => {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     to="/teachers-loan"
-                    className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                    className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
                     Apply for APDS
                   </Link>
-                  <button
-                    onClick={() => navigate("/branches")}
-                    className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
-                  >
-                    Find a Branch
-                  </button>
                 </div>
               </div>
             </div>
           </SwiperSlide>
 
           {/* Slide 2 */}
+
           <SwiperSlide>
             <div
               className="h-full w-full relative bg-cover bg-center"
               style={{ backgroundImage: "url(/Growyoursavings.jpg)" }}
               role="img"
-              aria-label="Coins and plants symbolizing savings growth"
+              aria-label="Shield icon over banking imagery — safety"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
@@ -244,16 +271,16 @@ const WelcomePage: React.FC = () => {
                 </div>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <button
-                    onClick={() => setShowModal(true)}
+                    onClick={() => navigate("/explore")}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
-                    Talk to Us
+                    View Savings
                   </button>
                   <Link
-                    to="/savings"
+                    to="/advisories"
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
-                    View Savings
+                    View Advisories
                   </Link>
                 </div>
               </div>
@@ -264,7 +291,7 @@ const WelcomePage: React.FC = () => {
           <SwiperSlide>
             <div
               className="h-full w-full relative bg-cover bg-center"
-              style={{ backgroundImage: "url(/Simplysafe.jpg)" }}
+              style={{ backgroundImage: "url(/Simplysafe1.png)" }}
               role="img"
               aria-label="Shield icon over banking imagery — safety"
             >
@@ -509,64 +536,69 @@ const WelcomePage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            {news.map(({ title, content, label, Icon, iconColor, to }) => (
-              <motion.article
-                key={title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-                viewport={{ once: true, amount: 0.3 }}
-                className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition grid md:grid-cols-[1fr_360px] gap-6 overflow-hidden"
-              >
-                {/* text */}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="inline-flex items-center gap-2 text-xs font-medium text-gray-600">
-                      <Icon className={`text-base ${iconColor}`} aria-hidden />
-                      <span className="uppercase tracking-wide">{label}</span>
-                    </span>
+            {news.map(
+              ({ title, content, label, Icon, iconColor, to, videoSrc }) => (
+                <motion.article
+                  key={title}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition grid md:grid-cols-[1fr_360px] gap-6 overflow-hidden"
+                >
+                  {/* text */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="inline-flex items-center gap-2 text-xs font-medium text-gray-600">
+                        <Icon
+                          className={`text-base ${iconColor}`}
+                          aria-hidden
+                        />
+                        <span className="uppercase tracking-wide">{label}</span>
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-primary leading-snug">
+                      {title}
+                    </h3>
+
+                    <p className="text-gray-700 text-sm leading-relaxed mt-3">
+                      {content}
+                    </p>
+
+                    <div className="mt-5 flex items-center gap-3">
+                      {to && (
+                        <button
+                          onClick={() =>
+                            /^https?:\/\//i.test(to)
+                              ? window.open(to, "_blank", "noopener,noreferrer")
+                              : navigate(to)
+                          }
+                          className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                        >
+                          View full advisory
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  <h3 className="text-2xl font-semibold text-primary leading-snug">
-                    {title}
-                  </h3>
-
-                  <p className="text-gray-700 text-sm leading-relaxed mt-3">
-                    {content}
-                  </p>
-
-                  <div className="mt-5 flex items-center gap-3">
-                    {to && (
-                      <button
-                        onClick={() => navigate(to)}
-                        className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
-                      >
-                        View full advisory
-                      </button>
-                    )}
-                    <button
-                      onClick={() => navigate("/advisories")}
-                      className="text-sm font-semibold text-primary hover:underline"
-                    >
-                      See all advisories →
-                    </button>
-                  </div>
-                </div>
-
-                {/* media */}
-                <div className="relative h-56 md:h-auto">
-                  <video
-                    src="/assets/vid/cnsvid3.webm"
-                    className="absolute inset-0 w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-label="Branch feature montage"
-                  />
-                </div>
-              </motion.article>
-            ))}
+                  {/* media only if videoSrc is defined */}
+                  {videoSrc && (
+                    <div className="relative h-56 md:h-auto">
+                      <video
+                        src={videoSrc}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        aria-label="Branch feature montage"
+                      />
+                    </div>
+                  )}
+                </motion.article>
+              )
+            )}
           </div>
         </div>
       </section>

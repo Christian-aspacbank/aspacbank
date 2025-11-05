@@ -16,3 +16,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* Brand CSS variables (handy outside Tailwind too) */
+:root {
+  --aspac-green: #459243;
+  --aspac-green-aa: #3e833c; /* use when white text sits on green */
+  --aspac-yellow: #ebd839;
+}
+
+/* Consistent focus ring using the brand yellow */
+:focus-visible {
+  outline: 3px solid var(--aspac-yellow);
+  outline-offset: 2px;
+}
+
+/* Optional soft tints for badges/backgrounds */
+.bg-aspac-green-tint { background: #eaf6eb; }
+.bg-aspac-yellow-tint { background: #fff8cc; }
+
+
