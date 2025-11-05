@@ -102,7 +102,7 @@ const Loans: React.FC = () => {
         {/* 🔄 Image Banner */}
         <div className="w-full h-64 sm:h-80 md:h-[22rem] relative overflow-hidden">
           <img
-            src="/Loans.jpg"
+            src="/loans.jpg"
             alt="Customer signing a loan agreement with a bank officer"
             className="w-full h-full object-cover object-center"
             loading="eager"
