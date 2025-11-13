@@ -1,15 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"], // Ensures Tailwind scans all source files
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        'aspac-green': '#459243',
-        'aspac-yellow': '#ebd839',
+        "aspac-green": "#459243",
+        "aspac-yellow": "#EBD839",
 
-        // optional semantic aliases
-        primary: '#459243',
-        accent: '#ebd839',
+        // semantic names
+        primary: "#459243",
+        accent: "#EBD839",
       },
     },
   },
