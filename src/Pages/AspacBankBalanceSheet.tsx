@@ -23,7 +23,7 @@ type DocOption = {
 const DOC_OPTIONS: DocOption[] = [
   {
     label: "September 30, 2025 (Q3)",
-    asOf: "2025-06-30",
+    asOf: "2025-09-30",
     pages: [
       fileUrl("balancesheet-9-30-2025_1.jpg"),
       fileUrl("balancesheet-9-30-2025_2.jpg"),
