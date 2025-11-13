@@ -100,7 +100,7 @@ const WelcomePage: React.FC = () => {
               aria-hidden
             />
             <span className="font-medium">
-              sserving communities across Cebu and beyond.
+              Your trusted Bank - serving communities across Cebu and beyond.
             </span>
           </p>
           <div className="flex items-center gap-4">
