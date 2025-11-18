@@ -95,24 +95,12 @@ const APDSLoanPage: React.FC = () => {
         ogDescription="Fast, flexible, low-interest APDS salary loans for teachers in the Philippines."
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        ogImages={[
-          {
-            url: "https://www.aspacbank.com/features1.jpg",
-            alt: "ASPAC Bank Teacher Salary Loan (APDS)",
-          },
-        ]}
-        includeTwitter={true}
-        twitterCard="summary_large_image"
-        twitterSite="@aspacbank"
-        themeColor="#0a3d62"
+        /* Match brand & manifest theme color */
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
-        // Optional: hreflang alternates (if you add i18n later)
-        // hrefLangs={[
-        //   { href: "https://www.aspacbank.com/teachers-loan", hrefLang: "en-PH" },
-        //   { href: "https://www.aspacbank.com/teachers-loan", hrefLang: "x-default" },
-        // ]}
+        includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "LoanOrCredit",
