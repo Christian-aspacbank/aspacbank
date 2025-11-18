@@ -87,8 +87,8 @@ const APDSLoanPage: React.FC = () => {
     <>
       {/* ✅ Page SEO */}
       <Seo
-        title="Teacher Salary Loan (APDS) | Low-Interest Loans for Educators | ASPAC Bank"
-        description="Empower your teaching journey with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy low interest, quick approval, and flexible payment terms through payroll deduction — for educators in the Philippines."
+        title="Teacher's Loan | ASPAC Bank"
+        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS): low interest, quick approval, flexible terms, and convenient payroll deduction for educators in the Philippines."
         canonical="https://www.aspacbank.com/teachers-loan"
         ogType="product"
         ogTitle="Teacher Salary Loan (APDS) | ASPAC Bank"
