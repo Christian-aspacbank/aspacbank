@@ -709,7 +709,7 @@ const WelcomePage: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/savings" className="hover:underline">
+                <Link to="/deposit-account" className="hover:underline">
                   Savings & Time Deposit
                 </Link>
               </li>
