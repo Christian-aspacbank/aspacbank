@@ -95,12 +95,11 @@ const APDSLoanPage: React.FC = () => {
         ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS)"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        /* Added to match homepage SEO head */
-        themeColor="#0a3d62"
+        /* Match brand & manifest theme color */
+        themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
-        appleTouchIconHref="https://www.aspacbank.com/favicon.ico" // or apple-touch-icon.png if available
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
-        /* Optional Twitter tags — keep off if not needed */
         includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",

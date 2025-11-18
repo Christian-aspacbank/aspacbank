@@ -1,25 +1,53 @@
 {
   "short_name": "ASPAC Bank",
   "name": "ASPAC Bank - Simply Safe",
+  "description": "Official ASPAC Bank web app: access secure digital banking and salary loan services, including APDS Teacher Loans, with ASPAC’s Simply Safe experience.",
+  "lang": "en-PH",
+  "start_url": "/?utm_source=web_app_manifest",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#459243",          
+  "background_color": "#ebd839",    
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "Aspac_logo192.png",
+      "src": "/Aspac_logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "Aspac_logo512.png",
+      "src": "/Aspac_logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#007f3b", 
-  "background_color": "#ffffff"
+  "id": "https://www.aspacbank.com/",
+  "shortcuts": [
+    {
+      "name": "Teacher Loan (APDS)",
+      "short_name": "Teacher Loan",
+      "description": "Apply for ASPAC Bank’s Teacher Salary Loan (APDS) — low-interest, quick approval, and payroll-deducted.",
+      "url": "/teachers-loan"
+    },
+    {
+      "name": "Personal Loan",
+      "short_name": "Personal Loan",
+      "description": "Flexible and low-interest personal loans for Filipinos.",
+      "url": "/personal-loan"
+    },
+    {
+      "name": "Branches & Contact",
+      "short_name": "Branches",
+      "description": "Find ASPAC Bank branches and contact information across the Philippines.",
+      "url": "/branches"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

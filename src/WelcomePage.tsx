@@ -59,13 +59,14 @@ const WelcomePage: React.FC = () => {
       {/* SEO */}
       <Seo
         title="ASPAC Bank"
-        description="Empowering educators with ASPAC Bank’s Teacher Salary Loan (APDS). Enjoy reliable banking services, fast approval, and low-interest salary loans for teachers. Open savings and deposit accounts with secure digital banking today."
-        canonical="https://www.aspacbank.com/advisories"
+        description="ASPAC Bank empowers teachers and Filipino families with secure banking, fast loan approvals, and low-interest APDS Teacher Salary Loans. Experience Simply Safe banking with reliable savings, deposits, and community-focused financial services."
+        canonical="https://www.aspacbank.com/"
         ogType="website"
-        ogImage="https://www.aspacbank.com/favicon.ico"
-        ogImageAlt="https://www.aspacbank.com/APDS3.jpg"
+        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogImageAlt="ASPAC Bank – Teacher Salary Loan and Secure Banking Services"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
@@ -74,10 +75,10 @@ const WelcomePage: React.FC = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "ASPAC Bank Advisories",
+          name: "ASPAC Bank",
           description:
-            "Important notices, updates, and announcements from ASPAC Bank.",
-          url: "https://www.aspacbank.com/advisories",
+            "ASPAC Bank empowers teachers and Filipino families with secure banking, fast loan approvals, and low-interest APDS Teacher Salary Loans. Experience Simply Safe banking with reliable savings, deposits, and community-focused financial services.",
+          url: "https://www.aspacbank.com/",
           publisher: {
             "@type": "Organization",
             name: "ASPAC Bank",
@@ -87,6 +88,7 @@ const WelcomePage: React.FC = () => {
           },
         }}
       />
+
       {/* Top announcement bar */}
       <div
         className="w-full bg-primary text-white text-sm md:text-[15px] py-2 px-4"
