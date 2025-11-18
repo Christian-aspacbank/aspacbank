@@ -9,46 +9,39 @@ const DepositAccount = () => {
     <>
       {/* ✅ SEO for /deposit-account */}
       <Seo
-        title="Deposit Account – Savings & Time Deposits | ASPAC Bank"
-        description="Open a savings or time deposit account with ASPAC Bank. Enjoy secure banking, competitive rates, and community-first service across Cebu."
+        title="Deposit Accounts | ASPAC Bank"
+        description="Open a secure and reliable deposit account with ASPAC Bank. Enjoy safe savings, easy withdrawals, competitive interest, and community-focused banking designed for Filipino families and educators."
         canonical="https://www.aspacbank.com/deposit-account"
-        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogType="product"
+        ogImage="https://www.aspacbank.com/DepositAccount.jpg"
+        ogImageAlt="ASPAC Bank secure savings and deposit account services"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        includeTwitter
-        twitterCard="summary_large_image"
-        twitterSite="@aspacbank"
-        organization={{
-          type: "BankOrCreditUnion",
-          name: "ASPAC Bank",
-          url: "https://www.aspacbank.com/",
-          logo: "https://www.aspacbank.com/favicon.ico",
-          telephone: "+63-32-272-2724",
-          sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          address: {
-            streetAddress:
-              "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
-            addressLocality: "Mandaue City",
-            addressRegion: "Cebu",
-            postalCode: "6014",
-            addressCountry: "PH",
+        /* Match brand & manifest theme color */
+        themeColor="#459243"
+        iconHref="https://www.aspacbank.com/favicon.ico"
+        appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
+        manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BankAccount",
+          name: "ASPAC Bank Deposit Account",
+          description:
+            "ASPAC Bank offers secure and dependable deposit accounts with competitive interest rates, easy access, and Simply Safe banking for Filipino families and educators.",
+          url: "https://www.aspacbank.com/deposit-account",
+          provider: {
+            "@type": "BankOrCreditUnion",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          },
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "Cebu, Philippines",
           },
         }}
-        services={[
-          {
-            name: "Deposit Account",
-            url: "https://www.aspacbank.com/deposit-account",
-            serviceType: "Savings and Time Deposit Services",
-            areaServed: "PH",
-          },
-        ]}
-        breadcrumbs={[
-          { name: "Home", url: "https://www.aspacbank.com/" },
-          {
-            name: "Deposit Account",
-            url: "https://www.aspacbank.com/deposit-account",
-          },
-        ]}
       />
 
       <div className="bg-gray-50 min-h-screen">

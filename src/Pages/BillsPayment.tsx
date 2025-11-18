@@ -7,14 +7,15 @@ const BillsPayment: React.FC = () => {
     <>
       {/* SEO for /bills-payment */}
       <Seo
-        title="Bills Payment | ASPAC Bank"
-        description="Pay your MECO bills safely and conveniently at ASPAC Bank. Fast posting, reliable service, and friendly branch assistance."
+        title="Bills Payment Services | ASPAC Bank"
+        description="Pay your bills quickly and securely with ASPAC Bank. Enjoy convenient over-the-counter payments for utilities, loans, government services, and partner billers across Cebu and nearby areas."
         canonical="https://www.aspacbank.com/bills-payment"
-        ogType="website"
+        ogType="service"
         ogImage="https://www.aspacbank.com/Billspayment.png"
-        ogImageAlt="ASPAC Bank Bills Payment"
+        ogImageAlt="ASPAC Bank Bills Payment services and over-the-counter transactions"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
@@ -22,38 +23,21 @@ const BillsPayment: React.FC = () => {
         includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: "Bills Payment",
+          "@type": "FinancialService",
+          name: "ASPAC Bank Bills Payment",
           description:
-            "Settle MECO bills quickly and securely at ASPAC Bank branches.",
+            "Secure and convenient bills payment service by ASPAC Bank, offering over-the-counter payments for utilities, loans, government services, and partner billers.",
           url: "https://www.aspacbank.com/bills-payment",
-          publisher: {
-            "@type": "Organization",
+          provider: {
+            "@type": "BankOrCreditUnion",
             name: "ASPAC Bank",
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
-          mainEntity: {
-            "@type": "Service",
-            name: "Bills Payment (MECO)",
-            serviceType: "Over-the-counter bills payment",
-            areaServed: "PH",
-            provider: {
-              "@type": "BankOrCreditUnion",
-              name: "ASPAC Bank",
-              url: "https://www.aspacbank.com",
-              telephone: "+63-32-272-2724",
-            },
-            availableChannel: {
-              "@type": "ServiceChannel",
-              serviceUrl: "https://www.aspacbank.com/bills-payment",
-              servicePhone: "+63-917-127-7796",
-              servicePostalAddress: {
-                "@type": "PostalAddress",
-                addressCountry: "PH",
-              },
-            },
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "Cebu, Philippines",
           },
         }}
       />

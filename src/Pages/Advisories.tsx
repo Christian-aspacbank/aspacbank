@@ -306,19 +306,37 @@ const AdvisoriesPage: React.FC = () => {
   return (
     <>
       <Seo
-        title="Advisories | ASPAC Bank"
-        description="Stay informed with the latest advisories from ASPAC Bank — important notices, updates, and announcements for our clients and stakeholders."
+        title="Advisories & Service Updates | ASPAC Bank"
+        description="Stay informed with ASPAC Bank advisories — branch schedules, service changes, compliance notices, and important updates for clients and stakeholders across Cebu and nearby areas."
         canonical="https://www.aspacbank.com/advisories"
         ogType="website"
-        ogImage="https://www.aspacbank.com/favicon.ico"
-        ogImageAlt="ASPAC Bank Advisories"
+        ogImage="https://www.aspacbank.com/general_advisories1.png"
+        ogImageAlt="ASPAC Bank advisories, service updates, and branch notices"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
         manifestHref="https://www.aspacbank.com/manifest.json"
+        includeTwitter={false}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "ASPAC Bank Advisories & Service Updates",
+          description:
+            "Latest advisories from ASPAC Bank, including branch schedules, service changes, compliance notices, and important updates for clients and stakeholders.",
+          url: "https://www.aspacbank.com/advisories",
+          publisher: {
+            "@type": "Organization",
+            name: "ASPAC Bank",
+            url: "https://www.aspacbank.com",
+            logo: "https://www.aspacbank.com/favicon.ico",
+            sameAs: ["https://www.facebook.com/aspacbank0620/"],
+          },
+        }}
       />
+
       <div className="min-h-screen bg-gradient-to-br from-aspac-green/5 via-white to-aspac-green/10">
         <Hero />
 
