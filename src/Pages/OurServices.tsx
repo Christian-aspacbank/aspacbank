@@ -39,13 +39,14 @@ const OurServices: React.FC = () => {
       {/* ✅ SEO for /our-services */}
       <Seo
         title="Our Services | ASPAC Bank"
-        description="Explore ASPAC Bank’s services — deposit accounts, tuition fee collection, bills payment, and loan products delivered with secure, friendly in-branch support."
+        description="Discover ASPAC Bank’s Simply Safe financial services — from APDS Teacher Loans and reliable deposit accounts to bills payment, branch assistance, and community-focused banking across Cebu and nearby areas."
         canonical="https://www.aspacbank.com/our-services"
         ogType="website"
         ogImage="https://www.aspacbank.com/Services5.jpg"
-        ogImageAlt="ASPAC Bank — Our Services"
+        ogImageAlt="ASPAC Bank financial services including loans, deposits, and bills payment"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
@@ -54,9 +55,9 @@ const OurServices: React.FC = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Our Services",
+          name: "ASPAC Bank Services",
           description:
-            "Overview of ASPAC Bank’s core services for customers across the Philippines.",
+            "Explore ASPAC Bank’s Simply Safe financial services including Teacher Salary Loans (APDS), deposit accounts, bills payment, branch support, and reliable community banking.",
           url: "https://www.aspacbank.com/our-services",
           publisher: {
             "@type": "Organization",
@@ -64,16 +65,6 @@ const OurServices: React.FC = () => {
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          },
-          mainEntity: {
-            "@type": "ItemList",
-            name: "ASPAC Bank Services",
-            itemListElement: services.map((svc, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              name: svc.title,
-              url: `https://www.aspacbank.com${svc.link}`,
-            })),
           },
         }}
       />

@@ -180,7 +180,7 @@ const Features: React.FC = () => {
             className="absolute inset-0 h-full w-full object-cover opacity-40"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-aspac-green/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/40" />
           <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-28 grid md:grid-cols-2 gap-10 items-center">
             <div>
               <p className="text-sm font-semibold tracking-[0.2em] uppercase text-aspac-yellow mb-3">
