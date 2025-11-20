@@ -6,14 +6,15 @@ const ExplorePage: React.FC = () => {
     <>
       {/* SEO for /explore */}
       <Seo
-        title="Explore | Simply Safe Banking | ASPAC Bank"
-        description="Discover ASPAC Bank’s Simply Safe Banking — our commitment to secure, reliable, and caring in-branch service. Learn safety practices, hours, and support."
+        title="Explore ASPAC Bank Services"
+        description="Discover ASPAC Bank’s trusted financial services—from Teacher Salary Loans (APDS) to secure deposit accounts, bills payment, branch locations, and community-focused banking solutions across Cebu and nearby areas."
         canonical="https://www.aspacbank.com/explore"
         ogType="website"
         ogImage="https://www.aspacbank.com/Safebanking.jpg"
-        ogImageAlt="ASPAC Bank — Simply Safe Banking"
+        ogImageAlt="Explore ASPAC Bank products and financial services"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
@@ -22,9 +23,9 @@ const ExplorePage: React.FC = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Explore — Simply Safe Banking",
+          name: "Explore ASPAC Bank Services",
           description:
-            "ASPAC Bank’s commitment to Simply Safe Banking: internal controls, secure transactions, and dependable customer support.",
+            "Explore ASPAC Bank’s financial services including APDS Teacher Loans, deposit accounts, bills payment, branch locations, and Simply Safe community banking.",
           url: "https://www.aspacbank.com/explore",
           publisher: {
             "@type": "Organization",
@@ -32,16 +33,6 @@ const ExplorePage: React.FC = () => {
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
-          },
-          mainEntity: {
-            "@type": "ItemList",
-            name: "Simply Safe Banking Information",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Why Simply Safe?" },
-              { "@type": "ListItem", position: 2, name: "Safety Practices" },
-              { "@type": "ListItem", position: 3, name: "Banking Hours" },
-              { "@type": "ListItem", position: 4, name: "Customer Support" },
-            ],
           },
         }}
       />
