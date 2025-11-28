@@ -131,7 +131,7 @@ const Loans: React.FC = () => {
           "@type": "WebPage",
           name: "ASPAC Bank Loan Services",
           description:
-            "ASPAC Bank offers a wide range of loan services including APDS Teacher Loans, Personal Loans, Motorcycle Loans, and Pension Loans — with fast approval, low interest, and Simply Safe banking.",
+            "ASPAC Bank offers a wide range of loan services including APDS Teacher Loans, — with fast approval, low interest, and Simply Safe banking.",
           url: "https://www.aspacbank.com/loans",
           publisher: {
             "@type": "Organization",
