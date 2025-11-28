@@ -181,9 +181,9 @@ const WelcomePage: React.FC = () => {
           effect="fade"
           fadeEffect={{ crossFade: true }}
           pagination={{ clickable: true }}
-          autoplay={{ delay: 5500, disableOnInteraction: false }}
+          autoplay={{ delay: 12000, disableOnInteraction: false }} // longer pause
           loop
-          speed={600}
+          speed={1100} // smoother, slower fade
           navigation
           className="w-full h-full"
           aria-roledescription="carousel"
@@ -194,26 +194,42 @@ const WelcomePage: React.FC = () => {
               className="h-full w-full relative bg-cover bg-center"
               style={{ backgroundImage: "url(/APDS3.jpg)" }}
               role="img"
-              aria-label="Teacher in a classroom — APDS Teacher Salary Loan"
+              aria-label="Teacher in a classroom — ASPAC Teachers’ Salary Loan (APDS)"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
+
               <div className="absolute left-4 md:left-16 bottom-10 md:bottom-16 max-w-xl">
-                <div className="animate-[fadeIn_500ms_ease-out]">
+                <div className="animate-[fadeIn_500ms_ease-out] space-y-3">
                   <h1 className="text-[#ebd839] text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
-                    Fuel your passion for teaching
+                    Fuel your passion for teaching with ASPAC Teachers’ Loan
                   </h1>
-                  <p className="text-white/90 text-base md:text-lg mt-3 max-w-prose">
-                    Flexible APDS Teacher Salary Loans with straightforward
-                    processing.
+
+                  <p className="text-white/90 text-base md:text-lg max-w-prose">
+                    Our Teachers’ Salary Loan (APDS) offers flexible terms and
+                    convenient salary deduction for public and private school
+                    teachers.
+                  </p>
+
+                  <p className="text-white/80 text-sm md:text-base">
+                    Learn more about our{" "}
+                    <Link
+                      to="/teachers-loan"
+                      className="underline font-semibold hover:text-white"
+                    >
+                      Teachers’ Loan (APDS)
+                    </Link>
+                    .
                   </p>
                 </div>
+
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     to="/teachers-loan"
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
-                    Apply for APDS
+                    Apply for Teachers’ Loan (APDS)
                   </Link>
+
                   <button
                     onClick={() => navigate("/branches")}
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
