@@ -206,8 +206,7 @@ const WelcomePage: React.FC = () => {
 
                   <p className="text-white/90 text-base md:text-lg max-w-prose">
                     Our Teachers’ Salary Loan (APDS) offers flexible terms and
-                    convenient salary deduction for public and private school
-                    teachers.
+                    convenient salary deduction for teachers.
                   </p>
 
                   <p className="text-white/80 text-sm md:text-base">
@@ -227,7 +226,7 @@ const WelcomePage: React.FC = () => {
                     to="/teachers-loan"
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
-                    Apply for Teachers’ Loan (APDS)
+                    Apply for Teachers’ Loan
                   </Link>
 
                   <button
