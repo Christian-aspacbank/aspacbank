@@ -1,23 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://www.aspacbank.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <url><loc>https://www.aspacbank.com/</loc></url>
-  <url><loc>https://www.aspacbank.com/our-services</loc></url>
-  <url><loc>https://www.aspacbank.com/features</loc></url>
-  <url><loc>https://www.aspacbank.com/careers</loc></url>
-  <url><loc>https://www.aspacbank.com/branches</loc></url>
-  <url><loc>https://www.aspacbank.com/deposit-account</loc></url>
-  <url><loc>https://www.aspacbank.com/teachers-loan</loc></url>
-  <url><loc>https://www.aspacbank.com/tuition-fee-collection</loc></url>
-  <url><loc>https://www.aspacbank.com/explore</loc></url>
-  <url><loc>https://www.aspacbank.com/bills-payment</loc></url>
-  <url><loc>https://www.aspacbank.com/loans</loc></url>
-  <url><loc>https://www.aspacbank.com/advisories</loc></url>
-  <url><loc>https://www.aspacbank.com/advisories/financial-overview/aspacbank-balance-sheet</loc></url>
-  
+  <url>
+    <loc>https://www.aspacbank.com/our-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/features</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/careers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/branches</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/deposit-account</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/teachers-loan</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/tuition-fee-collection</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/explore</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/bills-payment</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/loans</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/advisories</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aspacbank.com/advisories/financial-overview/aspacbank-balance-sheet</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
