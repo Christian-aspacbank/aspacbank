@@ -113,11 +113,11 @@ const Loans: React.FC = () => {
       {/* ✅ SEO for /loans */}
       <Seo
         title="Loans | ASPAC Bank"
-        description="Explore ASPAC Bank’s loan services including Teacher Salary Loans (APDS), Personal Loans, Motorcycle Loans, and Pension Loans. Enjoy fast approval, low interest, and Simply Safe community banking."
+        description="Explore ASPAC Bank’s loan services including Teacher Salary Loans (APDS) - Enjoy fast approval, low interest, and Simply Safe community banking."
         canonical="https://www.aspacbank.com/loans"
         ogType="website"
         ogImage="https://www.aspacbank.com/loans.jpg"
-        ogImageAlt="ASPAC Bank loan services including APDS teacher loans, personal loans, and pension loans"
+        ogImageAlt="ASPAC Bank loan services including APDS teacher loans"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
         /* Match brand & manifest theme color */
