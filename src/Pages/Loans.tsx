@@ -5,7 +5,6 @@ import {
   FaUserShield,
   FaAward,
   FaGem,
-  FaGlobe,
   FaUserTie,
 } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
@@ -191,7 +190,6 @@ const Loans: React.FC = () => {
                   <li>
                     • Branch-based assistance for a more personal approach
                   </li>
-                  <li>• Community-focused lending for local growth</li>
                 </ul>
                 <p className="mt-4 text-xs text-gray-500">
                   Loan approval is subject to credit evaluation and completion
