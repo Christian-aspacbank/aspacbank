@@ -255,9 +255,7 @@ const Loans: React.FC = () => {
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
                 Overseas & Others
               </p>
-              <h3 className="text-base font-semibold text-primary mb-1">
-                OFW, Honorarium & Secured Loans
-              </h3>
+
               <p className="text-xs text-gray-600">
                 Tailored solutions for OFWs, honorarium earners, and secured
                 borrowing.
