@@ -5,7 +5,6 @@ import {
   FaUserShield,
   FaAward,
   FaGem,
-  FaGlobe,
   FaUserTie,
 } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
@@ -47,12 +46,7 @@ const loanTypes: LoanType[] = [
       "Secured loans backed by assets for personal or emergency use.",
     Icon: FaGem as React.ComponentType<React.SVGProps<SVGSVGElement>>,
   },
-  {
-    title: "OFW Loan",
-    description:
-      "Convenient loan solutions for Overseas Filipino Workers and their families.",
-    Icon: FaGlobe as React.ComponentType<React.SVGProps<SVGSVGElement>>,
-  },
+
   {
     title: "Salary Loan",
     description:
@@ -62,11 +56,6 @@ const loanTypes: LoanType[] = [
 ];
 
 const faqs = [
-  {
-    question: "Who can apply for an ASPAC Bank loan?",
-    answer:
-      "Depending on the product, we accept applications from salaried employees, business owners, pensioners, professionals, and OFWs, subject to standard credit evaluation.",
-  },
   {
     question: "Do I need to visit a branch to apply?",
     answer:
@@ -249,6 +238,11 @@ const Loans: React.FC = () => {
               <p className="text-xs text-gray-600">
                 For MSMEs and enterprises needing working capital or property
                 acquisition.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
+                Overseas & Others
               </p>
             </div>
           </div>
