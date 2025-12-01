@@ -47,12 +47,7 @@ const loanTypes: LoanType[] = [
       "Secured loans backed by assets for personal or emergency use.",
     Icon: FaGem as React.ComponentType<React.SVGProps<SVGSVGElement>>,
   },
-  {
-    title: "OFW Loan",
-    description:
-      "Convenient loan solutions for Overseas Filipino Workers and their families.",
-    Icon: FaGlobe as React.ComponentType<React.SVGProps<SVGSVGElement>>,
-  },
+
   {
     title: "Salary Loan",
     description:
@@ -62,11 +57,6 @@ const loanTypes: LoanType[] = [
 ];
 
 const faqs = [
-  {
-    question: "Who can apply for an ASPAC Bank loan?",
-    answer:
-      "Depending on the product, we accept applications from salaried employees, business owners, pensioners, professionals, and OFWs, subject to standard credit evaluation.",
-  },
   {
     question: "Do I need to visit a branch to apply?",
     answer:
