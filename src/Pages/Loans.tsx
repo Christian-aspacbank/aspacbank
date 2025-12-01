@@ -109,6 +109,7 @@ const Loans: React.FC = () => {
         ogImageAlt="ASPAC Bank loan services including APDS teacher loans"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
@@ -190,6 +191,7 @@ const Loans: React.FC = () => {
                   <li>
                     • Branch-based assistance for a more personal approach
                   </li>
+                  <li>• Community-focused lending for local growth</li>
                 </ul>
                 <p className="mt-4 text-xs text-gray-500">
                   Loan approval is subject to credit evaluation and completion
@@ -236,6 +238,11 @@ const Loans: React.FC = () => {
               <p className="text-xs text-gray-600">
                 For MSMEs and enterprises needing working capital or property
                 acquisition.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
+                Overseas & Others
               </p>
             </div>
           </div>
