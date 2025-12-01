@@ -251,16 +251,6 @@ const Loans: React.FC = () => {
                 acquisition.
               </p>
             </div>
-            <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
-                Overseas & Others
-              </p>
-
-              <p className="text-xs text-gray-600">
-                Tailored solutions for OFWs, honorarium earners, and secured
-                borrowing.
-              </p>
-            </div>
           </div>
         </section>
 
