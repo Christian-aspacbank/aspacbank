@@ -110,7 +110,6 @@ const Loans: React.FC = () => {
         ogImageAlt="ASPAC Bank loan services including APDS teacher loans"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
-        /* Match brand & manifest theme color */
         themeColor="#459243"
         iconHref="https://www.aspacbank.com/favicon.ico"
         appleTouchIconHref="https://www.aspacbank.com/favicon.ico"
