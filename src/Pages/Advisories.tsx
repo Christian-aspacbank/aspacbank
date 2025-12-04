@@ -5,6 +5,7 @@ import {
   FaExclamationTriangle,
   FaPhone,
   FaClock,
+  FaCalendarAlt,
   FaInfoCircle,
   FaMobileAlt,
   FaEnvelope,
@@ -12,6 +13,7 @@ import {
 import Seo from "../components/Seo";
 
 type AdvisoryKind =
+  | "Holiday"
   | "Closure"
   | "Relocation"
   | "Compliance"
@@ -34,6 +36,29 @@ type Advisory = {
 
 const ADVISORIES: Advisory[] = [
   /** NEW: Operations Notice from the provided image **/
+  {
+    id: "holiday-advisory-2025-12",
+    kind: "Holiday",
+    title: "Holiday Advisory – December 2025 to January 2026",
+    effective: "Dec 8, 24–25, 30–31, 2025 & Jan 1, 2026",
+    paragraphs: [
+      "ASPAC Bank will observe the following holidays. Please plan your transactions in advance:",
+      "• Monday, December 8, 2025 – Feast of the Immaculate Conception",
+      "• Wednesday, December 24, 2025 – Christmas Eve",
+      "• Thursday, December 25, 2025 – Christmas Day",
+      "• Tuesday, December 30, 2025 – Rizal Day",
+      "• Wednesday, December 31, 2025 – New Year’s Eve",
+      "• Thursday, January 1, 2026 – New Year’s Day",
+      "For questions or concerns, contact our customer service hotline at (898) 272-2724.",
+    ],
+    cta: {
+      label: "Visit our Facebook Page",
+      href: "https://www.facebook.com/aspacbank0620",
+    },
+    icon: <FaCalendarAlt className="text-black" />,
+    accent: "border-aspac-yellow",
+  },
+
   {
     id: "ops-notice-2025-11-05",
     kind: "General",
@@ -170,6 +195,7 @@ const KIND_BADGE: Record<AdvisoryKind, { bg: string; text: string }> = {
   Compliance: { bg: "bg-aspac-green-aa", text: "text-white" },
   Service: { bg: "bg-aspac-green-tint", text: "text-primary" },
   General: { bg: "bg-gray-200", text: "text-gray-800" },
+  Holiday: { bg: "bg-gray-200", text: "text-gray-800" },
 };
 
 const Hero: React.FC = () => (
