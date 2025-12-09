@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   FaBriefcase,
   FaBuilding,
-  FaUserShield,
   FaAward,
   FaGem,
   FaUserTie,
@@ -29,11 +28,7 @@ const loanTypes: LoanType[] = [
       "Flexible financing for property acquisition, renovation, or construction.",
     Icon: FaBuilding as React.ComponentType<React.SVGProps<SVGSVGElement>>,
   },
-  {
-    title: "Pension Loan",
-    description: "Fast-access loans tailored for pensioners and retirees.",
-    Icon: FaUserShield as React.ComponentType<React.SVGProps<SVGSVGElement>>,
-  },
+
   {
     title: "Honorarium Loan",
     description:
@@ -153,9 +148,9 @@ const Loans: React.FC = () => {
                   Loans for every stage of your life and business.
                 </h1>
                 <p className="text-sm sm:text-base md:text-lg text-white/90 mb-6 max-w-xl">
-                  From salary and pension loans to commercial and real estate
-                  financing, ASPAC Bank offers practical loan solutions guided
-                  by real people who understand your needs.
+                  From salary to commercial and real estate financing, ASPAC
+                  Bank offers practical loan solutions guided by real people who
+                  understand your needs.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <button
@@ -209,9 +204,9 @@ const Loans: React.FC = () => {
               Find the loan that fits your needs
             </h2>
             <p className="text-gray-700 text-sm md:text-base">
-              ASPAC Bank offers a range of loan products—from salary and
-              pension-based loans to business and real estate financing—designed
-              to support your plans and responsibilities.
+              ASPAC Bank offers a range of loan products—from salary to business
+              and real estate financing—designed to support your plans and
+              responsibilities.
             </p>
           </div>
 
@@ -220,12 +215,10 @@ const Loans: React.FC = () => {
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
                 Individuals
               </p>
-              <h3 className="text-base font-semibold text-primary mb-1">
-                Salary & Pension Loans
-              </h3>
+
               <p className="text-xs text-gray-600">
-                For employees, pensioners, and professionals needing manageable
-                monthly payments.
+                For employees and professionals needing manageable monthly
+                payments.
               </p>
             </div>
             <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
