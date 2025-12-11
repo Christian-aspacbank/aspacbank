@@ -33,9 +33,26 @@ const WelcomePage: React.FC = () => {
     Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     iconColor: string;
     to?: string;
+    mediaType?: "video" | "image";
+    mediaSrc?: string;
+    mediaAlt?: string;
   };
 
   const news: NewsItem[] = [
+    {
+      title: "Bogo Branch Reopening – December 15, 2025",
+      content:
+        "We are reopening on December 15, 2025! Thank you for your patience and understanding. See you soon at the Bogo Branch along P. Rodriguez Street, Cogon, Bogo City. Happy Holidays!",
+      label: "Branch Advisory",
+      Icon: FaMapMarkerAlt as React.ComponentType<
+        React.SVGProps<SVGSVGElement>
+      >,
+      iconColor: "text-primary",
+      to: "/advisories",
+      mediaType: "image",
+      mediaSrc: "/bogo_reopens.jpg", // make sure this is in /public
+      mediaAlt: "ASPAC Bank Bogo Branch reopening advisory – December 15, 2025",
+    },
     {
       title: "ASPAC Bank Consolacion Moves to a New Building",
       content:
@@ -45,7 +62,10 @@ const WelcomePage: React.FC = () => {
         React.SVGProps<SVGSVGElement>
       >,
       iconColor: "text-primary",
-      to: "https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.373832,123.958717,18z", // ✅ open Google Maps
+      to: "https://www.google.com/maps/place/ASPAC+Rural+Savings+Bank/@10.373832,123.958717,18z",
+      mediaType: "video",
+      mediaSrc: "/assets/vid/cnsvid3.webm",
+      mediaAlt: "ASPAC Bank Consolacion branch feature video",
     },
   ];
 
@@ -526,68 +546,92 @@ const WelcomePage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            {news.map(({ title, content, label, Icon, iconColor, to }) => (
-              <motion.article
-                key={title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-                viewport={{ once: true, amount: 0.3 }}
-                className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition grid md:grid-cols-[1fr_360px] gap-6 overflow-hidden"
-              >
-                {/* text */}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="inline-flex items-center gap-2 text-xs font-medium text-gray-600">
-                      <Icon className={`text-base ${iconColor}`} aria-hidden />
-                      <span className="uppercase tracking-wide">{label}</span>
-                    </span>
-                  </div>
+            {news.map(
+              ({
+                title,
+                content,
+                label,
+                Icon,
+                iconColor,
+                to,
+                mediaType,
+                mediaSrc,
+                mediaAlt,
+              }) => (
+                <motion.article
+                  key={title}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-md hover:ring-gray-200 transition grid md:grid-cols-[1fr_360px] gap-6 overflow-hidden"
+                >
+                  {/* text */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="inline-flex items-center gap-2 text-xs font-medium text-gray-600">
+                        <Icon
+                          className={`text-base ${iconColor}`}
+                          aria-hidden
+                        />
+                        <span className="uppercase tracking-wide">{label}</span>
+                      </span>
+                    </div>
 
-                  <h3 className="text-2xl font-semibold text-primary leading-snug">
-                    {title}
-                  </h3>
+                    <h3 className="text-2xl font-semibold text-primary leading-snug">
+                      {title}
+                    </h3>
 
-                  <p className="text-gray-700 text-sm leading-relaxed mt-3">
-                    {content}
-                  </p>
+                    <p className="text-gray-700 text-sm leading-relaxed mt-3">
+                      {content}
+                    </p>
 
-                  <div className="mt-5 flex items-center gap-3">
-                    {to && (
+                    <div className="mt-5 flex items-center gap-3">
+                      {to && (
+                        <button
+                          onClick={() =>
+                            /^https?:\/\//i.test(to)
+                              ? window.open(to, "_blank", "noopener,noreferrer")
+                              : navigate(to)
+                          }
+                          className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                        >
+                          View full advisory
+                        </button>
+                      )}
                       <button
-                        onClick={() =>
-                          /^https?:\/\//i.test(to)
-                            ? window.open(to, "_blank", "noopener,noreferrer") // ✅ opens Google Maps externally
-                            : navigate(to)
-                        }
-                        className="inline-flex items-center px-4 py-2 rounded-full bg-primary hover:bg-aspac-green/90 text-white text-sm font-medium shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
+                        onClick={() => navigate("/advisories")}
+                        className="text-sm font-semibold text-primary hover:underline"
                       >
-                        View full advisory
+                        See all advisories →
                       </button>
-                    )}
-                    <button
-                      onClick={() => navigate("/advisories")}
-                      className="text-sm font-semibold text-primary hover:underline"
-                    >
-                      See all advisories →
-                    </button>
+                    </div>
                   </div>
-                </div>
 
-                {/* media */}
-                <div className="relative h-56 md:h-auto">
-                  <video
-                    src="/assets/vid/cnsvid3.webm"
-                    className="absolute inset-0 w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-label="Branch feature montage"
-                  />
-                </div>
-              </motion.article>
-            ))}
+                  {/* media */}
+                  <div className="relative h-56 md:h-auto">
+                    {mediaType === "image" ? (
+                      <img
+                        src={mediaSrc || "/bogo_reopens.jpg"}
+                        alt={mediaAlt || title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <video
+                        src={mediaSrc || "/assets/vid/cnsvid3.webm"}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        aria-label={mediaAlt || "Branch feature montage"}
+                      />
+                    )}
+                  </div>
+                </motion.article>
+              )
+            )}
           </div>
         </div>
       </section>
