@@ -35,6 +35,40 @@ type Advisory = {
 };
 
 const ADVISORIES: Advisory[] = [
+  /** NEW: Bogo Branch Reopening Advisory (from poster image) **/
+  {
+    id: "bogo-reopen-2025-12-15",
+    kind: "Service",
+    title: "Bogo Branch Reopening – ASPAC Bank Bogo City",
+    effective: "Reopening on December 15, 2025",
+    summary:
+      "Your ASPAC Bank Bogo Branch will soon be ready to serve again. Full banking services resume starting December 15, 2025.",
+    paragraphs: [
+      "We are reopening on December 15, 2025! Thank you for your patience and understanding.",
+      "We stand firm on our commitment to provide safe, secure & dependable banking in the communities we serve.",
+      "See you soon at the Bogo Branch located along P. Rodriguez Street, Cogon, Bogo City!",
+      "Happy Holidays!",
+    ],
+    cta: {
+      label: "Follow us on Facebook for updates",
+      href: "https://www.facebook.com/aspacbank0620",
+    },
+    icon: <FaCalendarAlt className="text-black" />,
+    accent: "border-primary",
+    extra: (
+      <figure className="mt-4">
+        <img
+          src="/bogo_reopens.jpg"
+          alt="ASPAC Bank Bogo Branch reopening advisory – Reopening on December 15, 2025"
+          className="w-full rounded-2xl shadow-md border border-gray-100"
+          loading="lazy"
+        />
+        <figcaption className="mt-2 text-xs text-gray-500">
+          Official reopening advisory for ASPAC Bank Bogo Branch.
+        </figcaption>
+      </figure>
+    ),
+  },
   /** NEW: Operations Notice from the provided image **/
   {
     id: "holiday-advisory-2025-12",
