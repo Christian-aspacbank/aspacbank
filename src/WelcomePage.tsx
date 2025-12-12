@@ -287,7 +287,7 @@ const WelcomePage: React.FC = () => {
                     Talk to Us
                   </button>
                   <Link
-                    to="/savings"
+                    to="/deposit-account"
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
                     View Savings
@@ -704,7 +704,7 @@ const WelcomePage: React.FC = () => {
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              className="bg-white rounded-2xl p-7 w-[92%] max-w-md relative"
+              className="bg-white/90 backdrop-blur-sm rounded-2xl p-7 w-[92%] max-w-md relative"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 40, opacity: 0 }}
@@ -719,24 +719,27 @@ const WelcomePage: React.FC = () => {
               <p className="text-gray-700 text-center">
                 For inquiries or assistance, call:
               </p>
-              <div className="text-center mt-3 space-y-1">
-                <p className="text-gray-900 font-medium">
-                  Landline: 345-0929, 345-0930
-                </p>
-                <p className="text-gray-900 font-medium">
-                  Mobile: 0917-127-7796
-                </p>
+              <div className="mt-3 flex justify-center">
+                <ul className="space-y-1 text-left">
+                  <li className="text-gray-900 font-medium">
+                    Landline: 345-0929, 345-0930
+                  </li>
+                  <li className="text-gray-900 font-medium">
+                    Hotline: (032)-272-2724
+                  </li>
+                  <li className="text-gray-900 font-medium">
+                    Mobile Number: 0898-272-2724
+                  </li>
+                  <li className="text-gray-900 font-medium">
+                    Mobile: 0917-127-7796
+                  </li>
+                </ul>
               </div>
+
               <div className="mt-6 flex items-center justify-center gap-3">
-                <a
-                  href="tel:+63343450929"
-                  className="px-4 py-2 rounded-lg bg-primary hover:bg-aspac-green/90 text-white font-medium"
-                >
-                  Call now
-                </a>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 font-medium"
+                  className="px-4 py-2 rounded-lg bg-yellow-500 hover:bg-gray-200 font-medium"
                 >
                   Close
                 </button>
