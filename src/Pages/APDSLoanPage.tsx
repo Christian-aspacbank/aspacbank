@@ -50,24 +50,32 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-4xl font-extrabold text-center text-green-700 mb-6">
-              Contact ASPAC Bank
+            <h2 className="text-2xl font-bold text-primary mb-4 text-center">
+              Contact us
             </h2>
-            <p className="text-center text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed font-light tracking-wide">
-              For inquiries or assistance, reach out to us via the following:
+            <p className="text-gray-700 text-center">
+              For inquiries or assistance, call:
             </p>
-            <div className="text-center mb-6 space-y-2">
-              <p className="text-xl text-green-700 font-semibold tracking-tight">
-                <span className="font-medium">Landline:</span> 345-0929,
-                345-0930
-              </p>
-              <p className="text-xl text-green-700 font-semibold tracking-tight">
-                <span className="font-medium">Mobile:</span> 0917-127-7796
-              </p>
+            <div className="mt-3 flex justify-center">
+              <ul className="space-y-1 text-left">
+                <li className="text-gray-900 font-medium">
+                  Landline: 345-0929, 345-0930
+                </li>
+                <li className="text-gray-900 font-medium">
+                  Hotline: (032)-272-2724
+                </li>
+                <li className="text-gray-900 font-medium">
+                  Mobile Number: 0898-272-2724
+                </li>
+                <li className="text-gray-900 font-medium">
+                  Mobile: 0917-127-7796
+                </li>
+              </ul>
             </div>
+            <br></br>
             <div className="flex justify-center">
               <button
-                className="bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-red-600 hover:scale-105 focus:ring-4 focus:ring-red-300"
+                className="bg-yellow-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-gray-200 "
                 onClick={onClose}
               >
                 Close
