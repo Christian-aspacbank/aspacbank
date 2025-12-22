@@ -533,7 +533,73 @@ const WelcomePage: React.FC = () => {
         />
 
         <div className="relative max-w-6xl mx-auto px-6">
-          <div className="text-center mb-10">
+          {/* ✅ Christmas Greeting Feature (inserted) */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, amount: 0.3 }}
+            className="mb-10"
+          >
+            <div className="relative overflow-hidden rounded-2xl ring-1 ring-emerald-900/10 shadow-sm bg-white">
+              {/* Festive but subtle background */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                aria-hidden
+                style={{
+                  background:
+                    "radial-gradient(circle at 80% 25%, rgba(235,216,57,0.14), transparent 50%)," +
+                    "radial-gradient(circle at 20% 75%, rgba(69,146,67,0.14), transparent 55%)," +
+                    "linear-gradient(90deg, rgba(69,146,67,0.06), rgba(235,216,57,0.05))",
+                }}
+              />
+
+              <div className="relative grid grid-cols-1 md:grid-cols-[420px_1fr] gap-0">
+                {/* Image */}
+                <div className="relative">
+                  <img
+                    src="/Christmas Greeting 2025 .png"
+                    alt="ASPAC Bank Christmas greeting: Christmas Greeting 2025"
+                    className="h-full w-full object-cover md:min-h-[260px]"
+                    loading="lazy"
+                  />
+                  {/* Soft overlay for nicer blending */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                </div>
+
+                {/* Text + actions */}
+                <div className="p-6 md:p-8 flex flex-col justify-center">
+                  <p
+                    className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase"
+                    style={{ color: "#459243" }}
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "#ebd839" }}
+                    />
+                    Seasonal Greeting
+                  </p>
+
+                  <h3
+                    className="mt-3 text-2xl md:text-3xl font-bold leading-tight"
+                    style={{ color: "#459243" }}
+                  >
+                    Maligayang Pasko from ASPAC Bank
+                  </h3>
+
+                  <p className="mt-3 text-gray-700 leading-relaxed">
+                    Celebrate the season with us may your holidays be filled
+                    with peace, hope, and meaningful moments with family and
+                    loved ones.
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap items-center gap-3"></div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="text-center mb-10" id="latest-news">
             <p className="uppercase tracking-widest text-[11px] md:text-xs text-primary/80 font-semibold">
               News & Advisories
             </p>
