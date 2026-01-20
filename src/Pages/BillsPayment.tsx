@@ -83,8 +83,8 @@ const BillsPayment: React.FC = () => {
           <div className="mt-10 rounded-lg bg-primary/10 border-l-4 border-primary p-4">
             <p className="text-base font-medium">
               For inquiries, contact us at{" "}
-              <strong className="text-primary">0917-127-7796</strong> or call{" "}
-              <strong className="text-primary">345-0929 / 345-0930</strong>.
+              <strong className="text-primary">0898-272-2724</strong> or call{" "}
+              <strong className="text-primary">501-2724</strong>.
             </p>
           </div>
         </section>
