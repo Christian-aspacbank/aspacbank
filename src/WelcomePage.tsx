@@ -130,7 +130,7 @@ const WelcomePage: React.FC = () => {
               href="tel:+63322722724"
               className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
             >
-              <FaPhoneAlt aria-hidden /> <span>(032) 272-2724</span>
+              <FaPhoneAlt aria-hidden /> <span>(032) 501-2724</span>
             </a>
 
             <a
@@ -696,7 +696,7 @@ const WelcomePage: React.FC = () => {
                     )}
                   </div>
                 </motion.article>
-              )
+              ),
             )}
           </div>
         </div>
