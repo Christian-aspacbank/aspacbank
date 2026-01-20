@@ -791,7 +791,7 @@ const WelcomePage: React.FC = () => {
                     Landline: 345-0929, 345-0930
                   </li>
                   <li className="text-gray-900 font-medium">
-                    Hotline: (032)-272-2724
+                    Hotline: (032)-501-2724
                   </li>
                   <li className="text-gray-900 font-medium">
                     Mobile Number: 0898-272-2724
