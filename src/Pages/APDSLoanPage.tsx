@@ -59,16 +59,10 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <div className="mt-3 flex justify-center">
               <ul className="space-y-1 text-left">
                 <li className="text-gray-900 font-medium">
-                  Landline: 345-0929, 345-0930
-                </li>
-                <li className="text-gray-900 font-medium">
-                  Hotline: (032)-272-2724
+                  Hotline: (032)-501-2724
                 </li>
                 <li className="text-gray-900 font-medium">
                   Mobile Number: 0898-272-2724
-                </li>
-                <li className="text-gray-900 font-medium">
-                  Mobile: 0917-127-7796
                 </li>
               </ul>
             </div>
@@ -95,12 +89,12 @@ const APDSLoanPage: React.FC = () => {
     <>
       {/* ✅ Page SEO */}
       <Seo
-        title="Teacher's Loan | ASPAC Bank"
-        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS): low interest, quick approval, flexible terms, and convenient payroll deduction for educators in the Philippines."
+        title="Teacher Salary Loan (APDS) | ASPAC Bank"
+        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) with low interest, quick approval, and flexible terms up to 60 months. Enjoy convenient automatic payroll deduction—ideal for teachers and school personnel in Cebu and nearby areas."
         canonical="https://www.aspacbank.com/teachers-loan"
-        ogType="product"
-        ogTitle="Teacher Salary Loan (APDS) | ASPAC Bank"
-        ogDescription="Fast, flexible, low-interest APDS salary loans for teachers in the Philippines."
+        ogType="service"
+        ogImage="https://www.aspacbank.com/TeachersLoan.png"
+        ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS) with payroll deduction and flexible terms"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
         /* Match brand & manifest theme color */
@@ -111,46 +105,22 @@ const APDSLoanPage: React.FC = () => {
         includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "LoanOrCredit",
-          name: "Teacher Salary Loan (APDS)",
-          alternateName: "Teacher Loan Philippines",
+          "@type": "FinancialService",
+          name: "ASPAC Bank Teacher Salary Loan (APDS)",
           description:
-            "Low-interest, flexible-term salary loans for teachers in the Philippines through ASPAC Bank’s Automatic Payroll Deduction Scheme (APDS).",
+            "Teacher Salary Loan (APDS) by ASPAC Bank with low interest, quick approval, flexible terms up to 60 months, and automatic payroll deduction for teachers and school personnel.",
           url: "https://www.aspacbank.com/teachers-loan",
-          image: "https://www.aspacbank.com/features1.jpg",
           provider: {
             "@type": "BankOrCreditUnion",
             name: "ASPAC Bank",
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
-            telephone: "+63-32-272-2724",
-            areaServed: { "@type": "Country", name: "Philippines" },
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
-          offers: {
-            "@type": "Offer",
-            name: "Teacher Salary Loan (APDS)",
-            url: "https://www.aspacbank.com/teachers-loan",
-            priceCurrency: "PHP",
-            eligibleRegion: { "@type": "Country", name: "Philippines" },
-            availability: "https://schema.org/InStock",
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "Cebu, Philippines",
           },
-          contactPoint: [
-            {
-              "@type": "ContactPoint",
-              contactType: "Customer Service",
-              telephone: "(032) 272-2724",
-              areaServed: "PH",
-              availableLanguage: "en",
-            },
-            {
-              "@type": "ContactPoint",
-              contactType: "Customer Service",
-              telephone: "0898 272 2724",
-              areaServed: "PH",
-              availableLanguage: "en",
-            },
-          ],
         }}
       />
 
