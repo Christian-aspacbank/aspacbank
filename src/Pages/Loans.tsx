@@ -412,10 +412,10 @@ const Loans: React.FC = () => {
                   For loan inquiries or assistance, reach out to us through:
                 </p>
                 <p className="text-gray-900 text-center font-medium text-sm mb-2">
-                  Landline: 345-0929, 345-0930
+                  Landline: 501-2724
                 </p>
                 <p className="text-gray-900 text-center font-medium text-sm">
-                  Mobile: 0917-127-7796
+                  Mobile: 0898-272-2724
                 </p>
                 <p className="text-xs text-gray-500 mt-4 text-center">
                   Our loan officers will guide you through the requirements and
