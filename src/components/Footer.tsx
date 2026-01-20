@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
               href="tel:+63322722724"
               className="font-semibold text-primary hover:opacity-80"
             >
-              (032) 272-2724
+              (032) 501-2724
             </a>{" "}
             or Mobile number{" "}
             <a

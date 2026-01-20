@@ -276,7 +276,7 @@ const RightRail: React.FC = () => (
         >
           <FaPhone className="text-primary mt-0.5" aria-hidden />
           <span className="text-sm font-medium text-gray-900">
-            (032) 272 2724
+            (032) 501 2724
           </span>
         </a>
       </div>

@@ -59,16 +59,11 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <div className="mt-3 flex justify-center">
               <ul className="space-y-1 text-left">
                 <li className="text-gray-900 font-medium">
-                  Landline: 345-0929, 345-0930
+                  Hotline: (032)-501-2724
                 </li>
+
                 <li className="text-gray-900 font-medium">
-                  Hotline: (032)-272-2724
-                </li>
-                <li className="text-gray-900 font-medium">
-                  Mobile Number: 0898-272-2724
-                </li>
-                <li className="text-gray-900 font-medium">
-                  Mobile: 0917-127-7796
+                  Mobile: 0898-272-2724
                 </li>
               </ul>
             </div>
@@ -139,7 +134,7 @@ const APDSLoanPage: React.FC = () => {
             {
               "@type": "ContactPoint",
               contactType: "Customer Service",
-              telephone: "(032) 272-2724",
+              telephone: "(032) 501-2724",
               areaServed: "PH",
               availableLanguage: "en",
             },
