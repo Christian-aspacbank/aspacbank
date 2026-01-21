@@ -294,9 +294,9 @@ const OurServices: React.FC = () => {
                   numbers:
                 </p>
                 <p className="text-gray-900 text-center font-medium">
-                  Landline: 345-0929, 345-0930
+                  Hotline: 501-2724
                   <br />
-                  Mobile: 0917-127-7796
+                  Mobile: 0898-272-2724
                 </p>
                 <div className="mt-8 text-center">
                   <button
