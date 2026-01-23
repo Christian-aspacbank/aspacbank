@@ -83,7 +83,7 @@ const ADVISORIES: Advisory[] = [
       "• Tuesday, December 30, 2025 – Rizal Day",
       "• Wednesday, December 31, 2025 – New Year’s Eve",
       "• Thursday, January 1, 2026 – New Year’s Day",
-      "For questions or concerns, contact our customer service hotline at (898) 272-2724.",
+      "For questions or concerns, contact our customer service hotline at (898) 501-2724.",
     ],
     cta: {
       label: "Visit our Facebook Page",
@@ -262,7 +262,7 @@ const RightRail: React.FC = () => (
           </span>
         </a>
         <a
-          href="tel:+638982722724"
+          href="tel:+63892722724"
           className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-3 hover:bg-gray-50"
         >
           <FaMobileAlt className="text-primary mt-0.5" aria-hidden />

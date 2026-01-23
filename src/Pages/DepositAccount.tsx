@@ -420,7 +420,7 @@ const DepositAccount = () => {
 
                 <div className="text-center text-sm text-gray-900 font-medium space-y-1">
                   <p>
-                    Landline: <span className="font-semibold">501-2724</span>,
+                    Hotline: <span className="font-semibold">501-2724</span>,
                   </p>
                   <p>
                     Mobile: <span className="font-semibold">0898-272-2724</span>

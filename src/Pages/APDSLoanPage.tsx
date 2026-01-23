@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 import Seo from "../components/Seo";
+import ApplyNowModal from "../components/ApplyNowModal";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,7 +30,7 @@ const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
   React.SVGProps<SVGSVGElement>
 >;
 
-// ✅ Updated Modal with AnimatePresence & motion.div
+// Contact Modal
 const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
@@ -59,14 +62,20 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <div className="mt-3 flex justify-center">
               <ul className="space-y-1 text-left">
                 <li className="text-gray-900 font-medium">
-                  Hotline: (032)-501-2724
+                  Landline: 345-0929, 345-0930
+                </li>
+                <li className="text-gray-900 font-medium">
+                  Hotline: (032)-272-2724
                 </li>
                 <li className="text-gray-900 font-medium">
                   Mobile Number: 0898-272-2724
                 </li>
+                <li className="text-gray-900 font-medium">
+                  Mobile: 0917-127-7796
+                </li>
               </ul>
             </div>
-            <br></br>
+            <br />
             <div className="flex justify-center">
               <button
                 className="bg-yellow-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform duration-300 ease-in-out hover:bg-gray-200 "
@@ -84,17 +93,44 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
 const APDSLoanPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("apply") === "1") {
+      setIsApplyModalOpen(true);
+    }
+  }, [location.search]);
+
+  const closeApplyModal = () => {
+    setIsApplyModalOpen(false);
+
+    const params = new URLSearchParams(location.search);
+    if (params.has("apply")) {
+      params.delete("apply");
+      const nextSearch = params.toString();
+      navigate(
+        {
+          pathname: location.pathname,
+          search: nextSearch ? `?${nextSearch}` : "",
+        },
+        { replace: true },
+      );
+    }
+  };
 
   return (
     <>
-      {/* ✅ Page SEO */}
       <Seo
         title="Teacher Salary Loan (APDS) | ASPAC Bank"
-        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) with low interest, quick approval, and flexible terms up to 60 months. Enjoy convenient automatic payroll deduction—ideal for teachers and school personnel in Cebu and nearby areas."
+        description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) — fast approval, competitive interest, and Simply Safe community banking for teachers."
         canonical="https://www.aspacbank.com/teachers-loan"
-        ogType="service"
-        ogImage="https://www.aspacbank.com/TeachersLoan.png"
-        ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS) with payroll deduction and flexible terms"
+        ogType="website"
+        ogImage="https://www.aspacbank.com/teachers-loan.jpg"
+        ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS) for teachers"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
         /* Match brand & manifest theme color */
@@ -105,26 +141,21 @@ const APDSLoanPage: React.FC = () => {
         includeTwitter={false}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "FinancialService",
+          "@type": "WebPage",
           name: "ASPAC Bank Teacher Salary Loan (APDS)",
           description:
-            "Teacher Salary Loan (APDS) by ASPAC Bank with low interest, quick approval, flexible terms up to 60 months, and automatic payroll deduction for teachers and school personnel.",
+            "ASPAC Bank’s Teacher Salary Loan (APDS) offers fast approval, competitive interest, and Simply Safe community banking designed for teachers.",
           url: "https://www.aspacbank.com/teachers-loan",
-          provider: {
-            "@type": "BankOrCreditUnion",
+          publisher: {
+            "@type": "Organization",
             name: "ASPAC Bank",
             url: "https://www.aspacbank.com",
             logo: "https://www.aspacbank.com/favicon.ico",
             sameAs: ["https://www.facebook.com/aspacbank0620/"],
           },
-          areaServed: {
-            "@type": "AdministrativeArea",
-            name: "Cebu, Philippines",
-          },
         }}
       />
 
-      {/* ✅ Page Content */}
       <div className="w-full bg-white shadow-2xl overflow-hidden">
         {/* Banner */}
         <div className="relative w-full">
@@ -164,7 +195,15 @@ const APDSLoanPage: React.FC = () => {
             </a>
 
             <button
-              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              className="w-full sm:w-auto bg-yellow-400 text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-yellow-200"
+              onClick={() => setIsApplyModalOpen(true)}
+              aria-label="Apply Now"
+            >
+              Apply Now
+            </button>
+
+            <button
+              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
               onClick={() => setIsContactModalOpen(true)}
               aria-label="Call ASPAC now"
             >
@@ -278,11 +317,13 @@ const APDSLoanPage: React.FC = () => {
           </Swiper>
         </div>
 
-        {/* Contact Modal */}
+        {/* Modals */}
         <ContactModal
           isOpen={isContactModalOpen}
           onClose={() => setIsContactModalOpen(false)}
         />
+
+        <ApplyNowModal isOpen={isApplyModalOpen} onClose={closeApplyModal} />
       </div>
     </>
   );

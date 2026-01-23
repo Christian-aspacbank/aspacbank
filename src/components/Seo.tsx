@@ -44,11 +44,11 @@ function ensureHead() {
 function upsertMetaBy(
   keyAttr: "name" | "property",
   keyValue: string,
-  content: string
+  content: string,
 ) {
   const head = ensureHead();
   let el = head.querySelector<HTMLMetaElement>(
-    `meta[${keyAttr}="${keyValue}"]`
+    `meta[${keyAttr}="${keyValue}"]`,
   );
   if (!el) {
     el = document.createElement("meta");
@@ -115,13 +115,8 @@ export default function Seo({
     if (typeof document === "undefined") return;
 
     const createdNodes: HTMLElement[] = [];
-
-    // Track nodes created this render, then remove the marker so it won't show in DevTools
     const mark = <T extends HTMLElement>(el: T) => {
-      if (el.getAttribute(DATA_ATTR) === "1") {
-        createdNodes.push(el);
-        el.removeAttribute(DATA_ATTR); // hide the marker
-      }
+      if (el.getAttribute(DATA_ATTR) === "1") createdNodes.push(el);
       return el;
     };
 
@@ -134,7 +129,7 @@ export default function Seo({
         upsertMeta('meta[name="description"]', {
           name: "description",
           content: description,
-        })
+        }),
       );
     }
 
@@ -153,7 +148,7 @@ export default function Seo({
         upsertMeta('meta[name="theme-color"]', {
           name: "theme-color",
           content: themeColor,
-        })
+        }),
       );
     }
 
@@ -174,13 +169,13 @@ export default function Seo({
         nofollow ? "nofollow" : "follow"
       }`;
       mark(
-        upsertMeta('meta[name="robots"]', { name: "robots", content: robots })
+        upsertMeta('meta[name="robots"]', { name: "robots", content: robots }),
       );
       mark(
         upsertMeta('meta[name="googlebot"]', {
           name: "googlebot",
           content: robots,
-        })
+        }),
       );
     }
 
@@ -242,7 +237,7 @@ export default function Seo({
         el.type = "application/ld+json";
         el.text = JSON.stringify(block);
         el.setAttribute("data-seo-jsonld", `block-${i}`);
-        // no DATA_ATTR here — we track JSON-LD via createdScripts
+        el.setAttribute(DATA_ATTR, "1");
         document.head.appendChild(el);
         createdScripts.push(el);
       });
