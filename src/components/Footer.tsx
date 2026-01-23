@@ -57,10 +57,10 @@ const Footer: React.FC = () => {
           <p>
             For concerns, call our Customer Service Hotline at{" "}
             <a
-              href="tel:+63322722724"
+              href="tel:+63325012724"
               className="font-semibold text-primary hover:opacity-80"
             >
-              (032) 272-2724
+              (032) 501-2724
             </a>{" "}
             or Mobile number{" "}
             <a

@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import Seo from "./components/Seo";
 import AspacChatbot from "./components/AspacChatbot";
+import ApplyNowModal from "./components/ApplyNowModal";
+
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -21,8 +23,8 @@ import "./WelcomePage.css";
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  // Toggle this if your Layout already renders a global header
+  const [showModal, setShowModal] = useState(false); // contact modal
+  const [showApplyModal, setShowApplyModal] = useState(false); // APDS Apply modal
   const SHOW_LOCAL_HEADER = false;
 
   // --- Advisory data (keep short, factual) --- //
@@ -130,7 +132,7 @@ const WelcomePage: React.FC = () => {
               href="tel:+63322722724"
               className="inline-flex items-center gap-2 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-white/60 rounded"
             >
-              <FaPhoneAlt aria-hidden /> <span>(032) 272-2724</span>
+              <FaPhoneAlt aria-hidden /> <span>(032) 501-2724</span>
             </a>
 
             <a
@@ -242,18 +244,18 @@ const WelcomePage: React.FC = () => {
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    to="/teachers-loan"
+                  <button
+                    onClick={() => setShowApplyModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
                     Apply for Teachers’ Loan
-                  </Link>
+                  </button>
 
                   <button
-                    onClick={() => navigate("/branches")}
+                    onClick={() => navigate("/teachers-loan")}
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
-                    Find a Branch
+                    Know more
                   </button>
                 </div>
               </div>
@@ -696,7 +698,7 @@ const WelcomePage: React.FC = () => {
                     )}
                   </div>
                 </motion.article>
-              )
+              ),
             )}
           </div>
         </div>
@@ -872,6 +874,12 @@ const WelcomePage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* APDS Apply modal (reusing same component) */}
+      <ApplyNowModal
+        isOpen={showApplyModal}
+        onClose={() => setShowApplyModal(false)}
+      />
 
       {/* Chatbot mounts only on WelcomePage */}
       <AspacChatbot />
