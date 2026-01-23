@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import Seo from "./components/Seo";
 import AspacChatbot from "./components/AspacChatbot";
+import BspSecurityTipsNewYearAdvisory from "./components/advisories/BspSecurityTipsNewYearAdvisory";
+
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -533,6 +535,66 @@ const WelcomePage: React.FC = () => {
         />
 
         <div className="relative max-w-6xl mx-auto px-6">
+          {/* ✅ BSP Security Tips (New Year) – above Maligayang Pasko */}
+          <motion.section
+            initial={{ opacity: 0, y: 14, scale: 0.99 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            className="mb-10"
+          >
+            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 overflow-hidden">
+              {/* soft accent strip */}
+              <div className="h-1 w-full bg-gradient-to-r from-primary to-aspac-green" />
+
+              <div className="p-5 md:p-6">
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.05 }}
+                  viewport={{ once: true }}
+                  className="uppercase tracking-widest text-[11px] md:text-xs text-primary/80 font-semibold"
+                >
+                  Security Advisory
+                </motion.p>
+
+                <motion.h3
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="mt-2 text-2xl md:text-3xl font-bold text-primary leading-tight"
+                >
+                  BSP Security Tips – New Year
+                </motion.h3>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  viewport={{ once: true }}
+                  className="mt-2 text-gray-700"
+                >
+                  Stay alert against scams and protect your accounts this
+                  season.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.2 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  className="mt-4"
+                >
+                  <BspSecurityTipsNewYearAdvisory
+                    title="BSP Security Tips – New Year"
+                    caption=""
+                  />
+                </motion.div>
+              </div>
+            </div>
+          </motion.section>
+
           {/* ✅ Christmas Greeting Feature (inserted) */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -788,16 +850,10 @@ const WelcomePage: React.FC = () => {
               <div className="mt-3 flex justify-center">
                 <ul className="space-y-1 text-left">
                   <li className="text-gray-900 font-medium">
-                    Landline: 345-0929, 345-0930
-                  </li>
-                  <li className="text-gray-900 font-medium">
                     Hotline: (032)-501-2724
                   </li>
                   <li className="text-gray-900 font-medium">
                     Mobile Number: 0898-272-2724
-                  </li>
-                  <li className="text-gray-900 font-medium">
-                    Mobile: 0917-127-7796
                   </li>
                 </ul>
               </div>
