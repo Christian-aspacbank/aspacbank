@@ -11,6 +11,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import Seo from "../components/Seo";
+import BspSecurityTipsNewYearAdvisory from "../components/advisories/BspSecurityTipsNewYearAdvisory";
 
 type AdvisoryKind =
   | "Holiday"
@@ -36,6 +37,27 @@ type Advisory = {
 
 const ADVISORIES: Advisory[] = [
   /** NEW: Bogo Branch Reopening Advisory (from poster image) **/
+  {
+    id: "bsp-security-tips-newyear",
+    kind: "General",
+    title: "BSP Security Tips – New Year",
+    effective: "Posted: January 2026",
+    summary:
+      "Reminder to stay safe online and protect your accounts this New Year.",
+    paragraphs: [
+      "Please review the BSP security tips below and stay vigilant against scams and phishing.",
+    ],
+    icon: <FaInfoCircle className="text-white" />,
+    accent: "border-primary",
+    extra: (
+      <BspSecurityTipsNewYearAdvisory
+        className="mt-4"
+        title="BSP Security Tips – New Year"
+        caption=""
+      />
+    ),
+  },
+
   {
     id: "bogo-reopen-2025-12-15",
     kind: "Service",
