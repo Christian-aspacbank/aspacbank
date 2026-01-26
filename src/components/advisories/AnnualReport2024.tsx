@@ -110,6 +110,21 @@ export default function AnnualReport2024() {
     e.stopPropagation();
   };
 
+  // Optional: block right-click anywhere inside this component
+  useEffect(() => {
+    const block = (e: Event) => e.preventDefault();
+    document.addEventListener("contextmenu", block, { capture: true });
+    return () =>
+      document.removeEventListener("contextmenu", block, {
+        capture: true,
+      } as any);
+  }, []);
+
+  const blockAll = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
     <section className="w-full px-2 md:px-6 py-6">
       <header className="mb-4">
