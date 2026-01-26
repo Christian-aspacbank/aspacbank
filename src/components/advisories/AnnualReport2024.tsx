@@ -107,12 +107,6 @@ export default function AnnualReport2024() {
       } as any);
   }, []);
 
-  // ✅ renamed to avoid "already been declared" errors
-  const blockInteraction = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
   // Optional: block right-click anywhere inside this component
   useEffect(() => {
     const block = (e: Event) => e.preventDefault();
@@ -123,7 +117,8 @@ export default function AnnualReport2024() {
       } as any);
   }, []);
 
-  const blockAll = (e: React.SyntheticEvent) => {
+  // ✅ keep this only
+  const blockInteraction = (e: React.SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
