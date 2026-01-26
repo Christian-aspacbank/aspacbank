@@ -33,7 +33,7 @@ export default function AnnualReport2024() {
         id: "part2-afs-2024",
         year: 2024,
         title: "Part II AFS of Aspac Rural Bank 2024",
-        basePath: "/assets/Part II AFS of Aspac Rural Bank 2024", // ✅ ito dapat (based sa screenshot)
+        basePath: "/assets/Part II AFS of Aspac Rural Bank 2024",
         totalPages: 61,
         fileName: (page) =>
           `Part II AFS of Aspac Rural Bank Inc 2024_${page}.jpg`,
@@ -83,6 +83,7 @@ export default function AnnualReport2024() {
     );
   }, [REPORTS, activeReportId, reportsForYear]);
 
+  // ✅ Fix ESLint warning: depend on `current`
   const images: AdvisoryImage[] = useMemo(() => {
     const n = current.totalPages;
     if (!n || n <= 0) return [];
@@ -94,8 +95,9 @@ export default function AnnualReport2024() {
         alt: "",
       };
     });
-  }, [current.basePath, current.totalPages, current.fileName]);
+  }, [current]);
 
+  // Blocks right-click globally while this component is mounted
   useEffect(() => {
     const block = (e: Event) => e.preventDefault();
     document.addEventListener("contextmenu", block, { capture: true });
@@ -105,7 +107,8 @@ export default function AnnualReport2024() {
       } as any);
   }, []);
 
-  const blockAll = (e: React.SyntheticEvent) => {
+  // ✅ renamed to avoid "already been declared" errors
+  const blockInteraction = (e: React.SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
@@ -171,20 +174,20 @@ export default function AnnualReport2024() {
             >
               <div
                 className="w-full h-[900px] md:h-[1050px] bg-gray-50 flex items-center justify-center select-none"
-                onClickCapture={blockAll}
-                onMouseDownCapture={blockAll}
-                onPointerDownCapture={blockAll}
-                onContextMenuCapture={blockAll}
-                onDragStartCapture={blockAll}
-                onTouchStartCapture={blockAll}
+                onClickCapture={blockInteraction}
+                onMouseDownCapture={blockInteraction}
+                onPointerDownCapture={blockInteraction}
+                onContextMenuCapture={blockInteraction}
+                onDragStartCapture={blockInteraction}
+                onTouchStartCapture={blockInteraction}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
                   draggable={false}
-                  onDragStart={blockAll}
-                  onContextMenu={blockAll}
+                  onDragStart={blockInteraction}
+                  onContextMenu={blockInteraction}
                   className="w-full h-full object-contain select-none"
                 />
               </div>
