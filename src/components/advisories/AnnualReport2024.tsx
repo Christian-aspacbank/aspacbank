@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 type YearConfig = {
   year: 2024 | 2025;
   title: string;
-  basePath: string; // folder in public
-  totalPages: number; // how many images exist
+  basePath: string;
+  totalPages: number;
 };
 
 type AdvisoryImage = {
@@ -13,20 +13,19 @@ type AdvisoryImage = {
 };
 
 export default function AnnualReport2024() {
-  // ✅ Add/adjust here when new year comes
   const YEARS: YearConfig[] = useMemo(
     () => [
       {
         year: 2024,
         title: "Annual Report 2024 ",
-        basePath: "/assets/annual_report", // public/assets/annual_report
+        basePath: "/assets/annual_report",
         totalPages: 20,
       },
       {
         year: 2025,
         title: "Annual Report 2025",
-        basePath: "/assets/annual_report_2025", // create this folder later
-        totalPages: 0, // set this once files are ready
+        basePath: "/assets/annual_report_2025",
+        totalPages: 0,
       },
     ],
     [],
@@ -49,6 +48,21 @@ export default function AnnualReport2024() {
       };
     });
   }, [current.basePath, current.totalPages]);
+
+  // Optional: block right-click anywhere inside this component
+  useEffect(() => {
+    const block = (e: Event) => e.preventDefault();
+    document.addEventListener("contextmenu", block, { capture: true });
+    return () =>
+      document.removeEventListener("contextmenu", block, {
+        capture: true,
+      } as any);
+  }, []);
+
+  const blockAll = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   return (
     <section className="w-full px-6 py-6">
@@ -90,13 +104,24 @@ export default function AnnualReport2024() {
               key={img.src}
               className="rounded-2xl shadow-sm overflow-hidden"
             >
-              <div className="w-full h-[700px] bg-gray-50 flex items-center justify-center">
+              <div
+                className="w-full h-[700px] bg-gray-50 flex items-center justify-center select-none"
+                // Block tap/click, right-click, drag, long-press related events
+                onClickCapture={blockAll}
+                onMouseDownCapture={blockAll}
+                onPointerDownCapture={blockAll}
+                onContextMenuCapture={blockAll}
+                onDragStartCapture={blockAll}
+                onTouchStartCapture={blockAll}
+              >
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
                   draggable={false}
-                  className="w-full h-full object-contain select-none pointer-events-none"
+                  onDragStart={blockAll}
+                  onContextMenu={blockAll}
+                  className="w-full h-full object-contain select-none"
                 />
               </div>
 

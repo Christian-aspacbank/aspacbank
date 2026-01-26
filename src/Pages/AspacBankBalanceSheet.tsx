@@ -103,7 +103,7 @@ const AspacBankBalanceSheet: React.FC = () => {
       setSelectedAsOf(next.asOf);
       setPageIndex(0);
     },
-    [options, selectedAsOf]
+    [options, selectedAsOf],
   );
 
   const stepPage = useCallback(
@@ -111,7 +111,7 @@ const AspacBankBalanceSheet: React.FC = () => {
       if (totalPages <= 0) return;
       setPageIndex((prev) => (prev + delta + totalPages) % totalPages);
     },
-    [totalPages]
+    [totalPages],
   );
 
   const triggerDownload = useCallback(() => {
@@ -311,7 +311,7 @@ const AspacBankBalanceSheet: React.FC = () => {
             onError={() => {
               setIsLoading(false);
               setIsError(
-                "We couldn’t display the image in this browser. You can still open it in a new tab or download it below."
+                "We couldn’t display the image in this browser. You can still open it in a new tab or download it below.",
               );
             }}
             onContextMenu={(e) => e.preventDefault()} // ⛔ disables right-click
