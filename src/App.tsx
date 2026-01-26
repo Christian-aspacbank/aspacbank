@@ -15,6 +15,7 @@ import ExplorePage from "./Pages/ExplorePage"; // ✅ Correct import for the exp
 import BillsPayment from "./Pages/BillsPayment";
 import Loans from "./Pages/Loans";
 import AspacBankBalanceSheet from "./Pages/AspacBankBalanceSheet"; // ✅ Added import
+import AnnualReport2024 from "./components/advisories/AnnualReport2024";
 
 import "./index.css";
 
@@ -49,6 +50,7 @@ const App: React.FC = () => {
             path="/advisories/financial-overview/aspacbank-balance-sheet"
             element={<AspacBankBalanceSheet />}
           />
+          <Route path="/AnnualReport2024" element={<AnnualReport2024 />} />
         </Routes>
         <Footer />
       </div>
