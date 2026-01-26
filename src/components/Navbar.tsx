@@ -141,6 +141,16 @@ const Navbar: React.FC = () => {
                     </div>
                   )}
                 </li>
+                <li role="none" className="hover:bg-gray-100">
+                  <Link
+                    role="menuitem"
+                    to="/AnnualReport2024"
+                    className="block px-4 py-2 text-gray-700 hover:text-[#459243] transition-colors"
+                    onClick={closeAll}
+                  >
+                    Annual Report
+                  </Link>
+                </li>
               </ul>
             </div>
           )}
@@ -246,6 +256,15 @@ const Navbar: React.FC = () => {
                   onClick={closeAll}
                 >
                   General Advisories
+                </Link>
+
+                {/* ✅ Annual Report */}
+                <Link
+                  to="/AnnualReport2024"
+                  className="block px-3 py-3 hover:bg-gray-50 border-t"
+                  onClick={closeAll}
+                >
+                  Annual Report
                 </Link>
 
                 {/* Financial Overview (accordion level 2) */}
