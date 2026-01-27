@@ -171,9 +171,7 @@ export default function AnnualReport2024() {
 
       {current.totalPages <= 0 ? (
         <div className="p-4 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-700">
-          No files yet for {current.year}. (Add images to{" "}
-          <span className="font-mono">{`public${current.basePath}`}</span> and
-          set <span className="font-mono">totalPages</span>.)
+          ( No files yet for {current.year}. )
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
