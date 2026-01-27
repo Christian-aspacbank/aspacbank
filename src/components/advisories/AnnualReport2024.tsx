@@ -200,7 +200,7 @@ export default function AnnualReport2024() {
                 />
               </div>
 
-              <div className="px-4 py-3 text-sm text-gray-700">
+              <div className="hidden px-4 py-3 text-sm text-gray-700">
                 Page {idx + 1}
               </div>
             </figure>
