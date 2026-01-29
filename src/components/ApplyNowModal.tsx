@@ -28,12 +28,12 @@ const generateReferenceNo = () => {
   const now = new Date();
 
   const datePart = now
-    .toLocaleDateString("en-CA", { timeZone: "Asia/Manila" }) // YYYY-MM-DD
+    .toLocaleDateString("en-CA", { timeZone: "Asia/Manila" })
     .replace(/-/g, "");
 
   const timePart = now
-    .toLocaleTimeString("en-GB", { timeZone: "Asia/Manila", hour12: false }) // HH:MM:SS
-    .replace(/:/g, ""); // HHMMSS
+    .toLocaleTimeString("en-GB", { timeZone: "Asia/Manila", hour12: false })
+    .replace(/:/g, "");
 
   const randPart = Math.random().toString(36).slice(2, 5).toUpperCase();
 
@@ -44,7 +44,7 @@ const formatMoney = (value: string) => {
   const cleaned = String(value).replace(/,/g, "").trim();
   const n = Number(cleaned);
   if (!cleaned) return "";
-  if (Number.isNaN(n)) return value; // keep as-is if non-numeric
+  if (Number.isNaN(n)) return value;
   return n.toLocaleString("en-PH");
 };
 
@@ -61,6 +61,17 @@ export interface ApplyNowModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+type Step = "consents" | "statement" | "form";
+
+const DATA_PRIVACY_WAIVER_TEXT = `CLIENT INFORMATION / DATA PRIVACY WAIVER
+I / we / undersigned hereby waived my / our rights and benefits under the provisions of R.A. 9510 (Credit Information System Act), R.A. 1405 (Secrecy of Bank Deposit Act), R.A. 6426 (Foreign Currency Deposits Act), R.A. 8791 (General Banking Law), R.A. 9160 (Anti-Money Laundering Act). RA 10173 (Data Privacy Act) and other laws on confidentiality of bank account, credit, loan and other related information (e.g. personal and sensitive data), and hereby authorize the Bank and / or its representatives to share, divulge, or make necessary disclosure of such otherwise confidential information or document which I / we / undersigned have submitted or disclosed to the Bank and / or its representatives in connection with my application and/or the grant thereof, and as may be necessary or in connection with acceptable banking practice/s, to third parties, including, but not limited to. the Bank’s affiliates, subsidiaries, agents, assigns or service providers, the Banker’s Association of the Philippines – Credit Bureau (BAP-CB) or the Credit Information Corporation (CIC) or other credit bureau or to any similarly authorized central monitoring entity or recipients or lenders duly authorized to share / collect / utilize / store such data derived therefrom, the Bangko Sentral ng Pilipinas (BSP), Anti-Money Laundering Council (AMLC) or other regulatory/auditing bodies / entities, as may be provided for by law and / or required by competent authority.
+I / we / undersigned understand that the Bank may obtain further information concerning any information or statement made herein from appropriate sources, including but not limited to my previous and current employer/s, credit bureaus and agencies, banks, credit card companies and other financial institutions, relevant government agencies, barangay and/or homeowners’ association of the village / subdivision where I reside. I hereby authorize full disclosure of any information to the Bank by the afore-mentioned sources, and for this purpose expressly waive my rights under applicable bank secrecy laws.
+I / we / undersigned further authorize the Bank, to conduct random verification with the Bureau of Internal Revenue (the “BIR”) in order to establish the authenticity of my tax statements (the “ITR”) and the accompanying financial statements / documents submitted to the Bank in accordance with banking regulatory requirements and / or to process, report, share and disclose my/our information to domestic or foreign authorities and / or tax authorities and / or withhold from me / us, such amounts as may be required by domestic or foreign regulatory and / or tax authorities in accordance with the requirements of United States Foreign Account Tax Compliance (FATCA), and such other rules and regulations issued and/or may be issued, by the Government of the Philippines in connection with FATCA as well as request information regarding the status of any court case to which I / we / undersigned am / are a party / parties to.
+I / we / undersigned agree to hold the Bank free and harmless from any and all liabilities, claims and demands of whatever kind or nature in connection with or arising from the aforementioned collection, processing, use, storage, updating and transfer / disclosure / sharing / communication / reporting of information relating to me or my accounts pursuant to and in compliance with the consent given by me under this Agreement. The foregoing consent shall continue for the duration of, and shall survive the termination of this Agreement, or payment of any credit / loan / financial accommodation extended to me or transaction / dealing / arrangement / account, I may have with, or avail from the Bank.
+SMS AND E-MAIL NOTICES. In addition to the above provisions, I / we / undersigned hereby agree, allow and authorize the Bank, its, affiliates and / or subsidiaries and their respective representatives, service providers and agents to send notices, instructions, alerts, reminders and relevant communications through broadcast messaging service, multi-media messaging service, short message service (SMS), otherwise known as “text messaging” and through e-mail or other media platforms concerning my loan, other account with the Bank and bank product offers.
+I hereby hold the Bank free and harmless against any and all liabilities, including but not limited to, those relating to any violation of secrecy laws or regulations (if any), should third persons view or access my personal mobile / cellular phone and / or e-mail account. Furthermore, the Bank does not guarantee the timely delivery or absolute accuracy of any SMS or text sent to me, which may be delayed or corrupted on account of technological disruptions caused by third party mobile service providers and other factors beyond the control of the Bank.
+It is agreed and understood that unless and until the Bank is in receipt of a written notice from the Borrower not to be sent such messages, the Borrower's authority as given herein shall be deemed continuing, valid and effective.`;
 
 const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [form, setForm] = useState<ApplyFormState>(DEFAULT_FORM);
@@ -79,6 +90,13 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [mobileBlurred, setMobileBlurred] = useState(false);
   const [emailBlurred, setEmailBlurred] = useState(false);
 
+  const [step, setStep] = useState<Step>("consents");
+  const [agreeUndertaking, setAgreeUndertaking] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+
+  // ✅ must scroll waiver to bottom before buttons appear
+  const [waiverScrolledBottom, setWaiverScrolledBottom] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       setReferenceNo(generateReferenceNo());
@@ -88,9 +106,13 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       setMobileBlurred(false);
       setEmailBlurred(false);
 
-      // Bot protection resets
       openedAtRef.current = Date.now();
       setHoneypot("");
+
+      setStep("consents");
+      setAgreeUndertaking(false);
+      setAgreePrivacy(false);
+      setWaiverScrolledBottom(false);
     }
   }, [isOpen]);
 
@@ -118,14 +140,52 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  const onContinueFromConsents = () => {
+    setTouched(true);
+    setStatusMsg(null);
+
+    if (!agreeUndertaking || !agreePrivacy) {
+      setStatusMsg("Please check both consent boxes to continue.");
+      return;
+    }
+
+    setWaiverScrolledBottom(false);
+    setStep("statement");
+  };
+
+  const onAgreeStatement = () => {
+    setStatusMsg(null);
+    setStep("form");
+  };
+
+  const onDoNotAgree = () => {
+    setStatusMsg(
+      "You did not agree to the waiver. You cannot proceed with the application.",
+    );
+  };
+
+  const onWaiverScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
+    const el = e.currentTarget;
+    const threshold = 6; // allowance
+    const atBottom =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
+    if (atBottom) setWaiverScrolledBottom(true);
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     setStatusMsg(null);
 
+    if (step !== "form") {
+      setStatusMsg(
+        "Please complete the Agreement and Data Privacy steps first.",
+      );
+      return;
+    }
+
     if (!isValid) return;
 
-    // Bot protection (time on page)
     const elapsedMs = Date.now() - openedAtRef.current;
     if (elapsedMs < 4000) {
       setStatusMsg(
@@ -134,7 +194,6 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    // Honeypot
     if (honeypot.trim()) {
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
@@ -145,8 +204,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    // Cooldown (per browser)
-    const COOLDOWN_MS = 15000; // 15 seconds
+    const COOLDOWN_MS = 15000;
     const key = "apds_apply_last_submit";
     const last = Number(localStorage.getItem(key) || 0);
     if (last && Date.now() - last < COOLDOWN_MS) {
@@ -257,7 +315,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
               onSubmit={onSubmit}
               className="mt-4 sm:mt-6 space-y-3 sm:space-y-4"
             >
-              {/* Honeypot field (bots may fill this) */}
+              {/* Honeypot field */}
               <div className="hidden" aria-hidden="true">
                 <label>Company</label>
                 <input
@@ -269,247 +327,382 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    placeholder="Full Name"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.fullName}
-                    onChange={(e) =>
-                      update("fullName", toTitleCase(e.target.value))
-                    }
-                    required
-                    disabled={isSending}
-                  />
+              {/* STEP 0 */}
+              {step === "consents" && (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
+                  <p className="text-sm font-semibold text-gray-800">
+                    Please review and confirm
+                  </p>
 
-                  {touched && !form.fullName.trim() && (
-                    <p className="text-xs text-red-600 mt-1">
-                      Full name is required.
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Mobile Number <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    placeholder="09XXXXXXXXX"
-                    inputMode="numeric"
-                    pattern="\d*"
-                    maxLength={11}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.mobileNumber}
-                    onChange={(e) => {
-                      const digitsOnly = e.target.value
-                        .replace(/\D/g, "")
-                        .slice(0, 11);
-                      update("mobileNumber", digitsOnly);
-                    }}
-                    onKeyDown={(e) => {
-                      // block non-numeric keys (optional, extra safety)
-                      const allowed = [
-                        "Backspace",
-                        "Delete",
-                        "ArrowLeft",
-                        "ArrowRight",
-                        "Tab",
-                      ];
-                      if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
-                        e.preventDefault();
-                    }}
-                    onBlur={() => setMobileBlurred(true)}
-                    required
-                    disabled={isSending}
-                  />
-
-                  {mobileBlurred &&
-                    form.mobileNumber.replace(/\D/g, "").length !== 11 && (
-                      <p className="text-xs text-red-600 mt-1">
-                        Mobile number should be 11 digits (e.g., 09XXXXXXXXX).
+                  <label className="mt-3 flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      className="mt-1 h-5 w-5 accent-green-700"
+                      checked={agreeUndertaking}
+                      onChange={(e) => setAgreeUndertaking(e.target.checked)}
+                      disabled={isSending}
+                    />
+                    <div>
+                      <p className="text-sm font-bold text-gray-800">
+                        AGREEMENT AND UNDERTAKING
                       </p>
-                    )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Email <span className="text-red-500">*</span>
-                  </label>
-
-                  <input
-                    placeholder="name@gmail.com"
-                    type="email"
-                    pattern="^[^@\s]+@[^@\s]+\.com$"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.email}
-                    onChange={(e) => update("email", e.target.value)}
-                    onBlur={() => setEmailBlurred(true)}
-                    required
-                    disabled={isSending}
-                  />
-                  {emailBlurred && !form.email.trim() && (
-                    <p className="text-xs text-red-600 mt-1">
-                      Email is required.
-                    </p>
-                  )}
-
-                  {emailBlurred &&
-                    form.email.trim() &&
-                    !/^[^\s@]+@[^\s@]+\.com$/i.test(form.email.trim()) && (
-                      <p className="text-xs text-red-600 mt-1">
-                        Please enter a valid email ending in .com (e.g.,
-                        name@gmail.com).
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                        I hereby apply for a loan with the details below which I
+                        promise to pay in accordance with the terms and
+                        conditions of ASPAC Bank as stipulated in the covering
+                        Promissory Note which I certify to have read and
+                        understand clearly.
                       </p>
-                    )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    School / Office <span className="text-red-500">*</span>
+                    </div>
                   </label>
-                  <input
-                    placeholder="School / Office"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.schoolOrOffice}
-                    onChange={(e) =>
-                      update("schoolOrOffice", toTitleCase(e.target.value))
-                    }
-                    required
-                    disabled={isSending}
-                  />
 
-                  {touched && !form.schoolOrOffice.trim() && (
-                    <p className="text-xs text-red-600 mt-1">
-                      School/Office is required.
-                    </p>
+                  <label className="mt-4 flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      className="mt-1 h-5 w-5 accent-green-700"
+                      checked={agreePrivacy}
+                      onChange={(e) => setAgreePrivacy(e.target.checked)}
+                      disabled={isSending}
+                    />
+                    <div>
+                      <p className="text-sm font-bold text-gray-800">
+                        DATA PRIVACY CONSENT
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                        In compliance with the requirements of the Data Privacy
+                        Act, I hereby give my consent to ASPAC Bank Inc. and its
+                        subsidiaries/affiliates to process, collect, store, and
+                        access my personal and/or sensitive personal information
+                        obtained in the course of my transaction/s with ASPAC
+                        Bank Inc.
+                      </p>
+                    </div>
+                  </label>
+
+                  <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-end">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      disabled={isSending}
+                      className="w-full sm:w-auto bg-gray-100 text-gray-800 font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-sm transition hover:bg-gray-200 disabled:opacity-60"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={onContinueFromConsents}
+                      disabled={isSending || !agreeUndertaking || !agreePrivacy}
+                      className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
+                    >
+                      Continue
+                    </button>
+                  </div>
+
+                  {statusMsg && (
+                    <div className="text-sm rounded-lg bg-white border border-gray-200 p-3 mt-3">
+                      {statusMsg}
+                    </div>
                   )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Station / City
-                  </label>
-                  <input
-                    placeholder="Station"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.stationOrCity}
-                    onChange={(e) =>
-                      update("stationOrCity", toTitleCase(e.target.value))
-                    }
-                    disabled={isSending}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Loan Amount (PHP) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="^[0-9,]*$"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                    value={form.loanAmount}
-                    onChange={(e) => {
-                      const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-                      update("loanAmount", formatMoney(digitsOnly));
-                    }}
-                    onKeyDown={(e) => {
-                      const allowed = [
-                        "Backspace",
-                        "Delete",
-                        "ArrowLeft",
-                        "ArrowRight",
-                        "Tab",
-                      ];
-                      if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
-                        e.preventDefault();
-                    }}
-                    required
-                    disabled={isSending}
-                  />
-
-                  {touched && !form.loanAmount.trim() && (
-                    <p className="text-xs text-red-600 mt-1">
-                      Loan amount is required.
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Desired Term (Months){" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white"
-                    value={form.desiredTermMonths}
-                    onChange={(e) =>
-                      update("desiredTermMonths", e.target.value)
-                    }
-                    required
-                    disabled={isSending}
-                  >
-                    <option value="" disabled>
-                      Select term
-                    </option>
-                    <option value="6">6 mos</option>
-                    <option value="12 mos">12 mos</option>
-                    <option value="18 mos">18 mos</option>
-                    <option value="24 mos">24 mos</option>
-                    <option value="36 mos">36 mos</option>
-                    <option value="48 mos">48 mos</option>
-                    <option value="60 mos">60 mos</option>
-                  </select>
-
-                  {touched && !form.desiredTermMonths.trim() && (
-                    <p className="text-xs text-red-600 mt-1">
-                      Term is required.
-                    </p>
-                  )}
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Remarks
-                  </label>
-                  <textarea
-                    placeholder="Optional notes (e.g., preferred contact time)"
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 min-h-[70px] sm:min-h-[90px]"
-                    value={form.remarks}
-                    onChange={(e) => update("remarks", e.target.value)}
-                    disabled={isSending}
-                  />
-                </div>
-              </div>
-
-              {statusMsg && (
-                <div className="text-sm rounded-lg bg-gray-50 border border-gray-200 p-3">
-                  {statusMsg}
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-end pt-2">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  disabled={isSending}
-                  className="w-full sm:w-auto bg-gray-100 text-gray-800 font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-sm transition hover:bg-gray-200 disabled:opacity-60"
-                >
-                  Cancel
-                </button>
+              {/* STEP 1 */}
+              {step === "statement" && (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
+                  <p className="text-sm font-semibold text-gray-800">
+                    Client Information / Data Privacy Waiver
+                  </p>
 
-                <button
-                  type="submit"
-                  disabled={isSending || !isValid}
-                  className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
-                >
-                  {isSending ? "Sending..." : "Submit Application"}
-                </button>
-              </div>
+                  <div
+                    className="mt-2 rounded-lg border border-gray-200 bg-white p-3 max-h-[45svh] overflow-y-auto"
+                    onScroll={onWaiverScroll}
+                  >
+                    <pre className="whitespace-pre-wrap text-xs sm:text-sm text-gray-700 leading-relaxed font-sans">
+                      {DATA_PRIVACY_WAIVER_TEXT}
+                    </pre>
+                  </div>
+
+                  {!waiverScrolledBottom && (
+                    <p className="text-xs text-gray-500 mt-2">
+                      Please scroll to the bottom to show the buttons.
+                    </p>
+                  )}
+
+                  {/* ✅ Buttons only appear once scrolled to bottom */}
+                  {waiverScrolledBottom && (
+                    <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
+                      <button
+                        type="button"
+                        onClick={onDoNotAgree}
+                        disabled={isSending}
+                        className="w-full sm:w-auto bg-gray-100 text-gray-800 font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-sm transition hover:bg-gray-200 disabled:opacity-60"
+                      >
+                        I Do Not Agree
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={onAgreeStatement}
+                        disabled={isSending}
+                        className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
+                      >
+                        I Agree
+                      </button>
+                    </div>
+                  )}
+
+                  {statusMsg && (
+                    <div className="text-sm rounded-lg bg-white border border-gray-200 p-3 mt-3">
+                      {statusMsg}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* STEP 2 */}
+              {step === "form" && (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="Full Name"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.fullName}
+                        onChange={(e) =>
+                          update("fullName", toTitleCase(e.target.value))
+                        }
+                        required
+                        disabled={isSending}
+                      />
+                      {touched && !form.fullName.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Full name is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Mobile Number <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="09XXXXXXXXX"
+                        inputMode="numeric"
+                        pattern="\d*"
+                        maxLength={11}
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.mobileNumber}
+                        onChange={(e) => {
+                          const digitsOnly = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 11);
+                          update("mobileNumber", digitsOnly);
+                        }}
+                        onKeyDown={(e) => {
+                          const allowed = [
+                            "Backspace",
+                            "Delete",
+                            "ArrowLeft",
+                            "ArrowRight",
+                            "Tab",
+                          ];
+                          if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
+                            e.preventDefault();
+                        }}
+                        onBlur={() => setMobileBlurred(true)}
+                        required
+                        disabled={isSending}
+                      />
+                      {mobileBlurred &&
+                        form.mobileNumber.replace(/\D/g, "").length !== 11 && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Mobile number should be 11 digits (e.g.,
+                            09XXXXXXXXX).
+                          </p>
+                        )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Email <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="name@gmail.com"
+                        type="email"
+                        pattern="^[^@\\s]+@[^@\\s]+\\.com$"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.email}
+                        onChange={(e) => update("email", e.target.value)}
+                        onBlur={() => setEmailBlurred(true)}
+                        required
+                        disabled={isSending}
+                      />
+                      {emailBlurred && !form.email.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Email is required.
+                        </p>
+                      )}
+                      {emailBlurred &&
+                        form.email.trim() &&
+                        !/^[^\s@]+@[^\s@]+\.com$/i.test(form.email.trim()) && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Please enter a valid email ending in .com (e.g.,
+                            name@gmail.com).
+                          </p>
+                        )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        School / Office <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="School / Office"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.schoolOrOffice}
+                        onChange={(e) =>
+                          update("schoolOrOffice", toTitleCase(e.target.value))
+                        }
+                        required
+                        disabled={isSending}
+                      />
+                      {touched && !form.schoolOrOffice.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          School/Office is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Station / City
+                      </label>
+                      <input
+                        placeholder="Station"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.stationOrCity}
+                        onChange={(e) =>
+                          update("stationOrCity", toTitleCase(e.target.value))
+                        }
+                        disabled={isSending}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Loan Amount (PHP){" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="^[0-9,]*$"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.loanAmount}
+                        onChange={(e) => {
+                          const digitsOnly = e.target.value.replace(
+                            /[^\d]/g,
+                            "",
+                          );
+                          update("loanAmount", formatMoney(digitsOnly));
+                        }}
+                        onKeyDown={(e) => {
+                          const allowed = [
+                            "Backspace",
+                            "Delete",
+                            "ArrowLeft",
+                            "ArrowRight",
+                            "Tab",
+                          ];
+                          if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
+                            e.preventDefault();
+                        }}
+                        required
+                        disabled={isSending}
+                      />
+                      {touched && !form.loanAmount.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Loan amount is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Desired Term (Months){" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white"
+                        value={form.desiredTermMonths}
+                        onChange={(e) =>
+                          update("desiredTermMonths", e.target.value)
+                        }
+                        required
+                        disabled={isSending}
+                      >
+                        <option value="" disabled>
+                          Select term
+                        </option>
+                        <option value="6">6 mos</option>
+                        <option value="12 mos">12 mos</option>
+                        <option value="18 mos">18 mos</option>
+                        <option value="24 mos">24 mos</option>
+                        <option value="36 mos">36 mos</option>
+                        <option value="48 mos">48 mos</option>
+                        <option value="60 mos">60 mos</option>
+                      </select>
+                      {touched && !form.desiredTermMonths.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Term is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Remarks
+                      </label>
+                      <textarea
+                        placeholder="Optional notes (e.g., preferred contact time)"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 min-h-[70px] sm:min-h-[90px]"
+                        value={form.remarks}
+                        onChange={(e) => update("remarks", e.target.value)}
+                        disabled={isSending}
+                      />
+                    </div>
+                  </div>
+
+                  {statusMsg && (
+                    <div className="text-sm rounded-lg bg-gray-50 border border-gray-200 p-3">
+                      {statusMsg}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row gap-3 justify-end pt-2">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      disabled={isSending}
+                      className="w-full sm:w-auto bg-gray-100 text-gray-800 font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-sm transition hover:bg-gray-200 disabled:opacity-60"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="submit"
+                      disabled={isSending || !isValid}
+                      className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
+                    >
+                      {isSending ? "Sending..." : "Submit Application"}
+                    </button>
+                  </div>
+                </>
+              )}
             </form>
           </motion.div>
         </motion.div>
