@@ -159,9 +159,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   };
 
   const onDoNotAgree = () => {
-    setStatusMsg(
-      "You did not agree to the waiver. You cannot proceed with the application.",
-    );
+    setStatusMsg(null);
+    setWaiverScrolledBottom(false);
+    setStep("consents");
+    setAgreeUndertaking(false);
+    setAgreePrivacy(false);
+    onClose(); // ✅ close entire modal
   };
 
   const onWaiverScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
