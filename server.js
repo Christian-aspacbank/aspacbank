@@ -1,11 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 
 const app = express();
 
-// Allow CRA dev server (ok pa rin kahit may proxy)
-app.use(cors({ origin: "http://localhost:3000" }));
+/**
+ * LOCAL DEV ONLY
+ * Run with: npm run start:api
+ * CRA dev server uses "proxy": "http://localhost:4000" in package.json
+ */
 app.use(express.json());
 
 function escapeHtml(str) {
@@ -24,11 +26,8 @@ function formatNumber(value) {
 }
 
 function getLogoSrc() {
-  // Option 1: Use a public HTTPS URL (recommended)
   if (process.env.MAIL_LOGO_URL) return process.env.MAIL_LOGO_URL.trim();
 
-  // Option 2: Inline base64 (no hosting needed)
-  // Put ONLY the base64 string (no "data:image/png;base64,")
   if (process.env.MAIL_LOGO_BASE64) {
     const b64 = process.env.MAIL_LOGO_BASE64.trim();
     return `data:image/png;base64,${b64}`;
@@ -44,7 +43,7 @@ async function getAccessToken() {
 
   if (!tenantId || !clientId || !clientSecret) {
     throw new Error(
-      "Missing AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET in .env"
+      "Missing AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET in .env",
     );
   }
 
@@ -62,9 +61,8 @@ async function getAccessToken() {
     body: params.toString(),
   });
 
-  const data = await resp.json();
+  const data = await resp.json().catch(() => ({}));
 
-  // Optional debug log (safe-ish)
   if (process.env.DEBUG_TOKEN === "true") {
     console.log("token resp ok?", resp.ok, {
       status: resp.status,
@@ -74,7 +72,7 @@ async function getAccessToken() {
     });
   }
 
-  if (!resp.ok) throw new Error(data.error_description || "Failed to get token");
+  if (!resp.ok) throw new Error(data?.error_description || "Failed to get token");
   return data.access_token;
 }
 
@@ -110,52 +108,24 @@ function buildHtmlEmail(payload) {
 
     <div style="height:1px; background:#d0d0d0; margin:14px 0 16px;"></div>
 
-    <!-- Summary -->
     <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr>
-        <td style="padding:2px 0; width:170px;"><b>Reference No:</b></td>
-        <td style="padding:2px 0;">${ref}</td>
-      </tr>
-      <tr>
-        <td style="padding:2px 0;"><b>Applicant Name:</b></td>
-        <td style="padding:2px 0;">${name}</td>
-      </tr>
-      <tr>
-        <td style="padding:2px 0;"><b>Submitted At:</b></td>
-        <td style="padding:2px 0;">${submittedAt}</td>
-      </tr>
+      <tr><td style="padding:2px 0; width:170px;"><b>Reference No:</b></td><td style="padding:2px 0;">${ref}</td></tr>
+      <tr><td style="padding:2px 0;"><b>Applicant Name:</b></td><td style="padding:2px 0;">${name}</td></tr>
+      <tr><td style="padding:2px 0;"><b>Submitted At:</b></td><td style="padding:2px 0;">${submittedAt}</td></tr>
     </table>
 
     <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Applicant Details</div>
     <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr>
-        <td style="padding:3px 0; width:170px;"><b>Email:</b></td>
-        <td style="padding:3px 0;">${email}</td>
-      </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>Mobile Number:</b></td>
-        <td style="padding:3px 0;">${mobile}</td>
-      </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>School/Office:</b></td>
-        <td style="padding:3px 0;">${school}</td>
-      </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>Station/City:</b></td>
-        <td style="padding:3px 0;">${station}</td>
-      </tr>
+      <tr><td style="padding:3px 0; width:170px;"><b>Email:</b></td><td style="padding:3px 0;">${email}</td></tr>
+      <tr><td style="padding:3px 0;"><b>Mobile Number:</b></td><td style="padding:3px 0;">${mobile}</td></tr>
+      <tr><td style="padding:3px 0;"><b>School/Office:</b></td><td style="padding:3px 0;">${school}</td></tr>
+      <tr><td style="padding:3px 0;"><b>Station/City:</b></td><td style="padding:3px 0;">${station}</td></tr>
     </table>
 
     <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Loan Request</div>
     <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr>
-        <td style="padding:3px 0; width:170px;"><b>Loan Amount (PHP):</b></td>
-        <td style="padding:3px 0;">${loanAmount}</td>
-      </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>Desired Term (Months):</b></td>
-        <td style="padding:3px 0;">${termMonths}</td>
-      </tr>
+      <tr><td style="padding:3px 0; width:170px;"><b>Loan Amount (PHP):</b></td><td style="padding:3px 0;">${loanAmount}</td></tr>
+      <tr><td style="padding:3px 0;"><b>Desired Term (Months):</b></td><td style="padding:3px 0;">${termMonths}</td></tr>
     </table>
 
     <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Remarks</div>
@@ -199,7 +169,6 @@ app.post("/api/submit", async (req, res) => {
     const clean = (v) => String(v || "").trim();
     const b = req.body || {};
 
-    // Honeypot - if filled, pretend success
     if (clean(b.website)) return res.json({ ok: true });
 
     const payload = {
@@ -226,13 +195,12 @@ app.post("/api/submit", async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    const token = await getAccessToken();
-
     const FROM = process.env.MAIL_FROM || "no-reply@aspacbank.com";
     const TO = process.env.MAIL_TO || "wppontillas@aspacbank.com";
 
+    const token = await getAccessToken();
     const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
-      FROM
+      FROM,
     )}/sendMail`;
 
     const html = buildHtmlEmail(payload);
@@ -247,11 +215,7 @@ app.post("/api/submit", async (req, res) => {
       body: JSON.stringify({
         message: {
           subject: `APDS Loan Application - ${payload.fullName}`,
-          body: {
-            contentType: "HTML",
-            content: html,
-          },
-          // optional: keep plaintext as an attachment for reference (some prefer this)
+          body: { contentType: "HTML", content: html },
           attachments: [
             {
               "@odata.type": "#microsoft.graph.fileAttachment",

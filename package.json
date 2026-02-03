@@ -42,11 +42,12 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
-  },
+  "start": "craco start",
+  "start:api": "node server.js",
+  "build": "craco build",
+  "test": "craco test",
+  "eject": "react-scripts eject"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
