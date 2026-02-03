@@ -31,15 +31,6 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-if (!process.env.AZURE_TENANT_ID || !process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET) {
-  return res.status(500).json({
-    message: "Server config missing.",
-    hasTenant: !!process.env.AZURE_TENANT_ID,
-    hasClientId: !!process.env.AZURE_CLIENT_ID,
-    hasSecret: !!process.env.AZURE_CLIENT_SECRET,
-  });
-}
-
 module.exports = async (req, res) => {
   try {
     if (req.method !== "POST") {
@@ -60,6 +51,7 @@ module.exports = async (req, res) => {
       website: clean(req.body?.website), // honeypot
     };
 
+    // Honeypot hit: pretend success
     if (payload.website) return res.status(200).json({ ok: true });
 
     if (
@@ -74,15 +66,15 @@ module.exports = async (req, res) => {
     }
 
     const from = process.env.MAIL_FROM || "no-reply@aspacbank.com";
-const to = process.env.MAIL_TO || "wppontillas@aspacbank.com";
+    const to = process.env.MAIL_TO || "wppontillas@aspacbank.com";
 
-
-    if (!from || !to) {
-      return res.status(500).json({
-        message: "Server config missing.",
-        error: "Missing MAIL_FROM or MAIL_TO env vars.",
-      });
-    }
+    // If you want to enforce env vars (recommended), uncomment:
+    // if (!process.env.MAIL_FROM || !process.env.MAIL_TO) {
+    //   return res.status(500).json({
+    //     message: "Server config missing.",
+    //     error: "Missing MAIL_FROM or MAIL_TO env vars.",
+    //   });
+    // }
 
     const accessToken = await getAccessToken();
 
