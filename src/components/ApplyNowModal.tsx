@@ -298,7 +298,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                 </p>
 
                 <p className="text-xs sm:text-sm text-gray-600 mt-2">
-                  Fill out the form below to apply for APDS.
+                  Fill out the form below to apply for APDS loan.
                 </p>
               </div>
 

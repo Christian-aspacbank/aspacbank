@@ -31,6 +31,15 @@ async function getAccessToken() {
   return data.access_token;
 }
 
+if (!process.env.AZURE_TENANT_ID || !process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET) {
+  return res.status(500).json({
+    message: "Server config missing.",
+    hasTenant: !!process.env.AZURE_TENANT_ID,
+    hasClientId: !!process.env.AZURE_CLIENT_ID,
+    hasSecret: !!process.env.AZURE_CLIENT_SECRET,
+  });
+}
+
 module.exports = async (req, res) => {
   try {
     if (req.method !== "POST") {
