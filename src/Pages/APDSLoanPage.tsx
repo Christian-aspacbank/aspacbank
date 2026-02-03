@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Seo from "../components/Seo";
+import ApplyNowModal from "../components/ApplyNowModal";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -84,6 +85,7 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
 const APDSLoanPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isApplyNowOpen, setIsApplyNowOpen] = useState(false); // ✅ add state
 
   return (
     <>
@@ -162,6 +164,13 @@ const APDSLoanPage: React.FC = () => {
             >
               Download Form
             </a>
+            <button
+              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
+              onClick={() => setIsApplyNowOpen(true)} // ✅ open ApplyNowModal
+              aria-label="Apply for APDS Loan"
+            >
+              Apply Now
+            </button>
 
             <button
               className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
@@ -282,6 +291,11 @@ const APDSLoanPage: React.FC = () => {
         <ContactModal
           isOpen={isContactModalOpen}
           onClose={() => setIsContactModalOpen(false)}
+        />
+
+        <ApplyNowModal
+          isOpen={isApplyNowOpen}
+          onClose={() => setIsApplyNowOpen(false)}
         />
       </div>
     </>
