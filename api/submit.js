@@ -23,6 +23,10 @@ async function getAccessToken() {
   return data.access_token;
 }
 
+if (!process.env.AZURE_TENANT_ID || !process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET) {
+  return res.status(500).json({ message: "Server config missing (Azure env vars)." });
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
 

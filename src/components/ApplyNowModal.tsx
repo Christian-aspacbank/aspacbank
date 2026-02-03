@@ -236,9 +236,6 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
         website: honeypot, // honeypot field (should be empty)
       };
 
-      const API_BASE =
-        window.location.hostname === "localhost" ? "http://localhost:4000" : "";
-
       const resp = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
