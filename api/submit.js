@@ -64,8 +64,9 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    const from = process.env.MAIL_FROM;
-    const to = process.env.MAIL_TO;
+    const from = process.env.MAIL_FROM || "no-reply@aspacbank.com";
+const to = process.env.MAIL_TO || "wppontillas@aspacbank.com";
+
 
     if (!from || !to) {
       return res.status(500).json({
