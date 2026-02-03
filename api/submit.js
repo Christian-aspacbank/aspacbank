@@ -1,8 +1,15 @@
 // /api/submit.js
+
 async function getAccessToken() {
   const tenantId = process.env.AZURE_TENANT_ID;
   const clientId = process.env.AZURE_CLIENT_ID;
   const clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+  if (!tenantId || !clientId || !clientSecret) {
+    throw new Error(
+      "Missing Azure env vars (AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET).",
+    );
+  }
 
   const tokenUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
 
@@ -18,19 +25,18 @@ async function getAccessToken() {
     body: params.toString(),
   });
 
-  const data = await resp.json();
-  if (!resp.ok) throw new Error(data.error_description || "Failed to get token");
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data?.error_description || "Failed to get token");
+
   return data.access_token;
 }
 
-if (!process.env.AZURE_TENANT_ID || !process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET) {
-  return res.status(500).json({ message: "Server config missing (Azure env vars)." });
-}
-
 module.exports = async (req, res) => {
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
-
   try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ message: "Method not allowed" });
+    }
+
     const clean = (v) => String(v || "").trim();
 
     const payload = {
@@ -42,23 +48,37 @@ module.exports = async (req, res) => {
       loanAmount: clean(req.body?.loanAmount),
       termMonths: clean(req.body?.termMonths),
       remarks: clean(req.body?.remarks),
-      // simple anti-bot honeypot:
-      website: clean(req.body?.website),
+      website: clean(req.body?.website), // honeypot
     };
 
-    // Honeypot: bots usually fill hidden field
     if (payload.website) return res.status(200).json({ ok: true });
 
-    if (!payload.fullName || !payload.email || !payload.mobile || !payload.school || !payload.loanAmount || !payload.termMonths) {
+    if (
+      !payload.fullName ||
+      !payload.email ||
+      !payload.mobile ||
+      !payload.school ||
+      !payload.loanAmount ||
+      !payload.termMonths
+    ) {
       return res.status(400).json({ message: "Missing required fields." });
+    }
+
+    const from = process.env.MAIL_FROM;
+    const to = process.env.MAIL_TO;
+
+    if (!from || !to) {
+      return res.status(500).json({
+        message: "Server config missing.",
+        error: "Missing MAIL_FROM or MAIL_TO env vars.",
+      });
     }
 
     const accessToken = await getAccessToken();
 
-    const from = process.env.MAIL_FROM || "no-reply@aspacbank.com";
-    const to = process.env.MAIL_TO || "wppontillas@aspacbank.com";
-
-    const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(from)}/sendMail`;
+    const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+      from,
+    )}/sendMail`;
 
     const messageText = `
 New APDS Loan Application
@@ -94,11 +114,19 @@ ${payload.remarks || "-"}
 
     if (!sendResp.ok) {
       const errText = await sendResp.text();
-      throw new Error(`Graph sendMail failed: ${errText}`);
+      console.error("Graph sendMail failed:", errText);
+      return res.status(500).json({
+        message: "Submission failed.",
+        error: `Graph sendMail failed: ${errText}`,
+      });
     }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
-    return res.status(500).json({ message: "Submission failed.", error: String(err?.message || err) });
+    console.error("submit error:", err);
+    return res.status(500).json({
+      message: "Submission failed.",
+      error: String(err?.message || err),
+    });
   }
 };
