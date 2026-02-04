@@ -187,11 +187,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
     if (!form.desiredTermMonths.trim()) return false;
 
-    // attachment is optional, but if present must be valid
+    // ✅ attachment is REQUIRED
+    if (!attachment.file) return false;
     if (attachment.error) return false;
 
     return true;
-  }, [form, attachment.error]);
+  }, [form, attachment.file, attachment.error]);
 
   const update = <K extends keyof ApplyFormState>(key: K, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -252,6 +253,26 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
     if (!isValid) return;
 
+    // ✅ REQUIRED ATTACHMENT CHECK
+    if (!attachment.file) {
+      setAttachment((prev) => ({
+        ...prev,
+        error: "Attachment is required.",
+      }));
+      setStatusMsg("Please attach a file before submitting.");
+      return;
+    }
+
+    // ✅ clear previous "required" error once file exists
+    if (attachment.error === "Attachment is required.") {
+      setAttachment((prev) => ({ ...prev, error: null }));
+    }
+
+    if (attachment.error) {
+      setStatusMsg(attachment.error);
+      return;
+    }
+
     const elapsedMs = Date.now() - openedAtRef.current;
     if (elapsedMs < 4000) {
       setStatusMsg(
@@ -307,7 +328,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
       // ✅ attachment (optional)
       if (attachment.file) {
-        fd.append("attachment", attachment.file, attachment.file.name);
+        fd.append("attachment", attachment.file!, attachment.file!.name);
       }
 
       const resp = await fetch("/api/submit", {
@@ -758,8 +779,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         value={attachment}
                         onChange={setAttachment}
                         disabled={isSending}
-                        label="Proof of Income "
-                        required={false}
+                        label="Proof of Income / Supporting Document"
+                        required={true}
                         maxSizeMB={5}
                       />
                     </div>
