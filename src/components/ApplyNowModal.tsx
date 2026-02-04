@@ -661,7 +661,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                     <div>
                       <label className="text-sm font-medium text-gray-700">
-                        Station / City
+                        Station / Division
                       </label>
                       <input
                         placeholder="Station"
@@ -730,13 +730,13 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         <option value="" disabled>
                           Select term
                         </option>
-                        <option value="6">6 mos</option>
-                        <option value="12">12 mos</option>
-                        <option value="18">18 mos</option>
-                        <option value="24">24 mos</option>
-                        <option value="36">36 mos</option>
-                        <option value="48">48 mos</option>
-                        <option value="60">60 mos</option>
+                        <option value="6">6 months</option>
+                        <option value="12">12 months</option>
+                        <option value="18">18 months</option>
+                        <option value="24">24 months</option>
+                        <option value="36">36 months</option>
+                        <option value="48">48 months</option>
+                        <option value="60">60 months</option>
                       </select>
                       {showError("desiredTermMonths") &&
                         !form.desiredTermMonths.trim() && (
