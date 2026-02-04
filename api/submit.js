@@ -2,6 +2,214 @@
 const { IncomingForm } = require("formidable");
 const fs = require("fs");
 
+const escapeHtml = (str) =>
+  String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+const formatNumber = (value) => {
+  const n = Number(String(value ?? "").replace(/,/g, ""));
+  if (!Number.isFinite(n)) return String(value ?? "");
+  return n.toLocaleString("en-US");
+};
+
+const getLogoSrc = () => {
+  // Option 1: Use a public HTTPS URL (recommended)
+  if (process.env.MAIL_LOGO_URL) return process.env.MAIL_LOGO_URL.trim();
+
+  // Option 2: Inline base64 (no hosting needed)
+  // Put ONLY the base64 string (no "data:image/png;base64,")
+  if (process.env.MAIL_LOGO_BASE64) {
+    const b64 = process.env.MAIL_LOGO_BASE64.trim();
+    return `data:image/png;base64,${b64}`;
+  }
+
+  return null;
+};
+
+async function getAccessToken() {
+  const tenantId = process.env.AZURE_TENANT_ID;
+  const clientId = process.env.AZURE_CLIENT_ID;
+  const clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+  if (!tenantId || !clientId || !clientSecret) {
+    throw new Error(
+      "Missing Azure env vars (AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET)."
+    );
+  }
+
+  const tokenUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+
+  const params = new URLSearchParams();
+  params.append("client_id", clientId);
+  params.append("client_secret", clientSecret);
+  params.append("grant_type", "client_credentials");
+  params.append("scope", "https://graph.microsoft.com/.default");
+
+  const resp = await fetch(tokenUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params.toString(),
+  });
+
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data?.error_description || "Failed to get token");
+
+  return data.access_token;
+}
+
+function buildHtmlEmail(payload, attachmentMeta) {
+  const logoSrc = getLogoSrc();
+
+  const ref = escapeHtml(payload.referenceNo || "N/A");
+  const name = escapeHtml(payload.fullName || "-");
+  const email = escapeHtml(payload.email || "-");
+  const mobile = escapeHtml(payload.mobile || "-");
+  const school = escapeHtml(payload.school || "-");
+  const station = escapeHtml(payload.station || "-");
+  const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
+  const termMonths = escapeHtml(payload.termMonths || "-");
+  const submittedAt = escapeHtml(payload.submittedAt || "-");
+  const remarks = escapeHtml(payload.remarks || "-").replace(/\n/g, "<br/>");
+
+  const headerLogo = logoSrc
+    ? `<img src="${escapeHtml(
+        logoSrc
+      )}" alt="ASPAC Bank" style="height:42px; display:block;" />`
+    : `<div style="font-weight:800; color:#0f5132; font-size:16px;">ASPAC Bank, Inc.</div>`;
+
+  const attachmentBlock = attachmentMeta?.name
+    ? `
+      <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Attachment</div>
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+        <tr>
+          <td style="padding:3px 0; width:170px;"><b>File Name:</b></td>
+          <td style="padding:3px 0;">${escapeHtml(attachmentMeta.name)}</td>
+        </tr>
+        <tr>
+          <td style="padding:3px 0;"><b>File Type:</b></td>
+          <td style="padding:3px 0;">${escapeHtml(attachmentMeta.type || "-")}</td>
+        </tr>
+        <tr>
+          <td style="padding:3px 0;"><b>File Size:</b></td>
+          <td style="padding:3px 0;">${escapeHtml(attachmentMeta.size || "-")}</td>
+        </tr>
+      </table>
+    `
+    : "";
+
+  // Email-safe layout (tables + inline styles) for Outlook compatibility
+  return `
+  <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#ffffff; padding:18px;">
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse;">
+      <tr>
+        <td style="width:180px; vertical-align:middle;">
+          ${headerLogo}
+        </td>
+        <td style="width:12px; vertical-align:middle;">
+          <div style="border-left:3px solid #0f5132; height:34px;"></div>
+        </td>
+        <td style="vertical-align:middle;">
+          <div style="font-size:22px; font-weight:900; letter-spacing:.3px; color:#111;">
+            NEW APDS LOAN APPLICATION
+          </div>
+          <div style="font-size:13px; color:#444; margin-top:4px;">
+            A new APDS Loan Application has been submitted. Please review the details below.
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div style="height:1px; background:#d0d0d0; margin:14px 0 16px;"></div>
+
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Reference No:</b></td>
+        <td style="padding:3px 0;">${ref}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Applicant Name:</b></td>
+        <td style="padding:3px 0;">${name}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Submitted At:</b></td>
+        <td style="padding:3px 0;">${submittedAt}</td>
+      </tr>
+    </table>
+
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Applicant Details</div>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Email:</b></td>
+        <td style="padding:3px 0;">${email}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Mobile Number:</b></td>
+        <td style="padding:3px 0;">${mobile}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>School/Office:</b></td>
+        <td style="padding:3px 0;">${school}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Station/City:</b></td>
+        <td style="padding:3px 0;">${station}</td>
+      </tr>
+    </table>
+
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Loan Request</div>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Loan Amount (PHP):</b></td>
+        <td style="padding:3px 0;">${loanAmount}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Desired Term (Months):</b></td>
+        <td style="padding:3px 0;">${termMonths}</td>
+      </tr>
+    </table>
+
+    ${attachmentBlock}
+
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Remarks</div>
+    <div style="font-size:14px; line-height:1.5; padding:12px 12px; border:1px solid #e5e5e5; border-radius:8px; background:#fafafa;">
+      ${remarks}
+    </div>
+
+    <div style="height:1px; background:#d0d0d0; margin:18px 0 10px;"></div>
+    <div style="font-size:12px; color:#666;">
+      This is an automated notification from ASPAC Bank website form.
+    </div>
+  </div>
+  `.trim();
+}
+
+function buildTextEmail(payload) {
+  return `
+NEW APDS LOAN APPLICATION
+
+Reference No: ${payload.referenceNo || "N/A"}
+Applicant Name: ${payload.fullName || "-"}
+Submitted At: ${payload.submittedAt || "-"}
+
+Applicant Details
+Email: ${payload.email || "-"}
+Mobile Number: ${payload.mobile || "-"}
+School/Office: ${payload.school || "-"}
+Station/City: ${payload.station || "-"}
+
+Loan Request
+Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
+Desired Term (Months): ${payload.termMonths || "-"}
+
+Remarks
+${payload.remarks || "-"}
+`.trim();
+}
+
 const handler = async (req, res) => {
   try {
     if (req.method !== "POST") {
@@ -54,6 +262,8 @@ const handler = async (req, res) => {
 
     // ✅ Optional attachment
     let graphAttachments = [];
+    let attachmentMeta = null;
+
     const file = files.attachment; // must match fd.append("attachment", ...)
 
     if (file) {
@@ -68,48 +278,27 @@ const handler = async (req, res) => {
 
       const buffer = fs.readFileSync(f.filepath);
 
+      // Size label for email display
+      const bytes = Number(f.size || buffer.length || 0);
+      const sizeLabel =
+        bytes >= 1024 * 1024
+          ? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+          : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+      attachmentMeta = {
+        name: f.originalFilename || "attachment",
+        type: f.mimetype,
+        size: sizeLabel,
+      };
+
       graphAttachments = [
         {
           "@odata.type": "#microsoft.graph.fileAttachment",
-          name: f.originalFilename || "attachment",
-          contentType: f.mimetype,
+          name: attachmentMeta.name,
+          contentType: attachmentMeta.type,
           contentBytes: buffer.toString("base64"),
         },
       ];
-    }
-
-    // ---- Graph Token ----
-    async function getAccessToken() {
-      const tenantId = process.env.AZURE_TENANT_ID;
-      const clientId = process.env.AZURE_CLIENT_ID;
-      const clientSecret = process.env.AZURE_CLIENT_SECRET;
-
-      if (!tenantId || !clientId || !clientSecret) {
-        throw new Error(
-          "Missing Azure env vars (AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET)."
-        );
-      }
-
-      const tokenUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
-
-      const params = new URLSearchParams();
-      params.append("client_id", clientId);
-      params.append("client_secret", clientSecret);
-      params.append("grant_type", "client_credentials");
-      params.append("scope", "https://graph.microsoft.com/.default");
-
-      const resp = await fetch(tokenUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString(),
-      });
-
-      const data = await resp.json().catch(() => ({}));
-      if (!resp.ok) {
-        throw new Error(data?.error_description || "Failed to get token");
-      }
-
-      return data.access_token;
     }
 
     const from = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
@@ -121,22 +310,8 @@ const handler = async (req, res) => {
       from
     )}/sendMail`;
 
-    const messageText = `
-New APDS Loan Application
-
-Reference No: ${payload.referenceNo || "N/A"}
-Full Name: ${payload.fullName}
-Email: ${payload.email}
-Mobile: ${payload.mobile}
-School/Office: ${payload.school}
-Station/City: ${payload.station || "-"}
-Loan Amount (PHP): ${payload.loanAmount}
-Term (Months): ${payload.termMonths}
-Submitted At: ${payload.submittedAt || "-"}
-
-Remarks:
-${payload.remarks || "-"}
-    `.trim();
+    const html = buildHtmlEmail(payload, attachmentMeta);
+    const text = buildTextEmail(payload);
 
     const sendResp = await fetch(graphUrl, {
       method: "POST",
@@ -147,7 +322,7 @@ ${payload.remarks || "-"}
       body: JSON.stringify({
         message: {
           subject: `APDS Loan Application - ${payload.fullName}`,
-          body: { contentType: "Text", content: messageText },
+          body: { contentType: "HTML", content: html },
           toRecipients: [{ emailAddress: { address: to } }],
           replyTo: [{ emailAddress: { address: payload.email } }],
           ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
@@ -162,6 +337,7 @@ ${payload.remarks || "-"}
       return res.status(500).json({
         message: "Submission failed.",
         error: `Graph sendMail failed: ${errText}`,
+        fallback: text,
       });
     }
 
