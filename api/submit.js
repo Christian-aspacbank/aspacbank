@@ -17,16 +17,11 @@ const formatNumber = (value) => {
 };
 
 const getLogoSrc = () => {
-  // Option 1: Use a public HTTPS URL (recommended)
   if (process.env.MAIL_LOGO_URL) return process.env.MAIL_LOGO_URL.trim();
-
-  // Option 2: Inline base64 (no hosting needed)
-  // Put ONLY the base64 string (no "data:image/png;base64,")
   if (process.env.MAIL_LOGO_BASE64) {
     const b64 = process.env.MAIL_LOGO_BASE64.trim();
     return `data:image/png;base64,${b64}`;
   }
-
   return null;
 };
 
@@ -62,6 +57,7 @@ async function getAccessToken() {
 }
 
 function buildHtmlEmail(payload, attachmentMeta) {
+  // (logoSrc kept in case you want to reuse later, but header no longer shows ASPAC Bank Inc.)
   const logoSrc = getLogoSrc();
 
   const ref = escapeHtml(payload.referenceNo || "N/A");
@@ -74,12 +70,6 @@ function buildHtmlEmail(payload, attachmentMeta) {
   const termMonths = escapeHtml(payload.termMonths || "-");
   const submittedAt = escapeHtml(payload.submittedAt || "-");
   const remarks = escapeHtml(payload.remarks || "-").replace(/\n/g, "<br/>");
-
-  const headerLogo = logoSrc
-    ? `<img src="${escapeHtml(
-        logoSrc
-      )}" alt="ASPAC Bank" style="height:42px; display:block;" />`
-    : `<div style="font-weight:800; color:#0f5132; font-size:16px;">ASPAC Bank, Inc.</div>`;
 
   const attachmentBlock = attachmentMeta?.name
     ? `
@@ -101,29 +91,17 @@ function buildHtmlEmail(payload, attachmentMeta) {
     `
     : "";
 
-  // Email-safe layout (tables + inline styles) for Outlook compatibility
+  // ✅ Updated header: removed ASPAC Bank, Inc. block + divider
   return `
   <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#ffffff; padding:18px;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse;">
-      <tr>
-        <td style="width:180px; vertical-align:middle;">
-          ${headerLogo}
-        </td>
-        <td style="width:12px; vertical-align:middle;">
-          <div style="border-left:3px solid #0f5132; height:34px;"></div>
-        </td>
-        <td style="vertical-align:middle;">
-          <div style="font-size:22px; font-weight:900; letter-spacing:.3px; color:#111;">
-            NEW APDS LOAN APPLICATION
-          </div>
-          <div style="font-size:13px; color:#444; margin-top:4px;">
-            A new APDS Loan Application has been submitted. Please review the details below.
-          </div>
-        </td>
-      </tr>
-    </table>
+    <div style="font-size:26px; font-weight:900; letter-spacing:.3px; color:#111; margin:2px 0 4px;">
+      NEW APDS LOAN APPLICATION
+    </div>
+    <div style="font-size:13px; color:#444; margin:0 0 12px;">
+      A new APDS Loan Application has been submitted. Please review the details below.
+    </div>
 
-    <div style="height:1px; background:#d0d0d0; margin:14px 0 16px;"></div>
+    <div style="height:1px; background:#d0d0d0; margin:12px 0 16px;"></div>
 
     <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
       <tr>
@@ -278,7 +256,6 @@ const handler = async (req, res) => {
 
       const buffer = fs.readFileSync(f.filepath);
 
-      // Size label for email display
       const bytes = Number(f.size || buffer.length || 0);
       const sizeLabel =
         bytes >= 1024 * 1024
