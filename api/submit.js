@@ -1,35 +1,6 @@
 // /api/submit.js
-
-async function getAccessToken() {
-  const tenantId = process.env.AZURE_TENANT_ID;
-  const clientId = process.env.AZURE_CLIENT_ID;
-  const clientSecret = process.env.AZURE_CLIENT_SECRET;
-
-  if (!tenantId || !clientId || !clientSecret) {
-    throw new Error(
-      "Missing Azure env vars (AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET).",
-    );
-  }
-
-  const tokenUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
-
-  const params = new URLSearchParams();
-  params.append("client_id", clientId);
-  params.append("client_secret", clientSecret);
-  params.append("grant_type", "client_credentials");
-  params.append("scope", "https://graph.microsoft.com/.default");
-
-  const resp = await fetch(tokenUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params.toString(),
-  });
-
-  const data = await resp.json().catch(() => ({}));
-  if (!resp.ok) throw new Error(data?.error_description || "Failed to get token");
-
-  return data.access_token;
-}
+const formidable = require("formidable");
+const fs = require("fs");
 
 module.exports = async (req, res) => {
   try {
@@ -39,16 +10,32 @@ module.exports = async (req, res) => {
 
     const clean = (v) => String(v || "").trim();
 
+    // ✅ Parse multipart/form-data (FormData)
+    const { fields, files } = await new Promise((resolve, reject) => {
+      const form = formidable({
+        multiples: false,
+        maxFileSize: 5 * 1024 * 1024, // 5MB
+        keepExtensions: true,
+      });
+
+      form.parse(req, (err, fields, files) => {
+        if (err) return reject(err);
+        resolve({ fields, files });
+      });
+    });
+
     const payload = {
-      referenceNo: clean(req.body?.referenceNo),
-      fullName: clean(req.body?.fullName),
-      email: clean(req.body?.email),
-      mobile: clean(req.body?.mobile),
-      school: clean(req.body?.school),
-      loanAmount: clean(req.body?.loanAmount),
-      termMonths: clean(req.body?.termMonths),
-      remarks: clean(req.body?.remarks),
-      website: clean(req.body?.website), // honeypot
+      referenceNo: clean(fields.referenceNo),
+      fullName: clean(fields.fullName),
+      email: clean(fields.email),
+      mobile: clean(fields.mobile),
+      school: clean(fields.school),
+      station: clean(fields.station),
+      loanAmount: clean(fields.loanAmount),
+      termMonths: clean(fields.termMonths),
+      remarks: clean(fields.remarks),
+      submittedAt: clean(fields.submittedAt),
+      website: clean(fields.website), // honeypot
     };
 
     // Honeypot hit: pretend success
@@ -65,21 +52,72 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    const from = process.env.MAIL_FROM || "no-reply@aspacbank.com";
-    const to = process.env.MAIL_TO || "wppontillas@aspacbank.com";
+    // ✅ Optional attachment
+    let graphAttachments = [];
+    const file = files.attachment; // name must match fd.append("attachment", ...)
 
-    // If you want to enforce env vars (recommended), uncomment:
-    // if (!process.env.MAIL_FROM || !process.env.MAIL_TO) {
-    //   return res.status(500).json({
-    //     message: "Server config missing.",
-    //     error: "Missing MAIL_FROM or MAIL_TO env vars.",
-    //   });
-    // }
+    if (file) {
+      const f = Array.isArray(file) ? file[0] : file;
+
+      const allowed = ["application/pdf", "image/jpeg", "image/png"];
+      if (!allowed.includes(f.mimetype)) {
+        return res.status(400).json({
+          message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
+        });
+      }
+
+      const buffer = fs.readFileSync(f.filepath);
+
+      graphAttachments = [
+        {
+          "@odata.type": "#microsoft.graph.fileAttachment",
+          name: f.originalFilename || "attachment",
+          contentType: f.mimetype,
+          contentBytes: buffer.toString("base64"),
+        },
+      ];
+    }
+
+    // ---- Graph Token ----
+    async function getAccessToken() {
+      const tenantId = process.env.AZURE_TENANT_ID;
+      const clientId = process.env.AZURE_CLIENT_ID;
+      const clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+      if (!tenantId || !clientId || !clientSecret) {
+        throw new Error(
+          "Missing Azure env vars (AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET)."
+        );
+      }
+
+      const tokenUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+
+      const params = new URLSearchParams();
+      params.append("client_id", clientId);
+      params.append("client_secret", clientSecret);
+      params.append("grant_type", "client_credentials");
+      params.append("scope", "https://graph.microsoft.com/.default");
+
+      const resp = await fetch(tokenUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok)
+        throw new Error(data?.error_description || "Failed to get token");
+
+      return data.access_token;
+    }
+
+    const from = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
+    const to = (process.env.MAIL_TO || "wppontillas@aspacbank.com").trim();
 
     const accessToken = await getAccessToken();
 
     const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
-      from,
+      from
     )}/sendMail`;
 
     const messageText = `
@@ -90,8 +128,10 @@ Full Name: ${payload.fullName}
 Email: ${payload.email}
 Mobile: ${payload.mobile}
 School/Office: ${payload.school}
+Station/City: ${payload.station || "-"}
 Loan Amount (PHP): ${payload.loanAmount}
 Term (Months): ${payload.termMonths}
+Submitted At: ${payload.submittedAt || "-"}
 
 Remarks:
 ${payload.remarks || "-"}
@@ -105,10 +145,11 @@ ${payload.remarks || "-"}
       },
       body: JSON.stringify({
         message: {
-          subject: `Teachers Loan Application - ${payload.fullName}`,
+          subject: `APDS Loan Application - ${payload.fullName}`,
           body: { contentType: "Text", content: messageText },
           toRecipients: [{ emailAddress: { address: to } }],
           replyTo: [{ emailAddress: { address: payload.email } }],
+          ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
         },
         saveToSentItems: false,
       }),
