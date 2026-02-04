@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import SearchableSelect from "./SearchableSelect";
 
 type ApplyFormState = {
   fullName: string;
@@ -74,7 +75,21 @@ It is agreed and understood that unless and until the Bank is in receipt of a wr
 
 const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [form, setForm] = useState<ApplyFormState>(DEFAULT_FORM);
-  const [touched, setTouched] = useState(false);
+
+  // ✅ validation flags
+  const [consentsTouched, setConsentsTouched] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  type FieldKey = keyof ApplyFormState;
+  const [fieldTouched, setFieldTouched] = useState<
+    Partial<Record<FieldKey, boolean>>
+  >({});
+
+  const touchField = (key: FieldKey) =>
+    setFieldTouched((prev) => ({ ...prev, [key]: true }));
+
+  const showError = (key: FieldKey) => !!submitAttempted || !!fieldTouched[key];
+
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [referenceNo, setReferenceNo] = useState<string>(generateReferenceNo());
@@ -82,8 +97,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [honeypot, setHoneypot] = useState("");
   const openedAtRef = useRef<number>(Date.now());
 
-  const [mobileBlurred, setMobileBlurred] = useState(false);
-  const [emailBlurred, setEmailBlurred] = useState(false);
+  const [schools, setSchools] = useState<string[]>([]);
+  const [schoolsLoading, setSchoolsLoading] = useState(false);
 
   const [step, setStep] = useState<Step>("consents");
   const [agreeUndertaking, setAgreeUndertaking] = useState(false);
@@ -93,22 +108,56 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [waiverScrolledBottom, setWaiverScrolledBottom] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setReferenceNo(generateReferenceNo());
-      setForm(DEFAULT_FORM);
-      setTouched(false);
-      setStatusMsg(null);
-      setMobileBlurred(false);
-      setEmailBlurred(false);
+    if (!isOpen) return;
 
-      openedAtRef.current = Date.now();
-      setHoneypot("");
+    setSchoolsLoading(true);
 
-      setStep("consents");
-      setAgreeUndertaking(false);
-      setAgreePrivacy(false);
-      setWaiverScrolledBottom(false);
-    }
+    fetch("/data/cebu_schools.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Schools JSON HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => setSchools(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error("Failed to load schools:", err);
+        setSchools([]);
+      })
+      .finally(() => setSchoolsLoading(false));
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // reset modal
+    setReferenceNo(generateReferenceNo());
+    setForm(DEFAULT_FORM);
+
+    setConsentsTouched(false);
+    setSubmitAttempted(false);
+    setFieldTouched({});
+    setStatusMsg(null);
+
+    openedAtRef.current = Date.now();
+    setHoneypot("");
+
+    setStep("consents");
+    setAgreeUndertaking(false);
+    setAgreePrivacy(false);
+    setWaiverScrolledBottom(false);
+
+    // load schools
+    setSchoolsLoading(true);
+    fetch("/data/cebu_schools.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Schools JSON HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => setSchools(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error("Failed to load schools:", err);
+        setSchools([]);
+      })
+      .finally(() => setSchoolsLoading(false));
   }, [isOpen]);
 
   const isValid = useMemo(() => {
@@ -136,7 +185,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   };
 
   const onContinueFromConsents = () => {
-    setTouched(true);
+    setConsentsTouched(true);
     setStatusMsg(null);
 
     if (!agreeUndertaking || !agreePrivacy) {
@@ -149,6 +198,9 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   };
 
   const onAgreeStatement = () => {
+    // ✅ clear form validation before entering form
+    setSubmitAttempted(false);
+    setFieldTouched({});
     setStatusMsg(null);
     setStep("form");
   };
@@ -172,7 +224,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTouched(true);
+
+    // ✅ show field errors only on form step submit attempt
+    if (step === "form") setSubmitAttempted(true);
+
     setStatusMsg(null);
 
     if (step !== "form") {
@@ -196,9 +251,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     if (honeypot.trim()) {
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
-      setTouched(false);
-      setMobileBlurred(false);
-      setEmailBlurred(false);
+
+      // ✅ reset validation flags
+      setSubmitAttempted(false);
+      setFieldTouched({});
+
       setTimeout(() => onClose(), 800);
       return;
     }
@@ -229,11 +286,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
         station: (form.stationOrCity || "-").trim(),
 
         loanAmount: formatMoney(form.loanAmount),
-        termMonths: form.desiredTermMonths, // keep as-is (ex: "24 mos" or "6")
+        termMonths: form.desiredTermMonths,
         remarks: form.remarks?.trim() ? form.remarks.trim() : "-",
 
         submittedAt,
-        website: honeypot, // honeypot field (should be empty)
+        website: honeypot,
       };
 
       const resp = await fetch("/api/submit", {
@@ -254,9 +311,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
-      setTouched(false);
-      setMobileBlurred(false);
-      setEmailBlurred(false);
+
+      // ✅ reset validation flags
+      setSubmitAttempted(false);
+      setFieldTouched({});
 
       setTimeout(() => onClose(), 800);
     } catch (err: any) {
@@ -401,7 +459,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     </button>
                   </div>
 
-                  {statusMsg && (
+                  {consentsTouched && statusMsg && (
                     <div className="text-sm rounded-lg bg-white border border-gray-200 p-3 mt-3">
                       {statusMsg}
                     </div>
@@ -431,9 +489,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     </p>
                   )}
 
-                  {/* ✅ Buttons only appear once scrolled to bottom */}
                   {waiverScrolledBottom && (
-                    <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
+                    <div className="mt-4 flex flex-cols sm:flex-row gap-3 justify-end">
                       <button
                         type="button"
                         onClick={onDoNotAgree}
@@ -477,10 +534,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         onChange={(e) =>
                           update("fullName", toTitleCase(e.target.value))
                         }
-                        required
+                        onBlur={() => touchField("fullName")}
                         disabled={isSending}
                       />
-                      {touched && !form.fullName.trim() && (
+                      {showError("fullName") && !form.fullName.trim() && (
                         <p className="text-xs text-red-600 mt-1">
                           Full name is required.
                         </p>
@@ -515,11 +572,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
                             e.preventDefault();
                         }}
-                        onBlur={() => setMobileBlurred(true)}
-                        required
+                        onBlur={() => {
+                          touchField("mobileNumber");
+                        }}
                         disabled={isSending}
                       />
-                      {mobileBlurred &&
+                      {showError("mobileNumber") &&
                         form.mobileNumber.replace(/\D/g, "").length !== 11 && (
                           <p className="text-xs text-red-600 mt-1">
                             Mobile number should be 11 digits (e.g.,
@@ -540,20 +598,19 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         value={form.email}
                         onChange={(e) => update("email", e.target.value)}
                         onBlur={() => {
-                          setEmailBlurred(true);
-                          update("email", form.email.trim()); // tanggal spaces
+                          touchField("email");
+                          update("email", form.email.trim());
                         }}
-                        required
                         disabled={isSending}
                       />
 
-                      {emailBlurred && !form.email.trim() && (
+                      {showError("email") && !form.email.trim() && (
                         <p className="text-xs text-red-600 mt-1">
                           Email is required.
                         </p>
                       )}
 
-                      {emailBlurred &&
+                      {showError("email") &&
                         form.email.trim() &&
                         !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(
                           form.email.trim(),
@@ -568,21 +625,27 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                       <label className="text-sm font-medium text-gray-700">
                         School / Office <span className="text-red-500">*</span>
                       </label>
-                      <input
-                        placeholder="School / Office"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+
+                      <SearchableSelect
                         value={form.schoolOrOffice}
-                        onChange={(e) =>
-                          update("schoolOrOffice", toTitleCase(e.target.value))
+                        options={schools}
+                        placeholder={
+                          schoolsLoading
+                            ? "Loading schools..."
+                            : "Search school (or type if not listed)"
                         }
-                        required
                         disabled={isSending}
+                        onChange={(v) => update("schoolOrOffice", v)}
+                        onBlur={() => touchField("schoolOrOffice")}
+                        maxResults={12}
                       />
-                      {touched && !form.schoolOrOffice.trim() && (
-                        <p className="text-xs text-red-600 mt-1">
-                          School/Office is required.
-                        </p>
-                      )}
+
+                      {showError("schoolOrOffice") &&
+                        !form.schoolOrOffice.trim() && (
+                          <p className="text-xs text-red-600 mt-1">
+                            School/Office is required.
+                          </p>
+                        )}
                     </div>
 
                     <div>
@@ -629,10 +692,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
                             e.preventDefault();
                         }}
-                        required
+                        onBlur={() => touchField("loanAmount")}
                         disabled={isSending}
                       />
-                      {touched && !form.loanAmount.trim() && (
+                      {showError("loanAmount") && !form.loanAmount.trim() && (
                         <p className="text-xs text-red-600 mt-1">
                           Loan amount is required.
                         </p>
@@ -650,7 +713,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         onChange={(e) =>
                           update("desiredTermMonths", e.target.value)
                         }
-                        required
+                        onBlur={() => touchField("desiredTermMonths")}
                         disabled={isSending}
                       >
                         <option value="" disabled>
@@ -664,11 +727,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         <option value="48">48 mos</option>
                         <option value="60">60 mos</option>
                       </select>
-                      {touched && !form.desiredTermMonths.trim() && (
-                        <p className="text-xs text-red-600 mt-1">
-                          Term is required.
-                        </p>
-                      )}
+                      {showError("desiredTermMonths") &&
+                        !form.desiredTermMonths.trim() && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Term is required.
+                          </p>
+                        )}
                     </div>
 
                     <div className="sm:col-span-2">
@@ -703,7 +767,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                     <button
                       type="submit"
-                      disabled={isSending || !isValid}
+                      disabled={isSending}
                       className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
                     >
                       {isSending ? "Sending..." : "Submit Application"}

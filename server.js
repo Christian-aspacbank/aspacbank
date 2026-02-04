@@ -1,13 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
-/**
- * LOCAL DEV ONLY
- * Run with: npm run start:api
- * CRA dev server uses "proxy": "http://localhost:4000" in package.json
- */
+// Allow CRA dev server (ok pa rin kahit may proxy)
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 function escapeHtml(str) {
@@ -26,8 +24,11 @@ function formatNumber(value) {
 }
 
 function getLogoSrc() {
+  // Option 1: Use a public HTTPS URL (recommended)
   if (process.env.MAIL_LOGO_URL) return process.env.MAIL_LOGO_URL.trim();
 
+  // Option 2: Inline base64 (no hosting needed)
+  // Put ONLY the base64 string (no "data:image/png;base64,")
   if (process.env.MAIL_LOGO_BASE64) {
     const b64 = process.env.MAIL_LOGO_BASE64.trim();
     return `data:image/png;base64,${b64}`;
@@ -43,7 +44,7 @@ async function getAccessToken() {
 
   if (!tenantId || !clientId || !clientSecret) {
     throw new Error(
-      "Missing AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET in .env",
+      "Missing AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET in .env"
     );
   }
 
@@ -80,61 +81,98 @@ function buildHtmlEmail(payload) {
   const logoSrc = getLogoSrc();
 
   const ref = escapeHtml(payload.referenceNo || "N/A");
-  const name = escapeHtml(payload.fullName);
-  const email = escapeHtml(payload.email);
-  const mobile = escapeHtml(payload.mobile);
-  const school = escapeHtml(payload.school);
+  const name = escapeHtml(payload.fullName || "-");
+  const email = escapeHtml(payload.email || "-");
+  const mobile = escapeHtml(payload.mobile || "-");
+  const school = escapeHtml(payload.school || "-");
   const station = escapeHtml(payload.station || "-");
-  const loanAmount = escapeHtml(formatNumber(payload.loanAmount));
-  const termMonths = escapeHtml(payload.termMonths);
+  const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
+  const termMonths = escapeHtml(payload.termMonths || "-");
   const submittedAt = escapeHtml(payload.submittedAt || "-");
   const remarks = escapeHtml(payload.remarks || "-").replace(/\n/g, "<br/>");
 
   const headerLogo = logoSrc
     ? `<img src="${escapeHtml(logoSrc)}" alt="ASPAC Bank" style="height:42px; display:block;" />`
-    : `<div style="font-weight:700; font-size:16px; color:#0f5132;">ASPAC Bank, Inc.</div>`;
+    : `<div style="font-weight:800; color:#0f5132; font-size:16px;">ASPAC Bank, Inc.</div>`;
 
+  // Email-safe layout (tables + inline styles) for Outlook compatibility
   return `
-  <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#fff; padding:18px;">
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-      ${headerLogo}
-      <div style="border-left:3px solid #0f5132; padding-left:12px;">
-        <div style="font-size:20px; font-weight:800; letter-spacing:0.3px;">NEW APDS LOAN APPLICATION</div>
-        <div style="margin-top:4px; font-size:13px; color:#444;">
-          A new APDS Loan Application has been submitted. Please review the details below.
-        </div>
-      </div>
-    </div>
+  <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#ffffff; padding:18px;">
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse;">
+      <tr>
+        <td style="width:180px; vertical-align:middle;">
+          ${headerLogo}
+        </td>
+        <td style="width:12px; vertical-align:middle;">
+          <div style="border-left:3px solid #0f5132; height:34px;"></div>
+        </td>
+        <td style="vertical-align:middle;">
+          <div style="font-size:22px; font-weight:900; letter-spacing:.3px; color:#111;">
+            NEW APDS LOAN APPLICATION
+          </div>
+          <div style="font-size:13px; color:#444; margin-top:4px;">
+            A new APDS Loan Application has been submitted. Please review the details below.
+          </div>
+        </td>
+      </tr>
+    </table>
 
     <div style="height:1px; background:#d0d0d0; margin:14px 0 16px;"></div>
 
-    <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr><td style="padding:2px 0; width:170px;"><b>Reference No:</b></td><td style="padding:2px 0;">${ref}</td></tr>
-      <tr><td style="padding:2px 0;"><b>Applicant Name:</b></td><td style="padding:2px 0;">${name}</td></tr>
-      <tr><td style="padding:2px 0;"><b>Submitted At:</b></td><td style="padding:2px 0;">${submittedAt}</td></tr>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Reference No:</b></td>
+        <td style="padding:3px 0;">${ref}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Applicant Name:</b></td>
+        <td style="padding:3px 0;">${name}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Submitted At:</b></td>
+        <td style="padding:3px 0;">${submittedAt}</td>
+      </tr>
     </table>
 
-    <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Applicant Details</div>
-    <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr><td style="padding:3px 0; width:170px;"><b>Email:</b></td><td style="padding:3px 0;">${email}</td></tr>
-      <tr><td style="padding:3px 0;"><b>Mobile Number:</b></td><td style="padding:3px 0;">${mobile}</td></tr>
-      <tr><td style="padding:3px 0;"><b>School/Office:</b></td><td style="padding:3px 0;">${school}</td></tr>
-      <tr><td style="padding:3px 0;"><b>Station/City:</b></td><td style="padding:3px 0;">${station}</td></tr>
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Applicant Details</div>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Email:</b></td>
+        <td style="padding:3px 0;">${email}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Mobile Number:</b></td>
+        <td style="padding:3px 0;">${mobile}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>School/Office:</b></td>
+        <td style="padding:3px 0;">${school}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Station/City:</b></td>
+        <td style="padding:3px 0;">${station}</td>
+      </tr>
     </table>
 
-    <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Loan Request</div>
-    <table cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr><td style="padding:3px 0; width:170px;"><b>Loan Amount (PHP):</b></td><td style="padding:3px 0;">${loanAmount}</td></tr>
-      <tr><td style="padding:3px 0;"><b>Desired Term (Months):</b></td><td style="padding:3px 0;">${termMonths}</td></tr>
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Loan Request</div>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr>
+        <td style="padding:3px 0; width:170px;"><b>Loan Amount (PHP):</b></td>
+        <td style="padding:3px 0;">${loanAmount}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;"><b>Desired Term (Months):</b></td>
+        <td style="padding:3px 0;">${termMonths}</td>
+      </tr>
     </table>
 
-    <div style="margin:18px 0 10px; font-size:16px; font-weight:800;">Remarks</div>
-    <div style="font-size:14px; line-height:1.5; padding:10px 12px; border:1px solid #e5e5e5; border-radius:8px; background:#fafafa;">
+    <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Remarks</div>
+    <div style="font-size:14px; line-height:1.5; padding:12px 12px; border:1px solid #e5e5e5; border-radius:8px; background:#fafafa;">
       ${remarks}
     </div>
 
-    <div style="height:1px; background:#d0d0d0; margin:18px 0 0;"></div>
-    <div style="font-size:12px; color:#666; margin-top:10px;">
+    <div style="height:1px; background:#d0d0d0; margin:18px 0 10px;"></div>
+    <div style="font-size:12px; color:#666;">
       This is an automated notification from ASPAC Bank website form.
     </div>
   </div>
@@ -146,18 +184,18 @@ function buildTextEmail(payload) {
 NEW APDS LOAN APPLICATION
 
 Reference No: ${payload.referenceNo || "N/A"}
-Applicant Name: ${payload.fullName}
+Applicant Name: ${payload.fullName || "-"}
 Submitted At: ${payload.submittedAt || "-"}
 
 Applicant Details
-Email: ${payload.email}
-Mobile Number: ${payload.mobile}
-School/Office: ${payload.school}
+Email: ${payload.email || "-"}
+Mobile Number: ${payload.mobile || "-"}
+School/Office: ${payload.school || "-"}
 Station/City: ${payload.station || "-"}
 
 Loan Request
-Loan Amount (PHP): ${formatNumber(payload.loanAmount)}
-Desired Term (Months): ${payload.termMonths}
+Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
+Desired Term (Months): ${payload.termMonths || "-"}
 
 Remarks
 ${payload.remarks || "-"}
@@ -166,9 +204,14 @@ ${payload.remarks || "-"}
 
 app.post("/api/submit", async (req, res) => {
   try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ message: "Method not allowed" });
+    }
+
     const clean = (v) => String(v || "").trim();
     const b = req.body || {};
 
+    // Honeypot - if filled, pretend success
     if (clean(b.website)) return res.json({ ok: true });
 
     const payload = {
@@ -195,16 +238,24 @@ app.post("/api/submit", async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    const FROM = process.env.MAIL_FROM || "no-reply@aspacbank.com";
-    const TO = process.env.MAIL_TO || "wppontillas@aspacbank.com";
+    const FROM = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
+    const TO = (process.env.MAIL_TO || "wppontillas@aspacbank.com").trim();
+
+    if (!FROM || !TO) {
+      return res.status(500).json({
+        message: "Server config missing.",
+        error: "Missing MAIL_FROM or MAIL_TO env vars.",
+      });
+    }
 
     const token = await getAccessToken();
+
     const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
-      FROM,
+      FROM
     )}/sendMail`;
 
     const html = buildHtmlEmail(payload);
-    const text = buildTextEmail(payload);
+    const text = buildTextEmail(payload); // not attached, but useful for debugging if needed
 
     const sendResp = await fetch(graphUrl, {
       method: "POST",
@@ -215,15 +266,10 @@ app.post("/api/submit", async (req, res) => {
       body: JSON.stringify({
         message: {
           subject: `APDS Loan Application - ${payload.fullName}`,
-          body: { contentType: "HTML", content: html },
-          attachments: [
-            {
-              "@odata.type": "#microsoft.graph.fileAttachment",
-              name: "application.txt",
-              contentType: "text/plain",
-              contentBytes: Buffer.from(text, "utf8").toString("base64"),
-            },
-          ],
+          body: {
+            contentType: "HTML",
+            content: html,
+          },
           toRecipients: [{ emailAddress: { address: TO } }],
           replyTo: [{ emailAddress: { address: payload.email } }],
         },
@@ -233,13 +279,15 @@ app.post("/api/submit", async (req, res) => {
 
     if (!sendResp.ok) {
       const errText = await sendResp.text();
+      console.error("Graph sendMail failed:", errText);
       return res
         .status(500)
-        .json({ message: "Graph sendMail failed", error: errText });
+        .json({ message: "Graph sendMail failed", error: errText, fallback: text });
     }
 
     return res.json({ ok: true });
   } catch (e) {
+    console.error("submit error:", e);
     return res.status(500).json({
       message: "Server error",
       error: String(e?.message || e),
