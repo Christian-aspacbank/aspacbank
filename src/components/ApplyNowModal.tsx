@@ -8,7 +8,8 @@ type ApplyFormState = {
   mobileNumber: string;
   email: string;
   schoolOrOffice: string;
-  stationOrCity: string;
+  stationOrDivision: string;
+
   loanAmount: string;
   desiredTermMonths: string;
   remarks: string;
@@ -19,7 +20,8 @@ const DEFAULT_FORM: ApplyFormState = {
   mobileNumber: "",
   email: "",
   schoolOrOffice: "",
-  stationOrCity: "",
+  stationOrDivision: "",
+
   loanAmount: "",
   desiredTermMonths: "",
   remarks: "",
@@ -295,7 +297,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       fd.append("email", form.email.trim());
       fd.append("mobile", form.mobileNumber.trim());
       fd.append("school", form.schoolOrOffice.trim());
-      fd.append("station", (form.stationOrCity || "-").trim());
+      fd.append("division", (form.stationOrDivision || "-").trim());
+
       fd.append("loanAmount", formatMoney(form.loanAmount));
       fd.append("termMonths", form.desiredTermMonths);
       fd.append("remarks", form.remarks?.trim() ? form.remarks.trim() : "-");
@@ -664,11 +667,14 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         Station / Division
                       </label>
                       <input
-                        placeholder="Station"
+                        placeholder="Station / Division"
                         className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.stationOrCity}
+                        value={form.stationOrDivision}
                         onChange={(e) =>
-                          update("stationOrCity", toTitleCase(e.target.value))
+                          update(
+                            "stationOrDivision",
+                            toTitleCase(e.target.value),
+                          )
                         }
                         disabled={isSending}
                       />

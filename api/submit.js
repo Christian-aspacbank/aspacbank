@@ -58,14 +58,15 @@ async function getAccessToken() {
 
 function buildHtmlEmail(payload, attachmentMeta) {
   // (logoSrc kept in case you want to reuse later, but header no longer shows ASPAC Bank Inc.)
-  const logoSrc = getLogoSrc();
+ 
 
   const ref = escapeHtml(payload.referenceNo || "N/A");
   const name = escapeHtml(payload.fullName || "-");
   const email = escapeHtml(payload.email || "-");
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
-  const station = escapeHtml(payload.station || "-");
+  const division = escapeHtml(payload.division || "-");
+
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
   const termMonths = escapeHtml(payload.termMonths || "-");
   const submittedAt = escapeHtml(payload.submittedAt || "-");
@@ -133,8 +134,10 @@ function buildHtmlEmail(payload, attachmentMeta) {
         <td style="padding:3px 0;">${school}</td>
       </tr>
       <tr>
-        <td style="padding:3px 0;"><b>Station/City:</b></td>
-        <td style="padding:3px 0;">${station}</td>
+       <td style="padding:3px 0;"><b>Station/Division:</b></td>
+<td style="padding:3px 0;">${division}</td>
+
+
       </tr>
     </table>
 
@@ -177,7 +180,8 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station/City: ${payload.station || "-"}
+Station/Division: ${payload.division || "-"}
+
 
 Loan Request
 Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
@@ -194,7 +198,11 @@ const handler = async (req, res) => {
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const clean = (v) => String(v || "").trim();
+    const clean = (v) => {
+  const val = Array.isArray(v) ? v[0] : v;
+  return String(val || "").trim();
+};
+
 
     // ✅ Parse multipart/form-data (FormData)
     const { fields, files } = await new Promise((resolve, reject) => {
@@ -216,7 +224,8 @@ const handler = async (req, res) => {
       email: clean(fields.email),
       mobile: clean(fields.mobile),
       school: clean(fields.school),
-      station: clean(fields.station),
+      division: clean(fields.division),
+
       loanAmount: clean(fields.loanAmount),
       termMonths: clean(fields.termMonths),
       remarks: clean(fields.remarks),
