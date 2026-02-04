@@ -25,6 +25,10 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const [open, setOpen] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState<number>(-1);
 
+  // Stable ids (React 18+)
+  const listboxId = React.useId();
+  const optionId = (idx: number) => `${listboxId}-opt-${idx}`;
+
   const filtered = React.useMemo(() => {
     const q = value.trim().toLowerCase();
     if (!q) return options.slice(0, maxResults);
@@ -108,12 +112,20 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             }
           }
         }}
+        // ✅ Fix: use combobox semantics
+        role="combobox"
         aria-autocomplete="list"
         aria-expanded={open}
+        aria-controls={listboxId}
+        aria-haspopup="listbox"
+        aria-activedescendant={
+          open && activeIndex >= 0 ? optionId(activeIndex) : undefined
+        }
       />
 
       {open && (
         <div
+          id={listboxId}
           ref={listRef}
           className="absolute z-50 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg max-h-56 overflow-auto"
           role="listbox"
@@ -128,6 +140,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
               return (
                 <div
                   key={opt}
+                  id={optionId(idx)}
                   data-idx={idx}
                   role="option"
                   aria-selected={active}
