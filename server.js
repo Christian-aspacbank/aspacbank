@@ -1,11 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
 
 const app = express();
 
 // Allow CRA dev server (ok pa rin kahit may proxy)
 app.use(cors({ origin: "http://localhost:3000" }));
+
+// ✅ Multer for multipart/form-data (attachments)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+});
+
+// Keep JSON parser (multer handles multipart per-route)
 app.use(express.json());
 
 function escapeHtml(str) {
@@ -92,7 +101,9 @@ function buildHtmlEmail(payload) {
   const remarks = escapeHtml(payload.remarks || "-").replace(/\n/g, "<br/>");
 
   const headerLogo = logoSrc
-    ? `<img src="${escapeHtml(logoSrc)}" alt="ASPAC Bank" style="height:42px; display:block;" />`
+    ? `<img src="${escapeHtml(
+        logoSrc
+      )}" alt="ASPAC Bank" style="height:42px; display:block;" />`
     : `<div style="font-weight:800; color:#0f5132; font-size:16px;">ASPAC Bank, Inc.</div>`;
 
   // Email-safe layout (tables + inline styles) for Outlook compatibility
@@ -202,12 +213,8 @@ ${payload.remarks || "-"}
 `.trim();
 }
 
-app.post("/api/submit", async (req, res) => {
+app.post("/api/submit", upload.single("attachment"), async (req, res) => {
   try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method not allowed" });
-    }
-
     const clean = (v) => String(v || "").trim();
     const b = req.body || {};
 
@@ -238,6 +245,26 @@ app.post("/api/submit", async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
+    // ✅ optional attachment
+    let graphAttachments = [];
+    if (req.file) {
+      const allowed = ["application/pdf", "image/jpeg", "image/png"];
+      if (!allowed.includes(req.file.mimetype)) {
+        return res.status(400).json({
+          message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
+        });
+      }
+
+      graphAttachments = [
+        {
+          "@odata.type": "#microsoft.graph.fileAttachment",
+          name: req.file.originalname || "attachment",
+          contentType: req.file.mimetype,
+          contentBytes: req.file.buffer.toString("base64"),
+        },
+      ];
+    }
+
     const FROM = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
     const TO = (process.env.MAIL_TO || "wppontillas@aspacbank.com").trim();
 
@@ -255,7 +282,7 @@ app.post("/api/submit", async (req, res) => {
     )}/sendMail`;
 
     const html = buildHtmlEmail(payload);
-    const text = buildTextEmail(payload); // not attached, but useful for debugging if needed
+    const text = buildTextEmail(payload);
 
     const sendResp = await fetch(graphUrl, {
       method: "POST",
@@ -272,6 +299,8 @@ app.post("/api/submit", async (req, res) => {
           },
           toRecipients: [{ emailAddress: { address: TO } }],
           replyTo: [{ emailAddress: { address: payload.email } }],
+
+          ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
         },
         saveToSentItems: false,
       }),
@@ -280,9 +309,11 @@ app.post("/api/submit", async (req, res) => {
     if (!sendResp.ok) {
       const errText = await sendResp.text();
       console.error("Graph sendMail failed:", errText);
-      return res
-        .status(500)
-        .json({ message: "Graph sendMail failed", error: errText, fallback: text });
+      return res.status(500).json({
+        message: "Graph sendMail failed",
+        error: errText,
+        fallback: text,
+      });
     }
 
     return res.json({ ok: true });

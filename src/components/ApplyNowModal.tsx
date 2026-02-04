@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchableSelect from "./SearchableSelect";
+import AttachmentField, { AttachmentValue } from "./AttachmentField";
 
 type ApplyFormState = {
   fullName: string;
@@ -76,6 +77,12 @@ It is agreed and understood that unless and until the Bank is in receipt of a wr
 const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [form, setForm] = useState<ApplyFormState>(DEFAULT_FORM);
 
+  // ✅ attachment state (MUST be inside component)
+  const [attachment, setAttachment] = useState<AttachmentValue>({
+    file: null,
+    error: null,
+  });
+
   // ✅ validation flags
   const [consentsTouched, setConsentsTouched] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
@@ -131,6 +138,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     // reset modal
     setReferenceNo(generateReferenceNo());
     setForm(DEFAULT_FORM);
+    setAttachment({ file: null, error: null });
 
     setConsentsTouched(false);
     setSubmitAttempted(false);
@@ -177,8 +185,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
     if (!form.desiredTermMonths.trim()) return false;
 
+    // attachment is optional, but if present must be valid
+    if (attachment.error) return false;
+
     return true;
-  }, [form]);
+  }, [form, attachment.error]);
 
   const update = <K extends keyof ApplyFormState>(key: K, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -251,6 +262,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     if (honeypot.trim()) {
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
+      setAttachment({ file: null, error: null });
 
       // ✅ reset validation flags
       setSubmitAttempted(false);
@@ -276,27 +288,28 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     setIsSending(true);
 
     try {
-      const payload = {
-        referenceNo,
+      const fd = new FormData();
 
-        fullName: form.fullName.trim(),
-        email: form.email.trim(),
-        mobile: form.mobileNumber.trim(),
-        school: form.schoolOrOffice.trim(),
-        station: (form.stationOrCity || "-").trim(),
+      fd.append("referenceNo", referenceNo);
+      fd.append("fullName", form.fullName.trim());
+      fd.append("email", form.email.trim());
+      fd.append("mobile", form.mobileNumber.trim());
+      fd.append("school", form.schoolOrOffice.trim());
+      fd.append("station", (form.stationOrCity || "-").trim());
+      fd.append("loanAmount", formatMoney(form.loanAmount));
+      fd.append("termMonths", form.desiredTermMonths);
+      fd.append("remarks", form.remarks?.trim() ? form.remarks.trim() : "-");
+      fd.append("submittedAt", submittedAt);
+      fd.append("website", honeypot);
 
-        loanAmount: formatMoney(form.loanAmount),
-        termMonths: form.desiredTermMonths,
-        remarks: form.remarks?.trim() ? form.remarks.trim() : "-",
-
-        submittedAt,
-        website: honeypot,
-      };
+      // ✅ attachment (optional)
+      if (attachment.file) {
+        fd.append("attachment", attachment.file, attachment.file.name);
+      }
 
       const resp = await fetch("/api/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: fd, // ✅ multipart/form-data
       });
 
       const data = await resp.json().catch(() => ({}));
@@ -311,6 +324,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
+      setAttachment({ file: null, error: null });
 
       // ✅ reset validation flags
       setSubmitAttempted(false);
@@ -519,7 +533,6 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* STEP 2 */}
               {step === "form" && (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -572,9 +585,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
                             e.preventDefault();
                         }}
-                        onBlur={() => {
-                          touchField("mobileNumber");
-                        }}
+                        onBlur={() => touchField("mobileNumber")}
                         disabled={isSending}
                       />
                       {showError("mobileNumber") &&
@@ -733,6 +744,18 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                             Term is required.
                           </p>
                         )}
+                    </div>
+
+                    {/* ✅ Attachment (optional) */}
+                    <div className="sm:col-span-2">
+                      <AttachmentField
+                        value={attachment}
+                        onChange={setAttachment}
+                        disabled={isSending}
+                        label="Proof of Income "
+                        required={false}
+                        maxSizeMB={5}
+                      />
                     </div>
 
                     <div className="sm:col-span-2">
