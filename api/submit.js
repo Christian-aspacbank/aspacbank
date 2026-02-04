@@ -1,8 +1,8 @@
 // /api/submit.js
-const formidable = require("formidable");
+const { IncomingForm } = require("formidable");
 const fs = require("fs");
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   try {
     if (req.method !== "POST") {
       return res.status(405).json({ message: "Method not allowed" });
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
     // ✅ Parse multipart/form-data (FormData)
     const { fields, files } = await new Promise((resolve, reject) => {
-      const form = formidable({
+      const form = new IncomingForm({
         multiples: false,
         maxFileSize: 5 * 1024 * 1024, // 5MB
         keepExtensions: true,
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
 
     // ✅ Optional attachment
     let graphAttachments = [];
-    const file = files.attachment; // name must match fd.append("attachment", ...)
+    const file = files.attachment; // must match fd.append("attachment", ...)
 
     if (file) {
       const f = Array.isArray(file) ? file[0] : file;
@@ -105,8 +105,9 @@ module.exports = async (req, res) => {
       });
 
       const data = await resp.json().catch(() => ({}));
-      if (!resp.ok)
+      if (!resp.ok) {
         throw new Error(data?.error_description || "Failed to get token");
+      }
 
       return data.access_token;
     }
@@ -172,4 +173,13 @@ ${payload.remarks || "-"}
       error: String(err?.message || err),
     });
   }
+};
+
+module.exports = handler;
+
+// ✅ IMPORTANT: must be AFTER module.exports = handler
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
 };
