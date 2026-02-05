@@ -22,6 +22,13 @@ type DocOption = {
 // Build the options list here so adding new periods is trivial
 const DOC_OPTIONS: DocOption[] = [
   {
+    label: "December 31, 2025 (Q4)",
+    asOf: "2025-12-31",
+    pages: [
+      fileUrl("balancesheet-12-31-2025_1.jpg"),
+    ],
+  },
+  {
     label: "September 30, 2025 (Q3)",
     asOf: "2025-09-30",
     pages: [
