@@ -250,7 +250,7 @@ const WelcomePage: React.FC = () => {
                     onClick={() => setShowModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
-                    Apply for Teachers’ Loan
+                    Inquire Now
                   </button>
 
                   <button

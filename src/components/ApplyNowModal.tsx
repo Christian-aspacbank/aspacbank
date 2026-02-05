@@ -386,7 +386,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-green-900">
-                  Apply Now
+                  Connect with ARBI Now!
                 </h2>
 
                 <p className="text-xs text-gray-500 mt-1">
@@ -406,7 +406,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                 className="text-gray-500 hover:text-gray-800 disabled:opacity-50"
                 onClick={onClose}
                 disabled={isSending}
-                aria-label="Close Apply Now form"
+                aria-label="Close Inquire Now form"
               >
                 ✕
               </button>
