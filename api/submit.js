@@ -16,6 +16,7 @@ const formatNumber = (value) => {
   return n.toLocaleString("en-US");
 };
 
+// Kept (in case you use later)
 const getLogoSrc = () => {
   if (process.env.MAIL_LOGO_URL) return process.env.MAIL_LOGO_URL.trim();
   if (process.env.MAIL_LOGO_BASE64) {
@@ -57,9 +58,6 @@ async function getAccessToken() {
 }
 
 function buildHtmlEmail(payload, attachmentMeta) {
-  // (logoSrc kept in case you want to reuse later, but header no longer shows ASPAC Bank Inc.)
- 
-
   const ref = escapeHtml(payload.referenceNo || "N/A");
   const name = escapeHtml(payload.fullName || "-");
   const email = escapeHtml(payload.email || "-");
@@ -92,7 +90,6 @@ function buildHtmlEmail(payload, attachmentMeta) {
     `
     : "";
 
-  // ✅ Updated header: removed ASPAC Bank, Inc. block + divider
   return `
   <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#ffffff; padding:18px;">
     <div style="font-size:26px; font-weight:900; letter-spacing:.3px; color:#111; margin:2px 0 4px;">
@@ -134,10 +131,8 @@ function buildHtmlEmail(payload, attachmentMeta) {
         <td style="padding:3px 0;">${school}</td>
       </tr>
       <tr>
-       <td style="padding:3px 0;"><b>Station/Division:</b></td>
-<td style="padding:3px 0;">${division}</td>
-
-
+        <td style="padding:3px 0;"><b>Station/Division:</b></td>
+        <td style="padding:3px 0;">${division}</td>
       </tr>
     </table>
 
@@ -182,7 +177,6 @@ Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
 Station/Division: ${payload.division || "-"}
 
-
 Loan Request
 Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
 Desired Term (Months): ${payload.termMonths || "-"}
@@ -199,12 +193,10 @@ const handler = async (req, res) => {
     }
 
     const clean = (v) => {
-  const val = Array.isArray(v) ? v[0] : v;
-  return String(val || "").trim();
-};
+      const val = Array.isArray(v) ? v[0] : v;
+      return String(val || "").trim();
+    };
 
-
-    // ✅ Parse multipart/form-data (FormData)
     const { fields, files } = await new Promise((resolve, reject) => {
       const form = new IncomingForm({
         multiples: false,
@@ -225,7 +217,6 @@ const handler = async (req, res) => {
       mobile: clean(fields.mobile),
       school: clean(fields.school),
       division: clean(fields.division),
-
       loanAmount: clean(fields.loanAmount),
       termMonths: clean(fields.termMonths),
       remarks: clean(fields.remarks),
@@ -247,82 +238,126 @@ const handler = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    // ✅ Optional attachment
-    let graphAttachments = [];
-    let attachmentMeta = null;
-
+    // ✅ REQUIRED attachment
     const file = files.attachment; // must match fd.append("attachment", ...)
 
-    if (file) {
-      const f = Array.isArray(file) ? file[0] : file;
-
-      const allowed = ["application/pdf", "image/jpeg", "image/png"];
-      if (!allowed.includes(f.mimetype)) {
-        return res.status(400).json({
-          message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
-        });
-      }
-
-      const buffer = fs.readFileSync(f.filepath);
-
-      const bytes = Number(f.size || buffer.length || 0);
-      const sizeLabel =
-        bytes >= 1024 * 1024
-          ? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
-          : `${Math.max(1, Math.round(bytes / 1024))} KB`;
-
-      attachmentMeta = {
-        name: f.originalFilename || "attachment",
-        type: f.mimetype,
-        size: sizeLabel,
-      };
-
-      graphAttachments = [
-        {
-          "@odata.type": "#microsoft.graph.fileAttachment",
-          name: attachmentMeta.name,
-          contentType: attachmentMeta.type,
-          contentBytes: buffer.toString("base64"),
-        },
-      ];
+    if (!file) {
+      return res.status(400).json({
+        message: "Attachment is required. Please attach a PDF/JPG/PNG file.",
+      });
     }
 
+    const f = Array.isArray(file) ? file[0] : file;
+
+    const allowed = ["application/pdf", "image/jpeg", "image/png"];
+    if (!allowed.includes(f.mimetype)) {
+      return res.status(400).json({
+        message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
+      });
+    }
+
+    const buffer = fs.readFileSync(f.filepath);
+
+    const bytes = Number(f.size || buffer.length || 0);
+    const sizeLabel =
+      bytes >= 1024 * 1024
+        ? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+        : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+    const attachmentMeta = {
+      name: f.originalFilename || "attachment",
+      type: f.mimetype,
+      size: sizeLabel,
+    };
+
+    const graphAttachments = [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        name: attachmentMeta.name,
+        contentType: attachmentMeta.type,
+        contentBytes: buffer.toString("base64"),
+      },
+    ];
+
     const from = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
-    const to = (process.env.MAIL_TO || "wppontillas@aspacbank.com").trim();
+    const to = (process.env.MAIL_TO || "dzpo@aspacbank.com").trim();
 
     const accessToken = await getAccessToken();
-
-    const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
-      from
-    )}/sendMail`;
 
     const html = buildHtmlEmail(payload, attachmentMeta);
     const text = buildTextEmail(payload);
 
-    const sendResp = await fetch(graphUrl, {
+    // ✅ DEBUG LOGS
+    console.log("MAIL_FROM:", from);
+    console.log("MAIL_TO:", to);
+
+    // ✅ Step 1: Create message IN Sent Items (guaranteed entry)
+    const createUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+      from
+    )}/mailFolders('SentItems')/messages`;
+
+    console.log("CREATE URL:", createUrl);
+
+    const createResp = await fetch(createUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: {
-          subject: `APDS Loan Application - ${payload.fullName}`,
-          body: { contentType: "HTML", content: html },
-          toRecipients: [{ emailAddress: { address: to } }],
-          replyTo: [{ emailAddress: { address: payload.email } }],
-          ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
-        },
-        saveToSentItems: false,
+        subject: `APDS Loan Application - ${payload.fullName}`,
+        body: { contentType: "HTML", content: html },
+        toRecipients: [{ emailAddress: { address: to } }],
+        replyTo: [{ emailAddress: { address: payload.email } }],
+        ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
       }),
     });
 
-    if (!sendResp.ok) {
-      const errText = await sendResp.text();
-      console.error("Graph sendMail failed:", errText);
+    console.log("CREATE STATUS:", createResp.status);
+
+    if (!createResp.ok) {
+      const errText = await createResp.text();
+      console.error("Create message failed:", errText);
       return res.status(500).json({
         message: "Submission failed.",
-        error: `Graph sendMail failed: ${errText}`,
+        error: `Create message failed: ${errText}`,
+        fallback: text,
+      });
+    }
+
+    const created = await createResp.json();
+    const messageId = created?.id;
+
+    if (!messageId) {
+      return res.status(500).json({
+        message: "Submission failed.",
+        error: "No message id returned from create message.",
+        fallback: text,
+      });
+    }
+
+    // ✅ Step 2: Send the created message
+    const sendUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+      from
+    )}/messages/${encodeURIComponent(messageId)}/send`;
+
+    console.log("SEND URL:", sendUrl);
+
+    const sendResp = await fetch(sendUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log("SEND STATUS:", sendResp.status);
+
+    if (!sendResp.ok) {
+      const errText = await sendResp.text();
+      console.error("Send message failed:", errText);
+      return res.status(500).json({
+        message: "Submission failed.",
+        error: `Send message failed: ${errText}`,
         fallback: text,
       });
     }
@@ -339,7 +374,6 @@ const handler = async (req, res) => {
 
 module.exports = handler;
 
-// ✅ IMPORTANT: must be AFTER module.exports = handler
 module.exports.config = {
   api: {
     bodyParser: false,

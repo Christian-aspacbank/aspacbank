@@ -100,33 +100,18 @@ function buildHtmlEmail(payload) {
   const submittedAt = escapeHtml(payload.submittedAt || "-");
   const remarks = escapeHtml(payload.remarks || "-").replace(/\n/g, "<br/>");
 
-  const headerLogo = logoSrc
-    ? `<img src="${escapeHtml(
-        logoSrc
-      )}" alt="ASPAC Bank" style="height:42px; display:block;" />`
-    : `<div style="font-weight:800; color:#0f5132; font-size:16px;">ASPAC Bank, Inc.</div>`;
+  const headerLogo = "";
 
   // Email-safe layout (tables + inline styles) for Outlook compatibility
-  return `
+ // Email-safe layout (inline styles) for Outlook compatibility
+return `
   <div style="font-family: Arial, Helvetica, sans-serif; color:#111; background:#ffffff; padding:18px;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse;">
-      <tr>
-        <td style="width:180px; vertical-align:middle;">
-          ${headerLogo}
-        </td>
-        <td style="width:12px; vertical-align:middle;">
-          <div style="border-left:3px solid #0f5132; height:34px;"></div>
-        </td>
-        <td style="vertical-align:middle;">
-          <div style="font-size:22px; font-weight:900; letter-spacing:.3px; color:#111;">
-            NEW APDS LOAN APPLICATION
-          </div>
-          <div style="font-size:13px; color:#444; margin-top:4px;">
-            A new APDS Loan Application has been submitted. Please review the details below.
-          </div>
-        </td>
-      </tr>
-    </table>
+    <div style="font-size:22px; font-weight:900; letter-spacing:.3px; color:#111;">
+      NEW APDS LOAN APPLICATION
+    </div>
+    <div style="font-size:13px; color:#444; margin-top:4px;">
+      A new APDS Loan Application has been submitted. Please review the details below.
+    </div>
 
     <div style="height:1px; background:#d0d0d0; margin:14px 0 16px;"></div>
 
@@ -187,7 +172,8 @@ function buildHtmlEmail(payload) {
       This is an automated notification from ASPAC Bank website form.
     </div>
   </div>
-  `.trim();
+`.trim();
+
 }
 
 function buildTextEmail(payload) {
@@ -266,7 +252,7 @@ app.post("/api/submit", upload.single("attachment"), async (req, res) => {
     }
 
     const FROM = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
-    const TO = (process.env.MAIL_TO || "wppontillas@aspacbank.com").trim();
+    const TO = (process.env.MAIL_TO || "dzpo@aspacbank.com").trim();
 
     if (!FROM || !TO) {
       return res.status(500).json({
@@ -277,40 +263,74 @@ app.post("/api/submit", upload.single("attachment"), async (req, res) => {
 
     const token = await getAccessToken();
 
-    const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
-      FROM
-    )}/sendMail`;
-
     const html = buildHtmlEmail(payload);
     const text = buildTextEmail(payload);
 
-    const sendResp = await fetch(graphUrl, {
+    console.log("MAIL_FROM:", FROM);
+    console.log("MAIL_TO:", TO);
+
+    // ✅ Step 1: Create message IN Sent Items (guaranteed entry)
+    const createUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+      FROM
+    )}/mailFolders('SentItems')/messages`;
+
+    const createResp = await fetch(createUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: {
-          subject: `APDS Loan Application - ${payload.fullName}`,
-          body: {
-            contentType: "HTML",
-            content: html,
-          },
-          toRecipients: [{ emailAddress: { address: TO } }],
-          replyTo: [{ emailAddress: { address: payload.email } }],
-
-          ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
-        },
-        saveToSentItems: false,
+        subject: `APDS Loan Application - ${payload.fullName}`,
+        body: { contentType: "HTML", content: html },
+        toRecipients: [{ emailAddress: { address: TO } }],
+        replyTo: [{ emailAddress: { address: payload.email } }],
+        ...(graphAttachments.length ? { attachments: graphAttachments } : {}),
       }),
     });
 
+    console.log("CREATE STATUS:", createResp.status);
+
+    if (!createResp.ok) {
+      const errText = await createResp.text();
+      console.error("Create message failed:", errText);
+      return res.status(500).json({
+        message: "Create message failed",
+        error: errText,
+        fallback: text,
+      });
+    }
+
+    const created = await createResp.json();
+    const messageId = created?.id;
+
+    if (!messageId) {
+      return res.status(500).json({
+        message: "Create message failed",
+        error: "No message id returned from create message.",
+        fallback: text,
+      });
+    }
+
+    // ✅ Step 2: Send the created message
+    const sendUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+      FROM
+    )}/messages/${encodeURIComponent(messageId)}/send`;
+
+    const sendResp = await fetch(sendUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("SEND STATUS:", sendResp.status);
+
     if (!sendResp.ok) {
       const errText = await sendResp.text();
-      console.error("Graph sendMail failed:", errText);
+      console.error("Send message failed:", errText);
       return res.status(500).json({
-        message: "Graph sendMail failed",
+        message: "Send message failed",
         error: errText,
         fallback: text,
       });

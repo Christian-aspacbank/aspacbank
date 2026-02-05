@@ -331,7 +331,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
         fd.append("attachment", attachment.file!, attachment.file!.name);
       }
 
-      const resp = await fetch("/api/submit", {
+      const API_BASE =
+        process.env.NODE_ENV === "development" ? "http://localhost:4000" : "";
+
+      const resp = await fetch(`${API_BASE}/api/submit`, {
         method: "POST",
         body: fd, // ✅ multipart/form-data
       });
@@ -779,7 +782,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         value={attachment}
                         onChange={setAttachment}
                         disabled={isSending}
-                        label="Proof of Income / Supporting Document"
+                        label="Latest Payslip"
                         required={true}
                         maxSizeMB={5}
                       />
