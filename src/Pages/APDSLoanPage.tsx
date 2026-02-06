@@ -169,15 +169,7 @@ const APDSLoanPage: React.FC = () => {
               onClick={() => setIsApplyNowOpen(true)} // ✅ open ApplyNowModal
               aria-label="Apply for APDS Loan"
             >
-              Apply Now
-            </button>
-
-            <button
-              className="w-full sm:w-auto bg-white text-green-900 font-semibold py-3 px-6 md:px-8 rounded-full shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-300"
-              onClick={() => setIsContactModalOpen(true)}
-              aria-label="Call ASPAC now"
-            >
-              Call Now
+              Inquire Now
             </button>
           </div>
         </div>
