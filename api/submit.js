@@ -63,8 +63,8 @@ function buildHtmlEmail(payload, attachmentMeta) {
   const email = escapeHtml(payload.email || "-");
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
- const station = escapeHtml(payload.station || "-");
-const division = escapeHtml(payload.division || "-");
+ const division = escapeHtml(payload.division || "-");
+const station = escapeHtml(payload.station || "-"); // ✅ NEW
 
 
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
@@ -132,10 +132,15 @@ const division = escapeHtml(payload.division || "-");
         <td style="padding:3px 0;"><b>School/Office:</b></td>
         <td style="padding:3px 0;">${school}</td>
       </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>Station/Division:</b></td>
-        <td style="padding:3px 0;">${division}</td>
-      </tr>
+     <tr>
+  <td style="padding:3px 0;"><b>Division:</b></td>
+  <td style="padding:3px 0;">${division}</td>
+</tr>
+<tr>
+  <td style="padding:3px 0;"><b>Station:</b></td>
+  <td style="padding:3px 0;">${station}</td>
+</tr>
+
     </table>
 
     <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Loan Request</div>
@@ -177,8 +182,8 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station: ${payload.station || "-"}
 Division: ${payload.division || "-"}
+Station: ${payload.station || "-"}
 
 
 Loan Request
@@ -221,8 +226,8 @@ const handler = async (req, res) => {
   mobile: clean(fields.mobile),
   school: clean(fields.school),
 
-  station: clean(fields.station),
   division: clean(fields.division),
+  station: clean(fields.station), // ✅ NEW
 
   loanAmount: clean(fields.loanAmount),
   termMonths: clean(fields.termMonths),
@@ -230,7 +235,9 @@ const handler = async (req, res) => {
   submittedAt: clean(fields.submittedAt),
   website: clean(fields.website),
 };
-
+// ✅ normalize BEFORE validations
+payload.email = payload.email.toLowerCase();
+payload.mobile = payload.mobile.replace(/\D/g, "");
 
     // Honeypot hit: pretend success
     if (payload.website) return res.status(200).json({ ok: true });
@@ -240,8 +247,8 @@ const handler = async (req, res) => {
   !payload.email ||
   !payload.mobile ||
   !payload.school ||
-  !payload.station ||
-  !payload.division ||
+  !payload.division || // ✅ required
+  !payload.station ||  // ✅ required
   !payload.loanAmount ||
   !payload.termMonths
 ) {
@@ -249,19 +256,22 @@ const handler = async (req, res) => {
 }
 
     // ✅ REQUIRED attachment
-if (!req.file) {
-  return res.status(400).json({
-    message: "Attachment is required. Please attach a PDF/JPG/PNG file.",
-  });
-}
+    const file = files.attachment; // must match fd.append("attachment", ...)
 
-const allowed = ["application/pdf", "image/jpeg", "image/png"];
-if (!allowed.includes(req.file.mimetype)) {
-  return res.status(400).json({
-    message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
-  });
-}
+    if (!file) {
+      return res.status(400).json({
+        message: "Attachment is required. Please attach a PDF/JPG/PNG file.",
+      });
+    }
 
+    const f = Array.isArray(file) ? file[0] : file;
+
+    const allowed = ["application/pdf", "image/jpeg", "image/png"];
+    if (!allowed.includes(f.mimetype)) {
+      return res.status(400).json({
+        message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
+      });
+    }
 
     const buffer = fs.readFileSync(f.filepath);
 
@@ -278,13 +288,14 @@ if (!allowed.includes(req.file.mimetype)) {
     };
 
     const graphAttachments = [
-  {
-    "@odata.type": "#microsoft.graph.fileAttachment",
-    name: req.file.originalname || "attachment",
-    contentType: req.file.mimetype,
-    contentBytes: req.file.buffer.toString("base64"),
-  },
-];
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        name: attachmentMeta.name,
+        contentType: attachmentMeta.type,
+        contentBytes: buffer.toString("base64"),
+      },
+    ];
+
     const from = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
     const to = (process.env.MAIL_TO || "dzpo@aspacbank.com").trim();
 

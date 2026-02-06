@@ -94,8 +94,9 @@ function buildHtmlEmail(payload) {
   const email = escapeHtml(payload.email || "-");
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
-  const station = escapeHtml(payload.station || "-");
-  const division = escapeHtml(payload.division || "-");
+ const division = escapeHtml(payload.division || "-");
+const station = escapeHtml(payload.station || "-");
+
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
   const termMonths = escapeHtml(payload.termMonths || "-");
   const submittedAt = escapeHtml(payload.submittedAt || "-");
@@ -146,12 +147,12 @@ return `
         <td style="padding:3px 0;">${school}</td>
       </tr>
       <tr>
-  <td style="padding:3px 0;"><b>Station:</b></td>
-  <td style="padding:3px 0;">${station}</td>
-</tr>
-<tr>
   <td style="padding:3px 0;"><b>Division:</b></td>
   <td style="padding:3px 0;">${division}</td>
+</tr>
+<tr>
+  <td style="padding:3px 0;"><b>Station:</b></td>
+  <td style="padding:3px 0;">${station}</td>
 </tr>
 
     </table>
@@ -194,8 +195,8 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station: ${payload.station || "-"}
 Division: ${payload.division || "-"}
+Station: ${payload.station || "-"}
 
 
 Loan Request
@@ -216,32 +217,41 @@ app.post("/api/submit", upload.single("attachment"), async (req, res) => {
     if (clean(b.website)) return res.json({ ok: true });
 
     const payload = {
-      referenceNo: clean(b.referenceNo),
-      fullName: clean(b.fullName),
-      email: clean(b.email),
-      mobile: clean(b.mobile),
-      school: clean(b.school),
-      station: clean(b.station),
-division: clean(b.division),
+  referenceNo: clean(b.referenceNo),
+  fullName: clean(b.fullName),
+  email: clean(b.email),
+  mobile: clean(b.mobile),
+  school: clean(b.school),
 
-      loanAmount: clean(b.loanAmount),
-      termMonths: clean(b.termMonths),
-      remarks: clean(b.remarks),
-      submittedAt: clean(b.submittedAt),
-    };
+  division: clean(b.division), // ✅ NEW
+  station: clean(b.station),   // ✅ existing (keep)
+
+  loanAmount: clean(b.loanAmount),
+  termMonths: clean(b.termMonths),
+  remarks: clean(b.remarks),
+  submittedAt: clean(b.submittedAt),
+};
+
+// ✅ normalize BEFORE validations
+payload.email = payload.email.toLowerCase();
+payload.mobile = payload.mobile.replace(/\D/g, "");
+
 
     if (
-      !payload.fullName ||
-      !payload.email ||
-      !payload.mobile ||
-      !payload.school ||
-      !payload.loanAmount ||
-      !payload.termMonths
-    ) {
-      return res.status(400).json({ message: "Missing required fields." });
-    }
+  !payload.fullName ||
+  !payload.email ||
+  payload.mobile.length !== 11 || // ✅ enforce 11 digits
+  !payload.school ||
+  !payload.division ||            // ✅ required
+  !payload.station ||             // ✅ required
+  !payload.loanAmount ||
+  !payload.termMonths
+) {
+  return res.status(400).json({ message: "Missing/invalid required fields." });
+}
 
-   
+
+    // ✅ optional attachment
     let graphAttachments = [];
     if (req.file) {
       const allowed = ["application/pdf", "image/jpeg", "image/png"];
