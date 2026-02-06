@@ -63,7 +63,9 @@ function buildHtmlEmail(payload, attachmentMeta) {
   const email = escapeHtml(payload.email || "-");
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
-  const division = escapeHtml(payload.division || "-");
+ const station = escapeHtml(payload.station || "-");
+const division = escapeHtml(payload.division || "-");
+
 
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
   const termMonths = escapeHtml(payload.termMonths || "-");
@@ -175,7 +177,9 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station/Division: ${payload.division || "-"}
+Station: ${payload.station || "-"}
+Division: ${payload.division || "-"}
+
 
 Loan Request
 Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
@@ -211,50 +215,53 @@ const handler = async (req, res) => {
     });
 
     const payload = {
-      referenceNo: clean(fields.referenceNo),
-      fullName: clean(fields.fullName),
-      email: clean(fields.email),
-      mobile: clean(fields.mobile),
-      school: clean(fields.school),
-      division: clean(fields.division),
-      loanAmount: clean(fields.loanAmount),
-      termMonths: clean(fields.termMonths),
-      remarks: clean(fields.remarks),
-      submittedAt: clean(fields.submittedAt),
-      website: clean(fields.website), // honeypot
-    };
+  referenceNo: clean(fields.referenceNo),
+  fullName: clean(fields.fullName),
+  email: clean(fields.email),
+  mobile: clean(fields.mobile),
+  school: clean(fields.school),
+
+  station: clean(fields.station),
+  division: clean(fields.division),
+
+  loanAmount: clean(fields.loanAmount),
+  termMonths: clean(fields.termMonths),
+  remarks: clean(fields.remarks),
+  submittedAt: clean(fields.submittedAt),
+  website: clean(fields.website),
+};
+
 
     // Honeypot hit: pretend success
     if (payload.website) return res.status(200).json({ ok: true });
 
     if (
-      !payload.fullName ||
-      !payload.email ||
-      !payload.mobile ||
-      !payload.school ||
-      !payload.loanAmount ||
-      !payload.termMonths
-    ) {
-      return res.status(400).json({ message: "Missing required fields." });
-    }
+  !payload.fullName ||
+  !payload.email ||
+  !payload.mobile ||
+  !payload.school ||
+  !payload.station ||
+  !payload.division ||
+  !payload.loanAmount ||
+  !payload.termMonths
+) {
+  return res.status(400).json({ message: "Missing required fields." });
+}
 
     // ✅ REQUIRED attachment
-    const file = files.attachment; // must match fd.append("attachment", ...)
+if (!req.file) {
+  return res.status(400).json({
+    message: "Attachment is required. Please attach a PDF/JPG/PNG file.",
+  });
+}
 
-    if (!file) {
-      return res.status(400).json({
-        message: "Attachment is required. Please attach a PDF/JPG/PNG file.",
-      });
-    }
+const allowed = ["application/pdf", "image/jpeg", "image/png"];
+if (!allowed.includes(req.file.mimetype)) {
+  return res.status(400).json({
+    message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
+  });
+}
 
-    const f = Array.isArray(file) ? file[0] : file;
-
-    const allowed = ["application/pdf", "image/jpeg", "image/png"];
-    if (!allowed.includes(f.mimetype)) {
-      return res.status(400).json({
-        message: "Invalid attachment type. Only PDF/JPG/PNG allowed.",
-      });
-    }
 
     const buffer = fs.readFileSync(f.filepath);
 
@@ -271,14 +278,13 @@ const handler = async (req, res) => {
     };
 
     const graphAttachments = [
-      {
-        "@odata.type": "#microsoft.graph.fileAttachment",
-        name: attachmentMeta.name,
-        contentType: attachmentMeta.type,
-        contentBytes: buffer.toString("base64"),
-      },
-    ];
-
+  {
+    "@odata.type": "#microsoft.graph.fileAttachment",
+    name: req.file.originalname || "attachment",
+    contentType: req.file.mimetype,
+    contentBytes: req.file.buffer.toString("base64"),
+  },
+];
     const from = (process.env.MAIL_FROM || "no-reply@aspacbank.com").trim();
     const to = (process.env.MAIL_TO || "dzpo@aspacbank.com").trim();
 

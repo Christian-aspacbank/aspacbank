@@ -8,7 +8,9 @@ type ApplyFormState = {
   mobileNumber: string;
   email: string;
   schoolOrOffice: string;
-  stationOrDivision: string;
+
+  station: string;
+  division: string;
 
   loanAmount: string;
   desiredTermMonths: string;
@@ -20,7 +22,9 @@ const DEFAULT_FORM: ApplyFormState = {
   mobileNumber: "",
   email: "",
   schoolOrOffice: "",
-  stationOrDivision: "",
+
+  station: "",
+  division: "",
 
   loanAmount: "",
   desiredTermMonths: "",
@@ -180,6 +184,9 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
     if (!isEmailValid) return false;
 
+    if (!form.station.trim()) return false;
+    if (!form.division.trim()) return false;
+
     if (!form.schoolOrOffice.trim()) return false;
 
     const amount = Number(form.loanAmount.replace(/,/g, "").trim());
@@ -318,7 +325,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       fd.append("email", form.email.trim());
       fd.append("mobile", form.mobileNumber.trim());
       fd.append("school", form.schoolOrOffice.trim());
-      fd.append("division", (form.stationOrDivision || "-").trim());
+      fd.append("station", form.station.trim());
+      fd.append("division", form.division.trim());
 
       fd.append("loanAmount", formatMoney(form.loanAmount));
       fd.append("termMonths", form.desiredTermMonths);
@@ -448,11 +456,25 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         AGREEMENT AND UNDERTAKING
                       </p>
                       <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        I hereby apply for a loan with the details below which I
-                        promise to pay in accordance with the terms and
-                        conditions of ASPAC Bank as stipulated in the covering
-                        Promissory Note which I certify to have read and
-                        understand clearly.
+                        By submitting this inquiry, I certify and agree to the
+                        following:{" "}
+                        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                          I hereby voluntarily provide the details herein to
+                          ASPAC Bank for the purpose of responding to my loan
+                          inquiry. I consent to the Bank contacting me through
+                          the contact information I have provided for this said
+                          purpose including requests for additional information
+                          and document submission. I agree to receive product
+                          updates, offers, and advisories. I understand this is
+                          not required to process my inquiry and I may opt out
+                          anytime. I authorize the Bank and its service
+                          providers (including intragroup entities and duly
+                          contracted third parties) to conduct credit and
+                          background checks and process my data solely for the
+                          purposes stated above, with confidentiality and
+                          safeguards consistent with BSP’s Financial Consumer
+                          Protection and IT/security standards.
+                        </p>
                       </p>
                     </div>
                   </label>
@@ -661,6 +683,48 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                     <div>
                       <label className="text-sm font-medium text-gray-700">
+                        Division <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="Division"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.division}
+                        onChange={(e) =>
+                          update("division", toTitleCase(e.target.value))
+                        }
+                        onBlur={() => touchField("division")}
+                        disabled={isSending}
+                      />
+                      {showError("division") && !form.division.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Division is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Station <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        placeholder="Station"
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        value={form.station}
+                        onChange={(e) =>
+                          update("station", toTitleCase(e.target.value))
+                        }
+                        onBlur={() => touchField("station")}
+                        disabled={isSending}
+                      />
+                      {showError("station") && !form.station.trim() && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Station is required.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
                         School / Office <span className="text-red-500">*</span>
                       </label>
 
@@ -684,24 +748,6 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                             School/Office is required.
                           </p>
                         )}
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Station / Division
-                      </label>
-                      <input
-                        placeholder="Station / Division"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.stationOrDivision}
-                        onChange={(e) =>
-                          update(
-                            "stationOrDivision",
-                            toTitleCase(e.target.value),
-                          )
-                        }
-                        disabled={isSending}
-                      />
                     </div>
 
                     <div>

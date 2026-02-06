@@ -95,6 +95,7 @@ function buildHtmlEmail(payload) {
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
   const station = escapeHtml(payload.station || "-");
+  const division = escapeHtml(payload.division || "-");
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
   const termMonths = escapeHtml(payload.termMonths || "-");
   const submittedAt = escapeHtml(payload.submittedAt || "-");
@@ -145,9 +146,14 @@ return `
         <td style="padding:3px 0;">${school}</td>
       </tr>
       <tr>
-        <td style="padding:3px 0;"><b>Station/City:</b></td>
-        <td style="padding:3px 0;">${station}</td>
-      </tr>
+  <td style="padding:3px 0;"><b>Station:</b></td>
+  <td style="padding:3px 0;">${station}</td>
+</tr>
+<tr>
+  <td style="padding:3px 0;"><b>Division:</b></td>
+  <td style="padding:3px 0;">${division}</td>
+</tr>
+
     </table>
 
     <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Loan Request</div>
@@ -188,7 +194,9 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station/City: ${payload.station || "-"}
+Station: ${payload.station || "-"}
+Division: ${payload.division || "-"}
+
 
 Loan Request
 Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
@@ -214,6 +222,8 @@ app.post("/api/submit", upload.single("attachment"), async (req, res) => {
       mobile: clean(b.mobile),
       school: clean(b.school),
       station: clean(b.station),
+division: clean(b.division),
+
       loanAmount: clean(b.loanAmount),
       termMonths: clean(b.termMonths),
       remarks: clean(b.remarks),
@@ -231,7 +241,7 @@ app.post("/api/submit", upload.single("attachment"), async (req, res) => {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
-    // ✅ optional attachment
+   
     let graphAttachments = [];
     if (req.file) {
       const allowed = ["application/pdf", "image/jpeg", "image/png"];
