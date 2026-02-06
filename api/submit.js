@@ -63,7 +63,9 @@ function buildHtmlEmail(payload, attachmentMeta) {
   const email = escapeHtml(payload.email || "-");
   const mobile = escapeHtml(payload.mobile || "-");
   const school = escapeHtml(payload.school || "-");
-  const division = escapeHtml(payload.division || "-");
+ const division = escapeHtml(payload.division || "-");
+const station = escapeHtml(payload.station || "-"); // ✅ NEW
+
 
   const loanAmount = escapeHtml(formatNumber(payload.loanAmount || "-"));
   const termMonths = escapeHtml(payload.termMonths || "-");
@@ -130,10 +132,15 @@ function buildHtmlEmail(payload, attachmentMeta) {
         <td style="padding:3px 0;"><b>School/Office:</b></td>
         <td style="padding:3px 0;">${school}</td>
       </tr>
-      <tr>
-        <td style="padding:3px 0;"><b>Station/Division:</b></td>
-        <td style="padding:3px 0;">${division}</td>
-      </tr>
+     <tr>
+  <td style="padding:3px 0;"><b>Division:</b></td>
+  <td style="padding:3px 0;">${division}</td>
+</tr>
+<tr>
+  <td style="padding:3px 0;"><b>Station:</b></td>
+  <td style="padding:3px 0;">${station}</td>
+</tr>
+
     </table>
 
     <div style="margin:18px 0 10px; font-size:18px; font-weight:900;">Loan Request</div>
@@ -175,7 +182,9 @@ Applicant Details
 Email: ${payload.email || "-"}
 Mobile Number: ${payload.mobile || "-"}
 School/Office: ${payload.school || "-"}
-Station/Division: ${payload.division || "-"}
+Division: ${payload.division || "-"}
+Station: ${payload.station || "-"}
+
 
 Loan Request
 Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
@@ -211,32 +220,40 @@ const handler = async (req, res) => {
     });
 
     const payload = {
-      referenceNo: clean(fields.referenceNo),
-      fullName: clean(fields.fullName),
-      email: clean(fields.email),
-      mobile: clean(fields.mobile),
-      school: clean(fields.school),
-      division: clean(fields.division),
-      loanAmount: clean(fields.loanAmount),
-      termMonths: clean(fields.termMonths),
-      remarks: clean(fields.remarks),
-      submittedAt: clean(fields.submittedAt),
-      website: clean(fields.website), // honeypot
-    };
+  referenceNo: clean(fields.referenceNo),
+  fullName: clean(fields.fullName),
+  email: clean(fields.email),
+  mobile: clean(fields.mobile),
+  school: clean(fields.school),
+
+  division: clean(fields.division),
+  station: clean(fields.station), // ✅ NEW
+
+  loanAmount: clean(fields.loanAmount),
+  termMonths: clean(fields.termMonths),
+  remarks: clean(fields.remarks),
+  submittedAt: clean(fields.submittedAt),
+  website: clean(fields.website),
+};
+// ✅ normalize BEFORE validations
+payload.email = payload.email.toLowerCase();
+payload.mobile = payload.mobile.replace(/\D/g, "");
 
     // Honeypot hit: pretend success
     if (payload.website) return res.status(200).json({ ok: true });
 
     if (
-      !payload.fullName ||
-      !payload.email ||
-      !payload.mobile ||
-      !payload.school ||
-      !payload.loanAmount ||
-      !payload.termMonths
-    ) {
-      return res.status(400).json({ message: "Missing required fields." });
-    }
+  !payload.fullName ||
+  !payload.email ||
+  !payload.mobile ||
+  !payload.school ||
+  !payload.division || // ✅ required
+  !payload.station ||  // ✅ required
+  !payload.loanAmount ||
+  !payload.termMonths
+) {
+  return res.status(400).json({ message: "Missing required fields." });
+}
 
     // ✅ REQUIRED attachment
     const file = files.attachment; // must match fd.append("attachment", ...)

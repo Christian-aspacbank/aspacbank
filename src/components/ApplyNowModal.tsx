@@ -8,7 +8,9 @@ type ApplyFormState = {
   mobileNumber: string;
   email: string;
   schoolOrOffice: string;
-  stationOrDivision: string;
+
+  station: string; // ✅ must exist
+  division: string; // ✅ must exist
 
   loanAmount: string;
   desiredTermMonths: string;
@@ -20,7 +22,9 @@ const DEFAULT_FORM: ApplyFormState = {
   mobileNumber: "",
   email: "",
   schoolOrOffice: "",
-  stationOrDivision: "",
+
+  station: "", // ✅ must exist
+  division: "", // ✅ must exist
 
   loanAmount: "",
   desiredTermMonths: "",
@@ -318,7 +322,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       fd.append("email", form.email.trim());
       fd.append("mobile", form.mobileNumber.trim());
       fd.append("school", form.schoolOrOffice.trim());
-      fd.append("division", (form.stationOrDivision || "-").trim());
+
+      // ✅ separated
+      fd.append("division", (form.division || "-").trim());
+      fd.append("station", (form.station || "-").trim());
 
       fd.append("loanAmount", formatMoney(form.loanAmount));
       fd.append("termMonths", form.desiredTermMonths);
@@ -562,252 +569,312 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
               {step === "form" && (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        placeholder="Full Name"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.fullName}
-                        onChange={(e) =>
-                          update("fullName", toTitleCase(e.target.value))
-                        }
-                        onBlur={() => touchField("fullName")}
-                        disabled={isSending}
-                      />
-                      {showError("fullName") && !form.fullName.trim() && (
-                        <p className="text-xs text-red-600 mt-1">
-                          Full name is required.
-                        </p>
-                      )}
-                    </div>
+                  {/* SECTION 1: Personal Information */}
+                  <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
+                    <p className="text-sm font-semibold text-gray-800">
+                      Personal Information
+                    </p>
 
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Mobile Number <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        placeholder="09XXXXXXXXX"
-                        inputMode="numeric"
-                        pattern="\d*"
-                        maxLength={11}
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.mobileNumber}
-                        onChange={(e) => {
-                          const digitsOnly = e.target.value
-                            .replace(/\D/g, "")
-                            .slice(0, 11);
-                          update("mobileNumber", digitsOnly);
-                        }}
-                        onKeyDown={(e) => {
-                          const allowed = [
-                            "Backspace",
-                            "Delete",
-                            "ArrowLeft",
-                            "ArrowRight",
-                            "Tab",
-                          ];
-                          if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
-                            e.preventDefault();
-                        }}
-                        onBlur={() => touchField("mobileNumber")}
-                        disabled={isSending}
-                      />
-                      {showError("mobileNumber") &&
-                        form.mobileNumber.replace(/\D/g, "").length !== 11 && (
+                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      {/* Full Name */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Full Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          placeholder="Full Name"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.fullName}
+                          onChange={(e) =>
+                            update("fullName", toTitleCase(e.target.value))
+                          }
+                          onBlur={() => touchField("fullName")}
+                          disabled={isSending}
+                        />
+                        {showError("fullName") && !form.fullName.trim() && (
                           <p className="text-xs text-red-600 mt-1">
-                            Mobile number should be 11 digits (e.g.,
-                            09XXXXXXXXX).
+                            Full name is required.
                           </p>
                         )}
-                    </div>
+                      </div>
 
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Email <span className="text-red-500">*</span>
-                      </label>
+                      {/* Mobile */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Mobile Number <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          placeholder="09XXXXXXXXX"
+                          inputMode="numeric"
+                          pattern="\d*"
+                          maxLength={11}
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.mobileNumber}
+                          onChange={(e) => {
+                            const digitsOnly = e.target.value
+                              .replace(/\D/g, "")
+                              .slice(0, 11);
+                            update("mobileNumber", digitsOnly);
+                          }}
+                          onKeyDown={(e) => {
+                            const allowed = [
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                              "Tab",
+                            ];
+                            if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
+                              e.preventDefault();
+                          }}
+                          onBlur={() => touchField("mobileNumber")}
+                          disabled={isSending}
+                        />
+                        {showError("mobileNumber") &&
+                          form.mobileNumber.replace(/\D/g, "").length !==
+                            11 && (
+                            <p className="text-xs text-red-600 mt-1">
+                              Mobile number should be 11 digits (e.g.,
+                              09XXXXXXXXX).
+                            </p>
+                          )}
+                      </div>
 
-                      <input
-                        placeholder="name@gmail.com"
-                        type="email"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.email}
-                        onChange={(e) => update("email", e.target.value)}
-                        onBlur={() => {
-                          touchField("email");
-                          update("email", form.email.trim());
-                        }}
-                        disabled={isSending}
-                      />
-
-                      {showError("email") && !form.email.trim() && (
-                        <p className="text-xs text-red-600 mt-1">
-                          Email is required.
-                        </p>
-                      )}
-
-                      {showError("email") &&
-                        form.email.trim() &&
-                        !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(
-                          form.email.trim(),
-                        ) && (
+                      {/* Email - full row on desktop */}
+                      <div className="sm:col-span-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Email <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          placeholder="name@gmail.com"
+                          type="email"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.email}
+                          onChange={(e) => update("email", e.target.value)}
+                          onBlur={() => {
+                            touchField("email");
+                            update("email", form.email.trim());
+                          }}
+                          disabled={isSending}
+                        />
+                        {showError("email") && !form.email.trim() && (
                           <p className="text-xs text-red-600 mt-1">
-                            Please enter a valid email (e.g., name@gmail.com).
+                            Email is required.
                           </p>
                         )}
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        School / Office <span className="text-red-500">*</span>
-                      </label>
-
-                      <SearchableSelect
-                        value={form.schoolOrOffice}
-                        options={schools}
-                        placeholder={
-                          schoolsLoading
-                            ? "Loading schools..."
-                            : "Search school (or type if not listed)"
-                        }
-                        disabled={isSending}
-                        onChange={(v) => update("schoolOrOffice", v)}
-                        onBlur={() => touchField("schoolOrOffice")}
-                        maxResults={12}
-                      />
-
-                      {showError("schoolOrOffice") &&
-                        !form.schoolOrOffice.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
-                            School/Office is required.
-                          </p>
-                        )}
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Station / Division
-                      </label>
-                      <input
-                        placeholder="Station / Division"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.stationOrDivision}
-                        onChange={(e) =>
-                          update(
-                            "stationOrDivision",
-                            toTitleCase(e.target.value),
-                          )
-                        }
-                        disabled={isSending}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Loan Amount (PHP){" "}
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="^[0-9,]*$"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        value={form.loanAmount}
-                        onChange={(e) => {
-                          const digitsOnly = e.target.value.replace(
-                            /[^\d]/g,
-                            "",
-                          );
-                          update("loanAmount", formatMoney(digitsOnly));
-                        }}
-                        onKeyDown={(e) => {
-                          const allowed = [
-                            "Backspace",
-                            "Delete",
-                            "ArrowLeft",
-                            "ArrowRight",
-                            "Tab",
-                          ];
-                          if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
-                            e.preventDefault();
-                        }}
-                        onBlur={() => touchField("loanAmount")}
-                        disabled={isSending}
-                      />
-                      {showError("loanAmount") && !form.loanAmount.trim() && (
-                        <p className="text-xs text-red-600 mt-1">
-                          Loan amount is required.
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">
-                        Desired Term (Months){" "}
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white"
-                        value={form.desiredTermMonths}
-                        onChange={(e) =>
-                          update("desiredTermMonths", e.target.value)
-                        }
-                        onBlur={() => touchField("desiredTermMonths")}
-                        disabled={isSending}
-                      >
-                        <option value="" disabled>
-                          Select term
-                        </option>
-                        <option value="6">6 months</option>
-                        <option value="12">12 months</option>
-                        <option value="18">18 months</option>
-                        <option value="24">24 months</option>
-                        <option value="36">36 months</option>
-                        <option value="48">48 months</option>
-                        <option value="60">60 months</option>
-                      </select>
-                      {showError("desiredTermMonths") &&
-                        !form.desiredTermMonths.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
-                            Term is required.
-                          </p>
-                        )}
-                    </div>
-
-                    {/* ✅ Attachment (optional) */}
-                    <div className="sm:col-span-2">
-                      <AttachmentField
-                        value={attachment}
-                        onChange={setAttachment}
-                        disabled={isSending}
-                        label="Latest Payslip"
-                        required={true}
-                        maxSizeMB={5}
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="text-sm font-medium text-gray-700">
-                        Remarks
-                      </label>
-                      <textarea
-                        placeholder="Optional notes (e.g., preferred contact time)"
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 min-h-[70px] sm:min-h-[90px]"
-                        value={form.remarks}
-                        onChange={(e) => update("remarks", e.target.value)}
-                        disabled={isSending}
-                      />
+                        {showError("email") &&
+                          form.email.trim() &&
+                          !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(
+                            form.email.trim(),
+                          ) && (
+                            <p className="text-xs text-red-600 mt-1">
+                              Please enter a valid email (e.g., name@gmail.com).
+                            </p>
+                          )}
+                      </div>
                     </div>
                   </div>
 
+                  {/* SECTION 2: Assignment / Location (Separated Division + Station) */}
+                  <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
+                    <p className="text-sm font-semibold text-gray-800">
+                      Assignment / Location
+                    </p>
+
+                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      {/* Division */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Division <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          placeholder="Division"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.division}
+                          onChange={(e) =>
+                            update("division", toTitleCase(e.target.value))
+                          }
+                          onBlur={() => touchField("division")}
+                          disabled={isSending}
+                        />
+                        {showError("division") && !form.division.trim() && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Division is required.
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Station */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Station <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          placeholder="Station"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.station}
+                          onChange={(e) =>
+                            update("station", toTitleCase(e.target.value))
+                          }
+                          onBlur={() => touchField("station")}
+                          disabled={isSending}
+                        />
+                        {showError("station") && !form.station.trim() && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Station is required.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SECTION 3: Loan Details */}
+                  <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
+                    <p className="text-sm font-semibold text-gray-800">
+                      Loan Details
+                    </p>
+
+                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      {/* School / Office */}
+                      <div className="sm:col-span-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          School / Office{" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+
+                        <SearchableSelect
+                          value={form.schoolOrOffice}
+                          options={schools}
+                          placeholder={
+                            schoolsLoading
+                              ? "Loading schools..."
+                              : "Search school (or type if not listed)"
+                          }
+                          disabled={isSending}
+                          onChange={(v) => update("schoolOrOffice", v)}
+                          onBlur={() => touchField("schoolOrOffice")}
+                          maxResults={12}
+                        />
+
+                        {showError("schoolOrOffice") &&
+                          !form.schoolOrOffice.trim() && (
+                            <p className="text-xs text-red-600 mt-1">
+                              School/Office is required.
+                            </p>
+                          )}
+                      </div>
+
+                      {/* Loan Amount */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Loan Amount (PHP){" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="^[0-9,]*$"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          value={form.loanAmount}
+                          onChange={(e) => {
+                            const digitsOnly = e.target.value.replace(
+                              /[^\d]/g,
+                              "",
+                            );
+                            update("loanAmount", formatMoney(digitsOnly));
+                          }}
+                          onKeyDown={(e) => {
+                            const allowed = [
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                              "Tab",
+                            ];
+                            if (!allowed.includes(e.key) && !/^\d$/.test(e.key))
+                              e.preventDefault();
+                          }}
+                          onBlur={() => touchField("loanAmount")}
+                          disabled={isSending}
+                        />
+                        {showError("loanAmount") && !form.loanAmount.trim() && (
+                          <p className="text-xs text-red-600 mt-1">
+                            Loan amount is required.
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Term */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Desired Term (Months){" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white"
+                          value={form.desiredTermMonths}
+                          onChange={(e) =>
+                            update("desiredTermMonths", e.target.value)
+                          }
+                          onBlur={() => touchField("desiredTermMonths")}
+                          disabled={isSending}
+                        >
+                          <option value="" disabled>
+                            Select term
+                          </option>
+                          <option value="6">6 months</option>
+                          <option value="12">12 months</option>
+                          <option value="18">18 months</option>
+                          <option value="24">24 months</option>
+                          <option value="36">36 months</option>
+                          <option value="48">48 months</option>
+                          <option value="60">60 months</option>
+                        </select>
+
+                        {showError("desiredTermMonths") &&
+                          !form.desiredTermMonths.trim() && (
+                            <p className="text-xs text-red-600 mt-1">
+                              Term is required.
+                            </p>
+                          )}
+                      </div>
+
+                      {/* Attachment */}
+                      <div className="sm:col-span-2">
+                        <AttachmentField
+                          value={attachment}
+                          onChange={setAttachment}
+                          disabled={isSending}
+                          label="Latest Payslip"
+                          required={true}
+                          maxSizeMB={5}
+                        />
+                      </div>
+
+                      {/* Remarks */}
+                      <div className="sm:col-span-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Remarks
+                        </label>
+                        <textarea
+                          placeholder="Optional notes (e.g., preferred contact time)"
+                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 min-h-[70px] sm:min-h-[90px]"
+                          value={form.remarks}
+                          onChange={(e) => update("remarks", e.target.value)}
+                          disabled={isSending}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Status */}
                   {statusMsg && (
                     <div className="text-sm rounded-lg bg-gray-50 border border-gray-200 p-3">
                       {statusMsg}
                     </div>
                   )}
 
+                  {/* Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 justify-end pt-2">
                     <button
                       type="button"
