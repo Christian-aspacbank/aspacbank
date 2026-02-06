@@ -6,10 +6,6 @@ import React, {
   useState,
 } from "react";
 
-// --- Helpers ---------------------------------------------------------------
-// simplest: serve from /public/files -> available at /files/<name>
-const fileUrl = (name: string) => `/files/${name}`;
-
 // LocalStorage key (store by asOf so file renames don't break)
 const LS_KEY = "aspac-balance-selected-asOf";
 
@@ -20,12 +16,15 @@ type DocOption = {
 };
 
 // Build the options list here so adding new periods is trivial
+const fileUrl = (name: string) => `/assets/balancesheet/${name}`;
+
 const DOC_OPTIONS: DocOption[] = [
   {
     label: "December 31, 2025 (Q4)",
     asOf: "2025-12-31",
     pages: [
       fileUrl("balancesheet-12-31-2025_1.jpg"),
+      fileUrl("balancesheet-12-31-2025_2.jpg"),
     ],
   },
   {

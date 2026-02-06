@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import Seo from "./components/Seo";
 import AspacChatbot from "./components/AspacChatbot";
+import ApplyNowModal from "./components/ApplyNowModal";
 import BspSecurityTipsNewYearAdvisory from "./components/advisories/BspSecurityTipsNewYearAdvisory";
 
 import "swiper/css";
@@ -244,18 +245,19 @@ const WelcomePage: React.FC = () => {
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    to="/teachers-loan"
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
-                    Apply for Teachers’ Loan
-                  </Link>
+                    Inquire Now
+                  </button>
 
                   <button
-                    onClick={() => navigate("/branches")}
+                    onClick={() => navigate("/teachers-loan")}
                     className="px-5 py-3 rounded-full bg-white/90 hover:bg-white text-gray-900 font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/30"
                   >
-                    Find a Branch
+                    Learn More
                   </button>
                 </div>
               </div>
@@ -931,6 +933,8 @@ const WelcomePage: React.FC = () => {
 
       {/* Chatbot mounts only on WelcomePage */}
       <AspacChatbot />
+
+      <ApplyNowModal isOpen={showModal} onClose={() => setShowModal(false)} />
 
       {/* Page-level keyframes & Swiper tweaks */}
       <style>
