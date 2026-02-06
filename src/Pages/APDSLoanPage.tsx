@@ -169,7 +169,7 @@ const APDSLoanPage: React.FC = () => {
               onClick={() => setIsApplyNowOpen(true)} // ✅ open ApplyNowModal
               aria-label="Apply for APDS Loan"
             >
-              Apply Now
+              Inquire Now
             </button>
 
             <button
