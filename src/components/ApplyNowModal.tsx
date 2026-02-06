@@ -455,11 +455,22 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                         AGREEMENT AND UNDERTAKING
                       </p>
                       <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        I hereby apply for a loan with the details below which I
-                        promise to pay in accordance with the terms and
-                        conditions of ASPAC Bank as stipulated in the covering
-                        Promissory Note which I certify to have read and
-                        understand clearly.
+                        By submitting this inquiry, I certify and agree to the
+                        following: I hereby voluntarily provide the details
+                        herein to ASPAC Bank for the purpose of responding to my
+                        loan inquiry. I consent to the Bank contacting me
+                        through the contact information I have provided for this
+                        said purpose including requests for additional
+                        information and document submission. I agree to receive
+                        product updates, offers, and advisories. I understand
+                        this is not required to process my inquiry and I may opt
+                        out anytime. I authorize the Bank and its service
+                        providers (including intragroup entities and duly
+                        contracted third parties) to conduct credit and
+                        background checks and process my data solely for the
+                        purposes stated above, with confidentiality and
+                        safeguards consistent with BSP’s Financial Consumer
+                        Protection and IT/security standards.
                       </p>
                     </div>
                   </label>
