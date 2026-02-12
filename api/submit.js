@@ -5,7 +5,7 @@ const fs = require("fs");
 // ---------- simple in-memory rate limit (per IP) ----------
 const RATE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const RATE_MAX = 2; // ✅ max 2 submits / 10 minutes
-const BURST_WINDOW_MS = 5 * 1000; // 5 seconds
+const BURST_WINDOW_MS = 2 * 1000; // 2 seconds
 const BURST_MAX = 1; // ✅ max 1 submit / 5 seconds
 
 
