@@ -452,7 +452,7 @@ if (!rl.ok) {
     ];
 
     const from = safeHeader(process.env.MAIL_FROM || "no-reply@aspacbank.com");
-    const to = safeHeader(process.env.MAIL_TO || "dzpo@aspacbank.com");
+    const to = safeHeader(process.env.MAIL_TO || "wppontillas@aspacbank.com");
 
     if (!from || !isValidEmail(from)) {
       return res.status(500).json({
