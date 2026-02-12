@@ -9,8 +9,8 @@ type ApplyFormState = {
   email: string;
   schoolOrOffice: string;
 
-  station: string; // ✅ must exist
-  division: string; // ✅ must exist
+  station: string;
+  division: string;
 
   loanAmount: string;
   desiredTermMonths: string;
@@ -23,8 +23,8 @@ const DEFAULT_FORM: ApplyFormState = {
   email: "",
   schoolOrOffice: "",
 
-  station: "", // ✅ must exist
-  division: "", // ✅ must exist
+  station: "",
+  division: "",
 
   loanAmount: "",
   desiredTermMonths: "",
@@ -83,13 +83,13 @@ It is agreed and understood that unless and until the Bank is in receipt of a wr
 const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [form, setForm] = useState<ApplyFormState>(DEFAULT_FORM);
 
-  // ✅ attachment state (MUST be inside component)
+  // attachment state (REQUIRED)
   const [attachment, setAttachment] = useState<AttachmentValue>({
     file: null,
     error: null,
   });
 
-  // ✅ validation flags
+  // validation flags
   const [consentsTouched, setConsentsTouched] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
@@ -114,30 +114,14 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [schoolsLoading, setSchoolsLoading] = useState(false);
 
   const [step, setStep] = useState<Step>("consents");
+
   const [agreeUndertaking, setAgreeUndertaking] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
 
-  // ✅ must scroll waiver to bottom before buttons appear
+  // must scroll waiver to bottom before buttons appear
   const [waiverScrolledBottom, setWaiverScrolledBottom] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    setSchoolsLoading(true);
-
-    fetch("/data/cebu_schools.json", { cache: "no-store" })
-      .then((r) => {
-        if (!r.ok) throw new Error(`Schools JSON HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((data) => setSchools(Array.isArray(data) ? data : []))
-      .catch((err) => {
-        console.error("Failed to load schools:", err);
-        setSchools([]);
-      })
-      .finally(() => setSchoolsLoading(false));
-  }, [isOpen]);
-
+  // Single effect: reset modal + load schools
   useEffect(() => {
     if (!isOpen) return;
 
@@ -178,7 +162,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     if (!form.fullName.trim()) return false;
 
     const mobile = form.mobileNumber.replace(/\D/g, "");
-    if (mobile.length !== 11) return false;
+    if (!/^0[1-9]\d{9}$/.test(mobile)) return false;
 
     const email = form.email.trim().toLowerCase();
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
@@ -187,11 +171,15 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     if (!form.schoolOrOffice.trim()) return false;
 
     const amount = Number(form.loanAmount.replace(/,/g, "").trim());
-    if (!Number.isFinite(amount) || amount <= 0) return false;
+    if (!Number.isFinite(amount) || amount < 1000 || amount > 5000000)
+      return false;
 
     if (!form.desiredTermMonths.trim()) return false;
 
-    // ✅ attachment is REQUIRED
+    if (!form.division.trim()) return false;
+    if (!form.station.trim()) return false;
+
+    // attachment required
     if (!attachment.file) return false;
     if (attachment.error) return false;
 
@@ -216,7 +204,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   };
 
   const onAgreeStatement = () => {
-    // ✅ clear form validation before entering form
+    // clear form validation before entering form
     setSubmitAttempted(false);
     setFieldTouched({});
     setStatusMsg(null);
@@ -229,12 +217,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     setStep("consents");
     setAgreeUndertaking(false);
     setAgreePrivacy(false);
-    onClose(); // ✅ close entire modal
+    onClose();
   };
 
   const onWaiverScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
     const el = e.currentTarget;
-    const threshold = 6; // allowance
+    const threshold = 6;
     const atBottom =
       el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
     if (atBottom) setWaiverScrolledBottom(true);
@@ -242,8 +230,9 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSending) return;
 
-    // ✅ show field errors only on form step submit attempt
+    // show field errors only on form step submit attempt
     if (step === "form") setSubmitAttempted(true);
 
     setStatusMsg(null);
@@ -255,19 +244,28 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    if (!isValid) return;
-
-    // ✅ REQUIRED ATTACHMENT CHECK
+    // REQUIRED attachment (defense-in-depth, even if AttachmentField validates)
     if (!attachment.file) {
-      setAttachment((prev) => ({
-        ...prev,
-        error: "Attachment is required.",
-      }));
+      setAttachment((prev) => ({ ...prev, error: "Attachment is required." }));
       setStatusMsg("Please attach a file before submitting.");
       return;
     }
 
-    // ✅ clear previous "required" error once file exists
+    const allowedTypes = new Set([
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+    ]);
+    if (!allowedTypes.has(attachment.file.type)) {
+      setAttachment((prev) => ({
+        ...prev,
+        error: "Only PDF/JPG/PNG allowed.",
+      }));
+      setStatusMsg("Only PDF/JPG/PNG allowed.");
+      return;
+    }
+
+    // clear previous "required" error once file exists
     if (attachment.error === "Attachment is required.") {
       setAttachment((prev) => ({ ...prev, error: null }));
     }
@@ -276,6 +274,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       setStatusMsg(attachment.error);
       return;
     }
+
+    if (!isValid) return;
 
     const elapsedMs = Date.now() - openedAtRef.current;
     if (elapsedMs < 4000) {
@@ -290,11 +290,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
       setAttachment({ file: null, error: null });
-
-      // ✅ reset validation flags
       setSubmitAttempted(false);
       setFieldTouched({});
-
       setTimeout(() => onClose(), 800);
       return;
     }
@@ -319,13 +316,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
       fd.append("referenceNo", referenceNo);
       fd.append("fullName", form.fullName.trim());
-      fd.append("email", form.email.trim());
-      fd.append("mobile", form.mobileNumber.trim());
+      fd.append("email", form.email.trim().toLowerCase());
+      fd.append("mobile", form.mobileNumber.replace(/\D/g, ""));
       fd.append("school", form.schoolOrOffice.trim());
 
-      // ✅ separated
-      fd.append("division", (form.division || "-").trim());
-      fd.append("station", (form.station || "-").trim());
+      fd.append("division", form.division.trim());
+      fd.append("station", form.station.trim());
 
       fd.append("loanAmount", formatMoney(form.loanAmount));
       fd.append("termMonths", form.desiredTermMonths);
@@ -333,18 +329,34 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       fd.append("submittedAt", submittedAt);
       fd.append("website", honeypot);
 
-      // ✅ attachment (optional)
-      if (attachment.file) {
-        fd.append("attachment", attachment.file!, attachment.file!.name);
-      }
+      fd.append("attachment", attachment.file, attachment.file.name);
 
       const API_BASE =
         process.env.NODE_ENV === "development" ? "http://localhost:4000" : "";
 
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 20000);
+
       const resp = await fetch(`${API_BASE}/api/submit`, {
         method: "POST",
-        body: fd, // ✅ multipart/form-data
+        body: fd,
+        signal: controller.signal,
       });
+
+      window.clearTimeout(timeout);
+
+      // ✅ handle rate limit (429) properly
+      if (resp.status === 429) {
+        const retryAfter = Number(resp.headers.get("Retry-After") || 0);
+        const body = await resp.json().catch(() => ({}));
+        const msg =
+          body?.message ||
+          (retryAfter
+            ? `Please wait ${retryAfter} seconds.`
+            : "Too many requests.");
+        setStatusMsg(msg);
+        return;
+      }
 
       const data = await resp.json().catch(() => ({}));
 
@@ -359,14 +371,15 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       setStatusMsg("✅ Application sent successfully!");
       setForm(DEFAULT_FORM);
       setAttachment({ file: null, error: null });
-
-      // ✅ reset validation flags
       setSubmitAttempted(false);
       setFieldTouched({});
-
       setTimeout(() => onClose(), 800);
     } catch (err: any) {
-      setStatusMsg(err?.message || "❌ Failed to send. Please try again.");
+      if (err?.name === "AbortError") {
+        setStatusMsg("❌ Request timed out. Please try again.");
+      } else {
+        setStatusMsg(err?.message || "❌ Failed to send. Please try again.");
+      }
     } finally {
       setIsSending(false);
     }
@@ -549,7 +562,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                   )}
 
                   {waiverScrolledBottom && (
-                    <div className="mt-4 flex flex-cols sm:flex-row gap-3 justify-end">
+                    <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
                       <button
                         type="button"
                         onClick={onDoNotAgree}
@@ -615,7 +628,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           Mobile Number <span className="text-red-500">*</span>
                         </label>
                         <input
-                          placeholder="09XXXXXXXXX"
+                          placeholder="0XXXXXXXXXX"
                           inputMode="numeric"
                           pattern="\d*"
                           maxLength={11}
@@ -642,16 +655,17 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           disabled={isSending}
                         />
                         {showError("mobileNumber") &&
-                          form.mobileNumber.replace(/\D/g, "").length !==
-                            11 && (
+                          !/^0[1-9]\d{9}$/.test(
+                            form.mobileNumber.replace(/\D/g, ""),
+                          ) && (
                             <p className="text-xs text-red-600 mt-1">
-                              Mobile number should be 11 digits (e.g.,
-                              09XXXXXXXXX).
+                              Mobile number should be 11 digits and start with
+                              01–09 (e.g., 0898XXXXXXX).
                             </p>
                           )}
                       </div>
 
-                      {/* Email - full row on desktop */}
+                      {/* Email */}
                       <div className="sm:col-span-2">
                         <label className="text-sm font-medium text-gray-700">
                           Email <span className="text-red-500">*</span>
@@ -686,7 +700,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  {/* SECTION 2: Assignment / Location (Separated Division + Station) */}
+                  {/* SECTION 2: Assignment / Location */}
                   <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4">
                     <p className="text-sm font-semibold text-gray-800">
                       Assignment / Location
@@ -813,6 +827,23 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                             Loan amount is required.
                           </p>
                         )}
+                        {showError("loanAmount") &&
+                          form.loanAmount.trim() &&
+                          (() => {
+                            const amount = Number(
+                              form.loanAmount.replace(/,/g, "").trim(),
+                            );
+                            return (
+                              !Number.isFinite(amount) ||
+                              amount < 1000 ||
+                              amount > 5000000
+                            );
+                          })() && (
+                            <p className="text-xs text-red-600 mt-1">
+                              Please enter a valid amount (min 1,000, max
+                              5,000,000).
+                            </p>
+                          )}
                       </div>
 
                       {/* Term */}
