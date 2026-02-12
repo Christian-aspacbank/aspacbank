@@ -9,8 +9,8 @@ type ApplyFormState = {
   email: string;
   schoolOrOffice: string;
 
-  station: string;
-  division: string;
+  station: string; // ✅ must exist
+  division: string; // ✅ must exist
 
   loanAmount: string;
   desiredTermMonths: string;
@@ -23,8 +23,8 @@ const DEFAULT_FORM: ApplyFormState = {
   email: "",
   schoolOrOffice: "",
 
-  station: "",
-  division: "",
+  station: "", // ✅ must exist
+  division: "", // ✅ must exist
 
   loanAmount: "",
   desiredTermMonths: "",
