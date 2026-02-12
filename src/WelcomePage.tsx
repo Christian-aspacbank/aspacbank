@@ -24,7 +24,9 @@ import "./WelcomePage.css";
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+
   // Toggle this if your Layout already renders a global header
   const SHOW_LOCAL_HEADER = false;
 
@@ -247,7 +249,7 @@ const WelcomePage: React.FC = () => {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <button
                     type="button"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => setShowApplyModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
                     Inquire Now
@@ -285,7 +287,7 @@ const WelcomePage: React.FC = () => {
                 </div>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <button
-                    onClick={() => setShowModal(true)}
+                    onClick={() => setShowContactModal(true)}
                     className="px-5 py-3 rounded-full bg-primary hover:bg-aspac-green/90 text-white font-semibold shadow focus:outline-none focus:ring-4 focus:ring-primary/40"
                   >
                     Talk to Us
@@ -516,7 +518,7 @@ const WelcomePage: React.FC = () => {
               Locate a branch
             </button>
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowContactModal(true)}
               className="px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-gray-300 font-semibold shadow-sm focus:outline-none focus:ring-4 focus:ring-primary/30"
             >
               Contact us
@@ -825,13 +827,13 @@ const WelcomePage: React.FC = () => {
 
       {/* Contact modal */}
       <AnimatePresence>
-        {showModal && (
+        {showContactModal && (
           <motion.div
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setShowModal(false)}
+            onClick={() => setShowContactModal(false)}
           >
             <motion.div
               className="bg-white/90 backdrop-blur-sm rounded-2xl p-7 w-[92%] max-w-md relative"
@@ -862,7 +864,7 @@ const WelcomePage: React.FC = () => {
 
               <div className="mt-6 flex items-center justify-center gap-3">
                 <button
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowContactModal(false)}
                   className="px-4 py-2 rounded-lg bg-yellow-500 hover:bg-gray-200 font-medium"
                 >
                   Close
@@ -934,7 +936,10 @@ const WelcomePage: React.FC = () => {
       {/* Chatbot mounts only on WelcomePage */}
       <AspacChatbot />
 
-      <ApplyNowModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <ApplyNowModal
+        isOpen={showApplyModal}
+        onClose={() => setShowApplyModal(false)}
+      />
 
       {/* Page-level keyframes & Swiper tweaks */}
       <style>
