@@ -46,7 +46,7 @@ const WelcomePage: React.FC = () => {
         description="ASPAC Bank empowers teachers and Filipino families with secure banking, fast loan approvals, and low-interest APDS Teacher Salary Loans. Experience Simply Safe banking with reliable savings, deposits, and community-focused financial services."
         canonical="https://www.aspacbank.com/"
         ogType="website"
-        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.png"
         ogImageAlt="ASPAC Bank – Teacher Salary Loan and Secure Banking Services"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
