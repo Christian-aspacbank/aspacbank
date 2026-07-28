@@ -33,12 +33,32 @@
     "permanent": true
   },
   {
+    "source": "/Welcome",
+    "destination": "https://www.aspacbank.com/",
+    "permanent": true
+  },
+  {
     "source": "/Annual",
     "destination": "https://www.aspacbank.com/annual-reports",
     "permanent": true
   },
   {
+    "source": "/annual",
+    "destination": "https://www.aspacbank.com/annual-reports",
+    "permanent": true
+  },
+  {
     "source": "/AnnualReport2024",
+    "destination": "https://www.aspacbank.com/annual-reports",
+    "permanent": true
+  },
+  {
+    "source": "/annualReport2024",
+    "destination": "https://www.aspacbank.com/annual-reports",
+    "permanent": true
+  },
+  {
+    "source": "/annualreport2024",
     "destination": "https://www.aspacbank.com/annual-reports",
     "permanent": true
   },
