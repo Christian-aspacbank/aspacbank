@@ -12,10 +12,16 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
-const FaPiggyBank = PiggyBankIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-const FaClipboardCheck = ClipboardIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const FaPiggyBank = PiggyBankIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
+const FaClipboardCheck = ClipboardIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
 const FaClock = ClockIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const FaMoneyCheckAlt = MoneyIcon as React.ComponentType<
+  React.SVGProps<SVGSVGElement>
+>;
 
 const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
@@ -45,17 +51,27 @@ const ContactModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 <FaPhoneAlt className="text-xl text-emerald-300" />
               </div>
               <h2 className="text-2xl font-bold tracking-tight">Contact Us</h2>
-              <p className="text-emerald-100/80 text-sm mt-1">We are here to assist with your inquiries</p>
+              <p className="text-emerald-100/80 text-sm mt-1">
+                We are here to assist with your inquiries
+              </p>
             </div>
 
             <div className="p-8 space-y-4">
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 transition hover:bg-slate-100/70">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Hotline</p>
-                <p className="text-lg font-bold text-slate-800">(032) 501-2724</p>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                  Hotline
+                </p>
+                <p className="text-lg font-bold text-slate-800">
+                  (032) 501-2724
+                </p>
               </div>
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 transition hover:bg-slate-100/70">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Mobile Number</p>
-                <p className="text-lg font-bold text-slate-800">0898-272-2724</p>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                  Mobile Number
+                </p>
+                <p className="text-lg font-bold text-slate-800">
+                  0898-272-2724
+                </p>
               </div>
 
               <button
@@ -83,7 +99,7 @@ const APDSLoanPage: React.FC = () => {
         description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) with low interest, quick approval, and flexible terms up to 60 months. Enjoy convenient automatic payroll deduction—ideal for teachers and school personnel in Cebu and nearby areas."
         canonical="https://www.aspacbank.com/teachers-loan"
         ogType="service"
-        ogImage="https://www.aspacbank.com/APDS3.jpg"
+        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.png"
         ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS) with payroll deduction and flexible terms"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
@@ -119,7 +135,7 @@ const APDSLoanPage: React.FC = () => {
           {/* Ambient light flares */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/3" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-400/10 rounded-full blur-[100px] pointer-events-none -translate-x-1/4 translate-y-1/4" />
-          
+
           {/* Subtle grid mesh overlay */}
           <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:3rem_3rem]" />
 
@@ -128,10 +144,15 @@ const APDSLoanPage: React.FC = () => {
               Exclusive Financial Solutions
             </span>
             <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-none mb-6">
-              APDS Loan for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200">Educators</span>
+              APDS Loan for{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200">
+                Educators
+              </span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg sm:text-xl text-emerald-100/80 font-normal leading-relaxed mb-10">
-              The Automatic Payroll Deduction Scheme (APDS) is engineered tailored to the needs of hardworking educators and school system personnel. Accelerate your milestones easily.
+              The Automatic Payroll Deduction Scheme (APDS) is engineered
+              tailored to the needs of hardworking educators and school system
+              personnel. Accelerate your milestones easily.
             </p>
 
             {/* Strategic Action Matrix */}
@@ -144,7 +165,7 @@ const APDSLoanPage: React.FC = () => {
               >
                 Download Form
               </a>
-              
+
               <button
                 className="w-full sm:w-auto inline-flex items-center justify-center bg-emerald-600 text-white font-semibold py-3.5 px-8 rounded-xl shadow-lg shadow-emerald-950/20 hover:bg-emerald-500 border border-emerald-500/30 transition-all duration-200 active:scale-[0.98]"
                 onClick={() => setIsApplyNowOpen(true)}
@@ -164,22 +185,26 @@ const APDSLoanPage: React.FC = () => {
               {
                 Icon: FaPiggyBank,
                 title: "Competitive Interest",
-                description: "Maximize your financial freedom with market-leading preferred rates.",
+                description:
+                  "Maximize your financial freedom with market-leading preferred rates.",
               },
               {
                 Icon: FaClipboardCheck,
                 title: "Streamlined Approval",
-                description: "Experience an elegant application flow built to save you physical time.",
+                description:
+                  "Experience an elegant application flow built to save you physical time.",
               },
               {
                 Icon: FaClock,
                 title: "Flexible Milestones",
-                description: "Structured payment channels distributed comfortably up to 60 months.",
+                description:
+                  "Structured payment channels distributed comfortably up to 60 months.",
               },
               {
                 Icon: FaMoneyCheckAlt,
                 title: "Seamless Deductions",
-                description: "Worry-free processing routed straight via automatic monthly channels.",
+                description:
+                  "Worry-free processing routed straight via automatic monthly channels.",
               },
             ].map(({ Icon, title, description }, index) => (
               <div
@@ -192,7 +217,9 @@ const APDSLoanPage: React.FC = () => {
                 <h3 className="text-xl font-bold text-primary mb-2 group-hover:text-emerald-900 transition-colors">
                   {title}
                 </h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  {description}
+                </p>
               </div>
             ))}
           </div>
@@ -201,33 +228,35 @@ const APDSLoanPage: React.FC = () => {
         {/* Editorial Value Section */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
           <div className="bg-white rounded-3xl p-8 sm:p-14 shadow-sm border border-slate-200/50 relative overflow-hidden">
-          
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-       <div className="absolute  right-0  w-[400px]  h-[300px] bg-primary/10 rounded-full blur-3xl" />
-    
+            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute  right-0  w-[400px]  h-[300px] bg-primary/10 rounded-full blur-3xl" />
+
             <h2 className="text-3xl font-bold text-primary text-center mb-12 tracking-tight">
               Why Professionals Choose the APDS Loan
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
                 "Optimized interest baselines tailored around government institutional employees.",
                 "Amortization horizons running securely over a structured 5-year maximum window.",
                 "Zero administrative hassle—no manual transfers or complex payment slip verification steps.",
-                "Pre-vetted structures allowing immediate processing pipelines once your packet matches layout norms."
+                "Pre-vetted structures allowing immediate processing pipelines once your packet matches layout norms.",
               ].map((text, i) => (
                 <div key={i} className="flex gap-4 items-start">
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold text-xs mt-1">
                     {i + 1}
                   </div>
-                  <p className="text-slate-600 leading-relaxed font-medium">{text}</p>
+                  <p className="text-slate-600 leading-relaxed font-medium">
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>
 
             <div className="mt-14 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-slate-500 text-sm font-medium text-center sm:text-left">
-                Have specific structural questions regarding payroll limits? Let’s talk.
+                Have specific structural questions regarding payroll limits?
+                Let’s talk.
               </p>
               <button
                 onClick={() => setIsContactModalOpen(true)}

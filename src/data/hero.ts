@@ -2,7 +2,7 @@ import { HeroSlide } from "../module/Parallax";
 
 export const heroSlides = [
   {
-    image: "/APDS3.jpg",
+    image: "/aspac-teachers-salary-loan-apds.png",
     title: "Fuel your passion for teaching with ASPAC Teachers’ Loan",
     description:
       "Our Teachers’ Salary Loan (APDS) offers flexible terms and convenient salary deduction for teachers.",
