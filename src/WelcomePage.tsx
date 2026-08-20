@@ -19,6 +19,7 @@ import { news } from "./data/news";
 import ParallaxHero from "./module/Parallax";
 import CoreTiles from "./components/CoreTiles";
 import LatestNewsSection from "./components/LatestNewsSection";
+import { FaShieldAlt } from "react-icons/fa";
 
 /**
  * WelcomePage – ASPAC brand integration
@@ -110,6 +111,36 @@ const WelcomePage: React.FC = () => {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Consumer protection / BSP #iKNOW campaign */}
+      <section className="border-y border-gray-100 bg-gradient-to-br from-primary/5 via-white to-aspac-yellow/10 py-14 md:py-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+              <FaShieldAlt />
+              Consumer Protection
+            </span>
+            <h2 className="mt-4 text-2xl font-bold text-primary md:text-3xl">
+              Protect Your Money — #iKNOW
+            </h2>
+            <p className="mx-auto mt-2 max-w-2xl text-sm text-gray-600 md:text-base">
+              ASPAC Bank supports the Bangko Sentral ng Pilipinas' financial
+              consumer protection campaign. Know your rights, your options,
+              and the risks.
+            </p>
+          </div>
+
+          <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg">
+            <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-aspac-yellow to-primary" />
+            <img
+              src="/iknow_bsp.jpg"
+              alt="Bangko Sentral ng Pilipinas #iKNOW financial consumer protection campaign — I am a smart financial consumer"
+              className="w-full h-auto"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
