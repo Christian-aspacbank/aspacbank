@@ -3,11 +3,11 @@ import { FileText } from "lucide-react";
 import ReadonlyPdfViewer from "../components/ReadonlyPdfViewer";
 import Seo from "../components/Seo";
 
-type ReportId = "annual-2024" | "part2-afs-2024";
+type ReportId = "annual-2025" | "annual-2024" | "part2-afs-2024";
 
 type Report = {
   id: ReportId;
-  year: 2024;
+  year: 2025 | 2024;
   title: string;
   pdfPath: string;
   description: string;
@@ -15,6 +15,14 @@ type Report = {
 };
 
 const REPORTS: Report[] = [
+  {
+    id: "annual-2025",
+    year: 2025,
+    title: "Annual Report 2025",
+    pdfPath: "/annual-report/2025/AnnualReport2025.pdf",
+    description: "View ASPAC Bank's official annual report for the year 2025.",
+    type: "Annual Report",
+  },
   {
     id: "annual-2024",
     year: 2024,
@@ -36,7 +44,7 @@ const REPORTS: Report[] = [
 
 const AnnualReports: React.FC = () => {
   const [selectedReportId, setSelectedReportId] =
-    useState<ReportId>("annual-2024");
+    useState<ReportId>("annual-2025");
   const selectedReport =
     REPORTS.find((report) => report.id === selectedReportId) ?? REPORTS[0];
 
@@ -113,7 +121,8 @@ const AnnualReports: React.FC = () => {
                 </p>
               </div>
               <div className="hidden rounded-full bg-white px-4 py-2 text-xs font-semibold text-green-700 shadow-sm ring-1 ring-green-100 sm:block">
-                2 documents · 2024
+                {REPORTS.length} documents · {Math.min(...REPORTS.map((r) => r.year))}–
+                {Math.max(...REPORTS.map((r) => r.year))}
               </div>
             </div>
 

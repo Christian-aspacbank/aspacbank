@@ -13,6 +13,7 @@ export interface NearbyBranch {
   address: string;
   phone: string;
   hours: string;
+  saturdayHours?: string;
 }
 
 export interface Advisory {
@@ -42,6 +43,7 @@ export const NEARBY_BRANCHES: NearbyBranch[] = [
     address: "Pio Del Pilar St., Danao City, Cebu",
     phone: "0917-108-6575",
     hours: "9:00 AM – 3:00 PM (Mon–Fri)",
+    saturdayHours: "9:00 AM – 3:00 PM (Sat)",
   },
   {
     name: "ASPAC BANK – Bantayan Branch",

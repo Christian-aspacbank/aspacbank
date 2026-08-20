@@ -85,6 +85,12 @@ const Branches = () => {
                   opens: "09:00",
                   closes: "15:00",
                 },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
@@ -212,6 +218,12 @@ const Branches = () => {
                   opens: "09:00",
                   closes: "15:00",
                 },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
@@ -293,6 +305,12 @@ const Branches = () => {
                     "Thursday",
                     "Friday",
                   ],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
                   opens: "09:00",
                   closes: "15:00",
                 },
@@ -381,6 +399,12 @@ const Branches = () => {
                   opens: "09:00",
                   closes: "15:00",
                 },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
@@ -420,6 +444,12 @@ const Branches = () => {
                     "Thursday",
                     "Friday",
                   ],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
                   opens: "09:00",
                   closes: "15:00",
                 },
@@ -466,6 +496,12 @@ const Branches = () => {
                   opens: "09:00",
                   closes: "15:00",
                 },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
@@ -508,6 +544,12 @@ const Branches = () => {
                   opens: "09:00",
                   closes: "15:00",
                 },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
@@ -547,6 +589,12 @@ const Branches = () => {
                     "Thursday",
                     "Friday",
                   ],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Saturday"],
                   opens: "09:00",
                   closes: "15:00",
                 },
@@ -681,6 +729,14 @@ const Branches = () => {
                         <span className="text-xs md:text-sm">
                           {branch.hours}
                         </span>
+                        {branch.saturdayHours && (
+                          <>
+                            <br />
+                            <span className="text-xs md:text-sm">
+                              Saturday: {branch.saturdayHours}
+                            </span>
+                          </>
+                        )}
                       </p>
                     </div>
 

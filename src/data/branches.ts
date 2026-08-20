@@ -5,6 +5,7 @@ export const branches = [
       "ASPAC RURAL BANK Bldg. Cor. M.C. Briones Highway & Gen. Ricarte Sts. Guizo Mandaue City Cebu Philippines",
     contact: "0917-127-7796",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
       "https://www.google.com/maps/place/Aspac+Bank/@10.3348964,123.9398175,17z/data=!3m1!4b1!4m6!3m5!1s0x33a998523b8009e3:0x3e4c680dce28a3a!8m2!3d10.3348964!4d123.9398175!16s%2Fg%2F11_v3ggpx?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
 
@@ -51,6 +52,7 @@ export const branches = [
       "ASPAC BANK Bldg., P. Rodriguez St., Cogon Poblacion Bogo City, Cebu",
     contact: "0917-129-4966",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
 
     mapUrl:
       "https://www.google.com/maps/place/Aspac+Bank/@11.0466563,124.0027424,72m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a868c682ea9ee7:0x19e5b62b1cbe93df!2sAspac+Bank!8m2!3d11.0467206!4d124.0027871!16s%2Fg%2F11csqvfnts!3m5!1s0x33a868c682ea9ee7:0x19e5b62b1cbe93df!8m2!3d11.0467206!4d124.0027871!16s%2Fg%2F11csqvfnts?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
@@ -82,6 +84,7 @@ export const branches = [
     address: "Santa Catalina, Carcar City, Cebu",
     contact: "0917-125-0313",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
 
     mapUrl:
       "https://www.google.com/maps/place/Aspac+Rural+Bank,+INC./@10.1040788,123.6411131,204m/data=!3m1!1e3!4m10!1m2!2m1!1sSanta+Catalina,+Carcar+City,+Cebu+aspac!3m6!1s0x33a97d67c77a9415:0xb9d065d26e367d2d!8m2!3d10.1040787!4d123.641842!15sCidTYW50YSBDYXRhbGluYSwgQ2FyY2FyIENpdHksIENlYnUgYXNwYWOSAQRiYW5r4AEA!16s%2Fg%2F11hcncq_2v?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
@@ -96,6 +99,7 @@ export const branches = [
     address: "Pio Del Pilar St., Poblacion Danao City, Cebu",
     contact: "0917-108-6575",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
       "https://www.google.com/maps/place/ASPAC+RURAL+BANK+INC./@10.51985,124.0266137,72m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a9b08428fc900b:0x2f8957a1b60b689c!2sASPAC+RURAL+BANK+INC.!8m2!3d10.5200079!4d124.0267235!16s%2Fg%2F11c1qb9xnr!3m5!1s0x33a9b08428fc900b:0x2f8957a1b60b689c!8m2!3d10.5200079!4d124.0267235!16s%2Fg%2F11c1qb9xnr?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
     images: [
@@ -125,6 +129,7 @@ export const branches = [
     address: "ASPAC BANK Bldg., Pusok Lapu-Lapu City, Cebu",
     contact: "0917-116-5655",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
       "https://www.google.com/maps/place/Aspac+Rural+Bank+Incorporated/@10.3245624,123.9738158,297m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a999d57544a6fb:0x7052158ce2dc9449!2sAspac+Rural+Bank+Incorporated!8m2!3d10.3243947!4d123.9742611!16s%2Fg%2F1hc1l7w10!3m5!1s0x33a999d57544a6fb:0x7052158ce2dc9449!8m2!3d10.3243947!4d123.9742611!16s%2Fg%2F1hc1l7w10?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
     images: [
@@ -140,6 +145,7 @@ export const branches = [
     address: "Natalio Bacalso Ave., Tabunoc Talisay, Cebu City",
     contact: "0917-129-7008",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
     "https://www.google.com/maps/place/ASPAC+Bank/@10.2696722,123.8443875,408m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a99c5389bfd793:0xbfff387de691348d!2sASPAC+Bank!8m2!3d10.2697852!4d123.8448788!16s%2Fg%2F11wtw5q884!3m5!1s0x33a99c5389bfd793:0xbfff387de691348d!8m2!3d10.2697852!4d123.8448788!16s%2Fg%2F11wtw5q884?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
     images: [
@@ -154,6 +160,7 @@ export const branches = [
       "ASPAC BANK Bldg., Cor. N. Bacalso St., & P. Del Rosario Ext., Sambag 1 Poblacion Cebu City",
     contact: "0917-102-5671",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
       
       "https://www.google.com/maps/place/ASPAC+Bank/@10.2989223,123.8948384,51m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a99957b9cb423b:0xcfe4abdcc58cd3b1!2sASPAC+Bank!8m2!3d10.2989215!4d123.8949195!16s%2Fg%2F11bwncm7rk!3m5!1s0x33a99957b9cb423b:0xcfe4abdcc58cd3b1!8m2!3d10.2989215!4d123.8949195!16s%2Fg%2F11bwncm7rk?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
@@ -168,6 +175,7 @@ export const branches = [
     address: "Purok Nangka, Sangi  Toledo City, Cebu",
     contact: "0917-129-7896",
     hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    saturdayHours: "9:00 AM - 3:00 PM (Sat)",
     mapUrl:
       "https://www.google.com/maps/place/ASPAC+Bank/@10.3861288,123.6512699,343m/data=!3m1!1e3!4m14!1m7!3m6!1s0x33a972dd24f1c92b:0x750e13319c85b23a!2sASPAC+Bank!8m2!3d10.3861401!4d123.6520745!16s%2Fg%2F11wx4vn5tm!3m5!1s0x33a972dd24f1c92b:0x750e13319c85b23a!8m2!3d10.3861401!4d123.6520745!16s%2Fg%2F11wx4vn5tm?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
     images: [
