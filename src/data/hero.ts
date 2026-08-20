@@ -2,6 +2,21 @@ import { HeroSlide } from "../module/Parallax";
 
 export const heroSlides = [
   {
+    image: "/saturdaybanking.png",
+    title: "Bank with us, even on Saturdays",
+    description:
+      "Selected ASPAC Rural Bank branches are open every Saturday from 9:00 AM to 3:00 PM.",
+
+    subtitleLinkText: "Saturday branches",
+    subtitleLinkTo: "/saturday-branches",
+
+    secondaryButton: {
+      label: "Visit Us",
+      to: "/saturday-branches",
+    },
+  },
+
+  {
     image: "/aspac-teachers-salary-loan-apds.png",
     title: "Fuel your passion for teaching with ASPAC Teachers’ Loan",
     description:

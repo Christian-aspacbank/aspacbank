@@ -95,7 +95,9 @@ const ExplorePage: React.FC = () => {
               </h2>
               <p className="mt-2">
                 Visit any of our branches during operating hours:{" "}
-                <strong>Monday to Friday, 9:00 AM to 3:00 PM</strong>. We are
+                <strong>Monday to Friday, 9:00 AM to 3:00 PM</strong>. Select
+                branches are also open <strong>Saturday, 9:00 AM to 3:00 PM</strong>
+                {" "}— check our <a href="/branches" className="underline text-primary">branch locator</a> for details. We are
                 always ready to serve you with a smile.
               </p>
             </section>

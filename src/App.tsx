@@ -7,6 +7,7 @@ import Features from "./Pages/Features";
 import Advisories from "./Pages/Advisories";
 import Careers from "./Pages/Careers";
 import Branches from "./Pages/Branches";
+import SaturdayBranches from "./Pages/SaturdayBranches";
 import DepositAccount from "./Pages/DepositAccount";
 import APDSLoanPage from "./Pages/APDSLoanPage";
 import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
@@ -37,6 +38,7 @@ const App: React.FC = () => {
           <Route path="/advisories" element={<Advisories />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/branches" element={<Branches />} />
+          <Route path="/saturday-branches" element={<SaturdayBranches />} />
           <Route path="/deposit-account" element={<DepositAccount />} />
 
           {/* ✅ New path for APDS page */}

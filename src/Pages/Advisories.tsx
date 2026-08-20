@@ -495,6 +495,12 @@ const AdvisoriesPage: React.FC = () => {
                           <FaClock className="text-[#459243] shrink-0 text-xs" />
                           <span>{branch.hours}</span>
                         </li>
+                        {branch.saturdayHours && (
+                          <li className="flex items-center gap-2.5">
+                            <FaClock className="text-[#459243] shrink-0 text-xs" />
+                            <span>Saturday: {branch.saturdayHours}</span>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   </div>
