@@ -601,6 +601,40 @@ const Branches = () => {
               ],
               sameAs: ["https://www.facebook.com/aspacbank0620/"],
             },
+            // OSLOB
+            {
+              "@type": "BankOrCreditUnion",
+              "@id": "https://www.aspacbank.com/branches#oslob",
+              name: "ASPAC Bank Oslob",
+              image: [
+                "/assets/branchesimages/osb1.webp",
+                "/assets/branchesimages/osb2.webp",
+                "/assets/branchesimages/osb3.webp",
+              ],
+              url: "https://www.aspacbank.com/branches",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Purok Bombil, Lagunde",
+                addressLocality: "Oslob",
+                addressRegion: "Cebu",
+                addressCountry: "PH",
+              },
+              openingHoursSpecification: [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                  ],
+                  opens: "09:00",
+                  closes: "15:00",
+                },
+              ],
+              sameAs: ["https://www.facebook.com/aspacbank0620/"],
+            },
           ],
         }}
       />
@@ -747,7 +781,7 @@ const Branches = () => {
                       </span>
 
                       <span className="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">
-                        Local Branch
+                        {branch.secondaryTag ?? "Local Branch"}
                       </span>
                     </div>
 

@@ -1,4 +1,15 @@
-export const branches = [
+type Branch = {
+  name: string;
+  address: string;
+  contact: string;
+  hours: string;
+  saturdayHours?: string;
+  secondaryTag?: string;
+  mapUrl: string;
+  images: string[];
+};
+
+export const branches: Branch[] = [
   {
     name: "ASPAC Bank Mandaue Head Office",
     address:
@@ -182,6 +193,19 @@ export const branches = [
       "/assets/branchesimages/tol1.webp",
       "/assets/branchesimages/tol2.webp",
       "/assets/branchesimages/tol3.webp",
+    ],
+  },
+  {
+    name: "ASPAC Bank Oslob",
+    address: "Purok Bombil, Lagunde, Oslob, Cebu - (Beside Cebuana Lhuillier)",
+    contact: "TODO: add contact number",
+    hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+    secondaryTag: "Branch Lite",
+    mapUrl:
+      "https://www.google.com/maps/place/Lagunde,+Oslob,+Cebu/@9.525313,123.43503,3a,75y,306.25h,83.36t/data=!3m7!1e1!3m5!1sF7xyDkt-7qAkPDN6aBbXWg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D6.636093198007359%26panoid%3DF7xyDkt-7qAkPDN6aBbXWg%26yaw%3D306.25153179328197!7i16384!8i8192!4m6!3m5!1s0x33ab9f9f09242bc7:0x55027e848634c002!8m2!3d9.5372527!4d123.4327468!16s%2Fg%2F11f0wnz3t2?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    images: [
+      "/assets/branchesimages/osb1.webp",
+    
     ],
   },
 ];
