@@ -2,7 +2,7 @@ import { HeroSlide } from "../module/Parallax";
 
 export const heroSlides = [
   {
-    image: "/saturdaybanking.png",
+    image: "/saturdaybanking.webp",
     title: "Bank with us, even on Saturdays",
     description:
       "Selected ASPAC Rural Bank branches are open every Saturday from 9:00 AM to 3:00 PM.",
@@ -17,7 +17,7 @@ export const heroSlides = [
   },
 
   {
-    image: "/aspac-teachers-salary-loan-apds.png",
+    image: "/aspac-teachers-salary-loan-apds.webp",
     title: "Fuel your passion for teaching with ASPAC Teachers’ Loan",
     description:
       "Our Teachers’ Salary Loan (APDS) offers flexible terms and convenient salary deduction for teachers.",
@@ -37,7 +37,7 @@ export const heroSlides = [
   },
 
   {
-    image: "/Growyoursavings.jpg",
+    image: "/Growyoursavings.webp",
     title: "Grow your savings with us",
     description:
       "Open a savings or time deposit account at your nearest branch.",

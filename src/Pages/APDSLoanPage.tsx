@@ -118,7 +118,7 @@ const APDSLoanPage: React.FC = () => {
         description="Apply for ASPAC Bank’s Teacher Salary Loan (APDS) with low interest, quick approval, and flexible terms up to 60 months. Enjoy convenient automatic payroll deduction—ideal for teachers and school personnel in Cebu and nearby areas."
         canonical="https://www.aspacbank.com/teachers-loan"
         ogType="service"
-        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.png"
+        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.webp"
         ogImageAlt="ASPAC Bank Teacher Salary Loan (APDS) with payroll deduction and flexible terms"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
@@ -166,7 +166,7 @@ const APDSLoanPage: React.FC = () => {
         {/* Banner Hero Section */}
         <div
           className="relative bg-cover bg-center overflow-hidden py-20 sm:py-28 px-4 sm:px-8 border-b border-primary/30"
-          style={{ backgroundImage: "url(/teachers_loan.png)" }}
+          style={{ backgroundImage: "url(/teachers_loan.webp)" }}
         >
           {/* Readability overlay, tinted with brand green */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#1c3a1c]/95 via-primary/85 to-primary/30" />

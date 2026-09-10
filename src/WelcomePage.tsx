@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 import { useNavigate } from "react-router-dom";
 import Seo from "./components/Seo";
@@ -32,6 +33,10 @@ const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
   const [showContactModal, setShowContactModal] = useState(false);
   const [showApplyModal, setShowApplyModal] = useState(false);
+  const { ref: oslobVideoRef, inView: oslobVideoInView } = useInView({
+    triggerOnce: true,
+    rootMargin: "200px 0px",
+  });
   // Toggle this if your Layout already renders a global header
 
   return (
@@ -47,7 +52,7 @@ const WelcomePage: React.FC = () => {
         description="ASPAC Bank empowers teachers and Filipino families with secure banking, fast loan approvals, and low-interest APDS Teacher Salary Loans. Experience Simply Safe banking with reliable savings, deposits, and community-focused financial services."
         canonical="https://www.aspacbank.com/"
         ogType="website"
-        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.png"
+        ogImage="https://www.aspacbank.com/aspac-teachers-salary-loan-apds.webp"
         ogImageAlt="ASPAC Bank – Teacher Salary Loan and Secure Banking Services"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
@@ -116,12 +121,12 @@ const WelcomePage: React.FC = () => {
       </section>
 
       {/* Oslob Branch Lite grand opening announcement */}
-      <section className="relative overflow-hidden">
+      <section ref={oslobVideoRef} className="relative overflow-hidden">
         <video
           className="absolute inset-0 h-full w-full object-cover"
-          src="/assets/vid/oslob-branch-opening.mp4"
+          src={oslobVideoInView ? "/assets/vid/oslob-branch-opening.mp4" : undefined}
           poster="/assets/vid/oslob-branch-opening-poster.jpg"
-          autoPlay
+          autoPlay={oslobVideoInView}
           muted
           loop
           playsInline
@@ -173,7 +178,7 @@ const WelcomePage: React.FC = () => {
           <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg">
             <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-aspac-yellow to-primary" />
             <img
-              src="/iknow_bsp.jpg"
+              src="/iknow_bsp.webp"
               alt="Bangko Sentral ng Pilipinas #iKNOW financial consumer protection campaign — I am a smart financial consumer"
               className="w-full h-auto"
               loading="lazy"

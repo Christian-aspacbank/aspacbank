@@ -54,7 +54,7 @@ const SaturdayBranches: React.FC = () => {
           {/* Cover photo */}
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/saturdaybanking.png')" }}
+            style={{ backgroundImage: "url('/saturdaybanking.webp')" }}
             role="img"
             aria-label="ASPAC Bank branch building"
           />

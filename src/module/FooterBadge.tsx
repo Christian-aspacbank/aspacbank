@@ -44,7 +44,7 @@ export function FooterBadge() {
             {showPDICImage && (
               <div className="mt-5">
                 <img
-                  src="/pdic.jpg"
+                  src="/pdic.webp"
                   alt="PDIC Digital Decal"
                   className="mx-auto md:mx-0 object-contain "
                   loading="lazy"
