@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, Pagination, EffectFade, Keyboard, A11y } from "swiper/modules";
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
@@ -9,15 +9,17 @@ import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import { branches } from "../data/branches";
 import Seo from "../components/Seo";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 const Branches = () => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <>
       {/* ✅ SEO for /branches */}
       <Seo
-        title="ASPAC Bank Branches"
+        title="Branch Locations in Cebu | ASPAC Bank"
         description="Find ASPAC Bank branches near you. Explore convenient locations across Cebu and nearby areas for banking services, deposits, withdrawals, and account assistance. Visit your nearest ASPAC Rural Bank branch today."
         canonical="https://www.aspacbank.com/branches"
         ogType="website"
@@ -670,7 +672,9 @@ const Branches = () => {
                   ease: "easeOut",
                 }}
                 className="break-inside-avoid mb-8 will-change-transform"
-                onMouseEnter={() => swiperRef.current?.autoplay.start()}
+                onMouseEnter={() =>
+                  !prefersReducedMotion && swiperRef.current?.autoplay.start()
+                }
                 onMouseLeave={() => swiperRef.current?.autoplay.stop()}
               >
                 <div
@@ -684,8 +688,9 @@ const Branches = () => {
 
                   {/* IMAGE SWIPER */}
                   <Swiper
-                    modules={[Autoplay, Pagination, EffectFade]}
+                    modules={[Autoplay, Pagination, EffectFade, Keyboard, A11y]}
                     effect="fade"
+                    keyboard={{ enabled: true }}
                     autoplay={{
                       delay: 2500,
                       disableOnInteraction: false,
@@ -696,7 +701,7 @@ const Branches = () => {
                     }}
                     pagination={{ clickable: true }}
                     loop
-                    speed={600}
+                    speed={prefersReducedMotion ? 0 : 600}
                     className="h-72 w-full"
                   >
                     {branch.images.map((img, i) => (

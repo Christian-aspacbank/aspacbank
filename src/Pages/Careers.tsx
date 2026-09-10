@@ -142,7 +142,7 @@ const Careers: React.FC = () => {
   return (
     <>
       <Seo
-        title={`Careers (${jobsCount}) | ASPAC Bank`}
+        title="Careers | ASPAC Bank"
         description="Join the ASPAC Bank team — explore job opportunities, benefits, and a rewarding career path in banking."
         canonical="https://www.aspacbank.com/careers"
         ogType="website"

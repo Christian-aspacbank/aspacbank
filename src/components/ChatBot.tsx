@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
+import { useModalA11y } from "../hooks/useModalA11y";
 import { useEffect, useRef, useState } from "react";
 import { SERVER_URL } from "./config/api";
 import { IoIosArrowDown } from "react-icons/io";
@@ -30,6 +31,7 @@ const formatBotAnswer = (answer: string) => {
 
 export function ChatBot() {
   const [open, setOpen] = useState(false);
+  const panelRef = useModalA11y<HTMLDivElement>(open, () => setOpen(false));
   const [wide, setWide] = useState(false);
   const [showClosedHint, setShowClosedHint] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
@@ -258,6 +260,11 @@ export function ChatBot() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="chatbot-panel-title"
+            tabIndex={-1}
             layout
             initial={{ opacity: 0, x: 80 }}
             animate={{
@@ -313,7 +320,7 @@ export function ChatBot() {
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <h2 className="truncate text-sm font-bold leading-tight sm:text-base">
+                      <h2 id="chatbot-panel-title" className="truncate text-sm font-bold leading-tight sm:text-base">
                         ARBI Assistant
                       </h2>
                       {/* {backendOnline ? (
@@ -441,7 +448,7 @@ export function ChatBot() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask ARBI a question..."
                   disabled={loading}
-                  className="min-w-0 flex-1 bg-transparent px-3 text-xs sm:text-sm text-slate-700 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed"
+                  className="min-w-0 flex-1 bg-transparent px-3 text-xs sm:text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded-md placeholder:text-slate-400 disabled:cursor-not-allowed"
                 />
 
                 <button

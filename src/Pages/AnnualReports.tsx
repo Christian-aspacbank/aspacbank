@@ -59,6 +59,28 @@ const AnnualReports: React.FC = () => {
         ogImageAlt="ASPAC Bank logo"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "@id": "https://www.aspacbank.com/annual-reports#collection",
+          name: "ASPAC Bank Annual Reports",
+          url: "https://www.aspacbank.com/annual-reports",
+          isPartOf: { "@id": "https://www.aspacbank.com/#website" },
+          about: { "@id": "https://www.aspacbank.com/#organization" },
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: REPORTS.map((report, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "DigitalDocument",
+                name: report.title,
+                description: report.description,
+                url: `https://www.aspacbank.com${report.pdfPath}`,
+              },
+            })),
+          },
+        }}
       />
 
       <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-green-50 via-white to-emerald-50 px-3 py-6 pt-24 sm:px-5 md:px-8 lg:px-10">

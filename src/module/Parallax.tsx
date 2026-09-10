@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade, Keyboard, A11y } from "swiper/modules";
 import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import "swiper/css";
@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "../WelcomePage.css";
 import { FaArrowRight } from "react-icons/fa6";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 export type HeroSlide = {
   image: string;
@@ -47,6 +48,7 @@ export default function ParallaxHero({
 }: Props) {
   // const [activeIndex, setActiveIndex] = useState(0);
   const { scrollY } = useScroll();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -72,12 +74,17 @@ export default function ParallaxHero({
   return (
     <section className="w-full h-screen min-h-screen relative overflow-hidden  ">
       <Swiper
-        modules={[Pagination, Autoplay, EffectFade]}
+        modules={[Pagination, Autoplay, EffectFade, Keyboard, A11y]}
         effect="fade"
         fadeEffect={{ crossFade: true }}
-        speed={1000}
+        speed={prefersReducedMotion ? 0 : 1000}
         loop
-        autoplay={{ delay: 9000, disableOnInteraction: false }}
+        keyboard={{ enabled: true }}
+        autoplay={
+          prefersReducedMotion
+            ? false
+            : { delay: 9000, disableOnInteraction: false }
+        }
         pagination={{ clickable: true }}
         onSlideChange={(swiper) => {
           // setActiveIndex(swiper.realIndex);
@@ -92,7 +99,7 @@ export default function ParallaxHero({
                 className=" absolute inset-0 bg-cover bg-center scale-105 md:scale-110"
                 style={{
                   backgroundImage: `url(${slide.image})`,
-                  y: imageY,
+                  y: prefersReducedMotion ? 0 : imageY,
                 }}
               />
 
@@ -105,11 +112,11 @@ export default function ParallaxHero({
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.1 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.1 }}
                   key={slide.title}
                   className="max-w-3xl text-center mx-auto"
                   style={{
-                    y: textY,
+                    y: prefersReducedMotion ? 0 : textY,
                   }}
                 >
                   <h2 className="text-[#ebd839] text-3xl md:text-5xl font-normal leading-8 hero-text-shadow">
@@ -136,7 +143,7 @@ export default function ParallaxHero({
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
                     className="flex gap-3"
                   >
                     {slide.primaryButton && (

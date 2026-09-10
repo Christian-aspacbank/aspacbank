@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useId, useMemo } from "react";
 
 export type AttachmentValue = {
   file: File | null;
@@ -26,6 +26,9 @@ const AttachmentField: React.FC<Props> = ({
   maxSizeMB = 5,
   allowed = DEFAULT_ALLOWED,
 }) => {
+  const inputId = useId();
+  const helpId = useId();
+
   const accept = useMemo(() => {
     // for input accept attribute
     const map: Record<string, string> = {
@@ -56,16 +59,19 @@ const AttachmentField: React.FC<Props> = ({
 
   return (
     <div>
-      <label className="text-sm font-medium text-gray-700">
+      <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <div className="mt-1">
         <input
+          id={inputId}
           type="file"
           accept={accept}
           disabled={disabled}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 bg-white"
+          aria-invalid={value.error ? true : undefined}
+          aria-describedby={helpId}
           onChange={(e) => {
             const file = e.target.files?.[0] ?? null;
             const error = validate(file);
@@ -75,18 +81,18 @@ const AttachmentField: React.FC<Props> = ({
       </div>
 
       {value.file && !value.error && (
-        <p className="text-xs text-gray-600 mt-1">
+        <p id={helpId} className="text-xs text-gray-600 mt-1">
           Selected: <span className="font-medium">{value.file.name}</span> (
           {Math.ceil(value.file.size / 1024)} KB)
         </p>
       )}
 
       {value.error && (
-        <p className="text-xs text-red-600 mt-1">{value.error}</p>
+        <p id={helpId} className="text-xs text-red-600 mt-1">{value.error}</p>
       )}
 
       {!value.file && !value.error && (
-        <p className="text-xs text-gray-500 mt-1">
+        <p id={helpId} className="text-xs text-gray-500 mt-1">
           Allowed: PDF/JPG/PNG up to {maxSizeMB}MB
         </p>
       )}

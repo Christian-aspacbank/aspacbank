@@ -8,6 +8,7 @@ type SearchableSelectProps = {
   onChange: (value: string) => void;
   onBlur?: () => void;
   maxResults?: number;
+  "aria-labelledby"?: string;
 };
 
 const SearchableSelect: React.FC<SearchableSelectProps> = ({
@@ -18,6 +19,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
   onChange,
   onBlur,
   maxResults = 10,
+  "aria-labelledby": ariaLabelledBy,
 }) => {
   const wrapRef = React.useRef<HTMLDivElement | null>(null);
   const listRef = React.useRef<HTMLDivElement | null>(null);
@@ -118,6 +120,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         aria-expanded={open}
         aria-controls={listboxId}
         aria-haspopup="listbox"
+        aria-labelledby={ariaLabelledBy}
         aria-activedescendant={
           open && activeIndex >= 0 ? optionId(activeIndex) : undefined
         }

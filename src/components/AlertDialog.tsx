@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useModalA11y } from "../hooks/useModalA11y";
 
 type AlertDialogProps = {
   open: boolean;
@@ -29,6 +30,10 @@ export default function AlertDialog({
   onConfirm,
   onCancel,
 }: AlertDialogProps) {
+  const panelRef = useModalA11y<HTMLDivElement>(open, () => {
+    if (!loading) onCancel();
+  });
+
   return (
     <AnimatePresence>
       {open && (
@@ -42,6 +47,11 @@ export default function AlertDialog({
           }}
         >
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="alert-dialog-title"
+            tabIndex={-1}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -53,7 +63,7 @@ export default function AlertDialog({
               {icon}
             </div>
 
-            <h3 className="text-base font-bold text-slate-800">{title}</h3>
+            <h3 id="alert-dialog-title" className="text-base font-bold text-slate-800">{title}</h3>
 
             <p className="mt-2 text-xs leading-relaxed text-slate-500">
               {message}

@@ -4,6 +4,7 @@ export type AdvisoryKind =
   | "Holiday"
   | "Closure"
   | "Relocation"
+  | "New Branch"
   | "Compliance"
   | "Service"
   | "General";
@@ -31,6 +32,7 @@ export interface Advisory {
 export const KIND_BADGE: Record<AdvisoryKind, { bg: string; text: string; border: string }> = {
   Closure: { bg: "bg-amber-50 text-amber-800 border-amber-200", text: "text-amber-800", border: "border-amber-500" },
   Relocation: { bg: "bg-blue-50 text-blue-800 border-blue-200", text: "text-blue-800", border: "border-blue-500" },
+  "New Branch": { bg: "bg-primary/10 text-primary border-primary/30", text: "text-primary", border: "border-primary" },
   Compliance: { bg: "bg-purple-50 text-purple-800 border-purple-200", text: "text-purple-800", border: "border-purple-500" },
   Service: { bg: "bg-emerald-50 text-emerald-800 border-emerald-200", text: "text-emerald-800", border: "border-emerald-500" },
   General: { bg: "bg-slate-50 text-slate-800 border-slate-200", text: "text-slate-800", border: "border-slate-500" },

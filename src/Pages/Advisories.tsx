@@ -141,6 +141,21 @@ const LoansAdvisories: Advisory[] = [
     },
   },
   {
+    id: "oslob-grand-opening-2026",
+    kind: "New Branch",
+    title: "Grand Opening – ASPAC Bank Oslob Branch Lite",
+    effective: "September 7, 2026",
+    summary:
+      "We are pleased to announce the grand opening of ASPAC Bank Oslob Branch Lite, bringing banking services closer to the Oslob community.",
+    paragraphs: [
+      "Address: Purok Bombil, Lagunde, Oslob, Cebu.",
+    ],
+    cta: {
+      label: "View on Google Maps",
+      href: "https://www.google.com/maps/search/?api=1&query=Purok+Bombil%2C+Lagunde%2C+Oslob%2C+Cebu",
+    },
+  },
+  {
     id: "consolacion-relocate-2025",
     kind: "Relocation",
     title: "New Branch Location – ASPAC Bank Consolacion",
