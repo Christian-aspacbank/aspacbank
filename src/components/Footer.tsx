@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
       {showPDICImage && (
         <div className="max-w-6xl mx-auto px-6 mb-10 text-center">
           <img
-            src="/pdic.jpg"
+            src="/pdic.webp"
             alt="PDIC Digital Decal"
             className=" mx-auto object-contain rounded-full "
             loading="lazy"

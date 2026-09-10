@@ -35,7 +35,7 @@ const BillsPayment: React.FC = () => {
         description="Pay your bills quickly and securely with ASPAC Bank. Enjoy convenient over-the-counter payments for utilities, loans, government services, and partner billers across Cebu and nearby areas."
         canonical="https://www.aspacbank.com/bills-payment"
         ogType="service"
-        ogImage="https://www.aspacbank.com/Billspayment.png"
+        ogImage="https://www.aspacbank.com/Billspayment.webp"
         ogImageAlt="ASPAC Bank Bills Payment services and over-the-counter transactions"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"

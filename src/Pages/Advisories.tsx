@@ -59,7 +59,7 @@ const LoansAdvisories: Advisory[] = [
       // />
       <figure className="mt-4">
         <img
-          src="/bspsecuritips_newyear.jpg"
+          src="/bspsecuritips_newyear.webp"
           alt="BSP Security Tips – New Year advisory"
           loading="lazy"
           className="w-max justify-self-center md:h-96 rounded-2xl shadow-sm ring-1 ring-gray-100 select-none"
@@ -189,7 +189,7 @@ const Hero: React.FC = () => (
   <section className="relative w-full h-[22rem] sm:h-[26rem] overflow-hidden bg-gray-900">
     <div
       className="absolute inset-0 bg-center bg-cover scale-105 transform brightness-75 transition duration-700"
-      style={{ backgroundImage: "url('/general_advisories1.png')" }}
+      style={{ backgroundImage: "url('/general_advisories1.webp')" }}
       role="img"
       aria-label="ASPAC Bank Advisories banner"
     />
@@ -383,7 +383,7 @@ const AdvisoriesPage: React.FC = () => {
         description="Stay informed with ASPAC Bank advisories — branch schedules, service changes, compliance notices, and important updates for clients and stakeholders across Cebu."
         canonical="https://www.aspacbank.com/advisories"
         ogType="website"
-        ogImage="https://www.aspacbank.com/general_advisories1.png"
+        ogImage="https://www.aspacbank.com/general_advisories1.webp"
         ogImageAlt="ASPAC Bank advisories, service updates, and branch notices"
         ogSiteName="ASPAC Bank"
         ogLocale="en_PH"

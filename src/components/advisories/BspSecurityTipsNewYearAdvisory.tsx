@@ -6,7 +6,7 @@ type Props = {
   caption?: string;
 };
 
-const IMG_SRC = "/bspsecuritips_newyear.jpg";
+const IMG_SRC = "/bspsecuritips_newyear.webp";
 
 const BspSecurityTipsNewYearAdvisory: React.FC<Props> = ({
   className,
