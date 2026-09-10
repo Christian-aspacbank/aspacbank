@@ -1,8 +1,9 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay, Keyboard, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 const testimonials = [
   {
@@ -22,6 +23,8 @@ const testimonials = [
 ];
 
 const Testimonials: React.FC = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
     <section
       aria-labelledby="testimonials-heading"
@@ -35,11 +38,16 @@ const Testimonials: React.FC = () => {
       </h2>
 
       <Swiper
-        modules={[Pagination, Autoplay]}
+        modules={[Pagination, Autoplay, Keyboard, A11y]}
         spaceBetween={30}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        keyboard={{ enabled: true }}
+        autoplay={
+          prefersReducedMotion
+            ? false
+            : { delay: 4000, disableOnInteraction: false }
+        }
         className="pb-10"
       >
         {testimonials.map((testimonial, index) => (

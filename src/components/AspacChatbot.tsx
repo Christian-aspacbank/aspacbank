@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useModalA11y } from "../hooks/useModalA11y";
 
 /**
  * ASPAC Assistant — React floating chatbot (no API)
@@ -79,7 +80,7 @@ const FAQ_DATA: Array<{ q: string; a: string; tags?: string[] }> = [
     q: "Do you offer Teacher's Loan?",
     a: `Thank you for your inquiry. We are pleased to confirm that we offer teacher salary loans.<br/>
   To begin your application, please download the loan application form here: 
-  <a href="https://www.aspacbank.com/files/ASPAC_Salary_loan_form.pdf" target="_blank" class="underline text-primary">
+  <a href="https://www.aspacbank.com/files/ASPAC_Salary_loan_form.pdf" target="_blank" rel="noopener noreferrer" class="underline text-primary">
     Teacher Salary Form
   </a>. All required documentation and eligibility requirements are detailed on the second page of the form.`,
     tags: ["APDS", "inquire", "teachers", "teacher's"],
@@ -88,7 +89,7 @@ const FAQ_DATA: Array<{ q: string; a: string; tags?: string[] }> = [
     q: "How to apply Teacher's Loan?",
     a: `
     <ul class="list-none space-y-3 text-left">
-      <li><span class="font-semibold">Step 1:</span> Download the Salary Loan Application Form here:  <a href="https://www.aspacbank.com/files/ASPAC_Salary_loan_form.pdf" target="_blank" class="underline text-primary">
+      <li><span class="font-semibold">Step 1:</span> Download the Salary Loan Application Form here:  <a href="https://www.aspacbank.com/files/ASPAC_Salary_loan_form.pdf" target="_blank" rel="noopener noreferrer" class="underline text-primary">
    Teacher Salary Form
   </a>. Prepare the requirements — Application Form, Payslip, Appointment Letter, 2x2 Picture, and Valid IDs.</li>
       <li><span class="font-semibold">Step 2:</span> Submit the requirements to the nearest ASPAC Bank Branch.</li>
@@ -228,6 +229,7 @@ export default function AspacChatbot() {
 
   const boxRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useModalA11y<HTMLDivElement>(open, () => setOpen(false));
 
   // restore history
   useEffect(() => {
@@ -265,16 +267,6 @@ export default function AspacChatbot() {
       setMessages([hello]);
     }
   }, [open, messages.length]);
-
-  // close on ESC
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
 
   function handleAsk(raw: string) {
     const text = raw.trim();
@@ -377,6 +369,8 @@ export default function AspacChatbot() {
       {/* Panel */}
       {open && (
         <div
+          ref={panelRef}
+          tabIndex={-1}
           className="fixed z-40 bottom-20 right-4 w-[380px] max-w-[92vw] h-[530px] rounded-2xl shadow-2xl bg-white flex flex-col border border-gray-200 overflow-hidden"
           role="dialog"
           aria-modal="true"

@@ -14,10 +14,17 @@
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- First homepage hero slide background image (src/data/hero.ts), preloaded
+       so the browser can start fetching it before the app's JS/CSS evaluates. -->
+  <link rel="preload" as="image" href="%PUBLIC_URL%/saturdaybanking.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
  
+  <!-- Global Organization/WebSite structured data, present on every route.
+       Per-route structured data is added separately by src/components/Seo.tsx
+       and uses different @type values, so this is not a duplicate. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

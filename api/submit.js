@@ -1,13 +1,26 @@
 // /api/submit.js
 const { IncomingForm } = require("formidable");
 const fs = require("fs");
+const { Redis } = require("@upstash/redis");
 
-// ---------- simple in-memory rate limit (per IP) ----------
+// ---------- rate limit (per IP) ----------
+// Vercel functions are stateless/multi-instance, so a module-level Map alone
+// cannot enforce a limit across concurrent invocations. When Upstash Redis
+// env vars are configured (UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN)
+// we use a shared Redis-backed counter; otherwise we fail open to the old
+// in-memory check (best-effort only, per-instance).
 const RATE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const RATE_MAX = 2; // ✅ max 2 submits / 10 minutes
+const RATE_MAX = 2; // max 2 submits / 10 minutes
 const BURST_WINDOW_MS = 2 * 1000; // 2 seconds
-const BURST_MAX = 1; // ✅ max 1 submit / 5 seconds
+const BURST_MAX = 1; // max 1 submit / 2 seconds
 
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null;
 
 const ipBuckets = new Map();
 
@@ -22,7 +35,31 @@ function getClientIp(req) {
   );
 }
 
-function rateLimitCheck(req) {
+// Allowlist for the site origin; used to reject cross-site form posts.
+const ALLOWED_ORIGINS = new Set([
+  "https://www.aspacbank.com",
+  "https://aspacbank.com",
+]);
+
+function isAllowedOrigin(originOrReferer) {
+  if (!originOrReferer) return false;
+  try {
+    const { origin, hostname } = new URL(originOrReferer);
+    if (ALLOWED_ORIGINS.has(origin)) return true;
+    if (hostname.endsWith(".vercel.app")) return true; // preview deployments
+    if (
+      process.env.NODE_ENV !== "production" &&
+      (hostname === "localhost" || hostname === "127.0.0.1")
+    ) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+function rateLimitCheckMemory(req) {
   const ip = getClientIp(req);
   const now = Date.now();
 
@@ -72,6 +109,39 @@ function rateLimitCheck(req) {
   }
 
   return { ok: true, reason: null, retryAfterSec: 0 };
+}
+
+async function rateLimitCheckRedis(req) {
+  const ip = getClientIp(req);
+  const burstKey = `submit:burst:${ip}`;
+  const windowKey = `submit:window:${ip}`;
+
+  const burstCount = await redis.incr(burstKey);
+  if (burstCount === 1) await redis.expire(burstKey, Math.ceil(BURST_WINDOW_MS / 1000));
+  if (burstCount > BURST_MAX) {
+    const ttl = await redis.ttl(burstKey);
+    return { ok: false, reason: "burst", retryAfterSec: Math.max(1, ttl) };
+  }
+
+  const windowCount = await redis.incr(windowKey);
+  if (windowCount === 1) await redis.expire(windowKey, Math.ceil(RATE_WINDOW_MS / 1000));
+  if (windowCount > RATE_MAX) {
+    const ttl = await redis.ttl(windowKey);
+    return { ok: false, reason: "window", retryAfterSec: Math.max(1, ttl) };
+  }
+
+  return { ok: true, reason: null, retryAfterSec: 0 };
+}
+
+async function rateLimitCheck(req) {
+  if (redis) {
+    try {
+      return await rateLimitCheckRedis(req);
+    } catch (err) {
+      console.error("Redis rate limit check failed, falling back to in-memory:", err);
+    }
+  }
+  return rateLimitCheckMemory(req);
 }
 
 
@@ -269,30 +339,6 @@ function buildHtmlEmail(payload, attachmentMeta) {
   `.trim();
 }
 
-function buildTextEmail(payload) {
-  return `
-NEW APDS LOAN APPLICATION
-
-Reference No: ${payload.referenceNo || "N/A"}
-Applicant Name: ${payload.fullName || "-"}
-Submitted At: ${payload.submittedAt || "-"}
-
-Applicant Details
-Email: ${payload.email || "-"}
-Mobile Number: ${payload.mobile || "-"}
-School/Office: ${payload.school || "-"}
-Division: ${payload.division || "-"}
-Station: ${payload.station || "-"}
-
-Loan Request
-Loan Amount (PHP): ${formatNumber(payload.loanAmount || "-")}
-Desired Term (Months): ${payload.termMonths || "-"}
-
-Remarks
-${payload.remarks || "-"}
-`.trim();
-}
-
 // ---------- handler ----------
 const handler = async (req, res) => {
   try {
@@ -300,8 +346,18 @@ const handler = async (req, res) => {
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-        // ✅ rate limit BEFORE parsing multipart (spam protection)
-    const rl = rateLimitCheck(req);
+    // reject cross-site posts (this endpoint is only meant to be called
+    // from the bank's own site)
+    if (!isAllowedOrigin(req.headers.origin || req.headers.referer)) {
+      console.warn(
+        "Blocked /api/submit from disallowed origin:",
+        req.headers.origin || req.headers.referer || "(none)"
+      );
+      return res.status(403).json({ message: "Request not allowed." });
+    }
+
+    // rate limit BEFORE parsing multipart (spam protection)
+    const rl = await rateLimitCheck(req);
 if (!rl.ok) {
   res.setHeader("Retry-After", String(rl.retryAfterSec || 5));
   return res.status(429).json({
@@ -455,16 +511,12 @@ if (!rl.ok) {
     const to = safeHeader(process.env.MAIL_TO || "dzpo@aspacbank.com");
 
     if (!from || !isValidEmail(from)) {
-      return res.status(500).json({
-        message: "Server config missing/invalid.",
-        error: "MAIL_FROM is missing or invalid.",
-      });
+      console.error("Server config error: MAIL_FROM is missing or invalid.");
+      return res.status(500).json({ message: "Submission failed." });
     }
     if (!to || !isValidEmail(to)) {
-      return res.status(500).json({
-        message: "Server config missing/invalid.",
-        error: "MAIL_TO is missing or invalid.",
-      });
+      console.error("Server config error: MAIL_TO is missing or invalid.");
+      return res.status(500).json({ message: "Submission failed." });
     }
 
     const accessToken = await getAccessToken();
@@ -480,8 +532,6 @@ if (!rl.ok) {
       },
       attachmentMeta
     );
-    const text = buildTextEmail({ ...payload, loanAmount: String(amt) });
-
     // keep logs minimal
     console.log("APDS submit:", {
       ref: payload.referenceNo || "N/A",
@@ -512,22 +562,15 @@ if (!rl.ok) {
     if (!createResp.ok) {
       const errText = await createResp.text();
       console.error("Create message failed:", errText);
-      return res.status(500).json({
-        message: "Submission failed.",
-        error: `Create message failed: ${errText}`,
-        fallback: text,
-      });
+      return res.status(500).json({ message: "Submission failed." });
     }
 
     const created = await createResp.json();
     const messageId = created?.id;
 
     if (!messageId) {
-      return res.status(500).json({
-        message: "Submission failed.",
-        error: "No message id returned from create message.",
-        fallback: text,
-      });
+      console.error("No message id returned from create message.");
+      return res.status(500).json({ message: "Submission failed." });
     }
 
     // Send message
@@ -543,20 +586,13 @@ if (!rl.ok) {
     if (!sendResp.ok) {
       const errText = await sendResp.text();
       console.error("Send message failed:", errText);
-      return res.status(500).json({
-        message: "Submission failed.",
-        error: `Send message failed: ${errText}`,
-        fallback: text,
-      });
+      return res.status(500).json({ message: "Submission failed." });
     }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error("submit error:", err);
-    return res.status(500).json({
-      message: "Submission failed.",
-      error: String(err?.message || err),
-    });
+    return res.status(500).json({ message: "Submission failed." });
   }
 };
 

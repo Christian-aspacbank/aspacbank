@@ -115,6 +115,43 @@ const WelcomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Oslob Branch Lite grand opening announcement */}
+      <section className="relative overflow-hidden">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/assets/vid/oslob-branch-opening.mp4"
+          poster="/assets/vid/oslob-branch-opening-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1c3a1c]/90 via-primary/60 to-transparent" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 md:py-28">
+          <div className="max-w-md text-left">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent text-primary mb-6 tracking-wide uppercase shadow-md">
+              Grand Opening
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+              ASPAC Bank Oslob Branch Lite is Now Open
+            </h2>
+            <p className="text-base md:text-lg text-white/85 leading-relaxed mb-8">
+              Visit our newest branch at Purok Bombil, Lagunde, Oslob, Cebu
+              for banking services closer to home.
+            </p>
+            <button
+              onClick={() => navigate("/branches")}
+              className="inline-flex items-center justify-center bg-accent text-primary font-bold py-3 px-8 rounded-xl shadow-lg shadow-black/20 hover:brightness-95 border border-accent/50 transition-all duration-200 active:scale-[0.98]"
+            >
+              Find a Branch
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Consumer protection / BSP #iKNOW campaign */}
       <section className="border-y border-gray-100 bg-gradient-to-br from-primary/5 via-white to-aspac-yellow/10 py-14 md:py-16">
         <div className="max-w-5xl mx-auto px-6">

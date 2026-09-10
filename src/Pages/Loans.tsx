@@ -242,7 +242,7 @@ const Loans: React.FC = () => {
 
           <div className="grid gap-6 md:grid-cols-3 mb-4">
             <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">
                 Individuals
               </p>
 
@@ -252,7 +252,7 @@ const Loans: React.FC = () => {
               </p>
             </div>
             <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">
                 Businesses
               </p>
               <h3 className="text-base font-semibold text-primary mb-1">
@@ -264,7 +264,7 @@ const Loans: React.FC = () => {
               </p>
             </div>
             <div className="bg-white rounded-2xl p-5 border border-primary/15 shadow-sm">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-aspac-yellow mb-2">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-primary mb-2">
                 Overseas & Others
               </p>
             </div>

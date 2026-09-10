@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchableSelect from "./SearchableSelect";
 import AttachmentField, { AttachmentValue } from "./AttachmentField";
+import { useModalA11y } from "../hooks/useModalA11y";
 
 type ApplyFormState = {
   fullName: string;
@@ -385,6 +386,10 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const panelRef = useModalA11y<HTMLDivElement>(isOpen, () => {
+    if (!isSending) onClose();
+  });
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -396,6 +401,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
           onClick={() => !isSending && onClose()}
         >
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="apply-now-modal-title"
+            tabIndex={-1}
             className="bg-white mt-10 sm:mt-16 p-4 sm:p-8 rounded-2xl w-full max-w-md sm:max-w-xl shadow-2xl max-h-[85svh] overflow-y-auto"
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -405,7 +415,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-green-900">
+                <h2 id="apply-now-modal-title" className="text-xl sm:text-2xl font-bold text-green-900">
                   Connect with ARBI Now!
                 </h2>
 
@@ -602,10 +612,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       {/* Full Name */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-fullName" className="text-sm font-medium text-gray-700">
                           Full Name <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-fullName"
                           placeholder="Full Name"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
                           value={form.fullName}
@@ -614,9 +625,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }
                           onBlur={() => touchField("fullName")}
                           disabled={isSending}
+                          aria-invalid={showError("fullName") && !form.fullName.trim() ? true : undefined}
+                          aria-describedby={showError("fullName") && !form.fullName.trim() ? "apply-fullName-error" : undefined}
                         />
                         {showError("fullName") && !form.fullName.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p id="apply-fullName-error" className="text-xs text-red-600 mt-1">
                             Full name is required.
                           </p>
                         )}
@@ -624,10 +637,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Mobile */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-mobileNumber" className="text-sm font-medium text-gray-700">
                           Mobile Number <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-mobileNumber"
                           placeholder="0XXXXXXXXXX"
                           inputMode="numeric"
                           pattern="\d*"
@@ -653,12 +667,24 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }}
                           onBlur={() => touchField("mobileNumber")}
                           disabled={isSending}
+                          aria-invalid={
+                            showError("mobileNumber") &&
+                            !/^0[1-9]\d{9}$/.test(form.mobileNumber.replace(/\D/g, ""))
+                              ? true
+                              : undefined
+                          }
+                          aria-describedby={
+                            showError("mobileNumber") &&
+                            !/^0[1-9]\d{9}$/.test(form.mobileNumber.replace(/\D/g, ""))
+                              ? "apply-mobileNumber-error"
+                              : undefined
+                          }
                         />
                         {showError("mobileNumber") &&
                           !/^0[1-9]\d{9}$/.test(
                             form.mobileNumber.replace(/\D/g, ""),
                           ) && (
-                            <p className="text-xs text-red-600 mt-1">
+                            <p id="apply-mobileNumber-error" className="text-xs text-red-600 mt-1">
                               Mobile number should be 11 digits and start with
                               01–09 (e.g., 0898XXXXXXX).
                             </p>
@@ -667,10 +693,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Email */}
                       <div className="sm:col-span-2">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-email" className="text-sm font-medium text-gray-700">
                           Email <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-email"
                           placeholder="name@gmail.com"
                           type="email"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
@@ -681,9 +708,25 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                             update("email", form.email.trim());
                           }}
                           disabled={isSending}
+                          aria-invalid={
+                            showError("email") &&
+                            (!form.email.trim() ||
+                              !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(form.email.trim()))
+                              ? true
+                              : undefined
+                          }
+                          aria-describedby={
+                            showError("email") && !form.email.trim()
+                              ? "apply-email-error-required"
+                              : showError("email") &&
+                                form.email.trim() &&
+                                !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(form.email.trim())
+                              ? "apply-email-error-invalid"
+                              : undefined
+                          }
                         />
                         {showError("email") && !form.email.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p id="apply-email-error-required" className="text-xs text-red-600 mt-1">
                             Email is required.
                           </p>
                         )}
@@ -692,7 +735,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(
                             form.email.trim(),
                           ) && (
-                            <p className="text-xs text-red-600 mt-1">
+                            <p id="apply-email-error-invalid" className="text-xs text-red-600 mt-1">
                               Please enter a valid email (e.g., name@gmail.com).
                             </p>
                           )}
@@ -709,10 +752,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       {/* Division */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-division" className="text-sm font-medium text-gray-700">
                           Division <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-division"
                           placeholder="Division"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
                           value={form.division}
@@ -721,9 +765,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }
                           onBlur={() => touchField("division")}
                           disabled={isSending}
+                          aria-invalid={showError("division") && !form.division.trim() ? true : undefined}
+                          aria-describedby={showError("division") && !form.division.trim() ? "apply-division-error" : undefined}
                         />
                         {showError("division") && !form.division.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p id="apply-division-error" className="text-xs text-red-600 mt-1">
                             Division is required.
                           </p>
                         )}
@@ -731,10 +777,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Station */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-station" className="text-sm font-medium text-gray-700">
                           Station <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-station"
                           placeholder="Station"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
                           value={form.station}
@@ -743,9 +790,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }
                           onBlur={() => touchField("station")}
                           disabled={isSending}
+                          aria-invalid={showError("station") && !form.station.trim() ? true : undefined}
+                          aria-describedby={showError("station") && !form.station.trim() ? "apply-station-error" : undefined}
                         />
                         {showError("station") && !form.station.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p id="apply-station-error" className="text-xs text-red-600 mt-1">
                             Station is required.
                           </p>
                         )}
@@ -762,7 +811,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       {/* School / Office */}
                       <div className="sm:col-span-2">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label id="apply-schoolOrOffice-label" className="text-sm font-medium text-gray-700">
                           School / Office{" "}
                           <span className="text-red-500">*</span>
                         </label>
@@ -779,6 +828,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           onChange={(v) => update("schoolOrOffice", v)}
                           onBlur={() => touchField("schoolOrOffice")}
                           maxResults={12}
+                          aria-labelledby="apply-schoolOrOffice-label"
                         />
 
                         {showError("schoolOrOffice") &&
@@ -791,11 +841,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Loan Amount */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-loanAmount" className="text-sm font-medium text-gray-700">
                           Loan Amount (PHP){" "}
                           <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="apply-loanAmount"
                           type="text"
                           inputMode="numeric"
                           pattern="^[0-9,]*$"
@@ -821,9 +872,43 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }}
                           onBlur={() => touchField("loanAmount")}
                           disabled={isSending}
+                          aria-invalid={
+                            showError("loanAmount") &&
+                            (!form.loanAmount.trim() ||
+                              (() => {
+                                const amount = Number(
+                                  form.loanAmount.replace(/,/g, "").trim(),
+                                );
+                                return (
+                                  !Number.isFinite(amount) ||
+                                  amount < 1000 ||
+                                  amount > 5000000
+                                );
+                              })())
+                              ? true
+                              : undefined
+                          }
+                          aria-describedby={
+                            showError("loanAmount") && !form.loanAmount.trim()
+                              ? "apply-loanAmount-error-required"
+                              : showError("loanAmount") &&
+                                form.loanAmount.trim() &&
+                                (() => {
+                                  const amount = Number(
+                                    form.loanAmount.replace(/,/g, "").trim(),
+                                  );
+                                  return (
+                                    !Number.isFinite(amount) ||
+                                    amount < 1000 ||
+                                    amount > 5000000
+                                  );
+                                })()
+                              ? "apply-loanAmount-error-invalid"
+                              : undefined
+                          }
                         />
                         {showError("loanAmount") && !form.loanAmount.trim() && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p id="apply-loanAmount-error-required" className="text-xs text-red-600 mt-1">
                             Loan amount is required.
                           </p>
                         )}
@@ -839,7 +924,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                               amount > 5000000
                             );
                           })() && (
-                            <p className="text-xs text-red-600 mt-1">
+                            <p id="apply-loanAmount-error-invalid" className="text-xs text-red-600 mt-1">
                               Please enter a valid amount (min 1,000, max
                               5,000,000).
                             </p>
@@ -848,11 +933,12 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Term */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-desiredTermMonths" className="text-sm font-medium text-gray-700">
                           Desired Term (Months){" "}
                           <span className="text-red-500">*</span>
                         </label>
                         <select
+                          id="apply-desiredTermMonths"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white"
                           value={form.desiredTermMonths}
                           onChange={(e) =>
@@ -860,6 +946,16 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                           }
                           onBlur={() => touchField("desiredTermMonths")}
                           disabled={isSending}
+                          aria-invalid={
+                            showError("desiredTermMonths") && !form.desiredTermMonths.trim()
+                              ? true
+                              : undefined
+                          }
+                          aria-describedby={
+                            showError("desiredTermMonths") && !form.desiredTermMonths.trim()
+                              ? "apply-desiredTermMonths-error"
+                              : undefined
+                          }
                         >
                           <option value="" disabled>
                             Select term
@@ -875,7 +971,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                         {showError("desiredTermMonths") &&
                           !form.desiredTermMonths.trim() && (
-                            <p className="text-xs text-red-600 mt-1">
+                            <p id="apply-desiredTermMonths-error" className="text-xs text-red-600 mt-1">
                               Term is required.
                             </p>
                           )}
@@ -895,10 +991,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                       {/* Remarks */}
                       <div className="sm:col-span-2">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label htmlFor="apply-remarks" className="text-sm font-medium text-gray-700">
                           Remarks
                         </label>
                         <textarea
+                          id="apply-remarks"
                           placeholder="Optional notes (e.g., preferred contact time)"
                           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 min-h-[70px] sm:min-h-[90px]"
                           value={form.remarks}

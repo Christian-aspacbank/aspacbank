@@ -459,7 +459,7 @@ const DepositAccount = () => {
                     >
                       <button
                         onClick={() => setActiveFaq(isOpen ? null : idx)}
-                        className="w-full flex items-center justify-between p-5 text-left font-bold text-sm sm:text-base text-primary hover:text-emerald-800 transition-colors focus:outline-none"
+                        className="w-full flex items-center justify-between p-5 text-left font-bold text-sm sm:text-base text-primary hover:text-emerald-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-inset"
                       >
                         <span>{item.q}</span>
                         <FaChevronDown
@@ -512,7 +512,8 @@ const DepositAccount = () => {
                 {/* Modern absolute corner dismiss asset */}
                 <button
                   onClick={() => setShowModal(false)}
-                  className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-50 rounded-xl transition-colors"
+                  aria-label="Close"
+                  className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-50 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600"
                 >
                   <FaTimes className="text-sm" />
                 </button>

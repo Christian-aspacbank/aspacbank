@@ -161,19 +161,6 @@ export function FooterBadge() {
 
               <Link
                 className="text-xs md:text-base px-4 py-2 bg-white rounded-md shadow-sm hover:bg-primary hover:text-white transition"
-                to="/privacy"
-                         onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
-              }}
-              >
-                Privacy Policy
-              </Link>
-
-              <Link
-                className="text-xs md:text-base px-4 py-2 bg-white rounded-md shadow-sm hover:bg-primary hover:text-white transition"
                 to="/features"
                          onClick={() => {
                 window.scrollTo({
@@ -221,18 +208,6 @@ export function FooterBadge() {
           </p>
 
           <div className="flex gap-6 text-xs md:text-base">
-            <Link
-              to="/privacy"
-              className="hover:text-primary"
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              Privacy Policy
-            </Link>
             <Link
               to="/advisories"
               className="hover:text-primary"

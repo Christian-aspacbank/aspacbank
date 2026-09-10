@@ -57,7 +57,7 @@ export const heroSlides = [
   },
 
   {
-    image: "/Simplysafe.jpg",
+    image: "/Simplysafe.webp",
     title: "Simply safe banking",
     description:
       "Straightforward services and community-first support.",

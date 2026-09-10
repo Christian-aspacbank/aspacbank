@@ -14,6 +14,20 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 
   export const news: NewsItem[] = [
     {
+      title: "ASPAC Bank Oslob Branch Lite Now Open",
+      content:
+        "We are pleased to announce the grand opening of ASPAC Bank Oslob Branch Lite at Purok Bombil, Lagunde, Oslob, Cebu — banking services now closer to home for the Oslob community.",
+      label: "New Branch",
+      Icon: FaMapMarkerAlt as React.ComponentType<
+        React.SVGProps<SVGSVGElement>
+      >,
+      iconColor: "text-primary",
+      to: "https://www.google.com/maps/search/?api=1&query=Purok+Bombil%2C+Lagunde%2C+Oslob%2C+Cebu",
+      mediaType: "video",
+      mediaSrc: "/assets/vid/oslob-branch-opening.mp4",
+      mediaAlt: "ASPAC Bank Oslob Branch Lite grand opening video",
+    },
+    {
       title: "ASPAC Bank Consolacion Moves to a New Building",
       content:
         "We are pleased to announce that ASPAC Bank Consolacion is now operating in its new building at Sta. Lucia Town Center, Poblacion Oriental.",

@@ -6,8 +6,8 @@ const ExplorePage: React.FC = () => {
     <>
       {/* SEO for /explore */}
       <Seo
-        title="Explore ASPAC Bank Services"
-        description="Discover ASPAC Bank’s trusted financial services—from Teacher Salary Loans (APDS) to secure deposit accounts, bills payment, branch locations, and community-focused banking solutions across Cebu and nearby areas."
+        title="Simply Safe Banking | ASPAC Bank"
+        description="How ASPAC Rural Bank keeps your money and information secure: internal controls, safety practices, banking hours, and how to reach customer support at our Cebu branches."
         canonical="https://www.aspacbank.com/explore"
         ogType="website"
         ogImage="https://www.aspacbank.com/Safebanking.jpg"
@@ -23,9 +23,9 @@ const ExplorePage: React.FC = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Explore ASPAC Bank Services",
+          name: "Simply Safe Banking | ASPAC Bank",
           description:
-            "Explore ASPAC Bank’s financial services including APDS Teacher Loans, deposit accounts, bills payment, branch locations, and Simply Safe community banking.",
+            "How ASPAC Rural Bank keeps your money and information secure: internal controls, safety practices, banking hours, and how to reach customer support at our Cebu branches.",
           url: "https://www.aspacbank.com/explore",
           publisher: {
             "@type": "Organization",

@@ -1,35 +1,52 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import WelcomePage from "./WelcomePage";
-import OurServices from "./Pages/OurServices";
-import Features from "./Pages/Features";
-import Advisories from "./Pages/Advisories";
-import Careers from "./Pages/Careers";
-import Branches from "./Pages/Branches";
-import SaturdayBranches from "./Pages/SaturdayBranches";
-import DepositAccount from "./Pages/DepositAccount";
-import APDSLoanPage from "./Pages/APDSLoanPage";
-import TuitionFeeCollection from "./Pages/TuitionFeeCollection";
-import ExplorePage from "./Pages/ExplorePage"; // ✅ Correct import for the explore page
-import BillsPayment from "./Pages/BillsPayment";
-import Loans from "./Pages/Loans";
-import AnnualReports from "./Pages/AnnualReports";
-import AspacBankBalanceSheet from "./Pages/AspacBankBalanceSheet"; // ✅ Added import
-import AnnualReport2024 from "./components/advisories/AnnualReport2024";
 
 import "./index.css";
 import { FooterBadge } from "./module/FooterBadge";
 import { ChatBot } from "./components/ChatBot";
-import AnnualReport from "./Pages/AnnualReport";
-import NotFound from "./Pages/NotFound";
+
+// Route-level code splitting: everything except the homepage/navbar loads
+// on demand, so e.g. pdfjs-dist (pulled in by AnnualReports/AnnualReport2024
+// via ReadonlyPdfViewer) no longer ships in the initial bundle for every visitor.
+const OurServices = lazy(() => import("./Pages/OurServices"));
+const Features = lazy(() => import("./Pages/Features"));
+const Advisories = lazy(() => import("./Pages/Advisories"));
+const Careers = lazy(() => import("./Pages/Careers"));
+const Branches = lazy(() => import("./Pages/Branches"));
+const SaturdayBranches = lazy(() => import("./Pages/SaturdayBranches"));
+const DepositAccount = lazy(() => import("./Pages/DepositAccount"));
+const APDSLoanPage = lazy(() => import("./Pages/APDSLoanPage"));
+const TuitionFeeCollection = lazy(() => import("./Pages/TuitionFeeCollection"));
+const ExplorePage = lazy(() => import("./Pages/ExplorePage"));
+const BillsPayment = lazy(() => import("./Pages/BillsPayment"));
+const Loans = lazy(() => import("./Pages/Loans"));
+const AnnualReports = lazy(() => import("./Pages/AnnualReports"));
+const AspacBankBalanceSheet = lazy(() => import("./Pages/AspacBankBalanceSheet"));
+const AnnualReport2024 = lazy(() => import("./components/advisories/AnnualReport2024"));
+const AnnualReport = lazy(() => import("./Pages/AnnualReport"));
+const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="w-full overflow-x-hidden">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[1000] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-green-800 focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        <main>
+        <main id="main-content" tabIndex={-1}>
+        <Suspense
+          fallback={
+            <div className="flex min-h-[50vh] items-center justify-center">
+              <span className="sr-only">Loading page…</span>
+            </div>
+          }
+        >
         <Routes>
           <Route path="/" element={<WelcomePage />} />
           <Route path="/welcome" element={<WelcomePage />} />
@@ -62,6 +79,7 @@ const App: React.FC = () => {
           <Route path="/Annual" element={<AnnualReport/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
         </main>
          <ChatBot />
         {/* <Footer /> */}
