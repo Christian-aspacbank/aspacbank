@@ -29,7 +29,7 @@ export function FooterBadge() {
                   ASPAC Bank, Inc.
                 </h3>
 
-                <p className="text-xs tracking-widest uppercase text-primary/70">
+                <p className="text-xs tracking-widest uppercase text-primary-dark">
                   Digitally Simple
                 </p>
               </div>
@@ -178,7 +178,7 @@ export function FooterBadge() {
                 Need Assistance?
               </p>
 
-              <p className="font-semibold text-primary">
+              <p className="font-semibold text-primary-dark">
                 (032) 501-2724 | 0898-272-2724.
               </p>
               <p className="text-gray-600 text-sm mt-1">

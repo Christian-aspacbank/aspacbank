@@ -172,7 +172,7 @@ const APDSLoanPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#1c3a1c]/95 via-primary/85 to-primary/30" />
 
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent text-primary mb-6 tracking-wide uppercase shadow-md">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent text-primary-dark mb-6 tracking-wide uppercase shadow-md">
               Exclusive Financial Solutions
             </span>
             <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-none mb-6">
@@ -198,7 +198,7 @@ const APDSLoanPage: React.FC = () => {
               </a>
 
               <button
-                className="w-full sm:w-auto inline-flex items-center justify-center bg-accent text-primary font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-black/20 hover:brightness-95 border border-accent/50 transition-all duration-200 active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center bg-accent text-primary-dark font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-black/20 hover:brightness-95 border border-accent/50 transition-all duration-200 active:scale-[0.98]"
                 onClick={() => setIsApplyNowOpen(true)}
                 aria-label="Apply for APDS Loan"
               >
@@ -274,7 +274,7 @@ const APDSLoanPage: React.FC = () => {
                 "Pre-vetted structures allowing immediate processing pipelines once your packet matches layout norms.",
               ].map((text, i) => (
                 <div key={i} className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent flex items-center justify-center text-primary font-bold text-xs mt-1">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent flex items-center justify-center text-primary-dark font-bold text-xs mt-1">
                     {i + 1}
                   </div>
                   <p className="text-slate-600 leading-relaxed font-medium">

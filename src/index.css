@@ -22,3 +22,18 @@ code {
     monospace;
 }
 
+/* Expand Swiper pagination bullets' tap target to the recommended 24x24px
+   minimum without changing their visible dot size. */
+.swiper-pagination-bullet {
+  position: relative;
+}
+.swiper-pagination-bullet::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+}
+

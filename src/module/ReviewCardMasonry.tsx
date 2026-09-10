@@ -44,16 +44,16 @@ export function ReviewCard({ review }: { review: Review }) {
       <div className="mt-4 md:mt-5 border-t border-gray-200 pt-2 md:pt-4">
         <div className="flex justify-between items-center">
           <div>
-            <h4 className="md:font-semibold text-primary">
+            <p className="md:font-semibold text-primary-dark">
               {review.name}
-            </h4>
+            </p>
 
             <p className="text-sm text-gray-500">
               {review.role}
             </p>
           </div>
 
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-gray-500">
             {review.date}
           </span>
         </div>

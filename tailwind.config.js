@@ -10,6 +10,10 @@ module.exports = {
         // semantic names
         primary: "#459243",
         accent: "#EBD839",
+        // WCAG-safe darker green for small/normal-weight text on white or
+        // accent-yellow backgrounds, where "primary" alone falls short of
+        // the 4.5:1 contrast ratio required for non-large text.
+        "primary-dark": "#1c3a1c",
       },
        keyframes: {
         wave: {

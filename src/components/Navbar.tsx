@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
   const [isAdvisoryOpen, setIsAdvisoryOpen] = useState(false); // desktop advisory dropdown
   const [isReportsOpen, setIsReportsOpen] = useState(false); // desktop Financial Overview flyout
   const [scrolled, setScrolled] = useState(false);
-  const advisoryRef = useRef<HTMLLIElement>(null);
+  const advisoryRef = useRef<HTMLDivElement>(null);
   const [mobileAdvisoryOpen, setMobileAdvisoryOpen] = useState(false);
   const [mobileReportsOpen, setMobileReportsOpen] = useState(false);
   // ---------- Global: close on outside click (desktop dropdowns) ----------
@@ -79,8 +79,10 @@ const Navbar: React.FC = () => {
           }}
         >
           <img
-            src="/Aspac_logo-03A.png"
+            src="/Aspac_logo192.webp"
             alt="ASPAC Bank Logo"
+            width={40}
+            height={32}
             className="w-10 h-8 object-contain"
           />
           <span className="text-[#459243] text-xs  sm:text-xl font-semibold min-w-max ">
@@ -90,9 +92,9 @@ const Navbar: React.FC = () => {
 
         {/* Center: Desktop menu (md+) */}
         <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:gap-8 font-light">
-          <li
+          <div
             ref={advisoryRef}
-            className="relative list-none group"
+            className="relative group"
             onMouseEnter={() => setIsAdvisoryOpen(true)}
             onMouseLeave={() => {
               setIsAdvisoryOpen(false);
@@ -183,7 +185,7 @@ const Navbar: React.FC = () => {
                 </li>
               </ul>
             </div>
-          </li>
+          </div>
           <Link
             to="/our-services"
             onClick={() => {

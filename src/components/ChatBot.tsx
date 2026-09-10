@@ -249,8 +249,10 @@ export function ChatBot() {
             </span>
           ) : (
             <img
-              src="/arbi-assistant.png"
+              src="/arbi-assistant.webp"
               alt="ARBI Assistant"
+              width={180}
+              height={180}
               className="h-full w-full object-cover"
             />
           )}
@@ -313,8 +315,10 @@ export function ChatBot() {
               <div className="relative flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
                   <img
-                    src="/arbi-assistant.png"
+                    src="/arbi-assistant.webp"
                     alt="ARBI Assistant"
+                    width={48}
+                    height={48}
                     className="h-11 w-11 shrink-0 object-cover sm:h-12 sm:w-12"
                   />
 

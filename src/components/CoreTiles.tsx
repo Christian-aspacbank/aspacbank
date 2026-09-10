@@ -35,7 +35,7 @@ const CoreTiles: React.FC = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="text-center mb-10 md:mb-16"
           >
-            <p className="uppercase tracking-widest text-[11px] md:text-xs text-primary/80 font-semibold">
+            <p className="uppercase tracking-widest text-[11px] md:text-xs text-primary-dark font-semibold">
               Products & Services
             </p>
             <h2 className="text-light md:text-2xl font-bold text-primary mt-3">
@@ -192,7 +192,7 @@ const CoreCard: React.FC<CoreCardProps> = ({
         <Icon className="text-2xl md:text-3xl" />
       </div>
 
-      <p className="text-xs uppercase tracking-[0.25em] text-primary/60 font-semibold">
+      <p className="text-xs uppercase tracking-[0.25em] text-primary-dark font-semibold">
         {label}
       </p>
 
@@ -218,6 +218,7 @@ const CoreCard: React.FC<CoreCardProps> = ({
       <div className="mt-auto pt-4 md:pt-8">
         <Link
           to={link}
+          aria-label={`${buttonText} — ${title}`}
           onClick={() => {
             window.scrollTo({
               top: 0,
