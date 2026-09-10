@@ -125,7 +125,7 @@ const WelcomePage: React.FC = () => {
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src={oslobVideoInView ? "/assets/vid/oslob-branch-opening.mp4" : undefined}
-          poster="/assets/vid/oslob-branch-opening-poster.jpg"
+          poster="/assets/vid/oslob-branch-opening-poster.webp"
           autoPlay={oslobVideoInView}
           muted
           loop
@@ -137,7 +137,7 @@ const WelcomePage: React.FC = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 md:py-28">
           <div className="max-w-md text-left">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent text-primary mb-6 tracking-wide uppercase shadow-md">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent text-primary-dark mb-6 tracking-wide uppercase shadow-md">
               Grand Opening
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
@@ -149,7 +149,7 @@ const WelcomePage: React.FC = () => {
             </p>
             <button
               onClick={() => navigate("/branches")}
-              className="inline-flex items-center justify-center bg-accent text-primary font-bold py-3 px-8 rounded-xl shadow-lg shadow-black/20 hover:brightness-95 border border-accent/50 transition-all duration-200 active:scale-[0.98]"
+              className="inline-flex items-center justify-center bg-accent text-primary-dark font-bold py-3 px-8 rounded-xl shadow-lg shadow-black/20 hover:brightness-95 border border-accent/50 transition-all duration-200 active:scale-[0.98]"
             >
               Find a Branch
             </button>
@@ -180,6 +180,8 @@ const WelcomePage: React.FC = () => {
             <img
               src="/iknow_bsp.webp"
               alt="Bangko Sentral ng Pilipinas #iKNOW financial consumer protection campaign — I am a smart financial consumer"
+              width={900}
+              height={506}
               className="w-full h-auto"
               loading="lazy"
             />
@@ -192,7 +194,7 @@ const WelcomePage: React.FC = () => {
 
       <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-10">
-          <p className="uppercase tracking-widest text-[11px] md:text-xs text-primary/80 font-semibold">
+          <p className="uppercase tracking-widest text-[11px] md:text-xs text-primary-dark font-semibold">
             Customer Stories
           </p>
           <h2 className="text-3xl font-bold text-primary">
