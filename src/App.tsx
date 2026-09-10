@@ -5,7 +5,12 @@ import WelcomePage from "./WelcomePage";
 
 import "./index.css";
 import { FooterBadge } from "./module/FooterBadge";
-import { ChatBot } from "./components/ChatBot";
+
+// Floating widget, not part of the critical above-the-fold render — keep it
+// out of the initial bundle's parse/execute cost.
+const ChatBot = lazy(() =>
+  import("./components/ChatBot").then((m) => ({ default: m.ChatBot })),
+);
 
 // Route-level code splitting: everything except the homepage/navbar loads
 // on demand, so e.g. pdfjs-dist (pulled in by AnnualReports/AnnualReport2024
@@ -81,7 +86,9 @@ const App: React.FC = () => {
         </Routes>
         </Suspense>
         </main>
-         <ChatBot />
+        <Suspense fallback={null}>
+          <ChatBot />
+        </Suspense>
         {/* <Footer /> */}
         <FooterBadge/>
       </div>
