@@ -8,9 +8,10 @@ import { FooterBadge } from "./module/FooterBadge";
 
 // Floating widget, not part of the critical above-the-fold render — keep it
 // out of the initial bundle's parse/execute cost.
-const ChatBot = lazy(() =>
-  import("./components/ChatBot").then((m) => ({ default: m.ChatBot })),
-);
+// Using the static FAQ chatbot (no external API) while the RAG backend
+// (src/components/ChatBot.tsx, src/components/config/api.ts) is unavailable.
+// Swap this back to ChatBot once that backend is reachable over HTTPS.
+const ChatBot = lazy(() => import("./components/AspacChatbot"));
 
 // Route-level code splitting: everything except the homepage/navbar loads
 // on demand, so e.g. pdfjs-dist (pulled in by AnnualReports/AnnualReport2024
