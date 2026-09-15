@@ -79,11 +79,9 @@ const Navbar: React.FC = () => {
           }}
         >
           <img
-            src="/Aspac_logo192.webp"
+            src="/Aspac_logo-03A.png"
             alt="ASPAC Bank Logo"
-            width={40}
-            height={32}
-            className="w-10 h-8 object-contain"
+            className="w-10 h-8 object-contain shrink-0"
           />
           <span className="text-[#459243] text-xs  sm:text-xl font-semibold min-w-max ">
             ASPAC Bank
