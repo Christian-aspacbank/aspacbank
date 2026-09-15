@@ -43,8 +43,7 @@ export function ChatBot() {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  const API_URL = process.env.SERVER_URL || SERVER_URL;
-  // const API_URL = "http://localhost:3000";
+  const API_URL = (process.env.SERVER_URL || SERVER_URL).replace(/\/+$/, "");
 
   const [messages, setMessages] = useState<Message[]>(() => {
     try {
