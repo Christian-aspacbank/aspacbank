@@ -32,10 +32,65 @@ const AspacBankBalanceSheet = lazy(() => import("./Pages/AspacBankBalanceSheet")
 const AnnualReport2024 = lazy(() => import("./components/advisories/AnnualReport2024"));
 const AnnualReport = lazy(() => import("./Pages/AnnualReport"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
+// Mobile-app-only page (loaded in the app's WebView); not linked on the site.
+const LegalTermsApp = lazy(() => import("./Pages/LegalTermsApp"));
+
+// Subdomain that serves only the mobile-app legal pages (see vercel.json).
+// Matching on the prefix also lets legal-agreements.localhost work locally.
+const LEGAL_HOST_PREFIX = "legal-agreements.";
+
+const isLegalHost = () =>
+  typeof window !== "undefined" &&
+  window.location.hostname.startsWith(LEGAL_HOST_PREFIX);
 
 const App: React.FC = () => {
+  if (isLegalHost()) {
+    return (
+      <Router>
+        <Routes>
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <Suspense fallback={null}>
+                <LegalTermsApp />
+              </Suspense>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <p className="p-6 text-center text-sm text-gray-500">
+                Page not found.
+              </p>
+            }
+          />
+        </Routes>
+      </Router>
+    );
+  }
+
   return (
     <Router>
+      <Routes>
+        {/* Kept for local dev and Vercel preview URLs; on www.aspacbank.com
+            vercel.json redirects /legal/* to the legal-agreements subdomain. */}
+        {/* Bare pages without site chrome (navbar, footer, chatbot) */}
+        <Route
+          path="/legal/terms-and-conditions"
+          element={
+            <Suspense fallback={null}>
+              <LegalTermsApp />
+            </Suspense>
+          }
+        />
+        <Route path="*" element={<SiteLayout />} />
+      </Routes>
+    </Router>
+  );
+};
+
+const SiteLayout: React.FC = () => {
+  return (
       <div className="w-full overflow-x-hidden">
         <a
           href="#main-content"
@@ -92,7 +147,6 @@ const App: React.FC = () => {
         {/* <Footer /> */}
         <FooterBadge/>
       </div>
-    </Router>
   );
 };
 

@@ -1,0 +1,253 @@
+{
+  "version": "1.0.0",
+  "effectiveDate": "2026-10-15",
+  "lastUpdated": "2026-10-15",
+  "title": "ASPAC Rural Bank Mobile Banking Application – Terms and Conditions",
+  "sections": [
+    {
+      "id": "introduction-and-acceptance",
+      "heading": "1. Introduction and Acceptance",
+      "blocks": [
+        { "type": "p", "text": "1.1 These Terms and Conditions (the \"Terms\") govern your access to and use of the ASPAC Rural Bank, Inc. Mobile Banking Application (the \"App\") and the services provided through it (the \"Services\")." },
+        { "type": "p", "text": "1.2 By downloading, registering for, or using the App, you confirm that you have read, understood, and agree to be bound by these Terms. If you do not agree, do not register for or use the App." },
+        { "type": "p", "text": "1.3 These Terms supplement, and are to be read together with, the general terms and conditions governing your accounts with the Bank (the \"Account Terms\"). If there is a conflict between these Terms and the Account Terms on the use of the App, these Terms prevail." }
+      ]
+    },
+    {
+      "id": "definitions",
+      "heading": "2. Definitions",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": ["Term", "Meaning"],
+          "rows": [
+            ["Bank, we, us, our", "ASPAC Rural Bank, Inc., its successors and assigns"],
+            ["Customer, you, your", "The account holder registered to use the App"],
+            ["Account", "Any deposit, loan, card or other account you hold with the Bank and link to the App"],
+            ["Credentials", "Your user ID, password, MPIN, OTP, biometric data and any other security details used to access the App"],
+            ["Device", "The mobile phone or tablet registered and bound to your profile"],
+            ["OTP", "One-Time Password sent by SMS, email or in-app notification for authentication"],
+            ["Transaction", "Any instruction you give through the App, including transfers, payments and requests"],
+            ["Business Day", "Any day other than a Saturday, Sunday or public or special non-working holiday on which the Bank is open for business in the Philippines"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eligibility-registration-activation",
+      "heading": "3. Eligibility, Registration and Activation",
+      "blocks": [
+        { "type": "p", "text": "3.1 To use the App you must be at least [18] years old, hold an active Account with the Bank, and have a compatible Device with a mobile number registered with the Bank." },
+        { "type": "p", "text": "3.2 Registration requires verification of your identity using your Account details, registered mobile number, OTP and any other method the Bank requires, including electronic Know-Your-Customer (eKYC) checks." },
+        { "type": "p", "text": "3.3 The App is bound to one registered Device at a time. Registering a new Device will deactivate the App on the previous Device. You must re-register if you change your mobile number or Device." },
+        { "type": "p", "text": "3.4 The Bank may refuse or cancel any registration at its sole discretion, including where information provided is incomplete, inaccurate, or fails verification." },
+        { "type": "p", "text": "3.5 Joint accounts may be accessed through the App only in accordance with the operating mandate on file. Transactions requiring more than one signatory may be restricted to view-only access." }
+      ]
+    },
+    {
+      "id": "services-limits-processing",
+      "heading": "4. Services, Limits and Processing",
+      "blocks": [
+        { "type": "p", "text": "4.1 The App may allow you to:" },
+        {
+          "type": "ul",
+          "items": [
+            "View account balances, transaction history and e-statements",
+            "Transfer funds between your own Accounts, to third parties within the Bank, and to other banks and e-wallets through InstaPay and PESONet",
+            "Pay bills, load mobile credit and pay registered merchants, including by QR code",
+            "Manage cards (activate, lock, unlock, set limits) and request cheque books",
+            "Open time deposits and apply for other products offered in the App",
+            "Receive notifications, alerts and secure messages"
+          ]
+        },
+        { "type": "p", "text": "4.2 The Bank may add, change, suspend or withdraw any Service at any time. Some Services may be subject to separate terms, which you must accept before use." },
+        { "type": "p", "text": "4.3 Transactions are subject to limits set by the Bank and applicable regulation. Indicative default limits are set out below; the Bank may change them by notice in the App." },
+        {
+          "type": "table",
+          "columns": ["Transaction type", "Per transaction", "Daily limit"],
+          "rows": [
+            ["Own-account transfer", "[No limit]", "[No limit]"],
+            ["Transfer to another customer of the Bank", "[Amount]", "[Amount]"],
+            ["Interbank transfer (InstaPay / PESONet)", "[Amount]", "[Amount]"],
+            ["Bill payment and QR payment", "[Amount]", "[Amount]"]
+          ]
+        },
+        { "type": "p", "text": "4.4 You may lower your limits within the App. Increases may require additional authentication or a branch visit." },
+        { "type": "p", "text": "4.5 Instructions received after the cut-off time of [time] or on a non-Business Day may be processed on the next Business Day, except real-time payments that operate 24/7." },
+        { "type": "p", "text": "4.6 Once authenticated and submitted, a Transaction is final and cannot be cancelled or reversed, except where the Bank, at its discretion, is able to recall it. You are responsible for checking the beneficiary name, account number and amount before confirming." },
+        { "type": "p", "text": "4.7 The Bank may decline, delay or hold any Transaction where there are insufficient funds, a suspected fraud, a legal or regulatory restriction, or a technical failure." },
+        { "type": "p", "text": "4.8 The Bank's records of Transactions are conclusive evidence of the instructions given, unless there is a manifest error." }
+      ]
+    },
+    {
+      "id": "security-obligations",
+      "heading": "5. Security and Your Obligations",
+      "blocks": [
+        { "type": "p", "text": "5.1 You must keep your Credentials and Device secure at all times. In particular, you must:" },
+        {
+          "type": "ul",
+          "items": [
+            "Never disclose your password, MPIN or OTP to anyone, including persons claiming to be Bank staff. The Bank will never ask for your OTP, password or MPIN by phone, SMS, email or social media.",
+            "Choose a password and MPIN that are not easy to guess, and change them regularly",
+            "Not write down or store Credentials in an unprotected form",
+            "Lock your Device with a passcode or biometric, and not leave it unattended while logged in",
+            "Download the App only from the official Apple App Store, Google Play Store or other store named by the Bank",
+            "Not use the App on a rooted, jailbroken or otherwise compromised Device",
+            "Keep your Device operating system and the App updated to the latest version",
+            "Log out after each session and avoid using public or unsecured Wi-Fi networks"
+          ]
+        },
+        { "type": "p", "text": "5.2 If you enable biometric login (fingerprint or face recognition), any biometric stored on your Device can be used to access the App. You must ensure only your own biometrics are registered on the Device. The Bank does not store your biometric data; authentication is performed by your Device." },
+        { "type": "p", "text": "5.3 You must notify the Bank immediately through the hotline (032) 501-2724, the App's \"Block Access\" feature, or any branch if:" },
+        {
+          "type": "ul",
+          "items": [
+            "Your Device is lost or stolen, or your SIM card is deactivated unexpectedly",
+            "You know or suspect that your Credentials have been compromised",
+            "You notice any unauthorized or unusual Transaction"
+          ]
+        },
+        { "type": "p", "text": "5.4 On receiving your notice, the Bank will block access to the App as soon as reasonably practicable. You remain liable for Transactions made before the block takes effect, subject to Section 6." },
+        { "type": "p", "text": "5.5 The Bank may use device fingerprinting, location data, behavioral analytics and other fraud-prevention measures, and may request additional verification for any Transaction." }
+      ]
+    },
+    {
+      "id": "liability-disputes",
+      "heading": "6. Liability, Unauthorized Transactions and Disputes",
+      "blocks": [
+        { "type": "p", "text": "6.1 You are liable for all Transactions carried out using your Credentials or registered Device, except as provided in Section 6.2 or required by law." },
+        { "type": "p", "text": "6.2 Consistent with Republic Act No. 11765 (Financial Products and Services Consumer Protection Act) and Republic Act No. 12010 (Anti-Financial Account Scamming Act), the Bank will not hold you liable for losses from a Transaction that:" },
+        {
+          "type": "ul",
+          "items": [
+            "Takes place after you have reported a lost Device or compromised Credentials under Section 5.3",
+            "Results from a technical failure, system error or fraud on the part of the Bank or its staff",
+            "Occurs where the Bank failed to apply the authentication and fraud-management controls required by the Bangko Sentral ng Pilipinas (BSP)"
+          ]
+        },
+        { "type": "p", "text": "6.3 You will bear the loss where you acted fraudulently, or where you, through gross negligence, failed to comply with Section 5, including disclosing your OTP, password or MPIN to any person." },
+        { "type": "p", "text": "6.4 The Bank is not liable for any loss arising from:" },
+        {
+          "type": "ul",
+          "items": [
+            "Your failure to follow these Terms or the Bank's security advisories",
+            "Incorrect beneficiary or payment details entered by you",
+            "Delays or failures of third-party networks, payment systems, telecommunication providers or merchants outside the Bank's control",
+            "Events of force majeure, including natural disasters, power outages, civil disturbances and government action",
+            "Indirect, special or consequential loss, including loss of profit or opportunity"
+          ]
+        },
+        { "type": "p", "text": "6.5 You must report any disputed or erroneous Transaction to the Bank within [30] calendar days of the Transaction date. The Bank will acknowledge your complaint and resolve it within the timelines set by BSP rules on consumer assistance, and may temporarily hold disputed funds while it investigates." },
+        { "type": "p", "text": "6.6 You agree to indemnify the Bank against any loss, claim or expense arising from your breach of these Terms or misuse of the App." }
+      ]
+    },
+    {
+      "id": "fees-charges",
+      "heading": "7. Fees and Charges",
+      "blocks": [
+        { "type": "p", "text": "7.1 Downloading and registering for the App is free. Fees for specific Services, such as InstaPay and PESONet transfers, are shown in the App before you confirm a Transaction and in the Bank's published schedule of fees." },
+        { "type": "p", "text": "7.2 You authorize the Bank to debit the applicable fees, charges and taxes from your Account. The Bank may revise fees with at least [30] days' prior notice, as required by BSP regulations." },
+        { "type": "p", "text": "7.3 Your mobile network operator or internet provider may charge you for data usage and SMS. These charges are your responsibility." }
+      ]
+    },
+    {
+      "id": "data-privacy-consent",
+      "heading": "8. Data Privacy and Consent",
+      "blocks": [
+        { "type": "p", "text": "8.1 The Bank collects and processes your personal information in accordance with Republic Act No. 10173 (Data Privacy Act of 2012), its implementing rules, the Law on Secrecy of Bank Deposits (RA 1405, as amended), and the Bank's Privacy Notice available at [link]." },
+        { "type": "p", "text": "8.2 Through the App, the Bank may collect your name, contact details, Account information, Transaction data, Device information (model, operating system, device ID), IP address and location data." },
+        { "type": "p", "text": "8.3 This information is used to verify your identity, process Transactions, prevent fraud, comply with law (including anti-money laundering requirements under RA 9160, as amended), improve the App, and, with your separate consent, send you marketing offers." },
+        { "type": "p", "text": "8.4 The Bank may share your information with payment networks, service providers, regulators and law enforcement only as needed for these purposes or as required by law." },
+        { "type": "p", "text": "8.5 You may exercise your rights as a data subject, including access, correction and erasure, by contacting the Bank's Data Protection Officer at [email address]." }
+      ]
+    },
+    {
+      "id": "communications-electronic-records",
+      "heading": "9. Communications and Electronic Records",
+      "blocks": [
+        { "type": "p", "text": "9.1 You agree that notices, statements, OTPs and alerts may be sent to you electronically by SMS, email, push notification or in-app message, and that these have the same effect as written notices." },
+        { "type": "p", "text": "9.2 You must keep your mobile number and email address up to date. The Bank is not liable for messages sent to outdated contact details you have not updated." },
+        { "type": "p", "text": "9.3 Under Republic Act No. 8792 (Electronic Commerce Act of 2000), your electronic instructions and acceptance through the App are valid and binding as if made in writing and signed by you." }
+      ]
+    },
+    {
+      "id": "availability",
+      "heading": "10. Availability of the App",
+      "blocks": [
+        { "type": "p", "text": "10.1 The Bank will make reasonable efforts to keep the App available 24 hours a day, 7 days a week. Access may be interrupted for scheduled maintenance, upgrades, system failures or events beyond the Bank's control." },
+        { "type": "p", "text": "10.2 The Bank will give advance notice of scheduled downtime where practicable through the App, its website or official social media pages." }
+      ]
+    },
+    {
+      "id": "suspension-termination",
+      "heading": "11. Suspension and Termination",
+      "blocks": [
+        { "type": "p", "text": "11.1 You may stop using the App and deregister at any time through the App or at any ASPAC Rural Bank branch." },
+        { "type": "p", "text": "11.2 The Bank may suspend or terminate your access to the App, with or without notice, if:" },
+        {
+          "type": "ul",
+          "items": [
+            "You breach these Terms or the Account Terms",
+            "The Bank suspects fraud, unauthorized use, money laundering or other unlawful activity",
+            "Your linked Accounts are closed, dormant or frozen",
+            "The Bank is required to do so by law, a court order or a regulator",
+            "The App has not been used for [12] consecutive months"
+          ]
+        },
+        { "type": "p", "text": "11.3 Termination does not affect Transactions already submitted or any liability incurred before termination." }
+      ]
+    },
+    {
+      "id": "amendments",
+      "heading": "12. Amendments",
+      "blocks": [
+        { "type": "p", "text": "12.1 The Bank may amend these Terms at any time. The Bank will notify you of material changes at least [30] days before they take effect through the App, SMS, email or the Bank's website." },
+        { "type": "p", "text": "12.2 Your continued use of the App after the effective date means you accept the amended Terms. If you do not agree, you must stop using the App and deregister." }
+      ]
+    },
+    {
+      "id": "intellectual-property",
+      "heading": "13. Intellectual Property",
+      "blocks": [
+        { "type": "p", "text": "13.1 The App, including its software, design, logos and content, is owned by or licensed to ASPAC Rural Bank, Inc. The Bank grants you a personal, non-exclusive, non-transferable, revocable license to use the App on your registered Device solely to access the Services." },
+        { "type": "p", "text": "13.2 You must not copy, modify, reverse-engineer, decompile or distribute the App, or use it for any unlawful purpose." }
+      ]
+    },
+    {
+      "id": "governing-law-venue",
+      "heading": "14. Governing Law and Venue",
+      "blocks": [
+        { "type": "p", "text": "14.1 These Terms are governed by the laws of the Republic of the Philippines and the rules and regulations of the Bangko Sentral ng Pilipinas." },
+        { "type": "p", "text": "14.2 Any action arising from these Terms shall be filed exclusively in the proper courts of [City], Philippines, to the exclusion of all other venues." },
+        { "type": "p", "text": "14.3 If any provision of these Terms is held invalid or unenforceable, the remaining provisions remain in full force and effect." }
+      ]
+    },
+    {
+      "id": "complaints-contact",
+      "heading": "15. Complaints and Contact",
+      "blocks": [
+        { "type": "p", "text": "15.1 For questions, complaints or to report a lost Device or suspicious Transaction, contact ASPAC Rural Bank:" },
+        {
+          "type": "table",
+          "columns": ["Channel", "Details"],
+          "rows": [
+            ["24/7 hotline", "(032) 501-2724"],
+            ["Email", "customerservice@aspacbank.com"],
+            ["In-app", "Help & Support > Contact Us"],
+            ["Branches", "Any ASPAC Rural Bank branch during banking hours"],
+            ["Head office", "ASPAC Rural Bank Bldg., Cor. M.C. Briones Highway & Gen. Ricarte Sts., Guizo, Mandaue City, Cebu, Philippines"]
+          ]
+        },
+        { "type": "p", "text": "15.2 If you are not satisfied with the Bank's resolution, you may elevate your complaint to the BSP Consumer Assistance Mechanism through BSP Online Buddy (BOB) at www.bsp.gov.ph or via chat, Facebook Messenger, SMS or email at consumeraffairs@bsp.gov.ph." },
+        { "type": "p", "text": "15.3 ASPAC Rural Bank, Inc. is supervised by the Bangko Sentral ng Pilipinas. Deposits are insured by PDIC up to PHP 1,000,000 per depositor." }
+      ]
+    },
+    {
+      "id": "acknowledgement",
+      "heading": "16. Acknowledgement",
+      "blocks": [
+        { "type": "p", "text": "By tapping \"I Agree\" or by using the App, you confirm that you have read and understood these Terms, that you have had the opportunity to ask questions about them, and that you agree to be bound by them." }
+      ]
+    }
+  ]
+}
