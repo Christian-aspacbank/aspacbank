@@ -28,9 +28,67 @@
           "value": "geolocation=(), microphone=()"
         }
       ]
+    },
+    {
+      "source": "/legal/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/legal/(.*)\\.json",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "legal-agreements.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/terms-and-conditions(.*)",
+      "has": [{ "type": "host", "value": "legal-agreements.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/terms-and-conditions\\.json",
+      "has": [{ "type": "host", "value": "legal-agreements.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ],
    "redirects": [
+  {
+    "source": "/legal/:path*",
+    "has": [{ "type": "host", "value": "www.aspacbank.com" }],
+    "destination": "https://legal-agreements.aspacbank.com/:path*",
+    "permanent": false
+  },
   {
     "source": "/welcome",
     "destination": "https://www.aspacbank.com/",
@@ -74,6 +132,11 @@
   }
 ],
    "rewrites": [
+  {
+    "source": "/terms-and-conditions.json",
+    "has": [{ "type": "host", "value": "legal-agreements.aspacbank.com" }],
+    "destination": "/legal/terms-and-conditions.json"
+  },
   { "source": "/api/(.*)", "destination": "/api/$1" },
   { "source": "/robots.txt", "destination": "/robots.txt" },
   { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
