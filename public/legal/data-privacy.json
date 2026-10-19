@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "effectiveDate": "2026-10-19",
+  "lastUpdated": "2026-10-19",
+  "title": "Privacy Notice",
+  "sections": [
+    {
+      "id": "privacy-notice",
+      "blocks": [
+        { "type": "p", "text": "ASPAC Rural Bank collects and uses your personal data (including identification, contact, financial and, where required by law, government-issued ID information) to open and maintain your account or loan, verify your identity, assess credit, comply with laws and BSP regulations, and protect the Bank and its customers." },
+        { "type": "p", "text": "We share data only with those who need it for these purposes, such as regulators, credit bureaus and service providers bound by contract." },
+        { "type": "p", "text": "We keep your data only as long as needed or required by law." },
+        { "type": "p", "text": "You have the right to be informed, to access, correct, object to, and ask for blocking or erasure of your data, and to file a complaint." },
+        { "type": "p", "text": "Our full Privacy Notice is displayed in our branches and at aspacbank.com website." },
+        { "type": "p", "text": "Contact our DPO at email: dataprotectionofficer@aspacbank.com or Phone: 09173082873." }
+      ]
+    }
+  ]
+}
