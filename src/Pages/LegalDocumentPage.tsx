@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 
-// Mobile-app-only Terms and Conditions view. Not linked anywhere on the
-// website; the ASPAC mobile banking app loads this URL inside its own modal
-// WebView. Content comes from public/legal/terms-and-conditions.json, which
-// the app can also fetch directly to compare `version` for re-acceptance.
-export const TERMS_JSON_URL = "/legal/terms-and-conditions.json";
+import type { LegalDocumentConfig } from "./legalDocuments";
+
+// Mobile-app-only legal document view (Terms and Conditions, Data Privacy
+// Notice). Not linked anywhere on the website; the ASPAC mobile banking app
+// loads these URLs inside its own modal WebView. Content comes from a JSON
+// file in public/legal/, which the app can also fetch directly to compare
+// `version` for re-acceptance.
 
 type TermsBlock =
   | { type: "p"; text: string }
@@ -14,7 +16,7 @@ type TermsBlock =
 
 interface TermsSection {
   id: string;
-  heading: string;
+  heading?: string;
   blocks: TermsBlock[];
 }
 
@@ -32,7 +34,9 @@ type LoadState =
   | { status: "error" }
   | { status: "ready"; doc: TermsDocument };
 
-const LegalTermsApp: React.FC = () => {
+const LegalDocumentPage: React.FC<{ doc: LegalDocumentConfig }> = ({
+  doc: { jsonUrl, name },
+}) => {
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 
@@ -40,7 +44,7 @@ const LegalTermsApp: React.FC = () => {
     const controller = new AbortController();
     setState({ status: "loading" });
 
-    fetch(TERMS_JSON_URL, { cache: "no-cache", signal: controller.signal })
+    fetch(jsonUrl, { cache: "no-cache", signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<TermsDocument>;
@@ -51,12 +55,12 @@ const LegalTermsApp: React.FC = () => {
       });
 
     return () => controller.abort();
-  }, [attempt]);
+  }, [jsonUrl, attempt]);
 
   return (
     <>
       <Seo
-        title="Terms and Conditions | ASPAC Bank Mobile Banking"
+        title={`${name} | ASPAC Bank Mobile Banking`}
         noindex
         nofollow
       />
@@ -65,7 +69,7 @@ const LegalTermsApp: React.FC = () => {
         {state.status === "loading" && (
           <div className="flex min-h-[50vh] items-center justify-center">
             <span className="text-sm text-gray-500">
-              Loading Terms and Conditions…
+              Loading {name}…
             </span>
           </div>
         )}
@@ -73,8 +77,8 @@ const LegalTermsApp: React.FC = () => {
         {state.status === "error" && (
           <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 text-center">
             <p className="text-sm text-gray-600">
-              Unable to load the Terms and Conditions. Please check your
-              connection and try again.
+              Unable to load the {name}. Please check your connection and
+              try again.
             </p>
             <button
               type="button"
@@ -102,9 +106,11 @@ const LegalTermsApp: React.FC = () => {
 
             {state.doc.sections.map((section) => (
               <section key={section.id} id={section.id} className="mt-6">
-                <h2 className="text-base font-semibold text-gray-900">
-                  {section.heading}
-                </h2>
+                {section.heading && (
+                  <h2 className="text-base font-semibold text-gray-900">
+                    {section.heading}
+                  </h2>
+                )}
                 {section.blocks.map((block, i) => {
                   if (block.type === "p") {
                     return (
@@ -168,4 +174,4 @@ const LegalTermsApp: React.FC = () => {
   );
 };
 
-export default LegalTermsApp;
+export default LegalDocumentPage;

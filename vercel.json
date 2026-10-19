@@ -80,9 +80,45 @@
           "value": "*"
         }
       ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "privacy-notice.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/data-privacy(.*)",
+      "has": [{ "type": "host", "value": "privacy-notice.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/data-privacy\\.json",
+      "has": [{ "type": "host", "value": "privacy-notice.aspacbank.com" }],
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ],
    "redirects": [
+  {
+    "source": "/legal/:file(data-privacy|data-privacy\\.json)",
+    "has": [{ "type": "host", "value": "www.aspacbank.com" }],
+    "destination": "https://privacy-notice.aspacbank.com/:file",
+    "permanent": false
+  },
   {
     "source": "/legal/:path*",
     "has": [{ "type": "host", "value": "www.aspacbank.com" }],
@@ -136,6 +172,11 @@
     "source": "/terms-and-conditions.json",
     "has": [{ "type": "host", "value": "legal-agreements.aspacbank.com" }],
     "destination": "/legal/terms-and-conditions.json"
+  },
+  {
+    "source": "/data-privacy.json",
+    "has": [{ "type": "host", "value": "privacy-notice.aspacbank.com" }],
+    "destination": "/legal/data-privacy.json"
   },
   { "source": "/api/(.*)", "destination": "/api/$1" },
   { "source": "/robots.txt", "destination": "/robots.txt" },

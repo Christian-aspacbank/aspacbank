@@ -5,6 +5,7 @@ import WelcomePage from "./WelcomePage";
 
 import "./index.css";
 import { FooterBadge } from "./module/FooterBadge";
+import { LEGAL_DOCUMENTS } from "./Pages/legalDocuments";
 
 // Floating widget, not part of the critical above-the-fold render — keep it
 // out of the initial bundle's parse/execute cost.
@@ -32,27 +33,30 @@ const AspacBankBalanceSheet = lazy(() => import("./Pages/AspacBankBalanceSheet")
 const AnnualReport2024 = lazy(() => import("./components/advisories/AnnualReport2024"));
 const AnnualReport = lazy(() => import("./Pages/AnnualReport"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
-// Mobile-app-only page (loaded in the app's WebView); not linked on the site.
-const LegalTermsApp = lazy(() => import("./Pages/LegalTermsApp"));
+// Mobile-app-only pages (loaded in the app's WebView); not linked on the site.
+const LegalDocumentPage = lazy(() => import("./Pages/LegalDocumentPage"));
 
-// Subdomain that serves only the mobile-app legal pages (see vercel.json).
-// Matching on the prefix also lets legal-agreements.localhost work locally.
-const LEGAL_HOST_PREFIX = "legal-agreements.";
-
-const isLegalHost = () =>
-  typeof window !== "undefined" &&
-  window.location.hostname.startsWith(LEGAL_HOST_PREFIX);
+// Each legal document has its own subdomain that serves only that page (see
+// vercel.json). Matching on the prefix also lets e.g.
+// legal-agreements.localhost work locally.
+const findLegalHostDocument = () =>
+  typeof window === "undefined"
+    ? undefined
+    : LEGAL_DOCUMENTS.find((doc) =>
+        window.location.hostname.startsWith(doc.hostPrefix),
+      );
 
 const App: React.FC = () => {
-  if (isLegalHost()) {
+  const legalDoc = findLegalHostDocument();
+  if (legalDoc) {
     return (
       <Router>
         <Routes>
           <Route
-            path="/terms-and-conditions"
+            path={legalDoc.path}
             element={
               <Suspense fallback={null}>
-                <LegalTermsApp />
+                <LegalDocumentPage doc={legalDoc} />
               </Suspense>
             }
           />
@@ -72,17 +76,20 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* Kept for local dev and Vercel preview URLs; on www.aspacbank.com
-            vercel.json redirects /legal/* to the legal-agreements subdomain. */}
-        {/* Bare pages without site chrome (navbar, footer, chatbot) */}
-        <Route
-          path="/legal/terms-and-conditions"
-          element={
-            <Suspense fallback={null}>
-              <LegalTermsApp />
-            </Suspense>
-          }
-        />
+        {/* Kept for local dev and Vercel preview URLs (/legal/terms-and-conditions,
+            /legal/data-privacy); on www.aspacbank.com vercel.json redirects
+            these to their subdomains. Bare pages without site chrome. */}
+        {LEGAL_DOCUMENTS.map((doc) => (
+          <Route
+            key={doc.path}
+            path={`/legal${doc.path}`}
+            element={
+              <Suspense fallback={null}>
+                <LegalDocumentPage doc={doc} />
+              </Suspense>
+            }
+          />
+        ))}
         <Route path="*" element={<SiteLayout />} />
       </Routes>
     </Router>
