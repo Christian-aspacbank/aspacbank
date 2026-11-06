@@ -13,6 +13,14 @@ const fileUrl = (name: string) => `/assets/balancesheet/${name}`;
 
 const DOC_OPTIONS: DocOption[] = [
   {
+    label: "September 30, 2026",
+    asOf: "2026-09-30",
+    pages: [
+      fileUrl("balancesheet-9-30-2026.jpg"),
+      fileUrl("balancesheet-9-30-2026_2.jpg"),
+    ],
+  },
+  {
     label: "June 30, 2026",
     asOf: "2026-06-30",
     pages: [
