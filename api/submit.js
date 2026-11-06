@@ -146,6 +146,38 @@ async function rateLimitCheck(req) {
 
 
 
+// ---------- Cloudflare Turnstile ----------
+// Dev uses Cloudflare's always-pass test secret when none is configured.
+async function verifyTurnstile(token, ip) {
+  const secret =
+    process.env.TURNSTILE_SECRET_KEY ||
+    (process.env.NODE_ENV !== "production"
+      ? "1x0000000000000000000000000000000AA"
+      : "");
+  if (!secret) {
+    console.error("TURNSTILE_SECRET_KEY is not configured.");
+    return false;
+  }
+  if (!token || typeof token !== "string" || token.length > 2048) return false;
+
+  const params = new URLSearchParams();
+  params.append("secret", secret);
+  params.append("response", token);
+  if (ip && ip !== "unknown") params.append("remoteip", ip);
+
+  try {
+    const resp = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      { method: "POST", body: params }
+    );
+    const data = await resp.json().catch(() => ({}));
+    return data?.success === true;
+  } catch (err) {
+    console.error("Turnstile verify failed:", err);
+    return false;
+  }
+}
+
 // ---------- helpers ----------
 const escapeHtml = (str) =>
   String(str ?? "")
@@ -407,6 +439,17 @@ if (!rl.ok) {
 
     // honeypot: pretend success ASAP
     if (payload.website) return res.status(200).json({ ok: true });
+
+    // Cloudflare Turnstile bot check
+    const turnstileOk = await verifyTurnstile(
+      cleanText(fields["cf-turnstile-response"], 2048),
+      getClientIp(req)
+    );
+    if (!turnstileOk) {
+      return res.status(403).json({
+        message: "Security check failed. Please refresh and try again.",
+      });
+    }
 
     // validations
     if (!payload.fullName || payload.fullName.length < 3) {

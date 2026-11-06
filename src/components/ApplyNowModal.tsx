@@ -3,6 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import SearchableSelect from "./SearchableSelect";
 import AttachmentField, { AttachmentValue } from "./AttachmentField";
 import { useModalA11y } from "../hooks/useModalA11y";
+import TurnstileWidget, { TurnstileHandle } from "./TurnstileWidget";
+
+// Cloudflare Turnstile site key (public). Cloudflare's "always passes" test key
+// is used in development when none is configured.
+const TURNSTILE_SITE_KEY =
+  process.env.REACT_APP_TURNSTILE_SITE_KEY ||
+  (process.env.NODE_ENV === "development" ? "1x00000000000000000000AA" : "");
 
 type ApplyFormState = {
   fullName: string;
@@ -108,6 +115,9 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
   const [isSending, setIsSending] = useState(false);
   const [referenceNo, setReferenceNo] = useState<string>(generateReferenceNo());
 
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileHandle>(null);
+
   const [honeypot, setHoneypot] = useState("");
   const openedAtRef = useRef<number>(Date.now());
 
@@ -135,6 +145,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
     setSubmitAttempted(false);
     setFieldTouched({});
     setStatusMsg(null);
+    setTurnstileToken(null);
 
     openedAtRef.current = Date.now();
     setHoneypot("");
@@ -278,6 +289,11 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
     if (!isValid) return;
 
+    if (!turnstileToken) {
+      setStatusMsg("Please complete the security check before submitting.");
+      return;
+    }
+
     const elapsedMs = Date.now() - openedAtRef.current;
     if (elapsedMs < 4000) {
       setStatusMsg(
@@ -329,16 +345,22 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
       fd.append("remarks", form.remarks?.trim() ? form.remarks.trim() : "-");
       fd.append("submittedAt", submittedAt);
       fd.append("website", honeypot);
+      fd.append("cf-turnstile-response", turnstileToken);
 
       fd.append("attachment", attachment.file, attachment.file.name);
 
-      const API_BASE =
-        process.env.NODE_ENV === "development" ? "http://localhost:4000" : "";
+      // Spring API (aspac_api_server). Dev: local Docker stack on :8080.
+      // Production: set REACT_APP_LOAN_API_URL to the API's public base URL
+      // (no trailing slash) and allow it in the CSP connect-src in vercel.json.
+      const API_BASE = (
+        process.env.REACT_APP_LOAN_API_URL ||
+        (process.env.NODE_ENV === "development" ? "http://localhost:8080" : "")
+      ).replace(/\/+$/, "");
 
       const controller = new AbortController();
       const timeout = window.setTimeout(() => controller.abort(), 20000);
 
-      const resp = await fetch(`${API_BASE}/api/submit`, {
+      const resp = await fetch(`${API_BASE}/api/v1/loan-applications`, {
         method: "POST",
         body: fd,
         signal: controller.signal,
@@ -382,6 +404,8 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
         setStatusMsg(err?.message || "❌ Failed to send. Please try again.");
       }
     } finally {
+      // Turnstile tokens are single-use; get a fresh one for any retry
+      turnstileRef.current?.reset();
       setIsSending(false);
     }
   };
@@ -1013,6 +1037,21 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   )}
 
+                  {/* Cloudflare Turnstile */}
+                  {TURNSTILE_SITE_KEY && (
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-2 text-center">
+                        Please verify that you are human{" "}
+                        <span className="text-red-500">*</span>
+                      </p>
+                      <TurnstileWidget
+                        ref={turnstileRef}
+                        siteKey={TURNSTILE_SITE_KEY}
+                        onToken={setTurnstileToken}
+                      />
+                    </div>
+                  )}
+
                   {/* Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 justify-end pt-2">
                     <button
@@ -1026,7 +1065,7 @@ const ApplyNowModal: React.FC<ApplyNowModalProps> = ({ isOpen, onClose }) => {
 
                     <button
                       type="submit"
-                      disabled={isSending}
+                      disabled={isSending || !turnstileToken}
                       className="w-full sm:w-auto bg-green-700 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-full shadow-lg transition hover:scale-[1.02] hover:bg-green-800 disabled:opacity-60"
                     >
                       {isSending ? "Sending..." : "Submit Application"}
