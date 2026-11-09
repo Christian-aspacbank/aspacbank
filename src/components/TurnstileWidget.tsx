@@ -41,11 +41,12 @@ export interface TurnstileHandle {
 
 interface Props {
   siteKey: string;
+  size?: "normal" | "compact";
   onToken: (token: string | null) => void;
 }
 
 const TurnstileWidget = forwardRef<TurnstileHandle, Props>(
-  ({ siteKey, onToken }, ref) => {
+  ({ siteKey, size = "normal", onToken }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const onTokenRef = useRef(onToken);
@@ -69,7 +70,7 @@ const TurnstileWidget = forwardRef<TurnstileHandle, Props>(
           widgetIdRef.current = window.turnstile.render(containerRef.current, {
             sitekey: siteKey,
             appearance: "always", // always show the visible captcha checkbox
-            size: "normal",
+            size,
             theme: "light",
             callback: (token: string) => onTokenRef.current(token),
             "expired-callback": () => onTokenRef.current(null),
@@ -91,7 +92,7 @@ const TurnstileWidget = forwardRef<TurnstileHandle, Props>(
         }
         widgetIdRef.current = null;
       };
-    }, [siteKey]);
+    }, [siteKey, size]);
 
     return <div ref={containerRef} className="flex justify-center" />;
   },
