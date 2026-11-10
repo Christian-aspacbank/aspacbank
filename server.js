@@ -23,12 +23,6 @@ const submitHandler = require("./api/submit");
 // IMPORTANT: Do NOT add express.json() before this route.
 app.post("/api/submit", (req, res) => submitHandler(req, res));
 
-// Chatbot "talk to a human" handoff (JSON body)
-const handoffHandler = require("./api/handoff");
-app.post("/api/handoff", express.json({ limit: "32kb" }), (req, res) =>
-  handoffHandler(req, res)
-);
-
 // Other JSON routes AFTER submit:
 app.use(express.json());
 
