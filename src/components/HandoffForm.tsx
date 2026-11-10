@@ -108,8 +108,13 @@ export default function HandoffForm({
             Talk to a human
           </h3>
           <p className="mt-1 text-xs text-slate-500">
-            Fill in your details to start a live chat with an ASPAC Bank
-            representative. Your conversation with ARBI is not shared.
+            <b>
+              Fill in your details to start a live chat with an ASPAC Bank
+              representative.
+            </b>{" "}
+            Your chat with ARBI is private. Our team is available Monday–Friday,
+            9:00 AM–5:00 PM. Outside these hours, we will follow up with you on
+            the next business day.
           </p>
         </div>
 
@@ -182,7 +187,7 @@ export default function HandoffForm({
           <span className={labelClass}>How can we help?</span>
           <textarea
             required
-            rows={3}
+            rows={4}
             maxLength={500}
             value={details}
             onChange={(e) => setDetails(e.target.value)}
@@ -193,7 +198,14 @@ export default function HandoffForm({
             {details.length}/500
           </span>
         </label>
-
+        {error && (
+          <p
+            role="alert"
+            className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700"
+          >
+            {error}
+          </p>
+        )}
         <label className="flex items-start gap-2 text-[11px] leading-snug text-slate-500 sm:text-xs">
           <input
             type="checkbox"
@@ -229,15 +241,6 @@ export default function HandoffForm({
         ) : (
           <p className="text-xs text-red-600">
             Security check is not configured.
-          </p>
-        )}
-
-        {error && (
-          <p
-            role="alert"
-            className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700"
-          >
-            {error}
           </p>
         )}
       </div>
